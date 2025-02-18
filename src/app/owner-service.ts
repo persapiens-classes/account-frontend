@@ -2,13 +2,14 @@ import { Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Owner } from "./owner";
 import { lastValueFrom } from "rxjs";
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OwnerService {
 
-  private apiUrl = 'https://account-backend.eastus.cloudapp.azure.com/owners';
+  private apiUrl = environment.apiUrl + '/owners';
   private _owners = signal<Owner[]>([]); // Signal to store owners
 
   constructor(private http: HttpClient) {
