@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
 
-  private apiUrl = 'https://account-backend.eastus.cloudapp.azure.com/login';
+  private apiUrl = environment.apiUrl + '/login';
   private _user = signal<any>(null); // Signal to keep authenticated user
 
   constructor(private http: HttpClient) {
