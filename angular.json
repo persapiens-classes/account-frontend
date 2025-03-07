@@ -56,6 +56,17 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "codespace": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.codespace.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -68,6 +79,9 @@
             },
             "development": {
               "buildTarget": "account:build:development"
+            },
+            "codespace": {
+              "buildTarget": "account:build:codespace"
             }
           },
           "defaultConfiguration": "development"
