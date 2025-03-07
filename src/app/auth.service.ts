@@ -10,7 +10,6 @@ import { environment } from '../environments/environment';
 export class AuthService {
 
   private apiUrl = environment.apiUrl + '/login';
-  private _user = signal<any>(null); // Signal to keep authenticated user
 
   constructor(private http: HttpClient) {
   }
@@ -23,7 +22,6 @@ export class AuthService {
       if (response?.token) {
         localStorage.setItem('token', response.token)
         const decodedToken: any = jwtDecode(response.token)
-        this._user.set(decodedToken?.sub || username)
         return true
       }
     } catch (error) {
@@ -35,15 +33,10 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token')
-    this._user.set(null)
-  }
-
-  get user() {
-    return this._user // Returns signals to components react to changes
   }
 
   isAuthenticated() {
-    return this._user() !== null
+    return this.authenticatedToken() !== null
   }
 
   authenticatedLogin(): string {
