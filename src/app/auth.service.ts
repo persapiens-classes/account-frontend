@@ -18,7 +18,7 @@ export class LoginResponse {
 })
 export class AuthService {
 
-  private apiUrl = environment.apiUrl + '/login';
+  private apiUrl = environment.apiUrl + '/login'
 
   constructor(private http: HttpClient) {
   }
@@ -42,6 +42,25 @@ export class AuthService {
   authenticatedLogin(): string {
     const decodedToken: any = jwtDecode(this.authenticatedToken()!)
     return decodedToken?.sub // Usually, login is at "sub"
+  }
+
+  getTokenExpiration(): number | null {
+    const token = this.authenticatedToken()
+    if (!token) return null
+
+    try {
+      const decoded: any = jwtDecode(token)
+      return decoded.exp ? decoded.exp * 1000 : null
+    } catch (e) {
+      return null
+    }
+  }
+
+  isTokenExpired(): boolean {
+    const expiration = this.getTokenExpiration()
+    if (!expiration) return true
+
+    return expiration < Date.now()
   }
 
   authenticatedToken(): string | null {
