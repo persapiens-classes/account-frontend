@@ -10,6 +10,7 @@ import { DividerModule } from 'primeng/divider';
 import { AuthService } from './auth.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { catchError, of, tap } from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -58,19 +59,21 @@ export class LoginComponent {
     })
   }
 
-  async signin() {
+  signin() {
     if (this.loginForm.valid) {
-      const success = await this.authService.signin(this.loginForm.value.inputUsername, this.loginForm.value.inputPassword)
-      
-      if (success) {
-        this.router.navigate(['owners/list'])
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Sign in failed',
-          detail: 'Invalid credenciais, please try again..'
+      this.authService.signin(this.loginForm.value.inputUsername, this.loginForm.value.inputPassword).pipe(
+        tap((loginResponse) => {
+          this.router.navigate(['owners/list'])
+        }),
+        catchError((error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Sign in failed',
+            detail: 'Invalid credenciais, please try again..'
+          })
+          return of()
         })
-      }
+      ).subscribe()
     }
   }
 

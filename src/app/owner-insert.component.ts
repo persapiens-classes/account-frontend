@@ -1,16 +1,17 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { catchError, of, tap } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { DividerModule } from 'primeng/divider';
-import { Owner } from './owner';
-import { Router } from '@angular/router';
-import { OwnerService } from './owner-service';
-import { CommonModule } from '@angular/common';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
+import { Owner } from './owner';
+import { OwnerService } from './owner-service';
 
 @Component({
   selector: 'owner-insert',
@@ -41,7 +42,6 @@ import { MessageService } from 'primeng/api';
 })
 export class OwnerInsertComponent {
   insertForm: FormGroup;
-  isSubmitting = signal(false); // Signal to control submitting state
 
   constructor(
     private router: Router,
@@ -54,28 +54,28 @@ export class OwnerInsertComponent {
     })
   }
 
-  async insert() {
-    if (this.insertForm.valid && !this.isSubmitting()) {
-      this.isSubmitting.set(true)
-
+  insert() {
+    if (this.insertForm.valid) {
       const newOwner = new Owner(this.insertForm.value.inputName)
-      const result = await this.ownerService.insert(newOwner)
 
-      this.isSubmitting.set(false);
-      if (result) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Owner inserted',
-          detail: 'Owner inserted ok.'
+      this.ownerService.insert(newOwner).pipe(
+        tap((owner) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Owner inserted',
+            detail: 'Owner inserted ok.'
+          })
+          this.router.navigate(["owners"])
+        }),
+        catchError((error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Owner not inserted',
+            detail: `Owner not inserted: ${error.error.error}`
+          })
+          return of()
         })
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Owner not inserted',
-          detail: 'Owner not inserted.'
-        })
-      }
-      this.router.navigate(["owners"])
+      ).subscribe()
     }
   }
 
