@@ -1,8 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { lastValueFrom } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../environments/environment';
+
+export class LoginResponse {
+  token: string
+  expiresIn: number
+  constructor(token: string, experisIn: number) {
+      this.token = token
+      this.expiresIn = experisIn
+  }
+}
 
 @Injectable({
   providedIn: 'root',
@@ -14,21 +23,12 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  async signin(username: string, password: string): Promise<boolean> {
-    try {
-      console.log('login: ' + username)
-      const response = await lastValueFrom(this.http.post<{ token: string }>(this.apiUrl, { username, password }))
-      console.log('response: ' + response)
-      if (response?.token) {
-        localStorage.setItem('token', response.token)
-        const decodedToken: any = jwtDecode(response.token)
-        return true
-      }
-    } catch (error) {
-      console.error('Login error:', error)
-      return false
-    }
-    return false
+  signin(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post< LoginResponse >(this.apiUrl, { username, password }).pipe(
+      tap((loginResponse) => {
+        localStorage.setItem('token', loginResponse.token)
+      })
+    )
   }
 
   logout() {
