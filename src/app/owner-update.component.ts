@@ -14,17 +14,17 @@ import { Owner } from './owner';
 import { OwnerService } from './owner-service';
 
 @Component({
-  selector: 'owner-insert',
+  selector: 'owner-edit',
   imports: [ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
-      <p-panel header="Insert">
+      <p-panel header="Edit">
         <label for="name">Name:</label>
         <input id="name" 
           name="inputName"
           pInputText 
           [pAutoFocus]="true" 
-          placeholder="Name to be inserted" 
+          placeholder="Name to be edited" 
           formControlName="inputName" />
         <div
           *ngIf="form.get('inputName')?.invalid && (form.get('inputName')?.dirty || form.get('inputName')?.touched)"
@@ -34,14 +34,15 @@ import { OwnerService } from './owner-service';
           <div *ngIf="form.get('inputName')?.errors?.['minlength']">Name must be at least 3 characters long.</div>
         </div>
         <p-divider />
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
-        <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
+        <p-button icon="pi pi-check" (onClick)="update()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
+        <p-button icon="pi pi-times" (onClick)="cancelUpdate()" pTooltip="Cancel"/>
       </p-panel>
     </form>
   `
 })
-export class OwnerInsertComponent {
+export class OwnerUpdateComponent {
   form: FormGroup
+  owner: Owner
 
   constructor(
     private router: Router,
@@ -49,29 +50,34 @@ export class OwnerInsertComponent {
     private messageService: MessageService,
     private formBuilder: FormBuilder
   ) {
+    this.owner = history.state.owner
+    if (!this.owner) {
+      this.router.navigate(['owners'])
+    }
+
     this.form = this.formBuilder.group({
-      inputName: ['', [Validators.required, Validators.minLength(3)]]
+      inputName: [this.owner.name, [Validators.required, Validators.minLength(3)]]
     })
   }
 
-  insert() {
+  update() {
     if (this.form.valid) {
       const newOwner = new Owner(this.form.value.inputName)
 
-      this.ownerService.insert(newOwner).pipe(
+      this.ownerService.update(this.owner.name, newOwner).pipe(
         tap((owner) => {
           this.messageService.add({
             severity: 'success',
-            summary: 'Owner inserted',
-            detail: 'Owner inserted ok.'
+            summary: 'Owner edited',
+            detail: 'Owner edited ok.'
           })
           this.router.navigate(["owners"])
         }),
         catchError((error) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Owner not inserted',
-            detail: `Owner not inserted: ${error.error.error}`
+            summary: 'Owner not edited',
+            detail: `Owner not edited: ${error.error.error}`
           })
           return of()
         })
@@ -79,7 +85,7 @@ export class OwnerInsertComponent {
     }
   }
 
-  cancelInsert() {
+  cancelUpdate() {
     this.router.navigate(["owners"])
   }
 }

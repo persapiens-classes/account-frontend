@@ -30,12 +30,6 @@ import { OwnerService } from './owner-service';
       >
         <ng-template #header>
           <tr>
-              <th pSortableColumn="name" style="width:20%">
-                Name <p-sortIcon field="name" />
-              </th>
-              <th>Remove</th>
-          </tr>
-          <tr>
               <th>
                   <p-columnFilter
                       type="text"
@@ -45,10 +39,18 @@ import { OwnerService } from './owner-service';
                   ></p-columnFilter>
               </th>
           </tr>
+          <tr>
+              <th pSortableColumn="name" style="width:20%">
+                Name <p-sortIcon field="name" />
+              </th>
+              <th>Edit</th>
+              <th>Remove</th>
+          </tr>
         </ng-template>
         <ng-template #body let-item>
             <tr>
                 <td>{{ item.name }}</td>
+                <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the owner"/></td>
                 <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the owner"/></td>
             </tr>
         </ng-template>
@@ -88,5 +90,9 @@ export class OwnerListComponent {
 
   startInsert(): void {
     this.router.navigate(["owners/new"])
+  }
+
+  startUpdate(item: Owner): void {
+    this.router.navigate([`owners/edit`], { state: {owner: item} })
   }
 }
