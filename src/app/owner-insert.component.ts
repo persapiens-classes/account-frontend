@@ -17,7 +17,7 @@ import { OwnerService } from './owner-service';
   selector: 'owner-insert',
   imports: [ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
-    <form [formGroup]="insertForm">
+    <form [formGroup]="form">
       <p-panel header="Insert">
         <label for="name">Name:</label>
         <input id="name" 
@@ -27,21 +27,21 @@ import { OwnerService } from './owner-service';
           placeholder="Name to be inserted" 
           formControlName="inputName" />
         <div
-          *ngIf="insertForm.get('inputName')?.invalid && (insertForm.get('inputName')?.dirty || insertForm.get('inputName')?.touched)"
+          *ngIf="form.get('inputName')?.invalid && (form.get('inputName')?.dirty || form.get('inputName')?.touched)"
           class="alert"
         >
-          <div *ngIf="insertForm.get('inputName')?.errors?.['required']">Name is required.</div>
-          <div *ngIf="insertForm.get('inputName')?.errors?.['minlength']">Name must be at least 3 characters long.</div>
+          <div *ngIf="form.get('inputName')?.errors?.['required']">Name is required.</div>
+          <div *ngIf="form.get('inputName')?.errors?.['minlength']">Name must be at least 3 characters long.</div>
         </div>
         <p-divider />
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="insertForm.invalid" pTooltip="Save the owner"/>
+        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
       </p-panel>
     </form>
   `
 })
 export class OwnerInsertComponent {
-  insertForm: FormGroup;
+  form: FormGroup
 
   constructor(
     private router: Router,
@@ -49,14 +49,14 @@ export class OwnerInsertComponent {
     private messageService: MessageService,
     private formBuilder: FormBuilder
   ) {
-    this.insertForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       inputName: ['', [Validators.required, Validators.minLength(3)]]
     })
   }
 
   insert() {
-    if (this.insertForm.valid) {
-      const newOwner = new Owner(this.insertForm.value.inputName)
+    if (this.form.valid) {
+      const newOwner = new Owner(this.form.value.inputName)
 
       this.ownerService.insert(newOwner).pipe(
         tap((owner) => {
