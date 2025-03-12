@@ -9,15 +9,15 @@ import { AutoFocusModule } from 'primeng/autofocus';
 import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
-import { Owner } from './owner';
-import { OwnerService } from './owner-service';
+import { Category } from './category';
 import { BeanListComponent } from './bean-list.component';
+import { CategoryService } from './category-service';
 
 @Component({
-  selector: 'owner-list',
+  selector: 'category-list',
   imports: [AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule, TooltipModule],
   template: `
-    <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new owner" />
+    <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new category" />
 
     <p-divider />
 
@@ -33,15 +33,15 @@ import { BeanListComponent } from './bean-list.component';
               <th>
                   <p-columnFilter
                       type="text"
-                      field="name"
-                      placeholder="Search by name"
-                      ariaLabel="Filter Name"
+                      field="description"
+                      placeholder="Search by description"
+                      ariaLabel="Filter Description"
                   ></p-columnFilter>
               </th>
           </tr>
           <tr>
-              <th pSortableColumn="name">
-                Name <p-sortIcon field="name" />
+              <th pSortableColumn="description">
+                Description <p-sortIcon field="description" />
               </th>
               <th>Edit</th>
               <th>Remove</th>
@@ -49,20 +49,20 @@ import { BeanListComponent } from './bean-list.component';
         </ng-template>
         <ng-template #body let-item>
             <tr>
-                <td>{{ item.name }}</td>
-                <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the owner"/></td>
-                <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the owner"/></td>
+                <td>{{ item.description }}</td>
+                <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the category"/></td>
+                <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the category"/></td>
             </tr>
         </ng-template>
       </p-table>
     </p-panel>
   `
 })
-export class OwnerListComponent extends BeanListComponent<Owner, string> {
+export class CategoryListComponent extends BeanListComponent<Category, string> {
 
   constructor(router: Router, 
     messageService: MessageService,
-    beanService: OwnerService
+    beanService: CategoryService
   ) {
     super(router, messageService, beanService)
   }
