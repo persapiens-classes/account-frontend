@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { catchError, of, tap } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
@@ -12,6 +11,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Owner } from './owner';
 import { OwnerService } from './owner-service';
+import { BeanUpdateComponent } from './bean-update.component';
 
 @Component({
   selector: 'owner-edit',
@@ -40,52 +40,25 @@ import { OwnerService } from './owner-service';
     </form>
   `
 })
-export class OwnerUpdateComponent {
-  form: FormGroup
-  owner: Owner
+export class OwnerUpdateComponent extends BeanUpdateComponent<Owner, string> {
 
   constructor(
-    private router: Router,
-    private ownerService: OwnerService, 
-    private messageService: MessageService,
-    private formBuilder: FormBuilder
+    router: Router,
+    messageService: MessageService,
+    formBuilder: FormBuilder,
+    ownerService: OwnerService
   ) {
-    this.owner = history.state.owner
-    if (!this.owner) {
-      this.router.navigate(['owners'])
-    }
-
-    this.form = this.formBuilder.group({
-      inputName: [this.owner.name, [Validators.required, Validators.minLength(3)]]
-    })
+    super(router, messageService, formBuilder, ownerService, createForm, createBean)
   }
+  
+}
 
-  update() {
-    if (this.form.valid) {
-      const newOwner = new Owner(this.form.value.inputName)
+function createForm(formBuilder: FormBuilder, bean: Owner): FormGroup {
+  return formBuilder.group({
+    inputName: [bean.name, [Validators.required, Validators.minLength(3)]]
+  })
+}
 
-      this.ownerService.update(this.owner.name, newOwner).pipe(
-        tap((owner) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Owner edited',
-            detail: 'Owner edited ok.'
-          })
-          this.router.navigate(["owners"])
-        }),
-        catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Owner not edited',
-            detail: `Owner not edited: ${error.error.error}`
-          })
-          return of()
-        })
-      ).subscribe()
-    }
-  }
-
-  cancelUpdate() {
-    this.router.navigate(["owners"])
-  }
+function createBean(form: FormGroup) : Owner {
+  return new Owner(form.value.inputName)
 }

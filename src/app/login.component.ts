@@ -13,46 +13,53 @@ import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
 
 @Component({
-    selector: 'app-login',
-    standalone: true,
-    imports: [PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, DividerModule, AutoFocusModule, ToastModule],
-    providers: [MessageService],
-    template: `
-    <h1>Welcome to Account System</h1>
+  selector: 'app-login',
+  standalone: true,
+  imports: [PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, DividerModule, AutoFocusModule, ToastModule],
+  providers: [MessageService],
+  template: `
+    <div class="container"> 
+      <h1>Welcome to Account System</h1>
 
-    <form [formGroup]="loginForm">
-      <p-panel header="Login">
-            <label for="username" >Username:</label>
-            <input id="username" 
-                pInputText 
-                [pAutoFocus]="true"                 
-                placeholder="Username" 
-                formControlName="inputUsername" />
+      <form [formGroup]="loginForm">
+        <p-panel header="Login">
+          <label for="username" >Username:</label>
+          <input id="username" 
+              pInputText 
+              [pAutoFocus]="true"                 
+              placeholder="Username" 
+              formControlName="inputUsername" />
 
-            <p-divider />
+          <p-divider />
 
-            <label for="password" >Password:</label>
-            <p-password id="password"
-                placeholder="Password" 
-                [toggleMask]="true"
-                [feedback]="false" 
-                formControlName="inputPassword"
-                 />
+          <label for="password" >Password:</label>
+          <p-password id="password"
+              placeholder="Password" 
+              [toggleMask]="true"
+              [feedback]="false" 
+              formControlName="inputPassword"
+                />
 
-            <p-divider />
+          <p-divider />
 
-            <p-button label="Sign In" (onClick)="signin()" [disabled]="loginForm.invalid"></p-button>
-      </p-panel>
-    </form>
+          <p-button label="Sign In" (onClick)="signin()" [disabled]="loginForm.invalid"></p-button>
+        </p-panel>
+      </form>
 
-    <!-- Toast to show error message -->
-    <p-toast></p-toast>
-    `
+      <!-- Toast to show error message -->
+      <p-toast></p-toast>
+    </div>
+  `,
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   loginForm: FormGroup
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private authService: AuthService, private messageService: MessageService) {
+  constructor(private router: Router, 
+    formBuilder: FormBuilder, 
+    private authService: AuthService, 
+    private messageService: MessageService
+  ) {
     this.loginForm = formBuilder.group({
       inputUsername: ['', [Validators.required, Validators.minLength(1)]],
       inputPassword: ['', [Validators.required, Validators.minLength(1)]]      
@@ -69,7 +76,7 @@ export class LoginComponent {
           this.messageService.add({
             severity: 'error',
             summary: 'Sign in failed',
-            detail: 'Invalid credenciais, please try again..'
+            detail: 'Invalid credenciais, please try again.'
           })
           return of()
         })
