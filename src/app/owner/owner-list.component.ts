@@ -11,7 +11,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Owner } from './owner';
 import { OwnerService } from './owner-service';
-import { BeanListComponent } from './bean-list.component';
+import { BeanListComponent } from '../bean/bean-list.component';
 
 @Component({
   selector: 'owner-list',
@@ -30,21 +30,21 @@ import { BeanListComponent } from './bean-list.component';
       >
         <ng-template #header>
           <tr>
+              <th pSortableColumn="name">
+                Name <p-sortIcon field="name" />
+              </th>
+              <th>Edit</th>
+              <th>Remove</th>
+          </tr>
+          <tr>
               <th>
                   <p-columnFilter
                       type="text"
                       field="name"
                       placeholder="Search by name"
                       ariaLabel="Filter Name"
-                  ></p-columnFilter>
+                  />
               </th>
-          </tr>
-          <tr>
-              <th pSortableColumn="name">
-                Name <p-sortIcon field="name" />
-              </th>
-              <th>Edit</th>
-              <th>Remove</th>
           </tr>
         </ng-template>
         <ng-template #body let-item>

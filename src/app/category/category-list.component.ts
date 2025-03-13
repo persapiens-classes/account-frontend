@@ -10,7 +10,7 @@ import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Category } from './category';
-import { BeanListComponent } from './bean-list.component';
+import { BeanListComponent } from '../bean/bean-list.component';
 import { CategoryService } from './category-service';
 
 @Component({
@@ -30,21 +30,21 @@ import { CategoryService } from './category-service';
       >
         <ng-template #header>
           <tr>
+              <th pSortableColumn="description">
+                Description <p-sortIcon field="description" />
+              </th>
+              <th>Edit</th>
+              <th>Remove</th>
+          </tr>
+          <tr>
               <th>
                   <p-columnFilter
                       type="text"
                       field="description"
                       placeholder="Search by description"
                       ariaLabel="Filter Description"
-                  ></p-columnFilter>
+                  />
               </th>
-          </tr>
-          <tr>
-              <th pSortableColumn="description">
-                Description <p-sortIcon field="description" />
-              </th>
-              <th>Edit</th>
-              <th>Remove</th>
           </tr>
         </ng-template>
         <ng-template #body let-item>

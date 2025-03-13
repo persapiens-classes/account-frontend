@@ -1,4 +1,4 @@
-import { Bean } from "./bean";
+import { Bean } from "../bean/bean";
 
 export class Owner implements Bean<string> {
   constructor(public name: string) { }

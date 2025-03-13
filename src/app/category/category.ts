@@ -1,4 +1,4 @@
-import { Bean } from "./bean";
+import { Bean } from "../bean/bean";
 
 export class Category implements Bean<string> {
   constructor(public description: string) { }
