@@ -11,20 +11,20 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { CategoryService } from './category-service';
-import { BeanInsertComponent } from './bean-insert.component';
+import { BeanUpdateComponent } from '../bean/bean-update.component';
 
 @Component({
-  selector: 'category-insert',
+  selector: 'category-edit',
   imports: [ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
-      <p-panel header="New">
+      <p-panel header="Edit">
         <label for="description">Description:</label>
         <input id="description" 
           name="inputDescription"
           pInputText 
           [pAutoFocus]="true" 
-          placeholder="Description to be inserted" 
+          placeholder="Description to be edited" 
           formControlName="inputDescription" />
         <div
           *ngIf="form.get('inputDescription')?.invalid && (form.get('inputDescription')?.dirty || form.get('inputDescription')?.touched)"
@@ -34,13 +34,13 @@ import { BeanInsertComponent } from './bean-insert.component';
           <div *ngIf="form.get('inputDescription')?.errors?.['minlength']">Description must be at least 3 characters long.</div>
         </div>
         <p-divider />
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the category"/>
-        <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
+        <p-button icon="pi pi-check" (onClick)="update()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the category"/>
+        <p-button icon="pi pi-times" (onClick)="cancelUpdate()" pTooltip="Cancel"/>
       </p-panel>
     </form>
   `
 })
-export class CategoryInsertComponent extends BeanInsertComponent<Category, string> {
+export class CategoryUpdateComponent extends BeanUpdateComponent<Category, string> {
 
   constructor(
     router: Router,
@@ -53,9 +53,9 @@ export class CategoryInsertComponent extends BeanInsertComponent<Category, strin
   
 }
 
-function createForm(formBuilder: FormBuilder): FormGroup {
+function createForm(formBuilder: FormBuilder, bean: Category): FormGroup {
   return formBuilder.group({
-    inputDescription: ['', [Validators.required, Validators.minLength(3)]]
+    inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]]
   })
 }
 

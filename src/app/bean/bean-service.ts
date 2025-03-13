@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { map, Observable } from "rxjs";
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { Bean } from "./bean";
 
 export class BeanService<T extends Bean<I>, I> {

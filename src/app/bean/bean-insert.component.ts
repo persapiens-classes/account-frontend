@@ -22,6 +22,7 @@ export class BeanInsertComponent <T extends Bean<I>, I> {
   insert() {
     if (this.form.valid) {
       const newBean = this.createBeanFn(this.form)
+      console.log(newBean)
 
       this.beanService.insert(newBean).pipe(
         tap((bean) => {

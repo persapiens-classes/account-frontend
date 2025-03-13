@@ -1,24 +1,27 @@
 import { Routes } from '@angular/router';
-import { OwnerInsertComponent } from './owner-insert.component';
-import { OwnerListComponent } from './owner-list.component';
-import { LoginComponent } from './login.component';
-import { AuthGuard } from './auth.guard';
-import { OwnerUpdateComponent } from './owner-update.component';
+import { OwnerInsertComponent } from './owner/owner-insert.component';
+import { OwnerListComponent } from './owner/owner-list.component';
+import { LoginComponent } from './auth/login.component';
+import { AuthGuard } from './auth/auth.guard';
+import { OwnerUpdateComponent } from './owner/owner-update.component';
 import { BeanComponent } from './bean.component';
-import { CategoryListComponent } from './category-list.component';
-import { CategoryInsertComponent } from './category-insert.component';
-import { CategoryUpdateComponent } from './category-update.component';
+import { CategoryListComponent } from './category/category-list.component';
+import { CategoryInsertComponent } from './category/category-insert.component';
+import { CategoryUpdateComponent } from './category/category-update.component';
+import { CreditAccountListComponent } from './creditAccount/creditAccount-list.component';
+import { CreditAccountInsertComponent } from './creditAccount/creditAccount-insert.component';
+import { CreditAccountUpdateComponent } from './creditAccount/creditAccount-update.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'owners', component: BeanComponent, canActivate: [AuthGuard],
-      data: { title: 'Owners' },
-      children: [
-        { path: 'list', component: OwnerListComponent },
-        { path: 'new', component: OwnerInsertComponent },
-        { path: 'edit', component: OwnerUpdateComponent },
-        { path: '', redirectTo: 'list', pathMatch: 'full' }
-      ]
+  { path: 'creditAccounts', component: BeanComponent, canActivate: [AuthGuard],
+    data: { title: 'Credit Accounts' },
+    children: [
+      { path: 'list', component: CreditAccountListComponent },
+      { path: 'new', component: CreditAccountInsertComponent },
+      { path: 'edit', component: CreditAccountUpdateComponent },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
   },
   { path: 'categories', component: BeanComponent, canActivate: [AuthGuard],
       data: { title: 'Categories' },
@@ -28,6 +31,15 @@ export const routes: Routes = [
         { path: 'edit', component: CategoryUpdateComponent },
         { path: '', redirectTo: 'list', pathMatch: 'full' }
       ]
+  },
+  { path: 'owners', component: BeanComponent, canActivate: [AuthGuard],
+    data: { title: 'Owners' },
+    children: [
+      { path: 'list', component: OwnerListComponent },
+      { path: 'new', component: OwnerInsertComponent },
+      { path: 'edit', component: OwnerUpdateComponent },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
   },
   { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: '**', redirectTo: 'login'}

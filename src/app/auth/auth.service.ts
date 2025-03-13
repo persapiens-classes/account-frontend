@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 export class LoginResponse {
   token: string

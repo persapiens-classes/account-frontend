@@ -11,7 +11,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Owner } from './owner';
 import { OwnerService } from './owner-service';
-import { BeanInsertComponent } from './bean-insert.component';
+import { BeanInsertComponent } from '../bean/bean-insert.component';
 
 @Component({
   selector: 'owner-insert',
