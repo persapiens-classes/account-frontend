@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from './auth/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
@@ -25,14 +25,19 @@ export class HeaderMenuComponent {
   ) {
     this.items = [
       {
-        label: 'Owner',
-        icon: 'pi pi-users',
-        routerLink: ['/owners']
+        label: 'Credit Account',
+        icon: 'pi pi-angule-up',
+        routerLink: ['/creditAccounts']
       },
       {
         label: 'Category',
         icon: 'pi pi-folder',
         routerLink: ['/categories']
+      },
+      {
+        label: 'Owner',
+        icon: 'pi pi-users',
+        routerLink: ['/owners']
       }
     ]
   }
