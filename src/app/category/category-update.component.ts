@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { CategoryService } from './category-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'category-edit',
@@ -46,11 +47,12 @@ export class CategoryUpdateComponent extends BeanUpdateComponent<Category, strin
     router: Router,
     messageService: MessageService,
     formBuilder: FormBuilder,
-    categoryService: CategoryService
+    http: HttpClient,
+    route: ActivatedRoute
   ) {
-    super(router, messageService, formBuilder, categoryService, createForm, createBean)
+    super(router, messageService, formBuilder, new CategoryService(http, route.snapshot.data['type']), createForm, createBean)
   }
-  
+
 }
 
 function createForm(formBuilder: FormBuilder, bean: Category): FormGroup {
@@ -59,6 +61,6 @@ function createForm(formBuilder: FormBuilder, bean: Category): FormGroup {
   })
 }
 
-function createBean(form: FormGroup) : Category {
+function createBean(form: FormGroup): Category {
   return new Category(form.value.inputDescription)
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -10,12 +10,13 @@ import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { SelectModule } from 'primeng/select';
 import { MessageService } from 'primeng/api';
-import { CreditAccount } from './creditAccount';
-import { CreditAccountService } from './creditAccount-service';
+import { Account } from './account';
+import { AccountService } from './account-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { CategoryService } from '../category/category-service';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'creditAccount-edit',
@@ -57,7 +58,7 @@ import { Observable } from 'rxjs';
     </form>
   `
 })
-export class CreditAccountUpdateComponent extends BeanUpdateComponent<CreditAccount, string> {
+export class AccountUpdateComponent extends BeanUpdateComponent<Account, string> {
 
   categories$: Observable<Array<Category>>
 
@@ -65,23 +66,23 @@ export class CreditAccountUpdateComponent extends BeanUpdateComponent<CreditAcco
     router: Router,
     messageService: MessageService,
     formBuilder: FormBuilder,
-    creditAccountService: CreditAccountService,
-    categoryService: CategoryService
+    http: HttpClient,
+    route: ActivatedRoute
   ) {
-    super(router, messageService, formBuilder, creditAccountService, createForm, createBean)
+    super(router, messageService, formBuilder, new AccountService(http, route.snapshot.data['type']), createForm, createBean)
 
-    this.categories$ = categoryService.findAll()
+    this.categories$ = new CategoryService(http, route.snapshot.data['type']).findAll()
   }
 
 }
 
-function createForm(formBuilder: FormBuilder, bean: CreditAccount): FormGroup {
+function createForm(formBuilder: FormBuilder, bean: Account): FormGroup {
   return formBuilder.group({
     inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]],
     selectCategory: [new Category(bean.category), [Validators.required, Validators.minLength(3)]]
   })
 }
 
-function createBean(form: FormGroup) : CreditAccount {
-  return new CreditAccount(form.value.inputDescription, form.value.selectCategory.description)
+function createBean(form: FormGroup): Account {
+  return new Account(form.value.inputDescription, form.value.selectCategory.description)
 }

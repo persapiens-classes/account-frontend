@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,16 +9,17 @@ import { AutoFocusModule } from 'primeng/autofocus';
 import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
-import { CreditAccount } from './creditAccount';
-import { CreditAccountService } from './creditAccount-service';
+import { Account } from './account';
+import { AccountService } from './account-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { CategoryService } from '../category/category-service';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { SelectModule } from 'primeng/select';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'creditAccount-insert',
+  selector: 'account-insert',
   imports: [AsyncPipe, SelectModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
@@ -57,7 +58,7 @@ import { SelectModule } from 'primeng/select';
     </form>
   `
 })
-export class CreditAccountInsertComponent extends BeanInsertComponent<CreditAccount, string> {
+export class AccountInsertComponent extends BeanInsertComponent<Account, string> {
 
   categories$: Observable<Array<Category>>
 
@@ -65,14 +66,14 @@ export class CreditAccountInsertComponent extends BeanInsertComponent<CreditAcco
     router: Router,
     messageService: MessageService,
     formBuilder: FormBuilder,
-    creditAccountService: CreditAccountService,
-    categoryService: CategoryService
+    http: HttpClient,
+    route: ActivatedRoute
   ) {
-    super(router, messageService, formBuilder, creditAccountService, createForm, createBean)
+    super(router, messageService, formBuilder, new AccountService(http, route.snapshot.data['type']), createForm, createBean)
 
-    this.categories$ = categoryService.findAll()
+    this.categories$ = new CategoryService(http, route.snapshot.data['type']).findAll()
   }
-  
+
 }
 
 function createForm(formBuilder: FormBuilder): FormGroup {
@@ -82,6 +83,6 @@ function createForm(formBuilder: FormBuilder): FormGroup {
   })
 }
 
-function createBean(form: FormGroup) : CreditAccount {
-  return new CreditAccount(form.value.inputDescription, form.value.selectCategory.description)
+function createBean(form: FormGroup): Account {
+  return new Account(form.value.inputDescription, form.value.selectCategory.description)
 }
