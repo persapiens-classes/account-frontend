@@ -1,17 +1,13 @@
-import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BeanService } from "../bean/bean-service";
 import { Category } from "./category";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class CategoryService extends BeanService <Category, string> {
-  
-  constructor(http: HttpClient) {
-    super(http, "Category", "categories", createBean)
+export class CategoryService extends BeanService<Category, string> {
+
+  constructor(http: HttpClient, type: string) {
+    super(http, `${type} Category`, `${type.toLowerCase()}Categories`, createBean)
   }
-  
+
 }
 
 function createBean(): Category {

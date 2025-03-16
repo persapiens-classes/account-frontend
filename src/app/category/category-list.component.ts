@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { CategoryService } from './category-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'category-list',
@@ -59,12 +60,12 @@ import { CategoryService } from './category-service';
   `
 })
 export class CategoryListComponent extends BeanListComponent<Category, string> {
-
-  constructor(router: Router, 
+  constructor(router: Router,
     messageService: MessageService,
-    beanService: CategoryService
+    http: HttpClient,
+    route: ActivatedRoute
   ) {
-    super(router, messageService, beanService)
+    super(router, messageService, new CategoryService(http, route.snapshot.data['type']))
   }
 
 }

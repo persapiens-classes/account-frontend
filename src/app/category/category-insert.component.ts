@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,9 +12,10 @@ import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { CategoryService } from './category-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'category-insert',
+  selector: `{{ type }}Category-insert`,
   imports: [ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
@@ -41,16 +42,18 @@ import { BeanInsertComponent } from '../bean/bean-insert.component';
   `
 })
 export class CategoryInsertComponent extends BeanInsertComponent<Category, string> {
-
+  type: string
   constructor(
     router: Router,
     messageService: MessageService,
     formBuilder: FormBuilder,
-    categoryService: CategoryService
+    http: HttpClient,
+    route: ActivatedRoute
   ) {
-    super(router, messageService, formBuilder, categoryService, createForm, createBean)
+    super(router, messageService, formBuilder, new CategoryService(http, route.snapshot.data['type']), createForm, createBean)
+    this.type = route.snapshot.data['type']
   }
-  
+
 }
 
 function createForm(formBuilder: FormBuilder): FormGroup {
@@ -59,6 +62,6 @@ function createForm(formBuilder: FormBuilder): FormGroup {
   })
 }
 
-function createBean(form: FormGroup) : Category {
+function createBean(form: FormGroup): Category {
   return new Category(form.value.inputDescription)
 }

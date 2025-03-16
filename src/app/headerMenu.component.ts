@@ -20,19 +20,51 @@ import { MenuItem } from 'primeng/api';
 export class HeaderMenuComponent {
   items: MenuItem[]
 
-  constructor(private authService: AuthService, 
+  constructor(private authService: AuthService,
     private router: Router
   ) {
     this.items = [
       {
-        label: 'Credit Account',
-        icon: 'pi pi-angule-up',
-        routerLink: ['/creditAccounts']
+        label: 'Account',
+        icon: 'pi pi-list',
+        items: [
+          {
+            label: 'Credit Account',
+            icon: 'pi pi-graduation-cap',
+            routerLink: ['/creditAccounts']
+          },
+          {
+            label: 'Debit Account',
+            icon: 'pi pi-shopping-cart',
+            routerLink: ['/debitAccounts']
+          },
+          {
+            label: 'Equity Account',
+            icon: 'pi pi-wallet',
+            routerLink: ['/equityAccounts']
+          }
+        ],
       },
       {
         label: 'Category',
         icon: 'pi pi-folder',
-        routerLink: ['/categories']
+        items: [
+          {
+            label: 'Credit Category',
+            icon: 'pi pi-graduation-cap',
+            routerLink: ['/creditCategories']
+          },
+          {
+            label: 'Debit Category',
+            icon: 'pi pi-folder',
+            routerLink: ['/debitCategories']
+          },
+          {
+            label: 'Equity Category',
+            icon: 'pi pi-wallet',
+            routerLink: ['/equityCategories']
+          }
+        ]
       },
       {
         label: 'Owner',

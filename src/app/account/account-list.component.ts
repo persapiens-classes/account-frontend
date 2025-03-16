@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -9,9 +9,10 @@ import { AutoFocusModule } from 'primeng/autofocus';
 import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
-import { CreditAccount } from './creditAccount';
+import { Account } from './account';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { CreditAccountService } from './creditAccount-service';
+import { AccountService } from './account-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'creditAccount-list',
@@ -70,14 +71,15 @@ import { CreditAccountService } from './creditAccount-service';
     </p-panel>
   `
 })
-export class CreditAccountListComponent extends BeanListComponent<CreditAccount, string> {
+export class AccountListComponent extends BeanListComponent<Account, string> {
   selectedValue: any
 
-  constructor(router: Router, 
+  constructor(router: Router,
     messageService: MessageService,
-    beanService: CreditAccountService
+    http: HttpClient,
+    route: ActivatedRoute
   ) {
-    super(router, messageService, beanService)
+    super(router, messageService, new AccountService(http, route.snapshot.data['type']))
   }
 
 }

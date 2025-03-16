@@ -1,6 +1,6 @@
 import { Bean } from "../bean/bean";
 
-export class CreditAccount implements Bean<string> {
+export class Account implements Bean<string> {
   constructor(public description: string, public category: string) { }
 
   getId(): string {
