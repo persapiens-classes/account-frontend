@@ -11,9 +11,42 @@ import { CategoryUpdateComponent } from './category/category-update.component';
 import { AccountListComponent } from './account/account-list.component';
 import { AccountInsertComponent } from './account/account-insert.component';
 import { AccountUpdateComponent } from './account/account-update.component';
+import { EntryListComponent } from './entry/entry-list.component';
+import { EntryInsertComponent } from './entry/entry-insert.component';
+import { EntryUpdateComponent } from './entry/entry-update.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  {
+    path: 'creditEntries', component: BeanComponent, canActivate: [AuthGuard],
+    data: { title: 'Credit Entries' },
+    children: [
+      { path: 'list', component: EntryListComponent, data: { type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
+      { path: 'new', component: EntryInsertComponent, data: { type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
+      { path: 'edit', component: EntryUpdateComponent, data: { type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'debitEntries', component: BeanComponent, canActivate: [AuthGuard],
+    data: { title: 'Debit Entries' },
+    children: [
+      { path: 'list', component: EntryListComponent, data: { type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
+      { path: 'new', component: EntryInsertComponent, data: { type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
+      { path: 'edit', component: EntryUpdateComponent, data: { type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'transferEntries', component: BeanComponent, canActivate: [AuthGuard],
+    data: { title: 'Transfer Entries' },
+    children: [
+      { path: 'list', component: EntryListComponent, data: { type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
+      { path: 'new', component: EntryInsertComponent, data: { type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
+      { path: 'edit', component: EntryUpdateComponent, data: { type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
+  },
   {
     path: 'creditAccounts', component: BeanComponent, canActivate: [AuthGuard],
     data: { title: 'Credit Accounts' },
