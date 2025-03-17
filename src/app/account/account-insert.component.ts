@@ -52,13 +52,13 @@ import { HttpClient } from '@angular/common/http';
         </div>
 
         <p-divider />
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the credit account"/>
+        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the account"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
       </p-panel>
     </form>
   `
 })
-export class AccountInsertComponent extends BeanInsertComponent<Account, string> {
+export class AccountInsertComponent extends BeanInsertComponent<Account, Account, string> {
 
   categories$: Observable<Array<Category>>
 
