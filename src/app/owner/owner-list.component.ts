@@ -58,9 +58,9 @@ import { BeanListComponent } from '../bean/bean-list.component';
     </p-panel>
   `
 })
-export class OwnerListComponent extends BeanListComponent<Owner, string> {
+export class OwnerListComponent extends BeanListComponent<Owner, Owner, string> {
 
-  constructor(router: Router, 
+  constructor(router: Router,
     messageService: MessageService,
     beanService: OwnerService
   ) {

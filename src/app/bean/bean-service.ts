@@ -3,19 +3,18 @@ import { map, Observable } from "rxjs";
 import { environment } from '../../environments/environment';
 import { Bean } from "./bean";
 
-export class BeanService<T extends Bean<I>, I> {
+export class BeanService<T extends Bean<I>, U, I> {
 
   private apiUrl;
 
-  constructor(private http: HttpClient, 
-    public beanName: string, 
-    public beansName: string, 
-    private createBeanFn: () => T) 
-  {
+  constructor(private http: HttpClient,
+    public beanName: string,
+    public beansName: string,
+    private createBeanFn: () => T) {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
 
-  insert(bean: T): Observable<T> {
+  insert(bean: U): Observable<T> {
     return this.http.post<T>(this.apiUrl, bean).pipe(
       map(data => this.toBean(data))
     )
@@ -25,7 +24,7 @@ export class BeanService<T extends Bean<I>, I> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`)
   }
 
-  update(id: I, bean: T): Observable<T> {
+  update(id: I, bean: U): Observable<T> {
     return this.http.put<T>(`${this.apiUrl}/${id}`, bean).pipe(
       map(data => this.toBean(data))
     )

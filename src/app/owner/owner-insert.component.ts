@@ -40,7 +40,7 @@ import { BeanInsertComponent } from '../bean/bean-insert.component';
     </form>
   `
 })
-export class OwnerInsertComponent extends BeanInsertComponent<Owner, string> {
+export class OwnerInsertComponent extends BeanInsertComponent<Owner, Owner, string> {
 
   constructor(
     router: Router,
@@ -50,7 +50,7 @@ export class OwnerInsertComponent extends BeanInsertComponent<Owner, string> {
   ) {
     super(router, messageService, formBuilder, ownerService, createForm, createBean)
   }
-  
+
 }
 
 function createForm(formBuilder: FormBuilder): FormGroup {
@@ -59,7 +59,7 @@ function createForm(formBuilder: FormBuilder): FormGroup {
   })
 }
 
-function createBean(form: FormGroup) : Owner {
+function createBean(form: FormGroup): Owner {
   return new Owner(form.value.inputName)
 }
 

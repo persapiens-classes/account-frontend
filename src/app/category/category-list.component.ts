@@ -59,7 +59,7 @@ import { HttpClient } from '@angular/common/http';
     </p-panel>
   `
 })
-export class CategoryListComponent extends BeanListComponent<Category, string> {
+export class CategoryListComponent extends BeanListComponent<Category, Category, string> {
   constructor(router: Router,
     messageService: MessageService,
     http: HttpClient,

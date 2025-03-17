@@ -5,16 +5,16 @@ import { BeanService } from './bean-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Bean } from './bean';
 
-export class BeanInsertComponent <T extends Bean<I>, I> {
+export class BeanInsertComponent<T extends Bean<I>, U, I> {
   form: FormGroup
 
   constructor(
     private router: Router,
     private messageService: MessageService,
     formBuilder: FormBuilder,
-    private beanService: BeanService <T, I>,
+    private beanService: BeanService<T, U, I>,
     createFormFn: (formBuilder: FormBuilder) => FormGroup,
-    private createBeanFn: (form: FormGroup) => T,
+    private createBeanFn: (form: FormGroup) => U,
   ) {
     this.form = createFormFn(formBuilder)
   }

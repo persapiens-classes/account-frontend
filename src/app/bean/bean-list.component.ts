@@ -4,14 +4,14 @@ import { MessageService } from 'primeng/api';
 import { BeanService } from './bean-service';
 import { Bean } from './bean';
 
-export class BeanListComponent<T extends Bean<I>, I> {
+export class BeanListComponent<T extends Bean<I>, U, I> {
   beansList$: Observable<Array<T>>
 
-  constructor(private router: Router, 
+  constructor(private router: Router,
     private messageService: MessageService,
-    private beanService: BeanService <T, I>
+    private beanService: BeanService<T, U, I>
   ) {
-      this.beansList$ = this.beanService.findAll()
+    this.beansList$ = this.beanService.findAll()
   }
 
   remove(item: T) {
@@ -40,6 +40,6 @@ export class BeanListComponent<T extends Bean<I>, I> {
   }
 
   startUpdate(item: T): void {
-    this.router.navigate([`${this.beanService.beansName}/edit`], { state: {bean: item} })
+    this.router.navigate([`${this.beanService.beansName}/edit`], { state: { bean: item } })
   }
 }

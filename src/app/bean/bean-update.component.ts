@@ -5,7 +5,7 @@ import { BeanService } from './bean-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Bean } from './bean';
 
-export class BeanUpdateComponent<T extends Bean<I>, I> {
+export class BeanUpdateComponent<T extends Bean<I>, U, I> {
   form: FormGroup
   bean: T
 
@@ -13,11 +13,12 @@ export class BeanUpdateComponent<T extends Bean<I>, I> {
     private router: Router,
     private messageService: MessageService,
     formBuilder: FormBuilder,
-    private beanService: BeanService<T, I>,
+    private beanService: BeanService<T, U, I>,
     createFormFn: (formBuilder: FormBuilder, bean: T) => FormGroup,
-    private createBeanFn: (form: FormGroup) => T
+    private createBeanFn: (form: FormGroup) => U
   ) {
     this.bean = this.beanService.toBean(history.state.bean)
+    console.log(this.bean)
     if (!this.bean) {
       this.router.navigate([`${this.beanService.beansName}`])
     }
