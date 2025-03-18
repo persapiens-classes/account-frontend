@@ -47,9 +47,9 @@ import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountIniti
             <th>
               <p-columnFilter
                 type="text"
-                field="name"
-                placeholder="Search by name"
-                ariaLabel="Filter Name"
+                field="owner"
+                placeholder="Search by owner"
+                ariaLabel="Filter Owner"
               />
             </th>
           </tr>
