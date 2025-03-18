@@ -70,7 +70,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.signin(this.loginForm.value.inputUsername, this.loginForm.value.inputPassword).pipe(
         tap((loginResponse) => {
-          this.router.navigate(['creditEntries/list'])
+          this.router.navigate(['ownerEquityAccountInitialValues/list'])
         }),
         catchError((error) => {
           this.messageService.add({
