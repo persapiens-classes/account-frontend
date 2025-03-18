@@ -15,7 +15,7 @@ import { OwnerService } from './owner-service';
   selector: 'owner-detail',
   imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
-      <p-panel header="New">
+      <p-panel header="Detail">
         <label for="name">Name:</label>
         {{ bean.name }}
         <p-divider />
@@ -24,7 +24,7 @@ import { OwnerService } from './owner-service';
       </p-panel>
   `
 })
-export class OwnerDetailComponent extends BeanDetailComponent<Owner, Owner, string> {
+export class OwnerDetailComponent extends BeanDetailComponent<Owner, Owner, Owner> {
 
   constructor(
     router: Router,

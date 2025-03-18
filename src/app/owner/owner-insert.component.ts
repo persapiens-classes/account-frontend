@@ -40,7 +40,7 @@ import { BeanInsertComponent } from '../bean/bean-insert.component';
     </form>
   `
 })
-export class OwnerInsertComponent extends BeanInsertComponent<Owner, Owner, string> {
+export class OwnerInsertComponent extends BeanInsertComponent<Owner, Owner, Owner> {
 
   constructor(
     router: Router,

@@ -40,7 +40,7 @@ import { BeanUpdateComponent } from '../bean/bean-update.component';
     </form>
   `
 })
-export class OwnerUpdateComponent extends BeanUpdateComponent<Owner, Owner, string> {
+export class OwnerUpdateComponent extends BeanUpdateComponent<Owner, Owner, Owner> {
 
   constructor(
     router: Router,

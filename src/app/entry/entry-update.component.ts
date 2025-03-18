@@ -106,7 +106,7 @@ import { OwnerService } from '../owner/owner-service';
     </form>
   `
 })
-export class EntryUpdateComponent extends BeanUpdateComponent<Entry, EntryInsertUpdate, number> {
+export class EntryUpdateComponent extends BeanUpdateComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
 
   inAccounts$: Observable<Array<Account>>
   outAccounts$: Observable<Array<Account>>

@@ -24,9 +24,9 @@ import { OwnerService } from './owner-service';
     <p-panel header="List">
       <p-table 
         [value]="(beansList$ | async)!"
-        [rows]="3"
+        [rows]="5"
         [paginator]="true"
-        [rowsPerPageOptions]="[3, 5, 10]"
+        [rowsPerPageOptions]="[5, 7, 10]"
       >
         <ng-template #header>
           <tr>
@@ -60,7 +60,7 @@ import { OwnerService } from './owner-service';
     </p-panel>
   `
 })
-export class OwnerListComponent extends BeanListComponent<Owner, Owner, string> {
+export class OwnerListComponent extends BeanListComponent<Owner, Owner, Owner> {
 
   constructor(router: Router,
     messageService: MessageService,

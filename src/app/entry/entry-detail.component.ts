@@ -59,7 +59,7 @@ import { EntryService } from './entry-service';
       </p-panel>
   `
 })
-export class EntryDetailComponent extends BeanDetailComponent<Entry, EntryInsertUpdate, number> {
+export class EntryDetailComponent extends BeanDetailComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
 
   constructor(
     router: Router,

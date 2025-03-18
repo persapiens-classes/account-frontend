@@ -58,7 +58,7 @@ import { CategoryService } from '../category/category-service';
     </form>
   `
 })
-export class AccountUpdateComponent extends BeanUpdateComponent<Account, Account, string> {
+export class AccountUpdateComponent extends BeanUpdateComponent<Account, Account, Account> {
 
   categories$: Observable<Array<Category>>
 
