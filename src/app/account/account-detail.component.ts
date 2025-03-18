@@ -17,7 +17,7 @@ import { AccountService } from './account-service';
   selector: 'account-detail',
   imports: [SelectModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
-      <p-panel header="New">
+      <p-panel header="Detail">
         <div style="margin-bottom: 10px">
           <label for="description">Description:</label>
           {{ bean.description }}
@@ -34,7 +34,7 @@ import { AccountService } from './account-service';
       </p-panel>
   `
 })
-export class AccountDetailComponent extends BeanDetailComponent<Account, Account, string> {
+export class AccountDetailComponent extends BeanDetailComponent<Account, Account, Account> {
 
   constructor(
     router: Router,

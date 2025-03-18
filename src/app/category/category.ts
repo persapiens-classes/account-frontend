@@ -1,6 +1,6 @@
 import { Bean } from "../bean/bean";
 
-export class Category implements Bean<string> {
+export class Category implements Bean {
   constructor(public description: string) { }
 
   getId(): string {

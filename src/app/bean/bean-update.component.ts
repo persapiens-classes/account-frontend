@@ -5,7 +5,7 @@ import { BeanService } from './bean-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Bean } from './bean';
 
-export class BeanUpdateComponent<T extends Bean<K>, B, K> {
+export class BeanUpdateComponent<T extends Bean, I, U> {
   form: FormGroup
   bean: T
 
@@ -13,9 +13,9 @@ export class BeanUpdateComponent<T extends Bean<K>, B, K> {
     private router: Router,
     private messageService: MessageService,
     formBuilder: FormBuilder,
-    private beanService: BeanService<T, B, K>,
+    private beanService: BeanService<T, I, U>,
     createFormFn: (formBuilder: FormBuilder, bean: T) => FormGroup,
-    private createBeanFn: (form: FormGroup) => B
+    private createBeanFn: (form: FormGroup) => U
   ) {
     this.bean = this.beanService.toBean(history.state.bean)
     if (!this.bean) {

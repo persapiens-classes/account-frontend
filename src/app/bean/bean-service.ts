@@ -3,7 +3,7 @@ import { map, Observable } from "rxjs";
 import { environment } from '../../environments/environment';
 import { Bean } from "./bean";
 
-export class BeanService<T extends Bean<K>, B, K> {
+export class BeanService<T extends Bean, I, U> {
 
   private apiUrl;
 
@@ -14,14 +14,18 @@ export class BeanService<T extends Bean<K>, B, K> {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
 
-  insert(bean: B): Observable<T> {
+  insert(bean: I): Observable<T> {
     return this.http.post<T>(this.apiUrl, bean).pipe(
       map(data => this.toBean(data))
     )
   }
 
-  update(id: K, bean: B): Observable<T> {
-    return this.http.put<T>(`${this.apiUrl}/${id}`, bean).pipe(
+  idSeparator(): string {
+    return '/'
+  }
+
+  update(id: string, bean: U): Observable<T> {
+    return this.http.put<T>(`${this.apiUrl}${this.idSeparator()}${id}`, bean).pipe(
       map(data => this.toBean(data))
     )
   }
@@ -32,14 +36,8 @@ export class BeanService<T extends Bean<K>, B, K> {
     )
   }
 
-  findById(id: K): Observable<T> {
-    return this.http.get<T>(`${this.apiUrl}/${id}`).pipe(
-      map(data => this.toBean(data))
-    )
-  }
-
-  remove(id: K): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`)
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}${this.idSeparator()}${id}`)
   }
 
   toBean(json: any): T {

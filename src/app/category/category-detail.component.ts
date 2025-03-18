@@ -25,7 +25,7 @@ import { CategoryService } from './category-service';
     </p-panel>
   `
 })
-export class CategoryDetailComponent extends BeanDetailComponent<Category, Category, string> {
+export class CategoryDetailComponent extends BeanDetailComponent<Category, Category, Category> {
   type: string
   constructor(
     router: Router,

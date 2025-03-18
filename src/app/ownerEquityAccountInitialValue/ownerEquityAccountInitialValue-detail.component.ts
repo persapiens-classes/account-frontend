@@ -7,28 +7,38 @@ import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
-import { Owner } from './owner';
+import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './ownerEquityAccountInitialValue';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
-import { OwnerService } from './owner-service';
+import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountInitialValue-service';
 
 @Component({
-  selector: 'owner-detail',
+  selector: 'ownerEquityAccountInitialValue-detail',
   imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
-        <label for="name">Name:</label>
-        {{ bean.name }}
+        <div style="margin-bottom: 10px">
+          <label>Owner:</label>
+          {{ bean.owner }}
+        </div>
+        <div style="margin-bottom: 10px">
+        <label>Equity Account:</label>
+        {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
+        </div>
+        <div style="margin-bottom: 10px">
+        <label>Value:</label>
+        {{ bean.value }}
+        </div>
         <p-divider />
         <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
         <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
       </p-panel>
   `
 })
-export class OwnerDetailComponent extends BeanDetailComponent<Owner, Owner, Owner> {
+export class OwnerEquityAccountInitialValueDetailComponent extends BeanDetailComponent<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert, number> {
 
   constructor(
     router: Router,
-    ownerService: OwnerService
+    ownerService: OwnerEquityAccountInitialValueService
   ) {
     super(router, ownerService)
   }

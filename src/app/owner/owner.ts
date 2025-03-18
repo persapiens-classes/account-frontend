@@ -1,6 +1,6 @@
 import { Bean } from "../bean/bean";
 
-export class Owner implements Bean<string> {
+export class Owner implements Bean {
   constructor(public name: string) { }
   getId(): string {
     return this.name

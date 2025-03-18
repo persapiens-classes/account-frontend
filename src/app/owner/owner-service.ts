@@ -6,7 +6,7 @@ import { BeanService } from "../bean/bean-service";
 @Injectable({
   providedIn: 'root'
 })
-export class OwnerService extends BeanService<Owner, Owner, string> {
+export class OwnerService extends BeanService<Owner, Owner, Owner> {
 
   constructor(http: HttpClient) {
     super(http, "Owner", "owners", createOwner)

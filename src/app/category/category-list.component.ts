@@ -25,9 +25,9 @@ import { CategoryService } from './category-service';
     <p-panel header="List">
       <p-table 
         [value]="(beansList$ | async)!"
-        [rows]="3"
+        [rows]="5"
         [paginator]="true"
-        [rowsPerPageOptions]="[3, 5, 10]"
+        [rowsPerPageOptions]="[5, 7, 10]"
       >
         <ng-template #header>
           <tr>
@@ -61,7 +61,7 @@ import { CategoryService } from './category-service';
     </p-panel>
   `
 })
-export class CategoryListComponent extends BeanListComponent<Category, Category, string> {
+export class CategoryListComponent extends BeanListComponent<Category, Category, Category> {
   constructor(router: Router,
     messageService: MessageService,
     http: HttpClient,

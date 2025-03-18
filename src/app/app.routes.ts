@@ -18,9 +18,24 @@ import { EntryDetailComponent } from './entry/entry-detail.component';
 import { CategoryDetailComponent } from './category/category-detail.component';
 import { AccountDetailComponent } from './account/account-detail.component';
 import { OwnerDetailComponent } from './owner/owner-detail.component';
+import { OwnerEquityAccountInitialValueListComponent } from './ownerEquityAccountInitialValue/ownerEquityAccountInitialValue-list.component';
+import { OwnerEquityAccountInitialValueDetailComponent } from './ownerEquityAccountInitialValue/ownerEquityAccountInitialValue-detail.component';
+import { OwnerEquityAccountInitialValueUpdateComponent } from './ownerEquityAccountInitialValue/ownerEquityAccountInitialValue-update.component';
+import { OwnerEquityAccountInitialValueInsertComponent } from './ownerEquityAccountInitialValue/ownerEquityAccountInitialValue-insert.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  {
+    path: 'ownerEquityAccountInitialValues', component: BeanComponent, canActivate: [AuthGuard],
+    data: { title: 'Initial Values' },
+    children: [
+      { path: 'list', component: OwnerEquityAccountInitialValueListComponent },
+      { path: 'new', component: OwnerEquityAccountInitialValueInsertComponent },
+      { path: 'edit', component: OwnerEquityAccountInitialValueUpdateComponent },
+      { path: 'detail', component: OwnerEquityAccountInitialValueDetailComponent },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
+  },
   {
     path: 'creditEntries', component: BeanComponent, canActivate: [AuthGuard],
     data: { title: 'Credit Entries' },

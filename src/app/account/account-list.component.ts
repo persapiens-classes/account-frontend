@@ -25,9 +25,9 @@ import { AccountService } from './account-service';
     <p-panel header="List">
       <p-table 
         [value]="(beansList$ | async)!"
-        [rows]="3"
+        [rows]="5"
         [paginator]="true"
-        [rowsPerPageOptions]="[3, 5, 10]"
+        [rowsPerPageOptions]="[5, 7, 10]"
       >
         <ng-template #header>
           <tr>
@@ -73,7 +73,7 @@ import { AccountService } from './account-service';
     </p-panel>
   `
 })
-export class AccountListComponent extends BeanListComponent<Account, Account, string> {
+export class AccountListComponent extends BeanListComponent<Account, Account, Account> {
   selectedValue: any
 
   constructor(router: Router,

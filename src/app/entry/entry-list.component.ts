@@ -25,9 +25,9 @@ import { EntryService } from './entry-service';
     <p-panel header="List">
       <p-table 
         [value]="(beansList$ | async)!"
-        [rows]="3"
+        [rows]="5"
         [paginator]="true"
-        [rowsPerPageOptions]="[3, 5, 10]"
+        [rowsPerPageOptions]="[5, 7, 10]"
       >
         <ng-template #header>
           <tr>
@@ -113,7 +113,7 @@ import { EntryService } from './entry-service';
     </p-panel>
   `
 })
-export class EntryListComponent extends BeanListComponent<Entry, EntryInsertUpdate, number> {
+export class EntryListComponent extends BeanListComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
   selectedValue: any
 
   constructor(router: Router,

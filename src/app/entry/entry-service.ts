@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { BeanService } from "../bean/bean-service";
 import { createEntry, Entry, EntryInsertUpdate } from "./entry";
 
-export class EntryService extends BeanService<Entry, EntryInsertUpdate, number> {
+export class EntryService extends BeanService<Entry, EntryInsertUpdate, EntryInsertUpdate> {
 
   constructor(http: HttpClient, type: string) {
     super(http, `${type} Entry`, `${type.toLowerCase()}Entries`, createEntry)

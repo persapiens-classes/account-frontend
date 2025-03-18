@@ -41,7 +41,7 @@ import { HttpClient } from '@angular/common/http';
     </form>
   `
 })
-export class CategoryUpdateComponent extends BeanUpdateComponent<Category, Category, string> {
+export class CategoryUpdateComponent extends BeanUpdateComponent<Category, Category, Category> {
 
   constructor(
     router: Router,

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
@@ -9,13 +9,13 @@ import { AutoFocusModule } from 'primeng/autofocus';
 import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
-import { Owner } from './owner';
+import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './ownerEquityAccountInitialValue';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { OwnerService } from './owner-service';
+import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountInitialValue-service';
 
 @Component({
-  selector: 'owner-list',
-  imports: [AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule, TooltipModule],
+  selector: 'ownerEquityAccountInitialValue-list',
+  imports: [CommonModule, AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule, TooltipModule],
   template: `
     <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new owner" />
 
@@ -30,8 +30,14 @@ import { OwnerService } from './owner-service';
       >
         <ng-template #header>
           <tr>
-            <th pSortableColumn="name">
-              Name <p-sortIcon field="name" />
+            <th pSortableColumn="owner">
+              Owner <p-sortIcon field="owner" />
+            </th>
+            <th pSortableColumn="equityAccount">
+              Equity Account <p-sortIcon field="equityAccount" />
+            </th>
+            <th pSortableColumn="value">
+              Value <p-sortIcon field="value" />
             </th>
             <th>Detail</th>
             <th>Edit</th>
@@ -50,7 +56,9 @@ import { OwnerService } from './owner-service';
         </ng-template>
         <ng-template #body let-item>
           <tr>
-            <td>{{ item.name }}</td>
+            <td>{{ item.owner }}</td>
+            <td>{{ item.equityAccount.description }}</td>
+            <td>{{ item.value | number:'1.2-2' }}</td>
             <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the owner"/></td>
             <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the owner"/></td>
             <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the owner"/></td>
@@ -60,11 +68,11 @@ import { OwnerService } from './owner-service';
     </p-panel>
   `
 })
-export class OwnerListComponent extends BeanListComponent<Owner, Owner, Owner> {
+export class OwnerEquityAccountInitialValueListComponent extends BeanListComponent<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert, number> {
 
   constructor(router: Router,
     messageService: MessageService,
-    beanService: OwnerService
+    beanService: OwnerEquityAccountInitialValueService
   ) {
     super(router, messageService, beanService)
   }
