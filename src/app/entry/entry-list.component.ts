@@ -99,7 +99,7 @@ import { EntryService } from './entry-service';
             <td>{{ item.inAccount.description }}</td>
             <td>{{ item.outOwner }}</td>
             <td>{{ item.outAccount.description }}</td>
-            <td>{{ item.date }}</td>
+            <td>{{ item.date.toLocaleDateString() }}</td>
             <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the entry"/></td>
             <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the entry"/></td>
             <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the entry"/></td>

@@ -22,7 +22,7 @@ import { EntryService } from './entry-service';
       <p-panel header="Detail">
         <div style="margin-bottom: 10px">
           <label for="date">Date:</label>
-          {{ bean.date }}
+          {{ bean.date.toLocaleDateString() }} {{ bean.date.toLocaleTimeString() }}
         </div>
 
         <div style="margin-bottom: 10px">

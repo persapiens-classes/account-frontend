@@ -142,7 +142,7 @@ function createForm(formBuilder: FormBuilder): FormGroup {
 }
 
 function createBean(form: FormGroup): EntryInsertUpdate {
-  let result = new EntryInsertUpdate(form.value.selectInOwner.name,
+  return new EntryInsertUpdate(form.value.selectInOwner.name,
     form.value.selectOutOwner.name,
     form.value.inputDate,
     form.value.selectInAccount.description,
@@ -150,5 +150,4 @@ function createBean(form: FormGroup): EntryInsertUpdate {
     form.value.inputValue,
     form.value.inputNote
   )
-  return result
 }

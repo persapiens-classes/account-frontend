@@ -130,8 +130,6 @@ export class EntryUpdateComponent extends BeanUpdateComponent<Entry, EntryInsert
 }
 
 function createForm(formBuilder: FormBuilder, bean: Entry): FormGroup {
-  console.log(bean.date)
-  console.log(bean.date instanceof Date)
   return formBuilder.group({
     inputDate: [bean.date, [Validators.required, Validators.minLength(3)]],
     selectInOwner: [new Owner(bean.inOwner), [Validators.required, Validators.minLength(3)]],
