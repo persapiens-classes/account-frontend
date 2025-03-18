@@ -1,3 +1,3 @@
-export interface Bean <I> {
-  getId(): I
+export interface Bean {
+  getId(): string
 }

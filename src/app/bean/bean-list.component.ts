@@ -4,12 +4,12 @@ import { MessageService } from 'primeng/api';
 import { Bean } from './bean';
 import { BeanService } from './bean-service';
 
-export class BeanListComponent<T extends Bean<K>, B, K> {
+export class BeanListComponent<T extends Bean, I, U> {
   beansList$: Observable<Array<T>>
 
   constructor(private router: Router,
     private messageService: MessageService,
-    private beanService: BeanService<T, B, K>
+    private beanService: BeanService<T, I, U>
   ) {
     this.beansList$ = this.beanService.findAll()
   }
