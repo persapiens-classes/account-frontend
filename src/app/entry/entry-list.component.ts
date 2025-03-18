@@ -11,8 +11,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Entry, EntryInsertUpdate } from './entry';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { EntryService } from './entry-service';
 import { HttpClient } from '@angular/common/http';
+import { EntryService } from './entry-service';
 
 @Component({
   selector: 'creditAccount-list',
@@ -46,6 +46,7 @@ import { HttpClient } from '@angular/common/http';
             <th pSortableColumn="date">
               Date <p-sortIcon field="date" />
             </th>
+            <th>Detail</th>
             <th>Edit</th>
             <th>Remove</th>
           </tr>
@@ -99,8 +100,9 @@ import { HttpClient } from '@angular/common/http';
             <td>{{ item.outOwner }}</td>
             <td>{{ item.outAccount.description }}</td>
             <td>{{ item.date }}</td>
-            <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the credit account"/></td>
-            <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the credit account"/></td>
+            <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the entry"/></td>
+            <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the entry"/></td>
+            <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the entry"/></td>
           </tr>
         </ng-template>
       </p-table>

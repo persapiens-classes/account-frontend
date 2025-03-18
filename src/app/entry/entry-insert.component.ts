@@ -15,12 +15,12 @@ import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Observable } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { HttpClient } from '@angular/common/http';
-import { AccountService } from '../account/account-service';
 import { Account } from '../account/account';
-import { OwnerService } from '../owner/owner-service';
 import { Owner } from '../owner/owner';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { AccountService } from '../account/account-service';
+import { OwnerService } from '../owner/owner-service';
 
 @Component({
   selector: 'account-insert',
@@ -150,6 +150,5 @@ function createBean(form: FormGroup): EntryInsertUpdate {
     form.value.inputValue,
     form.value.inputNote
   )
-  console.log(result)
   return result
 }

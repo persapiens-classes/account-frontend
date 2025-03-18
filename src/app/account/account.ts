@@ -7,3 +7,7 @@ export class Account implements Bean<string> {
     return this.description
   }
 }
+
+export function createAccount(): Account {
+  return new Account('', '')
+}

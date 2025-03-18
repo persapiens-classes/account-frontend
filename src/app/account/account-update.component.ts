@@ -13,10 +13,10 @@ import { MessageService } from 'primeng/api';
 import { Account } from './account';
 import { AccountService } from './account-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
-import { CategoryService } from '../category/category-service';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { CategoryService } from '../category/category-service';
 
 @Component({
   selector: 'account-edit',

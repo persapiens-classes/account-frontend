@@ -17,10 +17,10 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { AccountService } from '../account/account-service';
-import { OwnerService } from '../owner/owner-service';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { AccountService } from '../account/account-service';
+import { OwnerService } from '../owner/owner-service';
 
 @Component({
   selector: 'creditAccount-edit',
@@ -130,6 +130,8 @@ export class EntryUpdateComponent extends BeanUpdateComponent<Entry, EntryInsert
 }
 
 function createForm(formBuilder: FormBuilder, bean: Entry): FormGroup {
+  console.log(bean.date)
+  console.log(bean.date instanceof Date)
   return formBuilder.group({
     inputDate: [bean.date, [Validators.required, Validators.minLength(3)]],
     selectInOwner: [new Owner(bean.inOwner), [Validators.required, Validators.minLength(3)]],

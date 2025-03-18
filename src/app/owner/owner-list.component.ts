@@ -10,8 +10,8 @@ import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Owner } from './owner';
-import { OwnerService } from './owner-service';
 import { BeanListComponent } from '../bean/bean-list.component';
+import { OwnerService } from './owner-service';
 
 @Component({
   selector: 'owner-list',
@@ -30,29 +30,31 @@ import { BeanListComponent } from '../bean/bean-list.component';
       >
         <ng-template #header>
           <tr>
-              <th pSortableColumn="name">
-                Name <p-sortIcon field="name" />
-              </th>
-              <th>Edit</th>
-              <th>Remove</th>
+            <th pSortableColumn="name">
+              Name <p-sortIcon field="name" />
+            </th>
+            <th>Detail</th>
+            <th>Edit</th>
+            <th>Remove</th>
           </tr>
           <tr>
-              <th>
-                  <p-columnFilter
-                      type="text"
-                      field="name"
-                      placeholder="Search by name"
-                      ariaLabel="Filter Name"
-                  />
-              </th>
+            <th>
+              <p-columnFilter
+                type="text"
+                field="name"
+                placeholder="Search by name"
+                ariaLabel="Filter Name"
+              />
+            </th>
           </tr>
         </ng-template>
         <ng-template #body let-item>
-            <tr>
-                <td>{{ item.name }}</td>
-                <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the owner"/></td>
-                <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the owner"/></td>
-            </tr>
+          <tr>
+            <td>{{ item.name }}</td>
+            <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the owner"/></td>
+            <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the owner"/></td>
+            <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the owner"/></td>
+          </tr>
         </ng-template>
       </p-table>
     </p-panel>

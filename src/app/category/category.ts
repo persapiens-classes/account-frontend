@@ -7,3 +7,7 @@ export class Category implements Bean<string> {
     return this.description
   }
 }
+
+export function createCategory(): Category {
+  return new Category('')
+}

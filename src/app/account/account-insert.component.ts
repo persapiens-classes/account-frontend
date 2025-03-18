@@ -12,11 +12,11 @@ import { MessageService } from 'primeng/api';
 import { Account } from './account';
 import { AccountService } from './account-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
-import { CategoryService } from '../category/category-service';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { HttpClient } from '@angular/common/http';
+import { CategoryService } from '../category/category-service';
 
 @Component({
   selector: 'account-insert',

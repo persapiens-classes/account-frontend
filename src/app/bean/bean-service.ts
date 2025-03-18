@@ -3,7 +3,7 @@ import { map, Observable } from "rxjs";
 import { environment } from '../../environments/environment';
 import { Bean } from "./bean";
 
-export class BeanService<T extends Bean<I>, U, I> {
+export class BeanService<T extends Bean<K>, B, K> {
 
   private apiUrl;
 
@@ -14,17 +14,13 @@ export class BeanService<T extends Bean<I>, U, I> {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
 
-  insert(bean: U): Observable<T> {
+  insert(bean: B): Observable<T> {
     return this.http.post<T>(this.apiUrl, bean).pipe(
       map(data => this.toBean(data))
     )
   }
 
-  remove(id: I): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`)
-  }
-
-  update(id: I, bean: U): Observable<T> {
+  update(id: K, bean: B): Observable<T> {
     return this.http.put<T>(`${this.apiUrl}/${id}`, bean).pipe(
       map(data => this.toBean(data))
     )
@@ -36,10 +32,14 @@ export class BeanService<T extends Bean<I>, U, I> {
     )
   }
 
-  findById(id: I): Observable<T> {
+  findById(id: K): Observable<T> {
     return this.http.get<T>(`${this.apiUrl}/${id}`).pipe(
       map(data => this.toBean(data))
     )
+  }
+
+  remove(id: K): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`)
   }
 
   toBean(json: any): T {

@@ -11,8 +11,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Account } from './account';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { AccountService } from './account-service';
 import { HttpClient } from '@angular/common/http';
+import { AccountService } from './account-service';
 
 @Component({
   selector: 'account-list',
@@ -37,6 +37,7 @@ import { HttpClient } from '@angular/common/http';
               <th pSortableColumn="category">
                 Category <p-sortIcon field="category" />
               </th>
+              <th>Detail</th>
               <th>Edit</th>
               <th>Remove</th>
           </tr>
@@ -63,6 +64,7 @@ import { HttpClient } from '@angular/common/http';
           <tr>
             <td>{{ item.description }}</td>
             <td>{{ item.category }}</td>
+            <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the account"/></td>
             <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the account"/></td>
             <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the account"/></td>
           </tr>

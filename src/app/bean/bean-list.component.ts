@@ -1,15 +1,15 @@
 import { Router } from '@angular/router';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { MessageService } from 'primeng/api';
-import { BeanService } from './bean-service';
 import { Bean } from './bean';
+import { BeanService } from './bean-service';
 
-export class BeanListComponent<T extends Bean<I>, U, I> {
+export class BeanListComponent<T extends Bean<K>, B, K> {
   beansList$: Observable<Array<T>>
 
   constructor(private router: Router,
     private messageService: MessageService,
-    private beanService: BeanService<T, U, I>
+    private beanService: BeanService<T, B, K>
   ) {
     this.beansList$ = this.beanService.findAll()
   }
@@ -41,5 +41,9 @@ export class BeanListComponent<T extends Bean<I>, U, I> {
 
   startUpdate(item: T): void {
     this.router.navigate([`${this.beanService.beansName}/edit`], { state: { bean: item } })
+  }
+
+  startDetail(item: T): void {
+    this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: item } })
   }
 }
