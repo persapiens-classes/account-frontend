@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
@@ -16,7 +16,7 @@ import { EntryService } from './entry-service';
 
 @Component({
   selector: 'creditAccount-list',
-  imports: [AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule, TooltipModule],
+  imports: [AsyncPipe, CommonModule, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule, TooltipModule],
   template: `
     <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new credit account" />
 
@@ -45,6 +45,9 @@ import { EntryService } from './entry-service';
             </th>
             <th pSortableColumn="date">
               Date <p-sortIcon field="date" />
+            </th>
+            <th pSortableColumn="value">
+              Value <p-sortIcon field="value" />
             </th>
             <th>Detail</th>
             <th>Edit</th>
@@ -100,6 +103,7 @@ import { EntryService } from './entry-service';
             <td>{{ item.outOwner }}</td>
             <td>{{ item.outAccount.description }}</td>
             <td>{{ item.date.toLocaleDateString() }}</td>
+            <td>{{ item.value | number:'1.2-2' }}</td>
             <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the entry"/></td>
             <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the entry"/></td>
             <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the entry"/></td>
