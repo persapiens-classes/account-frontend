@@ -47,11 +47,11 @@ import { EntryService } from './entry-service';
 
         <div style="margin-bottom: 10px">
           <label for="inputValue">Value:</label>
-          {{ bean.value }}
+          {{ bean.value | number:'1.2-2' }}
         </div>
 
         <label for="name">Note:</label>
-        {{ bean.note}}
+        {{ bean.note }}
 
         <p-divider />
         <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Return to list"/>
