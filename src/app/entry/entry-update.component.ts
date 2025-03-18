@@ -142,8 +142,8 @@ function createForm(formBuilder: FormBuilder, bean: Entry): FormGroup {
 }
 
 function createBean(form: FormGroup): EntryInsertUpdate {
-  return new EntryInsertUpdate(form.value.selectInOwner.description,
-    form.value.selectOutOwner.description,
+  return new EntryInsertUpdate(form.value.selectInOwner.name,
+    form.value.selectOutOwner.name,
     form.value.inputDate,
     form.value.selectInAccount.description,
     form.value.selectOutAccount.description,
