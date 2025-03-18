@@ -31,14 +31,14 @@ import { EntryService } from './entry-service';
       >
         <ng-template #header>
           <tr>
-            <th pSortableColumn="inOwner.name">
-              InOwner <p-sortIcon field="inOwner.name" />
+            <th pSortableColumn="inOwner">
+              InOwner <p-sortIcon field="inOwner" />
             </th>
             <th pSortableColumn="inAccount.description">
               InAccount <p-sortIcon field="inAccount.description" />
             </th>
-            <th pSortableColumn="outOwner.name">
-              OutOwner <p-sortIcon field="outOwner.name" />
+            <th pSortableColumn="outOwner">
+              OutOwner <p-sortIcon field="outOwner" />
             </th>
             <th pSortableColumn="outAccount.description">
               OutAccount <p-sortIcon field="outAccount.description" />
