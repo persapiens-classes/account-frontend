@@ -11,8 +11,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { CategoryService } from './category-service';
 import { HttpClient } from '@angular/common/http';
+import { CategoryService } from './category-service';
 
 @Component({
   selector: 'category-list',
@@ -31,35 +31,37 @@ import { HttpClient } from '@angular/common/http';
       >
         <ng-template #header>
           <tr>
-              <th pSortableColumn="description">
-                Description <p-sortIcon field="description" />
-              </th>
-              <th>Edit</th>
-              <th>Remove</th>
+            <th pSortableColumn="description">
+              Description <p-sortIcon field="description" />
+            </th>
+            <th>Detail</th>
+            <th>Edit</th>
+            <th>Remove</th>
           </tr>
           <tr>
-              <th>
-                  <p-columnFilter
-                      type="text"
-                      field="description"
-                      placeholder="Search by description"
-                      ariaLabel="Filter Description"
-                  />
-              </th>
+            <th>
+              <p-columnFilter
+                  type="text"
+                  field="description"
+                  placeholder="Search by description"
+                  ariaLabel="Filter Description"
+              />
+            </th>
           </tr>
         </ng-template>
         <ng-template #body let-item>
-            <tr>
-                <td>{{ item.description }}</td>
-                <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the category"/></td>
-                <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the category"/></td>
-            </tr>
+          <tr>
+            <td>{{ item.description }}</td>
+            <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the category"/></td>
+            <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the category"/></td>
+            <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the category"/></td>
+          </tr>
         </ng-template>
       </p-table>
     </p-panel>
   `
 })
-export class CategoryListComponent extends BeanListComponent<Category, string> {
+export class CategoryListComponent extends BeanListComponent<Category, Category, string> {
   constructor(router: Router,
     messageService: MessageService,
     http: HttpClient,

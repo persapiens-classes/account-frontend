@@ -25,6 +25,21 @@ export class HeaderMenuComponent {
   ) {
     this.items = [
       {
+        label: 'Credit Entry',
+        icon: 'pi pi-arrow-up',
+        routerLink: ['/creditEntries']
+      },
+      {
+        label: 'Debit Entry',
+        icon: 'pi pi-arrow-down',
+        routerLink: ['/debitEntries']
+      },
+      {
+        label: 'Transfer Entry',
+        icon: 'pi pi-arrow-right',
+        routerLink: ['/transferEntries']
+      },
+      {
         label: 'Account',
         icon: 'pi pi-list',
         items: [

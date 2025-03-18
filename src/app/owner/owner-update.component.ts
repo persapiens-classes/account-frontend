@@ -40,7 +40,7 @@ import { BeanUpdateComponent } from '../bean/bean-update.component';
     </form>
   `
 })
-export class OwnerUpdateComponent extends BeanUpdateComponent<Owner, string> {
+export class OwnerUpdateComponent extends BeanUpdateComponent<Owner, Owner, string> {
 
   constructor(
     router: Router,
@@ -50,7 +50,7 @@ export class OwnerUpdateComponent extends BeanUpdateComponent<Owner, string> {
   ) {
     super(router, messageService, formBuilder, ownerService, createForm, createBean)
   }
-  
+
 }
 
 function createForm(formBuilder: FormBuilder, bean: Owner): FormGroup {
@@ -59,6 +59,6 @@ function createForm(formBuilder: FormBuilder, bean: Owner): FormGroup {
   })
 }
 
-function createBean(form: FormGroup) : Owner {
+function createBean(form: FormGroup): Owner {
   return new Owner(form.value.inputName)
 }

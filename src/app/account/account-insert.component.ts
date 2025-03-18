@@ -12,11 +12,11 @@ import { MessageService } from 'primeng/api';
 import { Account } from './account';
 import { AccountService } from './account-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
-import { CategoryService } from '../category/category-service';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { HttpClient } from '@angular/common/http';
+import { CategoryService } from '../category/category-service';
 
 @Component({
   selector: 'account-insert',
@@ -52,13 +52,13 @@ import { HttpClient } from '@angular/common/http';
         </div>
 
         <p-divider />
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the credit account"/>
+        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the account"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
       </p-panel>
     </form>
   `
 })
-export class AccountInsertComponent extends BeanInsertComponent<Account, string> {
+export class AccountInsertComponent extends BeanInsertComponent<Account, Account, string> {
 
   categories$: Observable<Array<Category>>
 

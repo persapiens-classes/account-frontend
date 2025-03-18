@@ -13,13 +13,13 @@ import { MessageService } from 'primeng/api';
 import { Account } from './account';
 import { AccountService } from './account-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
-import { CategoryService } from '../category/category-service';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { CategoryService } from '../category/category-service';
 
 @Component({
-  selector: 'creditAccount-edit',
+  selector: 'account-edit',
   imports: [AsyncPipe, SelectModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
@@ -52,13 +52,13 @@ import { HttpClient } from '@angular/common/http';
         </div>
 
         <p-divider />
-        <p-button icon="pi pi-check" (onClick)="update()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the credit account"/>
+        <p-button icon="pi pi-check" (onClick)="update()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the account"/>
         <p-button icon="pi pi-times" (onClick)="cancelUpdate()" pTooltip="Cancel"/>
       </p-panel>
     </form>
   `
 })
-export class AccountUpdateComponent extends BeanUpdateComponent<Account, string> {
+export class AccountUpdateComponent extends BeanUpdateComponent<Account, Account, string> {
 
   categories$: Observable<Array<Category>>
 

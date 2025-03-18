@@ -6,3 +6,7 @@ export class Owner implements Bean<string> {
     return this.name
   }
 }
+
+export function createOwner(): Owner {
+  return new Owner('')
+}

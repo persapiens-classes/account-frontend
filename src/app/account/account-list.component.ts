@@ -11,14 +11,14 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Account } from './account';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { AccountService } from './account-service';
 import { HttpClient } from '@angular/common/http';
+import { AccountService } from './account-service';
 
 @Component({
-  selector: 'creditAccount-list',
+  selector: 'account-list',
   imports: [AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule, TooltipModule],
   template: `
-    <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new credit account" />
+    <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new account" />
 
     <p-divider />
 
@@ -37,6 +37,7 @@ import { HttpClient } from '@angular/common/http';
               <th pSortableColumn="category">
                 Category <p-sortIcon field="category" />
               </th>
+              <th>Detail</th>
               <th>Edit</th>
               <th>Remove</th>
           </tr>
@@ -63,15 +64,16 @@ import { HttpClient } from '@angular/common/http';
           <tr>
             <td>{{ item.description }}</td>
             <td>{{ item.category }}</td>
-            <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the credit account"/></td>
-            <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the credit account"/></td>
+            <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the account"/></td>
+            <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the account"/></td>
+            <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the account"/></td>
           </tr>
         </ng-template>
       </p-table>
     </p-panel>
   `
 })
-export class AccountListComponent extends BeanListComponent<Account, string> {
+export class AccountListComponent extends BeanListComponent<Account, Account, string> {
   selectedValue: any
 
   constructor(router: Router,

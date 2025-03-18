@@ -55,14 +55,14 @@ import { catchError, of, tap } from 'rxjs';
 export class LoginComponent {
   loginForm: FormGroup
 
-  constructor(private router: Router, 
-    formBuilder: FormBuilder, 
-    private authService: AuthService, 
+  constructor(private router: Router,
+    formBuilder: FormBuilder,
+    private authService: AuthService,
     private messageService: MessageService
   ) {
     this.loginForm = formBuilder.group({
       inputUsername: ['', [Validators.required, Validators.minLength(1)]],
-      inputPassword: ['', [Validators.required, Validators.minLength(1)]]      
+      inputPassword: ['', [Validators.required, Validators.minLength(1)]]
     })
   }
 
@@ -70,7 +70,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.signin(this.loginForm.value.inputUsername, this.loginForm.value.inputPassword).pipe(
         tap((loginResponse) => {
-          this.router.navigate(['creditAccounts/list'])
+          this.router.navigate(['creditEntries/list'])
         }),
         catchError((error) => {
           this.messageService.add({
