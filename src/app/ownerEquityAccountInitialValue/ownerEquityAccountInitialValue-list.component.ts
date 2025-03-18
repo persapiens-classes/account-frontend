@@ -33,7 +33,7 @@ import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountIniti
             <th pSortableColumn="owner">
               Owner <p-sortIcon field="owner" />
             </th>
-            <th pSortableColumn="equityAccount">
+            <th pSortableColumn="equityAccount.description">
               Equity Account <p-sortIcon field="equityAccount" />
             </th>
             <th pSortableColumn="value">
@@ -50,6 +50,14 @@ import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountIniti
                 field="owner"
                 placeholder="Search by owner"
                 ariaLabel="Filter Owner"
+              />
+            </th>
+            <th>
+              <p-columnFilter
+                type="text"
+                field="equityAccount.description"
+                placeholder="Search by equity account"
+                ariaLabel="Filter Equity Account"
               />
             </th>
           </tr>
