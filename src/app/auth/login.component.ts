@@ -18,11 +18,12 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   imports: [FloatLabelModule, PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, AutoFocusModule, ToastModule],
   providers: [MessageService],
   template: `
-    <div class="container"> 
-      <h1>Welcome to Account System</h1>
+    <p-panel class="container">
+      <div class="container" > 
+        <img src="images/account.png" class="login-image"/>
+        <h1>Welcome to Account</h1>
 
-      <form [formGroup]="loginForm">
-        <p-panel header="Login">
+        <form [formGroup]="loginForm">
           <p-float-label variant="in" style="margin-bottom: 10px">
             <input id="username" 
                 pInputText 
@@ -41,12 +42,12 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           </p-float-label>
 
           <p-button label="Sign In" (onClick)="signin()" [disabled]="loginForm.invalid"></p-button>
-        </p-panel>
-      </form>
+        </form>
 
-      <!-- Toast to show error message -->
-      <p-toast></p-toast>
-    </div>
+        <!-- Toast to show error message -->
+        <p-toast></p-toast>
+      </div>
+    </p-panel>
   `,
   styleUrl: './login.component.scss'
 })
