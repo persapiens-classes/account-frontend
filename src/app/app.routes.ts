@@ -27,7 +27,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: 'ownerEquityAccountInitialValues', component: BeanComponent, canActivate: [AuthGuard],
-    data: { title: 'Initial Values' },
+    data: { title: 'Balances' },
     children: [
       { path: 'list', component: OwnerEquityAccountInitialValueListComponent },
       { path: 'new', component: OwnerEquityAccountInitialValueInsertComponent },

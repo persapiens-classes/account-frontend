@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
@@ -10,23 +10,32 @@ import { TooltipModule } from 'primeng/tooltip';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './ownerEquityAccountInitialValue';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountInitialValue-service';
+import { BalanceService } from './balance-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-detail',
-  imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [AsyncPipe, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
         <div style="margin-bottom: 10px">
           <label>Owner:</label>
           {{ bean.owner }}
         </div>
+
         <div style="margin-bottom: 10px">
-        <label>Equity Account:</label>
-        {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
+          <label>Equity Account:</label>
+          {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
         </div>
+
         <div style="margin-bottom: 10px">
-        <label>Value:</label>
-        {{ bean.value }}
+          <label>Balance:</label>
+          {{ this.balance$ | async | number:'1.2-2' }}
+        </div>
+
+        <div style="margin-bottom: 10px">
+          <label>Initial Value:</label>
+          {{ bean.value | number:'1.2-2' }}
         </div>
         <p-divider />
         <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
@@ -35,12 +44,16 @@ import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountIniti
   `
 })
 export class OwnerEquityAccountInitialValueDetailComponent extends BeanDetailComponent<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert, number> {
+  balance$: Observable<number>
 
   constructor(
     router: Router,
-    ownerService: OwnerEquityAccountInitialValueService
+    ownerService: OwnerEquityAccountInitialValueService,
+    balanceService: BalanceService
   ) {
     super(router, ownerService)
+
+    this.balance$ = balanceService.find(this.bean.owner, this.bean.equityAccount.description)
   }
 
 }
