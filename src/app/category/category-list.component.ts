@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Category } from './category';
@@ -16,11 +15,11 @@ import { CategoryService } from './category-service';
 
 @Component({
   selector: 'category-list',
-  imports: [AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule, TooltipModule],
+  imports: [AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, TooltipModule],
   template: `
-    <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new category" />
-
-    <p-divider />
+    <div  style="margin-bottom: 12px">
+      <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new category" />
+    </div>
 
     <p-panel header="List">
       <p-table 

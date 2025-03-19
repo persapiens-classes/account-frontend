@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Entry, EntryInsertUpdate } from './entry';
@@ -16,11 +15,11 @@ import { EntryService } from './entry-service';
 
 @Component({
   selector: 'creditAccount-list',
-  imports: [AsyncPipe, CommonModule, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule, TooltipModule],
+  imports: [AsyncPipe, CommonModule, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, TooltipModule],
   template: `
-    <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new credit account" />
-
-    <p-divider />
+    <div  style="margin-bottom: 12px">
+      <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new entry" />
+    </div>
 
     <p-panel header="List">
       <p-table 
