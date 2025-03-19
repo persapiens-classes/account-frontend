@@ -24,7 +24,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   template: `
     <form [formGroup]="form">
       <p-panel header="Edit">
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <input id="description" 
             name="inputDescription"
             pInputText 
@@ -40,7 +40,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <div *ngIf="form.get('inputDescription')?.errors?.['minlength']">Description must be at least 3 characters long.</div>
         </div>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-select id="category" 
             name="selectCategory"
             [options]="(categories$ | async)!"

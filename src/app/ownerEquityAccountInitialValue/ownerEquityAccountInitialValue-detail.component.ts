@@ -17,22 +17,22 @@ import { Observable } from 'rxjs';
   imports: [AsyncPipe, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label>Owner:</label>
           {{ bean.owner }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label>Equity Account:</label>
           {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label>Balance:</label>
           {{ this.balance$ | async | number:'1.2-2' }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label>Initial Value:</label>
           {{ bean.value | number:'1.2-2' }}
         </div>

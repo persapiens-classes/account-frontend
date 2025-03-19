@@ -22,17 +22,17 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   template: `
     <form [formGroup]="form">
       <p-panel header="Edit">
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="owner">Owner:</label>
           {{ bean.owner }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="equityAccount">Equity Account:</label>
           {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
         </div>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-inputnumber id="value" 
             name="inputValue"
             mode="currency" currency="USD" locale="en-US"

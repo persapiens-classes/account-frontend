@@ -15,7 +15,7 @@ import { OwnerService } from './owner-service';
   imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="name">Name:</label>
           {{ bean.name }}
         </div>

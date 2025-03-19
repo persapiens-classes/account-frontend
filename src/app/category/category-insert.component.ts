@@ -20,7 +20,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <input id="description" 
             name="inputDescription"
             pInputText 

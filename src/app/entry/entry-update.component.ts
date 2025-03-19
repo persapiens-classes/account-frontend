@@ -28,7 +28,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   template: `
     <form [formGroup]="form">
       <p-panel header="Edit">
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-date-picker id="date" 
             name="inputDate"
             [pAutoFocus]="true" 
@@ -42,7 +42,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <div *ngIf="form.get('inputDate')?.errors?.['required']">Date is required.</div>
         </div>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-select id="inOwner" 
             name="selectInOwner"
             [options]="(owners$ | async)!"
@@ -52,7 +52,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <label for="inOwner">In Owner</label>
         </p-float-label>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-select id="inAccount" 
             name="selectInAccount"
             [options]="(inAccounts$ | async)!"
@@ -62,7 +62,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <label for="inAccount">In Account</label>
         </p-float-label>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-select id="outOwner" 
             name="selectOutOwner"
             [options]="(owners$ | async)!"
@@ -72,7 +72,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <label for="outOwner">Out Owner</label>
         </p-float-label>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-select id="outAccount" 
             name="selectOutAccount"
             [options]="(outAccounts$ | async)!"
@@ -82,7 +82,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <label for="outAccount">Out Account</label>
         </p-float-label>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-inputnumber id="value" 
             name="inputValue"
             mode="currency" currency="USD" locale="en-US"
@@ -91,7 +91,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <label for="inputValue">Value</label>
         </p-float-label>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <input id="note" 
             name="inputNote"
             pInputText 
