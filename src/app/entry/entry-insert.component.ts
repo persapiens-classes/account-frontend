@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Entry, EntryInsertUpdate } from './entry';
@@ -21,85 +20,84 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AccountService } from '../account/account-service';
 import { OwnerService } from '../owner/owner-service';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'account-insert',
-  imports: [InputNumberModule, DatePickerModule, AsyncPipe, SelectModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [FloatLabelModule, InputNumberModule, DatePickerModule, AsyncPipe, SelectModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <div style="margin-bottom: 10px">
-          <label for="date">Date:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-date-picker id="date" 
             name="inputDate"
             [pAutoFocus]="true" 
-            placeholder="Date to be inserted" 
             [showIcon]="true"
             formControlName="inputDate" />
-          <div *ngIf="form.get('inputDate')?.invalid && (form.get('inputDate')?.dirty || form.get('inputDate')?.touched)"
-            class="alert"
-          >
-            <div *ngIf="form.get('inputDate')?.errors?.['required']">Description is required.</div>
-          </div>
+          <label for="date">Date</label>
+        </p-float-label>
+        <div *ngIf="form.get('inputDate')?.invalid && (form.get('inputDate')?.dirty || form.get('inputDate')?.touched)"
+          class="alert">
+          <div *ngIf="form.get('inputDate')?.errors?.['required']">Description is required.</div>
         </div>
 
-        <div style="margin-bottom: 10px">
-          <label for="inOwner">In Owner:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-select id="inOwner" 
             name="selectInOwner"
             [options]="(owners$ | async)!"
             optionLabel="name"
             placeholder="Select in owner" 
             formControlName="selectInOwner" />
-        </div>
+          <label for="inOwner">In Owner</label>
+        </p-float-label>
 
-        <div style="margin-bottom: 10px">
-          <label for="inAccount">In Account:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-select id="inAccount" 
             name="selectInAccount"
             [options]="(inAccounts$ | async)!"
             optionLabel="description"
             placeholder="Select in account" 
             formControlName="selectInAccount" />
-        </div>
+          <label for="inAccount">In Account</label>
+        </p-float-label>
 
-        <div style="margin-bottom: 10px">
-          <label for="outOwner">Out Owner:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-select id="outOwner" 
             name="selectOutOwner"
             [options]="(owners$ | async)!"
             optionLabel="name"
             placeholder="Select in owner" 
             formControlName="selectOutOwner" />
-        </div>
+          <label for="outOwner">Out Owner</label>
+        </p-float-label>
 
-        <div style="margin-bottom: 10px">
-          <label for="outAccount">Out Account:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-select id="outAccount" 
             name="selectOutAccount"
             [options]="(outAccounts$ | async)!"
             optionLabel="description"
             placeholder="Select out account" 
             formControlName="selectOutAccount" />
-        </div>
+          <label for="outAccount">Out Account</label>
+        </p-float-label>
 
-        <div style="margin-bottom: 10px">
-          <label for="inputValue">Value:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-inputnumber id="value" 
             name="inputValue"
             mode="currency" currency="USD" locale="en-US"
             placeholder="Input value" 
             formControlName="inputValue" />
-        </div>
+          <label for="inputValue">Value</label>
+        </p-float-label>
 
-        <label for="name">Note:</label>
-        <input id="note" 
-          name="inputNote"
-          pInputText 
-          placeholder="Note to be inserted" 
-          formControlName="inputNote" />
+        <p-float-label variant="in" style="margin-bottom: 10px">
+          <input id="note" 
+            name="inputNote"
+            pInputText 
+            formControlName="inputNote" />
+          <label for="name">Note</label>
+        </p-float-label>
 
-        <p-divider />
         <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the credit account"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
       </p-panel>

@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './ownerEquityAccountInitialValue';
@@ -15,14 +14,15 @@ import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { Owner } from '../owner/owner';
 import { Account } from '../account/account';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-edit',
-  imports: [InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [FloatLabelModule, InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
       <p-panel header="Edit">
-      <div style="margin-bottom: 10px">
+        <div style="margin-bottom: 10px">
           <label for="owner">Owner:</label>
           {{ bean.owner }}
         </div>
@@ -32,16 +32,14 @@ import { Account } from '../account/account';
           {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
         </div>
 
-        <div style="margin-bottom: 10px">
-          <label for="inputValue">Value:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-inputnumber id="value" 
             name="inputValue"
             mode="currency" currency="USD" locale="en-US"
-            placeholder="Input value" 
             formControlName="inputValue" />
-        </div>
+          <label for="inputValue">Initial Value</label>
+        </p-float-label>
 
-        <p-divider />
         <p-button icon="pi pi-check" (onClick)="update()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
         <p-button icon="pi pi-times" (onClick)="cancelUpdate()" pTooltip="Cancel"/>
       </p-panel>

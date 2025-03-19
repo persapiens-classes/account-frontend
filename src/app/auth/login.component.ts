@@ -6,16 +6,16 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { PasswordModule } from 'primeng/password';
-import { DividerModule } from 'primeng/divider';
 import { AuthService } from './auth.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, DividerModule, AutoFocusModule, ToastModule],
+  imports: [FloatLabelModule, PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, AutoFocusModule, ToastModule],
   providers: [MessageService],
   template: `
     <div class="container"> 
@@ -23,24 +23,22 @@ import { catchError, of, tap } from 'rxjs';
 
       <form [formGroup]="loginForm">
         <p-panel header="Login">
-          <label for="username" >Username:</label>
-          <input id="username" 
-              pInputText 
-              [pAutoFocus]="true"                 
-              placeholder="Username" 
-              formControlName="inputUsername" />
+          <p-float-label variant="in" style="margin-bottom: 10px">
+            <input id="username" 
+                pInputText 
+                [pAutoFocus]="true"                 
+                formControlName="inputUsername" />
+            <label for="username" >Username</label>
+          </p-float-label>
 
-          <p-divider />
-
-          <label for="password" >Password:</label>
-          <p-password id="password"
-              placeholder="Password" 
-              [toggleMask]="true"
-              [feedback]="false" 
-              formControlName="inputPassword"
-                />
-
-          <p-divider />
+          <p-float-label variant="in" style="margin-bottom: 10px">
+            <p-password id="password"
+                [toggleMask]="true"
+                [feedback]="false" 
+                formControlName="inputPassword"
+                  />
+            <label for="password" >Password</label>
+          </p-float-label>
 
           <p-button label="Sign In" (onClick)="signin()" [disabled]="loginForm.invalid"></p-button>
         </p-panel>

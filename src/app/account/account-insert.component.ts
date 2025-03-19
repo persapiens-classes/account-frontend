@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Account } from './account';
@@ -17,41 +16,40 @@ import { Observable } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../category/category-service';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'account-insert',
-  imports: [AsyncPipe, SelectModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [FloatLabelModule, AsyncPipe, SelectModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <div style="margin-bottom: 10px">
-          <label for="description">Description:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <input id="description" 
             name="inputDescription"
             pInputText 
             [pAutoFocus]="true" 
-            placeholder="Description to be inserted" 
             formControlName="inputDescription" />
-          <div
-            *ngIf="form.get('inputDescription')?.invalid && (form.get('inputDescription')?.dirty || form.get('inputDescription')?.touched)"
-            class="alert"
-          >
-            <div *ngIf="form.get('inputDescription')?.errors?.['required']">Description is required.</div>
-            <div *ngIf="form.get('inputDescription')?.errors?.['minlength']">Description must be at least 3 characters long.</div>
-          </div>
+          <label for="description">Description</label>
+        </p-float-label>
+        <div
+          *ngIf="form.get('inputDescription')?.invalid && (form.get('inputDescription')?.dirty || form.get('inputDescription')?.touched)"
+          class="alert"
+        >
+          <div *ngIf="form.get('inputDescription')?.errors?.['required']">Description is required.</div>
+          <div *ngIf="form.get('inputDescription')?.errors?.['minlength']">Description must be at least 3 characters long.</div>
         </div>
 
-        <div>
-          <label for="category">Category:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-select id="category" 
             name="selectCategory"
             [options]="(categories$ | async)!"
             optionLabel="description"
             placeholder="Select one category" 
             formControlName="selectCategory" />
-        </div>
+          <label for="category">Category</label>
+        </p-float-label>
 
-        <p-divider />
         <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the account"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
       </p-panel>

@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './ownerEquityAccountInitialValue';
@@ -20,44 +19,42 @@ import { AccountService } from '../account/account-service';
 import { HttpClient } from '@angular/common/http';
 import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-insert',
-  imports: [InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [FloatLabelModule, InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-
-        <div style="margin-bottom: 10px">
-          <label for="owner">Owner:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-select id="owner" 
             name="selectOwner"
             [options]="(owners$ | async)!"
             optionLabel="name"
             placeholder="Select owner" 
             formControlName="selectOwner" />
-        </div>
+          <label for="owner">Owner</label>
+        </p-float-label>
 
-        <div style="margin-bottom: 10px">
-          <label for="equityAccount">Equity Account:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-select id="equityAccount" 
             name="selectEquityAccount"
             [options]="(equityAccounts$ | async)!"
             optionLabel="description"
             placeholder="Select equity account" 
             formControlName="selectEquityAccount" />
-        </div>
+          <label for="equityAccount">Equity Account</label>
+        </p-float-label>
 
-        <div style="margin-bottom: 10px">
-          <label for="inputValue">Value:</label>
+        <p-float-label variant="in" style="margin-bottom: 10px">
           <p-inputnumber id="value" 
             name="inputValue"
             mode="currency" currency="USD" locale="en-US"
-            placeholder="Input value" 
             formControlName="inputValue" />
-        </div>
+          <label for="inputValue">Initial Value</label>
+        </p-float-label>
 
-        <p-divider />
         <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
       </p-panel>
