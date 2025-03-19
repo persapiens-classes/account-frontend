@@ -30,6 +30,7 @@ import { catchError, Observable, of, tap } from 'rxjs';
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
+        stripedRows="true"
       >
         <ng-template #header>
           <tr>
