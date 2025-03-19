@@ -61,8 +61,6 @@ export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateCom
 
 function createForm(formBuilder: FormBuilder, bean: OwnerEquityAccountInitialValue): FormGroup {
   return formBuilder.group({
-    inputOwner: [new Owner(bean.owner), [Validators.required, Validators.minLength(3)]],
-    inputEquityAccount: [new Account(bean.equityAccount.description, bean.equityAccount.category), [Validators.required, Validators.minLength(3)]],
     inputValue: [bean.value, [Validators.required]]
   })
 }

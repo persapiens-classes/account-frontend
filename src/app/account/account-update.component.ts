@@ -74,7 +74,7 @@ export class AccountUpdateComponent extends BeanUpdateComponent<Account, Account
 function createForm(formBuilder: FormBuilder, bean: Account): FormGroup {
   return formBuilder.group({
     inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]],
-    selectCategory: [new Category(bean.category), [Validators.required, Validators.minLength(3)]]
+    selectCategory: [new Category(bean.category), [Validators.required]]
   })
 }
 

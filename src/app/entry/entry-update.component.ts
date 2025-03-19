@@ -132,10 +132,10 @@ export class EntryUpdateComponent extends BeanUpdateComponent<Entry, EntryInsert
 function createForm(formBuilder: FormBuilder, bean: Entry): FormGroup {
   return formBuilder.group({
     inputDate: [bean.date, [Validators.required, Validators.minLength(3)]],
-    selectInOwner: [new Owner(bean.inOwner), [Validators.required, Validators.minLength(3)]],
-    selectInAccount: [new Account(bean.inAccount.description, bean.inAccount.category), [Validators.required, Validators.minLength(3)]],
-    selectOutOwner: [new Owner(bean.outOwner), [Validators.required, Validators.minLength(3)]],
-    selectOutAccount: [new Account(bean.outAccount.description, bean.outAccount.category), [Validators.required, Validators.minLength(3)]],
+    selectInOwner: [new Owner(bean.inOwner), [Validators.required]],
+    selectInAccount: [new Account(bean.inAccount.description, bean.inAccount.category), [Validators.required]],
+    selectOutOwner: [new Owner(bean.outOwner), [Validators.required]],
+    selectOutAccount: [new Account(bean.outAccount.description, bean.outAccount.category), [Validators.required]],
     inputValue: [bean.value, [Validators.required, Validators.minLength(3)]],
     inputNote: [bean.note, [Validators.required, Validators.minLength(3)]]
   })

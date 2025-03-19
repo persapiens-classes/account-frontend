@@ -91,8 +91,6 @@ function createForm(formBuilder: FormBuilder): FormGroup {
 }
 
 function createBean(form: FormGroup): OwnerEquityAccountInitialValueInsert {
-  let result = new OwnerEquityAccountInitialValueInsert(form.value.selectOwner.name, form.value.selectEquityAccount.description, form.value.inputValue)
-  console.log(result)
-  return result
+  return new OwnerEquityAccountInitialValueInsert(form.value.selectOwner.name, form.value.selectEquityAccount.description, form.value.inputValue)
 }
 

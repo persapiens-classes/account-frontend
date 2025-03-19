@@ -129,11 +129,11 @@ export class EntryInsertComponent extends BeanInsertComponent<Entry, EntryInsert
 
 function createForm(formBuilder: FormBuilder): FormGroup {
   return formBuilder.group({
-    inputDate: ['', [Validators.required, Validators.minLength(3)]],
-    selectInOwner: ['', [Validators.required, Validators.minLength(3)]],
-    selectInAccount: ['', [Validators.required, Validators.minLength(3)]],
-    selectOutOwner: ['', [Validators.required, Validators.minLength(3)]],
-    selectOutAccount: ['', [Validators.required, Validators.minLength(3)]],
+    inputDate: ['', [Validators.required]],
+    selectInOwner: ['', [Validators.required]],
+    selectInAccount: ['', [Validators.required]],
+    selectOutOwner: ['', [Validators.required]],
+    selectOutAccount: ['', [Validators.required]],
     inputValue: ['', [Validators.required]],
     inputNote: ['', []]
   })

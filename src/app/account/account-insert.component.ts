@@ -75,7 +75,7 @@ export class AccountInsertComponent extends BeanInsertComponent<Account, Account
 function createForm(formBuilder: FormBuilder): FormGroup {
   return formBuilder.group({
     inputDescription: ['', [Validators.required, Validators.minLength(3)]],
-    selectCategory: ['', [Validators.required, Validators.minLength(3)]]
+    selectCategory: ['', [Validators.required]]
   })
 }
 
