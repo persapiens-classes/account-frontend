@@ -48,7 +48,7 @@ import { AccountService } from './account-service';
                 <p-columnFilter
                     type="text"
                     field="description"
-                    placeholder="Search by description"
+                    placeholder="description"
                     ariaLabel="Filter Description"
                 />
               </th>
@@ -56,7 +56,7 @@ import { AccountService } from './account-service';
               <p-columnFilter
                     type="text"
                     field="category"
-                    placeholder="Search by category"
+                    placeholder="description"
                     ariaLabel="Filter Category"
                 />
             </th>

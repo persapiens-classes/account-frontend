@@ -55,7 +55,7 @@ import { catchError, Observable, of, tap } from 'rxjs';
               <p-columnFilter
                 type="text"
                 field="owner"
-                placeholder="Search by owner"
+                placeholder="owner"
                 ariaLabel="Filter Owner"
               />
             </th>
@@ -63,7 +63,7 @@ import { catchError, Observable, of, tap } from 'rxjs';
               <p-columnFilter
                 type="text"
                 field="equityAccount.description"
-                placeholder="Search by equity account"
+                placeholder="description"
                 ariaLabel="Filter Equity Account"
               />
             </th>

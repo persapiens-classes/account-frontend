@@ -7,3 +7,7 @@
 main {
   padding: 1rem;
 }
+
+::ng-deep .p-inputtext {
+  width: 110px !important;
+}

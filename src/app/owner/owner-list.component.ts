@@ -44,7 +44,7 @@ import { OwnerService } from './owner-service';
               <p-columnFilter
                 type="text"
                 field="name"
-                placeholder="Search by name"
+                placeholder="name"
                 ariaLabel="Filter Name"
               />
             </th>

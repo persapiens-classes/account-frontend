@@ -45,7 +45,7 @@ import { CategoryService } from './category-service';
               <p-columnFilter
                   type="text"
                   field="description"
-                  placeholder="Search by description"
+                  placeholder="description"
                   ariaLabel="Filter Description"
               />
             </th>
