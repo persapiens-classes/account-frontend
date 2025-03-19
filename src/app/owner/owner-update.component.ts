@@ -28,10 +28,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
             formControlName="inputName" />
           <label for="name">Name</label>
         </p-float-label>
-        <div
-          *ngIf="form.get('inputName')?.invalid && (form.get('inputName')?.dirty || form.get('inputName')?.touched)"
-          class="alert"
-        >
+        <div *ngIf="form.get('inputName')?.invalid && (form.get('inputName')?.dirty || form.get('inputName')?.touched)"
+          class="alert" class="margin-bottom">
           <div *ngIf="form.get('inputName')?.errors?.['required']">Name is required.</div>
           <div *ngIf="form.get('inputName')?.errors?.['minlength']">Name must be at least 3 characters long.</div>
         </div>
