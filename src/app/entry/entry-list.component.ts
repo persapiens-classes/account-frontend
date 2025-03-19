@@ -19,7 +19,7 @@ import { EntryService } from './entry-service';
   template: `
     <p-panel header="List">
       <ng-template pTemplate="header">
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-left: 10px;">
+        <div class="list-header">
           <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new entry" />
         </div>
       </ng-template>

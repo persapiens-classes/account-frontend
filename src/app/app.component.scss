@@ -15,3 +15,11 @@ main {
 ::ng-deep .margin-bottom {
   margin-bottom: 10px;
 }
+
+::ng-deep .list-header {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  width: 100%; 
+  margin-left: 10px;
+}
