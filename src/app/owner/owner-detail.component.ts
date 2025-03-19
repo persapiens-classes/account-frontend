@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { Owner } from './owner';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
@@ -13,12 +12,14 @@ import { OwnerService } from './owner-service';
 
 @Component({
   selector: 'owner-detail',
-  imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
-        <label for="name">Name:</label>
-        {{ bean.name }}
-        <p-divider />
+        <div style="margin-bottom: 10px">
+          <label for="name">Name:</label>
+          {{ bean.name }}
+        </div>
+
         <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
         <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
       </p-panel>

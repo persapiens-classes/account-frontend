@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { Account } from './account';
 import { SelectModule } from 'primeng/select';
@@ -15,7 +14,7 @@ import { AccountService } from './account-service';
 
 @Component({
   selector: 'account-detail',
-  imports: [SelectModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [SelectModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
         <div style="margin-bottom: 10px">
@@ -23,12 +22,11 @@ import { AccountService } from './account-service';
           {{ bean.description }}
         </div>
 
-        <div>
+        <div style="margin-bottom: 10px">
           <label for="category">Category:</label>
           {{ bean.category }}
         </div>
 
-        <p-divider />
         <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
         <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
       </p-panel>
