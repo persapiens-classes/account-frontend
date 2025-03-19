@@ -19,7 +19,7 @@ import { EntryService } from './entry-service';
   template: `
     <p-panel header="List">
       <ng-template pTemplate="header">
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-left: 10px;">
+        <div class="list-header">
           <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new entry" />
         </div>
       </ng-template>
@@ -60,7 +60,7 @@ import { EntryService } from './entry-service';
               <p-columnFilter
                 type="text"
                 field="inOwner"
-                placeholder="Search by inOwner"
+                placeholder="name"
                 ariaLabel="Filter InOwner Name"
               />
             </th>
@@ -68,7 +68,7 @@ import { EntryService } from './entry-service';
               <p-columnFilter
                 type="text"
                 field="inAccount.description"
-                placeholder="Search by inAccount"
+                placeholder="description"
                 ariaLabel="Filter InAccount Description"
               />
             </th>
@@ -76,7 +76,7 @@ import { EntryService } from './entry-service';
               <p-columnFilter
                 type="text"
                 field="outOwner"
-                placeholder="Search by outOwner"
+                placeholder="name"
                 ariaLabel="Filter OutOwner Name"
               />
             </th>
@@ -84,7 +84,7 @@ import { EntryService } from './entry-service';
               <p-columnFilter
                 type="text"
                 field="outAccount.description"
-                placeholder="Search by outAccount"
+                placeholder="description"
                 ariaLabel="Filter OutAccount Description"
                 />
             </th>
@@ -92,7 +92,7 @@ import { EntryService } from './entry-service';
               <p-columnFilter
                 type="date"
                 field="date"
-                placeholder="Search by date"
+                placeholder="date"
                 ariaLabel="Filter Date"
                 />
             </th>

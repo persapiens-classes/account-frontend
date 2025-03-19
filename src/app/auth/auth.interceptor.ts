@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 export function authIntercept(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
     // Verify if request is from AuthService
-    if (req.url.includes('/login')) {
+    if (req.url.includes('/login') || req.url.includes('/images/')) {
       return next(req)  // If login, do not add token
     }
 

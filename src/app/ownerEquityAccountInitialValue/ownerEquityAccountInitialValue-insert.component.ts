@@ -27,7 +27,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-select id="owner" 
             name="selectOwner"
             [options]="(owners$ | async)!"
@@ -37,7 +37,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <label for="owner">Owner</label>
         </p-float-label>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-select id="equityAccount" 
             name="selectEquityAccount"
             [options]="(equityAccounts$ | async)!"
@@ -47,7 +47,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
           <label for="equityAccount">Equity Account</label>
         </p-float-label>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-inputnumber id="value" 
             name="inputValue"
             mode="currency" currency="USD" locale="en-US"
@@ -91,8 +91,6 @@ function createForm(formBuilder: FormBuilder): FormGroup {
 }
 
 function createBean(form: FormGroup): OwnerEquityAccountInitialValueInsert {
-  let result = new OwnerEquityAccountInitialValueInsert(form.value.selectOwner.name, form.value.selectEquityAccount.description, form.value.inputValue)
-  console.log(result)
-  return result
+  return new OwnerEquityAccountInitialValueInsert(form.value.selectOwner.name, form.value.selectEquityAccount.description, form.value.inputValue)
 }
 

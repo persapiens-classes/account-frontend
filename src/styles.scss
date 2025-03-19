@@ -1,2 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
+
+p-columnFilter .p-inputtext {
+  width: 110px !important;
+}
+
+.margin-bottom {
+  margin-bottom: 10px;
+}
+
+.list-header {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  width: 100%; 
+  margin-left: 10px;
+}

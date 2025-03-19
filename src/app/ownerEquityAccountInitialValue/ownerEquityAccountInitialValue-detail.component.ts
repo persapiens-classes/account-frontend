@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './ownerEquityAccountInitialValue';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
@@ -15,29 +14,29 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-detail',
-  imports: [AsyncPipe, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [AsyncPipe, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label>Owner:</label>
           {{ bean.owner }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label>Equity Account:</label>
           {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label>Balance:</label>
           {{ this.balance$ | async | number:'1.2-2' }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label>Initial Value:</label>
           {{ bean.value | number:'1.2-2' }}
         </div>
-        <p-divider />
+
         <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
         <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
       </p-panel>

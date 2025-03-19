@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { Category } from './category';
 import { HttpClient } from '@angular/common/http';
@@ -14,12 +13,14 @@ import { CategoryService } from './category-service';
 
 @Component({
   selector: `{{ type }}Category-detail`,
-  imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
     <p-panel header="Detail">
-      <label for="description">Description:</label>
-      {{ bean.description }}
-      <p-divider />
+      <div class="margin-bottom">
+        <label for="description">Description:</label>
+        {{ bean.description }}
+      </div>
+
       <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
       <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
     </p-panel>

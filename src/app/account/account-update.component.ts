@@ -24,7 +24,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   template: `
     <form [formGroup]="form">
       <p-panel header="Edit">
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <input id="description" 
             name="inputDescription"
             pInputText 
@@ -32,15 +32,13 @@ import { FloatLabelModule } from 'primeng/floatlabel';
             formControlName="inputDescription" />
           <label for="description">Description</label>
         </p-float-label>
-        <div
-          *ngIf="form.get('inputDescription')?.invalid && (form.get('inputDescription')?.dirty || form.get('inputDescription')?.touched)"
-          class="alert"
-        >
+        <div *ngIf="form.get('inputDescription')?.invalid && (form.get('inputDescription')?.dirty || form.get('inputDescription')?.touched)"
+          class="alert" class="margin-bottom">
           <div *ngIf="form.get('inputDescription')?.errors?.['required']">Description is required.</div>
           <div *ngIf="form.get('inputDescription')?.errors?.['minlength']">Description must be at least 3 characters long.</div>
         </div>
 
-        <p-float-label variant="in" style="margin-bottom: 10px">
+        <p-float-label variant="in" class="margin-bottom">
           <p-select id="category" 
             name="selectCategory"
             [options]="(categories$ | async)!"
@@ -76,7 +74,7 @@ export class AccountUpdateComponent extends BeanUpdateComponent<Account, Account
 function createForm(formBuilder: FormBuilder, bean: Account): FormGroup {
   return formBuilder.group({
     inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]],
-    selectCategory: [new Category(bean.category), [Validators.required, Validators.minLength(3)]]
+    selectCategory: [new Category(bean.category), [Validators.required]]
   })
 }
 

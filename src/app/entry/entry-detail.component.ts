@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { SelectModule } from 'primeng/select';
 import { Entry, EntryInsertUpdate } from './entry';
@@ -17,43 +16,44 @@ import { EntryService } from './entry-service';
 
 @Component({
   selector: `{{ type }}Entry-detail`,
-  imports: [InputNumberModule, DatePickerModule, SelectModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
+  imports: [InputNumberModule, DatePickerModule, SelectModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="date">Date:</label>
           {{ bean.date.toLocaleDateString() }} {{ bean.date.toLocaleTimeString() }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="inOwner">In Owner:</label>
           {{ bean.inOwner }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="inAccount">In Account:</label>
           {{ bean.inAccount.description }} - {{ bean.inAccount.category }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="outOwner">Out Owner:</label>
           {{ bean.outOwner }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="outAccount">Out Account:</label>
           {{ bean.outAccount.description }} - {{ bean.outAccount.category }}
         </div>
 
-        <div style="margin-bottom: 10px">
+        <div class="margin-bottom">
           <label for="inputValue">Value:</label>
           {{ bean.value | number:'1.2-2' }}
         </div>
 
-        <label for="name">Note:</label>
-        {{ bean.note }}
+        <div class="margin-bottom">
+          <label for="name">Note:</label>
+          {{ bean.note }}
+        </div>
 
-        <p-divider />
         <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Return to list"/>
         <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
       </p-panel>

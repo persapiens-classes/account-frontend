@@ -19,7 +19,7 @@ import { AccountService } from './account-service';
   template: `
     <p-panel header="List">
       <ng-template pTemplate="header">
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-left: 10px;">
+        <div class="list-header">
           <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new account" />
         </div>      
       </ng-template>
@@ -48,7 +48,7 @@ import { AccountService } from './account-service';
                 <p-columnFilter
                     type="text"
                     field="description"
-                    placeholder="Search by description"
+                    placeholder="description"
                     ariaLabel="Filter Description"
                 />
               </th>
@@ -56,7 +56,7 @@ import { AccountService } from './account-service';
               <p-columnFilter
                     type="text"
                     field="category"
-                    placeholder="Search by category"
+                    placeholder="description"
                     ariaLabel="Filter Category"
                 />
             </th>
