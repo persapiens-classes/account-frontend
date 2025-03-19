@@ -39,7 +39,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
         </p-float-label>
         <div *ngIf="form.get('inputDate')?.invalid && (form.get('inputDate')?.dirty || form.get('inputDate')?.touched)"
           class="alert">
-          <div *ngIf="form.get('inputDate')?.errors?.['required']">Description is required.</div>
+          <div *ngIf="form.get('inputDate')?.errors?.['required']">Date is required.</div>
         </div>
 
         <p-float-label variant="in" style="margin-bottom: 10px">
