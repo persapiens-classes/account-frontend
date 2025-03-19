@@ -1,13 +1,15 @@
 .container {
-  justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; 
+  width: 420px; 
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .login-image {
   width: 70px;
   height: auto;
+  margin-bottom: 20px; 
   align-self: center;
 }
