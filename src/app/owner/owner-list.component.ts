@@ -16,11 +16,13 @@ import { OwnerService } from './owner-service';
   selector: 'owner-list',
   imports: [AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, TooltipModule],
   template: `
-    <div  style="margin-bottom: 12px">
-      <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new owner" />
-    </div>
-
     <p-panel header="List">
+      <ng-template pTemplate="header">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-left: 10px;">
+          <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new owner" />
+        </div>
+      </ng-template>
+
       <p-table 
         [value]="(beansList$ | async)!"
         [rows]="5"
