@@ -12,17 +12,20 @@ import { MessageService } from 'primeng/api';
   template: `
     <headerMenu />
 
-    <h2>{{ title }}</h2>
+    <h2 class="{{ titleClass }}">{{ title }}</h2>
 
     <router-outlet></router-outlet>
     <!-- Toast to show message -->
     <p-toast></p-toast>
-  `
+  `,
+  styleUrl: './bean.component.scss'
 })
 export class BeanComponent {
   title: string
+  titleClass: string
 
   constructor(private route: ActivatedRoute) {
     this.title = this.route.snapshot.data['title']
+    this.titleClass = this.route.snapshot.data['titleClass']
   }
 }
