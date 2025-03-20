@@ -11,7 +11,7 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountInitialValue-service';
 import { BalanceService } from './balance-service';
 import { Observable } from 'rxjs';
-import { DetailField } from "../detail-field.component";
+import { DetailField } from "../field/detail-field.component";
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-detail',

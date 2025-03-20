@@ -7,7 +7,7 @@ import { Entry, EntryInsertUpdate } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { EntryService } from './entry-service';
-import { DetailField } from "../detail-field.component";
+import { DetailField } from "../field/detail-field.component";
 
 @Component({
   selector: `{{ type }}Entry-detail`,

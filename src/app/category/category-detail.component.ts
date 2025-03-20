@@ -7,7 +7,7 @@ import { Category } from './category';
 import { HttpClient } from '@angular/common/http';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { CategoryService } from './category-service';
-import { DetailField } from "../detail-field.component";
+import { DetailField } from "../field/detail-field.component";
 
 @Component({
   selector: `{{ type }}Category-detail`,

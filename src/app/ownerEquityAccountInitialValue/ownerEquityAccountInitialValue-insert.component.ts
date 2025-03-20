@@ -3,10 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
-import { AutoFocusModule } from 'primeng/autofocus';
-import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './ownerEquityAccountInitialValue';
 import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountInitialValue-service';
@@ -17,43 +14,30 @@ import { Account } from '../account/account';
 import { OwnerService } from '../owner/owner-service';
 import { AccountService } from '../account/account-service';
 import { HttpClient } from '@angular/common/http';
-import { SelectModule } from 'primeng/select';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { SelectField } from "../field/select-field.component";
+import { NumberField } from "../field/number-field.component";
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-insert',
-  imports: [FloatLabelModule, InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, NumberField, SelectField],
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <p-float-label variant="in" class="margin-bottom">
-          <p-select id="owner" 
-            name="selectOwner"
-            [options]="(owners$ | async)!"
-            optionLabel="name"
-            placeholder="Select owner" 
-            formControlName="selectOwner" />
-          <label for="owner">Owner</label>
-        </p-float-label>
+        <a-select-field label="Owner"
+          placeholder="Select owner" 
+          [autoFocus]="true"
+          optionLabel="name"
+          [options]="(owners$ | async)!"
+          [control]="form.get('selectOwner')!" />
 
-        <p-float-label variant="in" class="margin-bottom">
-          <p-select id="equityAccount" 
-            name="selectEquityAccount"
-            [options]="(equityAccounts$ | async)!"
-            optionLabel="description"
-            placeholder="Select equity account" 
-            formControlName="selectEquityAccount" />
-          <label for="equityAccount">Equity Account</label>
-        </p-float-label>
+        <a-select-field label="Equity Account"
+          placeholder="Select equity account" 
+          optionLabel="description"
+          [options]="(equityAccounts$ | async)!"
+          [control]="form.get('selectEquityAccount')!" />
 
-        <p-float-label variant="in" class="margin-bottom">
-          <p-inputnumber id="value" 
-            name="inputValue"
-            mode="currency" currency="USD" locale="en-US"
-            formControlName="inputValue" />
-          <label for="inputValue">Initial Value</label>
-        </p-float-label>
+        <a-number-field label="Initial Value"
+          [control]="form.get('inputValue')!" />
 
         <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>

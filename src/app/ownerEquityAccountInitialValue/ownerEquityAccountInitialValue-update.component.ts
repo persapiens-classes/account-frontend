@@ -3,42 +3,28 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
-import { AutoFocusModule } from 'primeng/autofocus';
-import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './ownerEquityAccountInitialValue';
 import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountInitialValue-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { Owner } from '../owner/owner';
-import { Account } from '../account/account';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { DetailField } from "../field/detail-field.component";
+import { NumberField } from "../field/number-field.component";
+import { SelectField } from '../field/select-field.component';
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-edit',
-  imports: [FloatLabelModule, InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, NumberField, DetailField],
   template: `
     <form [formGroup]="form">
       <p-panel header="Edit">
-        <div class="margin-bottom">
-          <label for="owner">Owner:</label>
-          {{ bean.owner }}
-        </div>
+        <a-detail-field strong="Owner" value="{{ bean.owner }}"/>
 
-        <div class="margin-bottom">
-          <label for="equityAccount">Equity Account:</label>
-          {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
-        </div>
+        <a-detail-field strong="Equity Account" value="{{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}"/>
 
-        <p-float-label variant="in" class="margin-bottom">
-          <p-inputnumber id="value" 
-            name="inputValue"
-            mode="currency" currency="USD" locale="en-US"
-            formControlName="inputValue" />
-          <label for="inputValue">Initial Value</label>
-        </p-float-label>
+        <a-number-field label="Initial Value"
+          [autoFocus]="true"
+          [control]="form.get('inputValue')!" />
 
         <p-button icon="pi pi-check" (onClick)="update()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
         <p-button icon="pi pi-times" (onClick)="cancelUpdate()" pTooltip="Cancel"/>

@@ -6,7 +6,7 @@ import { PanelModule } from 'primeng/panel';
 import { Owner } from './owner';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { OwnerService } from './owner-service';
-import { DetailField } from "../detail-field.component";
+import { DetailField } from "../field/detail-field.component";
 
 @Component({
   selector: 'owner-detail',

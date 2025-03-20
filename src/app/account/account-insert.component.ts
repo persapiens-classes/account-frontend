@@ -1,52 +1,35 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
-import { AutoFocusModule } from 'primeng/autofocus';
-import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Account } from './account';
 import { AccountService } from './account-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
-import { SelectModule } from 'primeng/select';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../category/category-service';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputField } from "../field/input-field.component";
+import { SelectField } from "../field/select-field.component";
 
 @Component({
   selector: 'account-insert',
-  imports: [FloatLabelModule, AsyncPipe, SelectModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField, SelectField],
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <p-float-label variant="in" class="margin-bottom">
-          <input id="description" 
-            name="inputDescription"
-            pInputText 
-            [pAutoFocus]="true" 
-            formControlName="inputDescription" />
-          <label for="description">Description</label>
-        </p-float-label>
-        <div *ngIf="form.get('inputDescription')?.invalid && (form.get('inputDescription')?.dirty || form.get('inputDescription')?.touched)"
-          class="alert" class="margin-bottom">
-          <div *ngIf="form.get('inputDescription')?.errors?.['required']">Description is required.</div>
-          <div *ngIf="form.get('inputDescription')?.errors?.['minlength']">Description must be at least 3 characters long.</div>
-        </div>
+        <a-input-field label="Description" 
+          [autoFocus]=true
+          [control]="form.get('inputDescription')!" />
 
-        <p-float-label variant="in" class="margin-bottom">
-          <p-select id="category" 
-            name="selectCategory"
-            [options]="(categories$ | async)!"
-            optionLabel="description"
-            placeholder="Select one category" 
-            formControlName="selectCategory" />
-          <label for="category">Category</label>
-        </p-float-label>
+        <a-select-field label="Category" 
+          placeholder="Select one category" 
+          optionLabel="description"
+          [options]="(categories$ | async)!"
+          [control]="form.get('selectCategory')!" />
 
         <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the account"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
