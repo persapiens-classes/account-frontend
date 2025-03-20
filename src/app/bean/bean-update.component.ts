@@ -50,7 +50,11 @@ export class BeanUpdateComponent<T extends Bean, I, U> {
     }
   }
 
-  cancelUpdate() {
+  cancelToList() {
     this.router.navigate([`${this.beanService.beansName}`])
+  }
+
+  cancelToDetail() {
+    this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: this.bean } })
   }
 }

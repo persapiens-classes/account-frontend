@@ -26,7 +26,8 @@ import { InputField } from '../field/input-field.component';
           [control]="form.get('inputDescription')!" />
 
         <p-button icon="pi pi-check" (onClick)="update()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the category"/>
-        <p-button icon="pi pi-times" (onClick)="cancelUpdate()" pTooltip="Cancel"/>
+        <p-button icon="pi pi-list" (onClick)="cancelToList()" [style]="{'margin-right': '10px'}" pTooltip="Cancel to list"/>
+        <p-button icon="pi pi-search" (onClick)="cancelToDetail()" pTooltip="Cancel to detail"/>
       </p-panel>
     </form>
   `

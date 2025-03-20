@@ -40,7 +40,7 @@ import { NumberField } from "../field/number-field.component";
           [control]="form.get('inputValue')!" />
 
         <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
-        <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
+        <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list"/>
       </p-panel>
     </form>
   `
