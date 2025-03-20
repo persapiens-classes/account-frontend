@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 import { DetailField } from "../field/detail-field.component";
 
 @Component({
-  selector: 'ownerEquityAccountInitialValue-detail',
+  selector: 'owner-equity-account-initial-value-detail',
   imports: [CommonModule, ButtonModule, PanelModule, DetailField],
   template: `
     <p-panel header="Detail">

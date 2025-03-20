@@ -3,20 +3,16 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
-import { AutoFocusModule } from 'primeng/autofocus';
-import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { CategoryService } from './category-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { HttpClient } from '@angular/common/http';
-import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputField } from '../field/input-field.component';
 
 @Component({
-  selector: 'category-edit',
+  selector: `{{ type }}-category-update`,
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
   template: `
     <form [formGroup]="form">

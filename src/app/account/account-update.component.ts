@@ -16,7 +16,7 @@ import { InputField } from "../field/input-field.component";
 import { SelectField } from "../field/select-field.component";
 
 @Component({
-  selector: 'account-edit',
+  selector: 'account-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField, SelectField],
   template: `
     <form [formGroup]="form">

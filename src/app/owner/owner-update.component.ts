@@ -11,7 +11,7 @@ import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { InputField } from "../field/input-field.component";
 
 @Component({
-  selector: 'owner-edit',
+  selector: 'owner-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
   template: `
     <form [formGroup]="form">

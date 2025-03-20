@@ -10,7 +10,7 @@ import { CategoryService } from './category-service';
 import { DetailField } from "../field/detail-field.component";
 
 @Component({
-  selector: `{{ type }}Category-detail`,
+  selector: `{{ type }}-category-detail`,
   imports: [CommonModule, ButtonModule, PanelModule, DetailField],
   template: `
     <p-panel header="Detail">

@@ -3,15 +3,11 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
-import { AutoFocusModule } from 'primeng/autofocus';
-import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Owner } from './owner';
 import { OwnerService } from './owner-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
-import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputField } from "../field/input-field.component";
 
 @Component({

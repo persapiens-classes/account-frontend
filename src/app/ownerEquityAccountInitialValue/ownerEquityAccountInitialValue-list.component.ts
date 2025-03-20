@@ -15,7 +15,7 @@ import { BalanceService } from './balance-service';
 import { catchError, Observable, of, tap } from 'rxjs';
 
 @Component({
-  selector: 'ownerEquityAccountInitialValue-list',
+  selector: 'owner-equity-account-initial-value-list',
   imports: [CommonModule, AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, TooltipModule],
   template: `
     <p-panel header="List">

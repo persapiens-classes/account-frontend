@@ -18,7 +18,7 @@ import { SelectField } from "../field/select-field.component";
 import { NumberField } from "../field/number-field.component";
 
 @Component({
-  selector: 'ownerEquityAccountInitialValue-insert',
+  selector: 'owner-equity-account-initial-value-insert',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, NumberField, SelectField],
   template: `
     <form [formGroup]="form">

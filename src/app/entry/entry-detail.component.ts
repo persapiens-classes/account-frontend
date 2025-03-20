@@ -10,7 +10,7 @@ import { EntryService } from './entry-service';
 import { DetailField } from "../field/detail-field.component";
 
 @Component({
-  selector: `{{ type }}Entry-detail`,
+  selector: `{{ type }}-entry-detail`,
   imports: [CommonModule, ButtonModule, PanelModule, DetailField],
   template: `
     <p-panel header="Detail">

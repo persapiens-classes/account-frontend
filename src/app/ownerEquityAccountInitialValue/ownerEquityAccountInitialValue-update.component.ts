@@ -13,7 +13,7 @@ import { NumberField } from "../field/number-field.component";
 import { SelectField } from '../field/select-field.component';
 
 @Component({
-  selector: 'ownerEquityAccountInitialValue-edit',
+  selector: 'owner-equity-account-initial-value-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, NumberField, DetailField],
   template: `
     <form [formGroup]="form">
