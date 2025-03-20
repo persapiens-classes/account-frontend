@@ -7,7 +7,7 @@ import { Account } from './account';
 import { HttpClient } from '@angular/common/http';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { AccountService } from './account-service';
-import { DetailField } from "../detail-field.component";
+import { DetailField } from "../field/detail-field.component";
 
 @Component({
   selector: 'account-detail',

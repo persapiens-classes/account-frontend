@@ -12,7 +12,7 @@ import { Owner } from './owner';
 import { OwnerService } from './owner-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputField } from "../input-field.component";
+import { InputField } from "../field/input-field.component";
 
 @Component({
   selector: 'owner-insert',

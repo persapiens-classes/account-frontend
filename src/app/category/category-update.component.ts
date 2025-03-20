@@ -13,7 +13,7 @@ import { CategoryService } from './category-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { HttpClient } from '@angular/common/http';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputField } from '../input-field.component';
+import { InputField } from '../field/input-field.component';
 
 @Component({
   selector: 'category-edit',

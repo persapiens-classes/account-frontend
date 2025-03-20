@@ -9,7 +9,7 @@ import { Category } from './category';
 import { CategoryService } from './category-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { HttpClient } from '@angular/common/http';
-import { InputField } from "../input-field.component";
+import { InputField } from "../field/input-field.component";
 
 @Component({
   selector: `{{ type }}Category-insert`,

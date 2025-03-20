@@ -12,8 +12,8 @@ import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../category/category-service';
-import { InputField } from "../input-field.component";
-import { SelectField } from "../select-field.component";
+import { InputField } from "../field/input-field.component";
+import { SelectField } from "../field/select-field.component";
 
 @Component({
   selector: 'account-edit',

@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/api';
 import { Owner } from './owner';
 import { OwnerService } from './owner-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
-import { InputField } from "../input-field.component";
+import { InputField } from "../field/input-field.component";
 
 @Component({
   selector: 'owner-edit',
