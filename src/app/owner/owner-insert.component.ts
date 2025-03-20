@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -12,26 +12,17 @@ import { Owner } from './owner';
 import { OwnerService } from './owner-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputField } from "../input-field.component";
 
 @Component({
   selector: 'owner-insert',
-  imports: [FloatLabelModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <p-float-label variant="in" class="margin-bottom">
-          <input id="name" 
-            name="inputName"
-            pInputText 
-            [pAutoFocus]="true" 
-            formControlName="inputName" />
-          <label for="name">Name</label>
-        </p-float-label>
-        <div *ngIf="form.get('inputName')?.invalid && (form.get('inputName')?.dirty || form.get('inputName')?.touched)"
-          class="alert" class="margin-bottom">
-          <div *ngIf="form.get('inputName')?.errors?.['required']">Name is required.</div>
-          <div *ngIf="form.get('inputName')?.errors?.['minlength']">Name must be at least 3 characters long.</div>
-        </div>
+        <a-input-field label="Name" 
+          [autoFocus]=true
+          [control]="form.get('inputName')!" />
 
         <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
@@ -49,7 +40,6 @@ export class OwnerInsertComponent extends BeanInsertComponent<Owner, Owner, Owne
   ) {
     super(router, messageService, formBuilder, ownerService, createForm, createBean)
   }
-
 }
 
 function createForm(formBuilder: FormBuilder): FormGroup {

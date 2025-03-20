@@ -3,36 +3,23 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
-import { AutoFocusModule } from 'primeng/autofocus';
-import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { CategoryService } from './category-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { HttpClient } from '@angular/common/http';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputField } from "../input-field.component";
 
 @Component({
   selector: `{{ type }}Category-insert`,
-  imports: [FloatLabelModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <p-float-label variant="in" class="margin-bottom">
-          <input id="description" 
-            name="inputDescription"
-            pInputText 
-            [pAutoFocus]="true" 
-            formControlName="inputDescription" />
-          <label for="description">Description</label>
-        </p-float-label>
-        <div *ngIf="form.get('inputDescription')?.invalid && (form.get('inputDescription')?.dirty || form.get('inputDescription')?.touched)"
-          class="alert" class="margin-bottom">
-          <div *ngIf="form.get('inputDescription')?.errors?.['required']">Description is required.</div>
-          <div *ngIf="form.get('inputDescription')?.errors?.['minlength']">Description must be at least 3 characters long.</div>
-        </div>
+        <a-input-field label="Description" 
+            [autoFocus]=true
+            [control]="form.get('inputDescription')!" />
         
         <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the category"/>
         <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
