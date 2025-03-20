@@ -25,7 +25,7 @@ import { DateField } from '../field/date-field.component';
   template: `
     <form [formGroup]="form">
       <p-panel header="Edit">
-      <a-date-field label="Date"
+        <a-date-field label="Date"
           [autoFocus]="true"
           [control]="form.get('inputDate')!" />
 
