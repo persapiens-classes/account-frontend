@@ -17,13 +17,13 @@ import { AccountService } from './account-service';
   imports: [SelectModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
       <p-panel header="Detail">
-        <div class="margin-bottom">
-          <label for="description">Description:</label>
+        <div class="margin-bottom detail-field">
+          <strong>Description</strong>
           {{ bean.description }}
         </div>
 
-        <div class="margin-bottom">
-          <label for="category">Category:</label>
+        <div class="margin-bottom detail-field">
+          <strong>Category</strong>
           {{ bean.category }}
         </div>
 

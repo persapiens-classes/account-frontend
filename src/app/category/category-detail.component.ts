@@ -16,8 +16,8 @@ import { CategoryService } from './category-service';
   imports: [ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
   template: `
     <p-panel header="Detail">
-      <div class="margin-bottom">
-        <label for="description">Description:</label>
+      <div class="margin-bottom detail-field">
+        <strong>Description</strong>
         {{ bean.description }}
       </div>
 

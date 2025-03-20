@@ -9,10 +9,22 @@ p-columnFilter .p-inputtext {
   margin-bottom: 10px;
 }
 
+.detail-field {
+  display: flex;
+  align-items: center;
+}
+
+.detail-field strong {
+  display: inline-block;
+  width: 130px;
+  /* Ajuste esse valor conforme necessário */
+  font-weight: bold;
+}
+
 .list-header {
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  width: 100%; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-left: 10px;
 }
