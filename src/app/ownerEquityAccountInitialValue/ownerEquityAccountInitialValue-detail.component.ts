@@ -11,35 +11,21 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountInitialValue-service';
 import { BalanceService } from './balance-service';
 import { Observable } from 'rxjs';
+import { DetailField } from "../detail-field.component";
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-detail',
-  imports: [AsyncPipe, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [CommonModule, ButtonModule, PanelModule, DetailField],
   template: `
-      <p-panel header="Detail">
-        <div class="margin-bottom detail-field">
-          <strong>Owner</strong>
-          {{ bean.owner }}
-        </div>
+    <p-panel header="Detail">
+      <a-detail-field strong="Owner" value="{{ bean.owner }}"/>
+      <a-detail-field strong="Equity Account" value="{{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}"/>
+      <a-detail-field strong="Balance" value="{{ this.balance$ | async | number:'1.2-2' }}"/>
+      <a-detail-field strong="Initial Value" value="{{ bean.value | number:'1.2-2' }}"/>
 
-        <div class="margin-bottom detail-field">
-          <strong>Equity Account</strong>
-          {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
-        </div>
-
-        <div class="margin-bottom detail-field">
-          <strong>Balance</strong>
-          {{ this.balance$ | async | number:'1.2-2' }}
-        </div>
-
-        <div class="margin-bottom detail-field">
-          <strong>Initial Value</strong>
-          {{ bean.value | number:'1.2-2' }}
-        </div>
-
-        <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
-        <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
-      </p-panel>
+      <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
+      <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
+    </p-panel>
   `
 })
 export class OwnerEquityAccountInitialValueDetailComponent extends BeanDetailComponent<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert, number> {

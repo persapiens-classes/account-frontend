@@ -2,61 +2,29 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
-import { AutoFocusModule } from 'primeng/autofocus';
-import { TooltipModule } from 'primeng/tooltip';
-import { SelectModule } from 'primeng/select';
 import { Entry, EntryInsertUpdate } from './entry';
 import { HttpClient } from '@angular/common/http';
-import { DatePickerModule } from 'primeng/datepicker';
-import { InputNumberModule } from 'primeng/inputnumber';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { EntryService } from './entry-service';
+import { DetailField } from "../detail-field.component";
 
 @Component({
   selector: `{{ type }}Entry-detail`,
-  imports: [InputNumberModule, DatePickerModule, SelectModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [CommonModule, ButtonModule, PanelModule, DetailField],
   template: `
-      <p-panel header="Detail">
-        <div class="margin-bottom detail-field">
-          <strong>Date</strong>
-          {{ bean.date.toLocaleDateString() }} {{ bean.date.toLocaleTimeString() }}
-        </div>
+    <p-panel header="Detail">
+      <a-detail-field strong="Date" value="{{ bean.date.toLocaleDateString() }} {{ bean.date.toLocaleTimeString() }}"/>
+      <a-detail-field strong="In Owner" value="{{ bean.inOwner }}"/>
+      <a-detail-field strong="In Account" value="{{ bean.inAccount.description }} - {{ bean.inAccount.category }}"/>
+      <a-detail-field strong="Out Owner" value="{{ bean.outOwner }}"/>
+      <a-detail-field strong="Out Account" value="{{ bean.outAccount.description }} - {{ bean.outAccount.category }}"/>
+      <a-detail-field strong="Value" value="{{ bean.value | number:'1.2-2' }}"/>
+      <a-detail-field strong="Note" value="{{ bean.note }}"/>
 
-        <div class="margin-bottom detail-field">
-          <strong>In Owner</strong>
-          {{ bean.inOwner }}
-        </div>
-
-        <div class="margin-bottom detail-field">
-          <strong>In Account</strong>
-          {{ bean.inAccount.description }} - {{ bean.inAccount.category }}
-        </div>
-
-        <div class="margin-bottom detail-field">
-          <strong>Out Owner</strong>
-          {{ bean.outOwner }}
-        </div>
-
-        <div class="margin-bottom detail-field">
-          <strong>Out Account</strong>
-          {{ bean.outAccount.description }} - {{ bean.outAccount.category }}
-        </div>
-
-        <div class="margin-bottom detail-field">
-          <strong>Value</strong>
-          {{ bean.value | number:'1.2-2' }}
-        </div>
-
-        <div class="margin-bottom detail-field">
-          <strong>Note</strong>
-          {{ bean.note }}
-        </div>
-
-        <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Return to list"/>
-        <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
-      </p-panel>
+      <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Return to list"/>
+      <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
+    </p-panel>
   `
 })
 export class EntryDetailComponent extends BeanDetailComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
