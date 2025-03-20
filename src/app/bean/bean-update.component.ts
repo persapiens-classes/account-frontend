@@ -36,7 +36,7 @@ export class BeanUpdateComponent<T extends Bean, I, U> {
             summary: `${this.beanService.beanName} edited`,
             detail: `${this.beanService.beanName} ${this.bean.getId()} edited ok.`
           })
-          this.router.navigate([`${this.beanService.beansName}`])
+          this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: bean } })
         }),
         catchError((error) => {
           this.messageService.add({
