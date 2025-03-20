@@ -12,6 +12,7 @@ import { SelectModule } from 'primeng/select';
       <p-select [id]="id"
         [name]="name"
         placeholder="{{ placeholder }}"
+        [autofocus]="autoFocus"
         [options]="options"
         optionLabel="{{ optionLabel }}"
         [formControl]="formControl" />
@@ -20,7 +21,6 @@ import { SelectModule } from 'primeng/select';
     <div *ngIf="control.invalid && (control.dirty || control.touched)"
       class="alert" class="margin-bottom">
       <div *ngIf="control?.errors?.['required']">{{ label }} is required.</div>
-      <div *ngIf="control?.errors?.['minlength']">{{ label }} must be at least 3 characters long.</div>
     </div>
   `
 })
@@ -29,6 +29,7 @@ export class SelectField {
   @Input() name: string = 'name'
   @Input() label: string = ''
   @Input() placeholder: string = ''
+  @Input() autoFocus: boolean = false
   @Input() optionLabel: string = ''
   @Input() options!: any[]
   @Input() control!: AbstractControl

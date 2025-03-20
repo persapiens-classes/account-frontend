@@ -12,25 +12,18 @@ import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } 
 import { OwnerEquityAccountInitialValueService } from './ownerEquityAccountInitialValue-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { Owner } from '../owner/owner';
-import { Account } from '../account/account';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { DetailField } from "../detail-field.component";
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-edit',
-  imports: [FloatLabelModule, InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [FloatLabelModule, InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule, DetailField],
   template: `
     <form [formGroup]="form">
       <p-panel header="Edit">
-        <div class="margin-bottom">
-          <label for="owner">Owner:</label>
-          {{ bean.owner }}
-        </div>
+        <a-detail-field strong="Owner" value="{{ bean.owner }}"/>
 
-        <div class="margin-bottom">
-          <label for="equityAccount">Equity Account:</label>
-          {{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}
-        </div>
+        <a-detail-field strong="Equity Account" value="{{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}"/>
 
         <p-float-label variant="in" class="margin-bottom">
           <p-inputnumber id="value" 

@@ -20,32 +20,26 @@ import { HttpClient } from '@angular/common/http';
 import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { SelectField } from "../select-field.component";
 
 @Component({
   selector: 'ownerEquityAccountInitialValue-insert',
-  imports: [FloatLabelModule, InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule],
+  imports: [FloatLabelModule, InputNumberModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule, PanelModule, AutoFocusModule, CommonModule, TooltipModule, SelectField],
   template: `
     <form [formGroup]="form">
       <p-panel header="New">
-        <p-float-label variant="in" class="margin-bottom">
-          <p-select id="owner" 
-            name="selectOwner"
-            [options]="(owners$ | async)!"
-            optionLabel="name"
-            placeholder="Select owner" 
-            formControlName="selectOwner" />
-          <label for="owner">Owner</label>
-        </p-float-label>
+        <a-select-field label="Owner"
+          placeholder="Select owner" 
+          [autoFocus]="true"
+          optionLabel="name"
+          [options]="(owners$ | async)!"
+          [control]="form.get('selectOwner')!" />
 
-        <p-float-label variant="in" class="margin-bottom">
-          <p-select id="equityAccount" 
-            name="selectEquityAccount"
-            [options]="(equityAccounts$ | async)!"
-            optionLabel="description"
-            placeholder="Select equity account" 
-            formControlName="selectEquityAccount" />
-          <label for="equityAccount">Equity Account</label>
-        </p-float-label>
+        <a-select-field label="Equity Account"
+          placeholder="Select equity account" 
+          optionLabel="description"
+          [options]="(equityAccounts$ | async)!"
+          [control]="form.get('selectEquityAccount')!" />
 
         <p-float-label variant="in" class="margin-bottom">
           <p-inputnumber id="value" 
