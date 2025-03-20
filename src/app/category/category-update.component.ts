@@ -12,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 import { InputField } from '../field/input-field.component';
 
 @Component({
-  selector: `{{ type }}-category-update`,
+  selector: 'category-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
   template: `
     <form [formGroup]="form">

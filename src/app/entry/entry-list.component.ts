@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { EntryService } from './entry-service';
 
 @Component({
-  selector: `{{ type }}-entry-list`,
+  selector: 'entry-list',
   imports: [AsyncPipe, CommonModule, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, TooltipModule],
   template: `
     <p-panel header="List">

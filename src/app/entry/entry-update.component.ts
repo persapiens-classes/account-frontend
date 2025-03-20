@@ -20,7 +20,7 @@ import { SelectField } from '../field/select-field.component';
 import { DateField } from '../field/date-field.component';
 
 @Component({
-  selector: `{{ type }}-entry-update`,
+  selector: 'entry-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, DateField, SelectField, NumberField, InputField],
   template: `
     <form [formGroup]="form">

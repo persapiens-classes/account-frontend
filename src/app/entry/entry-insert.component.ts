@@ -20,7 +20,7 @@ import { NumberField } from "../field/number-field.component";
 import { InputField } from "../field/input-field.component";
 
 @Component({
-  selector: `{{ type }}-entry-insert`,
+  selector: 'entry-insert',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, DateField, SelectField, NumberField, InputField],
   template: `
     <form [formGroup]="form">

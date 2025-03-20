@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { CategoryService } from './category-service';
 
 @Component({
-  selector: `{{ type }}-category-list`,
+  selector: 'category-list',
   imports: [AsyncPipe, FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, TooltipModule],
   template: `
     <p-panel header="List">
