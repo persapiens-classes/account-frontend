@@ -33,68 +33,36 @@ import { EntryService } from './entry-service';
       >
         <ng-template #header>
           <tr>
-            <th pSortableColumn="inOwner">
-              InOwner <p-sortIcon field="inOwner" />
-            </th>
-            <th pSortableColumn="inAccount.description">
-              InAccount <p-sortIcon field="inAccount.description" />
-            </th>
-            <th pSortableColumn="outOwner">
-              OutOwner <p-sortIcon field="outOwner" />
-            </th>
-            <th pSortableColumn="outAccount.description">
-              OutAccount <p-sortIcon field="outAccount.description" />
-            </th>
-            <th pSortableColumn="date">
-              Date <p-sortIcon field="date" />
-            </th>
-            <th pSortableColumn="value">
-              Value <p-sortIcon field="value" />
-            </th>
+            <th pSortableColumn="inOwner"> InOwner <p-sortIcon field="inOwner" /> </th>
+            <th pSortableColumn="inAccount.description"> InAccount <p-sortIcon field="inAccount.description" /> </th>
+            <th pSortableColumn="outOwner"> OutOwner <p-sortIcon field="outOwner" /> </th>
+            <th pSortableColumn="outAccount.description"> OutAccount <p-sortIcon field="outAccount.description" /> </th>
+            <th pSortableColumn="date"> Date <p-sortIcon field="date" /> </th>
+            <th pSortableColumn="value"> Value <p-sortIcon field="value" /> </th>
             <th>Detail</th>
             <th>Edit</th>
             <th>Remove</th>
           </tr>
           <tr>
             <th>
-              <p-columnFilter
-                type="text"
-                field="inOwner"
-                placeholder="name"
-                ariaLabel="Filter InOwner Name"
-              />
+              <p-columnFilter type="text" field="inOwner"
+                placeholder="name" ariaLabel="Filter InOwner Name" />
             </th>
             <th>
-              <p-columnFilter
-                type="text"
-                field="inAccount.description"
-                placeholder="description"
-                ariaLabel="Filter InAccount Description"
-              />
+              <p-columnFilter type="text" field="inAccount.description"
+                placeholder="description" ariaLabel="Filter InAccount Description" />
             </th>
             <th>
-              <p-columnFilter
-                type="text"
-                field="outOwner"
-                placeholder="name"
-                ariaLabel="Filter OutOwner Name"
-              />
+              <p-columnFilter type="text" field="outOwner"
+                placeholder="name" ariaLabel="Filter OutOwner Name" />
             </th>
             <th>
-              <p-columnFilter
-                type="text"
-                field="outAccount.description"
-                placeholder="description"
-                ariaLabel="Filter OutAccount Description"
-                />
+              <p-columnFilter type="text" field="outAccount.description"
+                placeholder="description" ariaLabel="Filter OutAccount Description" />
             </th>
             <th>
-              <p-columnFilter
-                type="date"
-                field="date"
-                placeholder="date"
-                ariaLabel="Filter Date"
-                />
+              <p-columnFilter type="date" field="date"
+                placeholder="date" ariaLabel="Filter Date" />
             </th>
           </tr>
         </ng-template>

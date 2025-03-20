@@ -33,21 +33,15 @@ import { CategoryService } from './category-service';
       >
         <ng-template #header>
           <tr>
-            <th pSortableColumn="description">
-              Description <p-sortIcon field="description" />
-            </th>
+            <th pSortableColumn="description"> Description <p-sortIcon field="description" /> </th>
             <th>Detail</th>
             <th>Edit</th>
             <th>Remove</th>
           </tr>
           <tr>
             <th>
-              <p-columnFilter
-                  type="text"
-                  field="description"
-                  placeholder="description"
-                  ariaLabel="Filter Description"
-              />
+              <p-columnFilter type="text" field="description"
+                placeholder="description" ariaLabel="Filter Description" />
             </th>
           </tr>
         </ng-template>

@@ -32,21 +32,15 @@ import { OwnerService } from './owner-service';
       >
         <ng-template #header>
           <tr>
-            <th pSortableColumn="name">
-              Name <p-sortIcon field="name" />
-            </th>
+            <th pSortableColumn="name"> Name <p-sortIcon field="name" /> </th>
             <th>Detail</th>
             <th>Edit</th>
             <th>Remove</th>
           </tr>
           <tr>
             <th>
-              <p-columnFilter
-                type="text"
-                field="name"
-                placeholder="name"
-                ariaLabel="Filter Name"
-              />
+              <p-columnFilter type="text" field="name"
+                placeholder="name" ariaLabel="Filter Name" />
             </th>
           </tr>
         </ng-template>

@@ -33,32 +33,20 @@ import { AccountService } from './account-service';
       >
         <ng-template #header>
           <tr>
-              <th pSortableColumn="description">
-                Description <p-sortIcon field="description" />
-              </th>
-              <th pSortableColumn="category">
-                Category <p-sortIcon field="category" />
-              </th>
-              <th>Detail</th>
-              <th>Edit</th>
-              <th>Remove</th>
+            <th pSortableColumn="description"> Description <p-sortIcon field="description" /> </th>
+            <th pSortableColumn="category"> Category <p-sortIcon field="category" /> </th>
+            <th>Detail</th>
+            <th>Edit</th>
+            <th>Remove</th>
           </tr>
           <tr>
-              <th>
-                <p-columnFilter
-                    type="text"
-                    field="description"
-                    placeholder="description"
-                    ariaLabel="Filter Description"
-                />
-              </th>
-              <th>
-              <p-columnFilter
-                    type="text"
-                    field="category"
-                    placeholder="description"
-                    ariaLabel="Filter Category"
-                />
+            <th>
+              <p-columnFilter type="text" field="description"
+                placeholder="description" ariaLabel="Filter Description" />
+            </th>
+            <th>
+              <p-columnFilter type="text" field="category"
+                placeholder="description" ariaLabel="Filter Category" />
             </th>
           </tr>
         </ng-template>

@@ -34,38 +34,22 @@ import { catchError, Observable, of, tap } from 'rxjs';
       >
         <ng-template #header>
           <tr>
-            <th pSortableColumn="owner">
-              Owner <p-sortIcon field="owner" />
-            </th>
-            <th pSortableColumn="equityAccount.description">
-              Equity Account <p-sortIcon field="equityAccount" />
-            </th>
-            <th>
-              Balance
-            </th>
-            <th pSortableColumn="value">
-              Initial Value <p-sortIcon field="value" />
-            </th>
+            <th pSortableColumn="owner">Owner <p-sortIcon field="owner" /></th>
+            <th pSortableColumn="equityAccount.description">Equity Account <p-sortIcon field="equityAccount" /></th>
+            <th>Balance</th>
+            <th pSortableColumn="value">Value <p-sortIcon field="value" /></th>
             <th>Detail</th>
             <th>Edit</th>
             <th>Remove</th>
           </tr>
           <tr>
             <th>
-              <p-columnFilter
-                type="text"
-                field="owner"
-                placeholder="owner"
-                ariaLabel="Filter Owner"
-              />
+              <p-columnFilter type="text" field="owner"
+                placeholder="owner" ariaLabel="Filter Owner" />
             </th>
             <th>
-              <p-columnFilter
-                type="text"
-                field="equityAccount.description"
-                placeholder="description"
-                ariaLabel="Filter Equity Account"
-              />
+              <p-columnFilter type="text" field="equityAccount.description"
+                placeholder="description" ariaLabel="Filter Equity Account" />
             </th>
           </tr>
         </ng-template>

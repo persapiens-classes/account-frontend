@@ -26,18 +26,17 @@ import { FloatLabelModule } from 'primeng/floatlabel';
         <form [formGroup]="loginForm">
           <p-float-label variant="in" class="margin-bottom">
             <input id="username" 
-                pInputText 
-                [pAutoFocus]="true"                 
-                formControlName="inputUsername" />
+              pInputText 
+              [pAutoFocus]="true"                 
+              formControlName="inputUsername" />
             <label for="username" >Username</label>
           </p-float-label>
 
           <p-float-label variant="in" class="margin-bottom">
             <p-password id="password"
-                [toggleMask]="true"
-                [feedback]="false" 
-                formControlName="inputPassword"
-                  />
+              [toggleMask]="true"
+              [feedback]="false" 
+              formControlName="inputPassword" />
             <label for="password" >Password</label>
           </p-float-label>
 
