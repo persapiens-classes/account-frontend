@@ -1,50 +1,33 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
-import { MessageService } from 'primeng/api';
 import { Owner } from './owner';
 import { OwnerService } from './owner-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { InputField } from "../field/input-field.component";
+import { OwnerFormGroupService } from './owner-form-group.service';
 
 @Component({
   selector: 'owner-insert',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
+  imports: [ReactiveFormsModule, CommonModule, InputField],
   template: `
-    <form [formGroup]="form">
-      <p-panel header="New">
-        <a-input-field label="Name" 
-          [autoFocus]=true
-          [control]="form.get('inputName')!" />
-
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the owner"/>
-        <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list"/>
-      </p-panel>
-    </form>
+    <a-input-field label="Name" 
+      [autoFocus]=true
+      [control]="form.get('inputName')!" />
   `
 })
 export class OwnerInsertComponent extends BeanInsertComponent<Owner, Owner, Owner> {
+  form: FormGroup
 
-  constructor(
-    router: Router,
-    messageService: MessageService,
-    formBuilder: FormBuilder,
+  constructor(ownerFormGroupService: OwnerFormGroupService,
     ownerService: OwnerService
   ) {
-    super(router, messageService, formBuilder, ownerService, createForm, createBean)
+    super(ownerService)
+    this.form = ownerFormGroupService.getForm()
   }
-}
-
-function createForm(formBuilder: FormBuilder): FormGroup {
-  return formBuilder.group({
-    inputName: ['', [Validators.required, Validators.minLength(3)]]
-  })
-}
-
-function createBean(form: FormGroup): Owner {
-  return new Owner(form.value.inputName)
+  
+  createBean(): Owner {
+    return new Owner(this.form.value.inputName)
+  }
 }
 
