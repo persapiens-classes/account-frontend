@@ -48,9 +48,9 @@ import { FloatLabelModule } from 'primeng/floatlabel';
       </div>
     </p-panel>
   `,
-  styleUrl: './login.component.scss'
+  styleUrl: './login-page.component.scss'
 })
-export class LoginComponent {
+export class LoginPageComponent {
   loginForm: FormGroup
 
   constructor(private router: Router,

@@ -2,25 +2,29 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
-import { HeaderMenuComponent } from './headerMenu.component';
+import { MenuComponent } from './menu.component';
 import { MessageService } from 'primeng/api';
+import { HeaderComponent } from './header.component';
 
 @Component({
-  selector: 'model-crud',
-  imports: [FormsModule, RouterOutlet, HeaderMenuComponent, ToastModule],
+  selector: 'crud',
+  imports: [FormsModule, RouterOutlet, HeaderComponent, MenuComponent, ToastModule],
   providers: [MessageService],
   template: `
-    <headerMenu />
+    <a-header />
+
+    <a-menu/>
 
     <h2 class="{{ titleClass }}">{{ title }}</h2>
 
     <router-outlet></router-outlet>
+
     <!-- Toast to show message -->
     <p-toast></p-toast>
   `,
-  styleUrl: './bean.component.scss'
+  styleUrl: './crud-bean-page.component.scss'
 })
-export class BeanComponent {
+export class CrudBeanPageComponent {
   title: string
   titleClass: string
 

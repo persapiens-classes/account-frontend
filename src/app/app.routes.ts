@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 import { OwnerInsertComponent } from './owner/owner-insert.component';
 import { OwnerListComponent } from './owner/owner-list.component';
-import { LoginComponent } from './auth/login.component';
+import { LoginPageComponent } from './auth/login-page.component';
 import { AuthGuard } from './auth/auth.guard';
 import { OwnerUpdateComponent } from './owner/owner-update.component';
-import { BeanComponent } from './bean.component';
+import { CrudBeanPageComponent } from './crud-bean-page.component';
 import { CategoryListComponent } from './category/category-list.component';
 import { CategoryInsertComponent } from './category/category-insert.component';
 import { CategoryUpdateComponent } from './category/category-update.component';
@@ -26,9 +26,9 @@ import { BeanDetailPainelComponent } from './bean/bean-detail-painel.component';
 import { BeanListPainelComponent } from './bean/bean-list-painel.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginPageComponent },
   {
-    path: 'ownerEquityAccountInitialValues', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'ownerEquityAccountInitialValues', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Balances', titleClass: 'blue' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: OwnerEquityAccountInitialValueListComponent } },
@@ -39,7 +39,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'creditEntries', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'creditEntries', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Credit Entries', titleClass: 'green' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: EntryListComponent, type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
@@ -50,7 +50,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'debitEntries', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'debitEntries', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Debit Entries', titleClass: 'red' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: EntryListComponent, type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
@@ -61,7 +61,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'transferEntries', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'transferEntries', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Transfer Entries', titleClass: 'blue' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: EntryListComponent, type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
@@ -72,7 +72,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'creditAccounts', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'creditAccounts', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Credit Accounts', titleClass: 'green' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: AccountListComponent, type: 'Credit' } },
@@ -83,7 +83,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'debitAccounts', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'debitAccounts', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Debit Accounts', titleClass: 'red' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: AccountListComponent, type: 'Debit' } },
@@ -94,7 +94,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'equityAccounts', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'equityAccounts', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Equity Accounts', titleClass: 'blue' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: AccountListComponent, type: 'Equity' } },
@@ -105,7 +105,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'creditCategories', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'creditCategories', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Credit Categories', titleClass: 'green' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: CategoryListComponent, type: 'Credit' } },
@@ -116,7 +116,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'debitCategories', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'debitCategories', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Debit Categories', titleClass: 'red' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: CategoryListComponent, type: 'Debit' } },
@@ -127,7 +127,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'equityCategories', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'equityCategories', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Equity Categories', titleClass: 'blue' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: CategoryListComponent, type: 'Equity' } },
@@ -138,7 +138,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'owners', component: BeanComponent, canActivate: [AuthGuard],
+    path: 'owners', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Owners', titleClass: 'blue' },
     children: [
       { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: OwnerListComponent } },
