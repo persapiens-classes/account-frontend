@@ -18,10 +18,10 @@ import { EntryDetailComponent } from './entry/entry-detail.component';
 import { CategoryDetailComponent } from './category/category-detail.component';
 import { AccountDetailComponent } from './account/account-detail.component';
 import { OwnerDetailComponent } from './owner/owner-detail.component';
-import { OwnerEquityAccountInitialValueListComponent } from './ownerEquityAccountInitialValue/ownerEquityAccountInitialValue-list.component';
-import { OwnerEquityAccountInitialValueDetailComponent } from './ownerEquityAccountInitialValue/ownerEquityAccountInitialValue-detail.component';
-import { OwnerEquityAccountInitialValueUpdateComponent } from './ownerEquityAccountInitialValue/ownerEquityAccountInitialValue-update.component';
-import { OwnerEquityAccountInitialValueInsertComponent } from './ownerEquityAccountInitialValue/ownerEquityAccountInitialValue-insert.component';
+import { OwnerEquityAccountInitialValueListComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-list.component';
+import { OwnerEquityAccountInitialValueDetailComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-detail.component';
+import { OwnerEquityAccountInitialValueUpdateComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update.component';
+import { OwnerEquityAccountInitialValueInsertComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-insert.component';
 import { BeanDetailPainelComponent } from './bean/bean-detail-painel.component';
 import { BeanListPainelComponent } from './bean/bean-list-painel.component';
 

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { createOwnerEquityAccountInitialValue, OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from "./ownerEquityAccountInitialValue";
+import { createOwnerEquityAccountInitialValue, OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from "./owner-equity-account-initial-value";
 import { BeanService } from "../bean/bean-service";
 
 @Injectable({

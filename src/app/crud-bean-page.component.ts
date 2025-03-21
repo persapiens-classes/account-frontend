@@ -11,6 +11,8 @@ import { HeaderComponent } from './header.component';
   imports: [FormsModule, RouterOutlet, HeaderComponent, MenuComponent, ToastModule],
   providers: [MessageService],
   template: `
+    <p-toast></p-toast>
+
     <a-header />
 
     <a-menu/>
@@ -18,9 +20,6 @@ import { HeaderComponent } from './header.component';
     <h2 class="{{ titleClass }}">{{ title }}</h2>
 
     <router-outlet></router-outlet>
-
-    <!-- Toast to show message -->
-    <p-toast></p-toast>
   `,
   styleUrl: './crud-bean-page.component.scss'
 })
