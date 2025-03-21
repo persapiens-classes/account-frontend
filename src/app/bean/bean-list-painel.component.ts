@@ -19,6 +19,15 @@ import { ButtonModule } from 'primeng/button';
 
       <ng-container #dynamicComponent></ng-container>
     </p-panel>
+  `,
+  styles: `
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-left: 10px;
+    }  
   `
 })
 export class BeanListPainelComponent<T extends Bean, I, U> {

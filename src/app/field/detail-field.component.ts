@@ -9,6 +9,18 @@ import { CommonModule } from '@angular/common';
       <strong>{{ strong }}</strong>
       {{ value }}
     </div>
+  `,
+  styles: `
+    .detail-field {
+      display: flex;
+      align-items: center;
+    }
+
+    .detail-field strong {
+      display: inline-block;
+      width: 130px;
+      font-weight: bold;
+    }
   `
 })
 export class DetailField {
