@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Form, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
@@ -24,12 +24,12 @@ export class OwnerUpdateComponent extends BeanUpdateComponent<Owner, Owner, Owne
   constructor(ownerFormGroupService: OwnerUpdateFormGroupService,
     ownerService: OwnerService
   ) {
-    super(ownerService)
+    super(ownerService, createBean)
     this.form = ownerFormGroupService.form
   }
 
-  createBean(): Owner {
-    return new Owner(this.form.value.inputName)
-  }
+}
 
+function createBean(form: FormGroup): Owner {
+  return new Owner(form.value.inputName)
 }

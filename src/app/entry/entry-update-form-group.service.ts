@@ -13,20 +13,20 @@ export class EntryUpdateFormGroupService extends BeanUpdateFormGroupService<Entr
 
   constructor(formBuilder: FormBuilder, entryCreateService: EntryCreateService
   ) {
-    super(formBuilder, entryCreateService)
+    super(formBuilder, entryCreateService, createForm)
   }
 
-  doCreateForm(bean: Entry): FormGroup {
-    return this.formBuilder.group({
-      inputDate: [bean.date, [Validators.required, Validators.minLength(3)]],
-      selectInOwner: [new Owner(bean.inOwner), [Validators.required]],
-      selectInAccount: [new Account(bean.inAccount.description, bean.inAccount.category), [Validators.required]],
-      selectOutOwner: [new Owner(bean.outOwner), [Validators.required]],
-      selectOutAccount: [new Account(bean.outAccount.description, bean.outAccount.category), [Validators.required]],
-      inputValue: [bean.value, [Validators.required, Validators.minLength(3)]],
-      inputNote: [bean.note, [Validators.required, Validators.minLength(3)]]
-    })
-  }
+}
 
+function createForm(formBuilder: FormBuilder, bean: Entry): FormGroup {
+  return formBuilder.group({
+    inputDate: [bean.date, [Validators.required, Validators.minLength(3)]],
+    selectInOwner: [new Owner(bean.inOwner), [Validators.required]],
+    selectInAccount: [new Account(bean.inAccount.description, bean.inAccount.category), [Validators.required]],
+    selectOutOwner: [new Owner(bean.outOwner), [Validators.required]],
+    selectOutAccount: [new Account(bean.outAccount.description, bean.outAccount.category), [Validators.required]],
+    inputValue: [bean.value, [Validators.required, Validators.minLength(3)]],
+    inputNote: [bean.note, [Validators.required, Validators.minLength(3)]]
+  })
 }
 

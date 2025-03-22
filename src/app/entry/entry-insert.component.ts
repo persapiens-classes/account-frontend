@@ -69,7 +69,7 @@ export class EntryInsertComponent extends BeanInsertComponent<Entry, EntryInsert
     entryFormGroupService: EntryInsertFormGroupService,
     ownerService: OwnerService
   ) {
-    super(new EntryService(http, route.snapshot.data['type']))
+    super(new EntryService(http, route.snapshot.data['type']), createBean)
 
     this.form = entryFormGroupService.form
 
@@ -78,15 +78,15 @@ export class EntryInsertComponent extends BeanInsertComponent<Entry, EntryInsert
     this.owners$ = ownerService.findAll()
   }
 
-  createBean(): EntryInsertUpdate {
-    return new EntryInsertUpdate(this.form.value.selectInOwner.name,
-      this.form.value.selectOutOwner.name,
-      this.form.value.inputDate,
-      this.form.value.selectInAccount.description,
-      this.form.value.selectOutAccount.description,
-      this.form.value.inputValue,
-      this.form.value.inputNote
-    )
-  }
+}
 
+function createBean(form: FormGroup): EntryInsertUpdate {
+  return new EntryInsertUpdate(form.value.selectInOwner.name,
+    form.value.selectOutOwner.name,
+    form.value.inputDate,
+    form.value.selectInAccount.description,
+    form.value.selectOutAccount.description,
+    form.value.inputValue,
+    form.value.inputNote
+  )
 }

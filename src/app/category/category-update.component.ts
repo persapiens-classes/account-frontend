@@ -27,13 +27,13 @@ export class CategoryUpdateComponent extends BeanUpdateComponent<Category, Categ
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(new CategoryService(http, route.snapshot.data['type']))
+    super(new CategoryService(http, route.snapshot.data['type']), createBean)
 
     this.form = categoryFormGroupService.form
   }
 
-  createBean(): Category {
-    return new Category(this.form.value.inputDescription)
-  }
+}
 
+function createBean(form: FormGroup): Category {
+  return new Category(form.value.inputDescription)
 }

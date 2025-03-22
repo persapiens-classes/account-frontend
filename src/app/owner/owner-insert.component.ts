@@ -22,12 +22,12 @@ export class OwnerInsertComponent extends BeanInsertComponent<Owner, Owner, Owne
   constructor(ownerFormGroupService: OwnerInsertFormGroupService,
     ownerService: OwnerService
   ) {
-    super(ownerService)
+    super(ownerService, createBean)
     this.form = ownerFormGroupService.form
   }
+}
 
-  createBean(): Owner {
-    return new Owner(this.form.value.inputName)
-  }
+function createBean(form: FormGroup): Owner {
+  return new Owner(form.value.inputName)
 }
 

@@ -10,20 +10,20 @@ export class EntryInsertFormGroupService extends BeanInsertFormGroupService<Entr
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder)
+    super(formBuilder, createForm)
   }
 
-  doCreateForm(): FormGroup {
-    return this.formBuilder.group({
-      inputDate: ['', [Validators.required]],
-      selectInOwner: ['', [Validators.required]],
-      selectInAccount: ['', [Validators.required]],
-      selectOutOwner: ['', [Validators.required]],
-      selectOutAccount: ['', [Validators.required]],
-      inputValue: ['', [Validators.required]],
-      inputNote: ['', []]
-    })
-  }
+}
 
+function createForm(formBuilder: FormBuilder): FormGroup {
+  return formBuilder.group({
+    inputDate: ['', [Validators.required]],
+    selectInOwner: ['', [Validators.required]],
+    selectInAccount: ['', [Validators.required]],
+    selectOutOwner: ['', [Validators.required]],
+    selectOutAccount: ['', [Validators.required]],
+    inputValue: ['', [Validators.required]],
+    inputNote: ['', []]
+  })
 }
 

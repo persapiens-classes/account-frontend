@@ -54,7 +54,7 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
 
   update() {
     if (this.form.valid) {
-      const updatedBean = this.beanUpdateComponentInstance.instance.createBean()
+      const updatedBean = this.beanUpdateComponentInstance.instance.createBeanFn(this.form)
 
       this.beanUpdateComponentInstance.instance.beanService.update(this.bean.getId(), updatedBean).pipe(
         tap((bean) => {

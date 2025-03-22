@@ -10,14 +10,13 @@ export class CategoryInsertFormGroupService extends BeanInsertFormGroupService<C
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder)
+    super(formBuilder, createForm)
   }
+}
 
-  doCreateForm(): FormGroup {
-    return this.formBuilder.group({
-      inputDescription: ['', [Validators.required, Validators.minLength(3)]]
-    })
-  }
-
+function createForm(formBuilder: FormBuilder): FormGroup {
+  return formBuilder.group({
+    inputDescription: ['', [Validators.required, Validators.minLength(3)]]
+  })
 }
 

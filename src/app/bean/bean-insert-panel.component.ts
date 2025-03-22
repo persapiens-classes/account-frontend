@@ -50,7 +50,7 @@ export class BeanInsertPanelComponent<T extends Bean, I, U> {
 
   insert() {
     if (this.form.valid) {
-      const newBean = this.beanInsertComponentInstance.instance.createBean()
+      const newBean = this.beanInsertComponentInstance.instance.createBeanFn(this.form)
 
       this.beanInsertComponentInstance.instance.beanService.insert(newBean).pipe(
         tap((bean) => {

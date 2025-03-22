@@ -10,15 +10,15 @@ export class AccountInsertFormGroupService extends BeanInsertFormGroupService<Ac
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder)
+    super(formBuilder, createForm)
   }
 
-  doCreateForm(): FormGroup {
-    return this.formBuilder.group({
-      inputDescription: ['', [Validators.required, Validators.minLength(3)]],
-      selectCategory: ['', [Validators.required]]
-    })
-  }
+}
 
+function createForm(formBuilder: FormBuilder): FormGroup {
+  return formBuilder.group({
+    inputDescription: ['', [Validators.required, Validators.minLength(3)]],
+    selectCategory: ['', [Validators.required]]
+  })
 }
 

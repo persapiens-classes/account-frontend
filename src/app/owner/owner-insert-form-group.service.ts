@@ -10,14 +10,14 @@ export class OwnerInsertFormGroupService extends BeanInsertFormGroupService<Owne
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder)
+    super(formBuilder, createForm)
   }
 
-  doCreateForm(): FormGroup {
-    return this.formBuilder.group({
-      inputName: ['', [Validators.required, Validators.minLength(3)]]
-    })
-  }
+}
 
+function createForm(formBuilder: FormBuilder): FormGroup {
+  return formBuilder.group({
+    inputName: ['', [Validators.required, Validators.minLength(3)]]
+  })
 }
 

@@ -10,16 +10,15 @@ export class OwnerEquityAccountInitialValueInsertFormGroupService extends BeanIn
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder)
-  }
-
-  doCreateForm(): FormGroup {
-    return this.formBuilder.group({
-      selectOwner: ['', [Validators.required]],
-      selectEquityAccount: ['', [Validators.required]],
-      inputValue: ['', [Validators.required]]
-    })
+    super(formBuilder, createForm)
   }
 
 }
 
+function createForm(formBuilder: FormBuilder): FormGroup {
+  return formBuilder.group({
+    selectOwner: ['', [Validators.required]],
+    selectEquityAccount: ['', [Validators.required]],
+    inputValue: ['', [Validators.required]]
+  })
+}

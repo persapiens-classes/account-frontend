@@ -38,15 +38,16 @@ export class AccountInsertComponent extends BeanInsertComponent<Account, Account
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(new AccountService(http, route.snapshot.data['type']))
+    super(new AccountService(http, route.snapshot.data['type']), createBean)
 
     this.form = accountFormGroupService.form
 
     this.categories$ = new CategoryService(http, route.snapshot.data['type']).findAll()
   }
 
-  createBean(): Account {
-    return new Account(this.form.value.inputDescription, this.form.value.selectCategory.description)
-  }
+}
 
+function createBean(form: FormGroup): Account {
+  return new Account(form.value.inputDescription,
+    form.value.selectCategory.description)
 }

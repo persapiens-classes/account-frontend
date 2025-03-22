@@ -11,14 +11,13 @@ export class CategoryUpdateFormGroupService extends BeanUpdateFormGroupService<C
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder, new CategoryCreateService())
-  }
-
-  doCreateForm(bean: Category): FormGroup {
-    return this.formBuilder.group({
-      inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]]
-    })
+    super(formBuilder, new CategoryCreateService(), createForm)
   }
 
 }
 
+function createForm(formBuilder: FormBuilder, bean: Category): FormGroup {
+  return formBuilder.group({
+    inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]]
+  })
+}

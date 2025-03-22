@@ -47,7 +47,7 @@ export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertCom
     ownerEquityAccountInitialValueService: OwnerEquityAccountInitialValueService,
     ownerService: OwnerService
   ) {
-    super(ownerEquityAccountInitialValueService)
+    super(ownerEquityAccountInitialValueService, createBean)
 
     this.form = ownerEquityAccountInitialValueFormGroupService.form
 
@@ -55,11 +55,10 @@ export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertCom
     this.owners$ = ownerService.findAll()
   }
 
-  createBean(): OwnerEquityAccountInitialValueInsert {
-    return new OwnerEquityAccountInitialValueInsert(this.form.value.selectOwner.name,
-      this.form.value.selectEquityAccount.description,
-      this.form.value.inputValue)
-  }
-
 }
 
+function createBean(form: FormGroup): OwnerEquityAccountInitialValueInsert {
+  return new OwnerEquityAccountInitialValueInsert(form.value.selectOwner.name,
+    form.value.selectEquityAccount.description,
+    form.value.inputValue)
+}

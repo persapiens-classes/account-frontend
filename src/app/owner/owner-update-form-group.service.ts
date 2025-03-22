@@ -11,14 +11,14 @@ export class OwnerUpdateFormGroupService extends BeanUpdateFormGroupService<Owne
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder, new OwnerCreateService())
+    super(formBuilder, new OwnerCreateService(), createForm)
   }
 
-  doCreateForm(bean: Owner): FormGroup {
-    return this.formBuilder.group({
-      inputName: [bean.name, [Validators.required, Validators.minLength(3)]]
-    })
-  }
+}
 
+function createForm(formBuilder: FormBuilder, bean: Owner): FormGroup {
+  return formBuilder.group({
+    inputName: [bean.name, [Validators.required, Validators.minLength(3)]]
+  })
 }
 

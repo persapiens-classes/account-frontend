@@ -12,15 +12,15 @@ export class AccountUpdateFormGroupService extends BeanUpdateFormGroupService<Ac
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder, new AccountCreateService())
+    super(formBuilder, new AccountCreateService(), createForm)
   }
 
-  doCreateForm(bean: Account): FormGroup {
-    return this.formBuilder.group({
-      inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]],
-      selectCategory: [new Category(bean.category), [Validators.required]]
-    })
-  }
+}
 
+function createForm(formBuilder: FormBuilder, bean: Account): FormGroup {
+  return formBuilder.group({
+    inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]],
+    selectCategory: [new Category(bean.category), [Validators.required]]
+  })
 }
 

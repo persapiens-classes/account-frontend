@@ -11,14 +11,14 @@ export class OwnerEquityAccountInitialValueUpdateFormGroupService extends BeanUp
 
   constructor(formBuilder: FormBuilder
   ) {
-    super(formBuilder, new OwnerEquityAccountInitialValueCreateService())
+    super(formBuilder, new OwnerEquityAccountInitialValueCreateService(), createForm)
   }
 
-  doCreateForm(bean: OwnerEquityAccountInitialValue): FormGroup {
-    return this.formBuilder.group({
-      inputValue: [bean.value, [Validators.required]]
-    })
-  }
+}
 
+function createForm(formBuilder: FormBuilder, bean: OwnerEquityAccountInitialValue): FormGroup {
+  return formBuilder.group({
+    inputValue: [bean.value, [Validators.required]]
+  })
 }
 

@@ -30,14 +30,14 @@ export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateCom
   constructor(ownerEquityAccountInitialValueFormGroupService: OwnerEquityAccountInitialValueUpdateFormGroupService,
     ownerEquityAccountInitialValueService: OwnerEquityAccountInitialValueService
   ) {
-    super(ownerEquityAccountInitialValueService)
+    super(ownerEquityAccountInitialValueService, createBean)
 
     this.form = ownerEquityAccountInitialValueFormGroupService.form
     this.bean = ownerEquityAccountInitialValueFormGroupService.createBeanFromHistory()
   }
 
-  createBean(): number {
-    return this.form.value.inputValue
-  }
+}
 
+function createBean(form: FormGroup): number {
+  return form.value.inputValue
 }
