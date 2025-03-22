@@ -25,11 +25,9 @@ export class BeanDetailPanelComponent<T extends Bean, I, U> {
   beanDetailInstance!: ComponentRef<BeanDetailComponent<T, I, U>>
 
   constructor(private router: Router,
-    private route: ActivatedRoute) {
-  }
-
-  ngOnInit() {
-    this.beanDetailComponent = this.route.snapshot.data['beanDetailComponent']
+    route: ActivatedRoute
+  ) {
+    this.beanDetailComponent = route.snapshot.data['beanDetailComponent']
   }
 
   ngAfterViewInit() {

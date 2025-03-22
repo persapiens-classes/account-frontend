@@ -6,9 +6,9 @@ import { Bean } from './bean';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
-import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { BeanInsertComponent } from './bean-insert.component';
-import { BeanInsertFormGroupServiceFactory } from './bean-insert-form-group-factory.service';
+import { BeanInsertFormGroupService } from './bean-insert-form-group.service';
 
 @Component({
   selector: 'bean-insert',
@@ -34,15 +34,13 @@ export class BeanInsertPanelComponent<T extends Bean, I, U> {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    beanFormGroupServiceFactory: BeanInsertFormGroupServiceFactory) {
-    this.form = beanFormGroupServiceFactory.getBeanInsertFormGroupService(
-      this.route.snapshot.data['beanInsertFormGroupService']).createForm()
-  }
+    route: ActivatedRoute,
+    private messageService: MessageService
+  ) {
+    const formGroupServiceType = route.snapshot.data['beanInsertFormGroupService'] as Type<BeanInsertFormGroupService<T>>;
+    this.form = inject(formGroupServiceType).createForm()
 
-  ngOnInit() {
-    this.beanInsertComponentType = this.route.snapshot.data['beanInsertComponent']
+    this.beanInsertComponentType = route.snapshot.data['beanInsertComponent']
   }
 
   ngAfterViewInit() {

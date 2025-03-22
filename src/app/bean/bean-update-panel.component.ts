@@ -6,9 +6,8 @@ import { Bean } from './bean';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
-import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { BeanUpdateComponent } from './bean-update.component';
-import { BeanUpdateFormGroupServiceFactory } from './bean-update-form-group-factory.service';
 import { BeanUpdateFormGroupService } from './bean-update-form-group.service';
 
 @Component({
@@ -37,18 +36,15 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    beanFormGroupServiceFactory: BeanUpdateFormGroupServiceFactory) {
+    route: ActivatedRoute,
+    private messageService: MessageService
+  ) {
+    const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<BeanUpdateFormGroupService<T>>;
+    const beanUpdateFormGroupService = inject(formGroupServiceType)
+    this.bean = beanUpdateFormGroupService.createBeanFromHistory()
+    this.form = beanUpdateFormGroupService.createForm(this.bean)
 
-    let beanFormGroupService: BeanUpdateFormGroupService<T> = beanFormGroupServiceFactory.getBeanUpdateFormGroupService(
-      this.route.snapshot.data['beanUpdateFormGroupService'])
-    this.bean = beanFormGroupService.createBeanFromHistory()
-    this.form = beanFormGroupService.createForm(this.bean)
-  }
-
-  ngOnInit() {
-    this.beanUpdateComponentType = this.route.snapshot.data['beanUpdateComponent']
+    this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent']
   }
 
   ngAfterViewInit() {

@@ -37,10 +37,9 @@ export class BeanListPanelComponent<T extends Bean, I, U> {
   beanListInstance!: ComponentRef<BeanListComponent<T, I, U>>
 
   constructor(private router: Router,
-    private route: ActivatedRoute) { }
-
-  ngOnInit() {
-    this.beanListComponent = this.route.snapshot.data['beanListComponent']
+    route: ActivatedRoute
+  ) {
+    this.beanListComponent = route.snapshot.data['beanListComponent']
   }
 
   ngAfterViewInit() {
