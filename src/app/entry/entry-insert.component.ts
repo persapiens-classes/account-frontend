@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
-import { MessageService } from 'primeng/api';
 import { Entry, EntryInsertUpdate } from './entry';
 import { EntryService } from './entry-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
@@ -18,86 +15,69 @@ import { DateField } from "../field/date-field.component";
 import { SelectField } from "../field/select-field.component";
 import { NumberField } from "../field/number-field.component";
 import { InputField } from "../field/input-field.component";
+import { EntryInsertFormGroupService } from './entry-insert-form-group.service';
 
 @Component({
   selector: 'entry-insert',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, DateField, SelectField, NumberField, InputField],
+  imports: [ReactiveFormsModule, CommonModule, DateField, SelectField, NumberField, InputField],
   template: `
-    <form [formGroup]="form">
-      <p-panel header="New">
-        <a-date-field label="Date"
-          [autoFocus]="true"
-          [control]="form.get('inputDate')!" />
+    <a-date-field label="Date"
+      [autoFocus]="true"
+      [control]="form.get('inputDate')!" />
 
-        <a-select-field label="In Owner"
-          placeholder="Select in owner" 
-          optionLabel="name"
-          [options]="(owners$ | async)!"
-          [control]="form.get('selectInOwner')!" />
+    <a-select-field label="In Owner"
+      placeholder="Select in owner" 
+      optionLabel="name"
+      [options]="(owners$ | async)!"
+      [control]="form.get('selectInOwner')!" />
 
-        <a-select-field label="In Account"
-          placeholder="Select in account" 
-          optionLabel="description"
-          [options]="(inAccounts$ | async)!"
-          [control]="form.get('selectInAccount')!" />
+    <a-select-field label="In Account"
+      placeholder="Select in account" 
+      optionLabel="description"
+      [options]="(inAccounts$ | async)!"
+      [control]="form.get('selectInAccount')!" />
 
-        <a-select-field label="Out Owner"
-          placeholder="Select out owner" 
-          optionLabel="name"
-          [options]="(owners$ | async)!"
-          [control]="form.get('selectOutOwner')!" />
+    <a-select-field label="Out Owner"
+      placeholder="Select out owner" 
+      optionLabel="name"
+      [options]="(owners$ | async)!"
+      [control]="form.get('selectOutOwner')!" />
 
-        <a-select-field label="Out Account"
-          placeholder="Select out account" 
-          optionLabel="description"
-          [options]="(outAccounts$ | async)!"
-          [control]="form.get('selectOutAccount')!" />
+    <a-select-field label="Out Account"
+      placeholder="Select out account" 
+      optionLabel="description"
+      [options]="(outAccounts$ | async)!"
+      [control]="form.get('selectOutAccount')!" />
 
-        <a-number-field label="Value"
-          [control]="form.get('inputValue')!" />
+    <a-number-field label="Value"
+      [control]="form.get('inputValue')!" />
 
-        <a-input-field label="Note" 
-          [control]="form.get('inputNote')!" />
-
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the credit account"/>
-        <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list"/>
-      </p-panel>
-    </form>
+    <a-input-field label="Note" 
+      [control]="form.get('inputNote')!" />
   `
 })
 export class EntryInsertComponent extends BeanInsertComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
+  form: FormGroup
 
   inAccounts$: Observable<Array<Account>>
   outAccounts$: Observable<Array<Account>>
   owners$: Observable<Array<Owner>>
 
   constructor(
-    router: Router,
-    messageService: MessageService,
-    formBuilder: FormBuilder,
     http: HttpClient,
     route: ActivatedRoute,
+    entryFormGroupService: EntryInsertFormGroupService,
     ownerService: OwnerService
   ) {
-    super(router, messageService, formBuilder, new EntryService(http, route.snapshot.data['type']), createForm, createBean)
+    super(new EntryService(http, route.snapshot.data['type']), createBean)
+
+    this.form = entryFormGroupService.form
 
     this.inAccounts$ = new AccountService(http, route.snapshot.data['inAccountType']).findAll()
     this.outAccounts$ = new AccountService(http, route.snapshot.data['outAccountType']).findAll()
     this.owners$ = ownerService.findAll()
   }
 
-}
-
-function createForm(formBuilder: FormBuilder): FormGroup {
-  return formBuilder.group({
-    inputDate: ['', [Validators.required]],
-    selectInOwner: ['', [Validators.required]],
-    selectInAccount: ['', [Validators.required]],
-    selectOutOwner: ['', [Validators.required]],
-    selectOutAccount: ['', [Validators.required]],
-    inputValue: ['', [Validators.required]],
-    inputNote: ['', []]
-  })
 }
 
 function createBean(form: FormGroup): EntryInsertUpdate {

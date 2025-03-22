@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { createOwner, Owner } from "./owner";
+import { Owner } from "./owner";
 import { BeanService } from "../bean/bean-service";
+import { OwnerCreateService } from "./owner-create-service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { BeanService } from "../bean/bean-service";
 export class OwnerService extends BeanService<Owner, Owner, Owner> {
 
   constructor(http: HttpClient) {
-    super(http, "Owner", "owners", createOwner)
+    super(http, "Owner", "owners", new OwnerCreateService())
   }
 
 }

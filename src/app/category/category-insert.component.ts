@@ -1,51 +1,35 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
-import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { CategoryService } from './category-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { HttpClient } from '@angular/common/http';
 import { InputField } from "../field/input-field.component";
+import { CategoryInsertFormGroupService } from './category-insert-form-group.service';
 
 @Component({
   selector: 'category-insert',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
+  imports: [ReactiveFormsModule, CommonModule, InputField],
   template: `
-    <form [formGroup]="form">
-      <p-panel header="New">
-        <a-input-field label="Description" 
-            [autoFocus]=true
-            [control]="form.get('inputDescription')!" />
-        
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the category"/>
-        <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list"/>
-      </p-panel>
-    </form>
+    <a-input-field label="Description" 
+      [autoFocus]=true
+      [control]="form.get('inputDescription')!" />
   `
 })
 export class CategoryInsertComponent extends BeanInsertComponent<Category, Category, Category> {
-  type: string
-  constructor(
-    router: Router,
-    messageService: MessageService,
-    formBuilder: FormBuilder,
+  form: FormGroup
+
+  constructor(categoryFormGroupService: CategoryInsertFormGroupService,
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(router, messageService, formBuilder, new CategoryService(http, route.snapshot.data['type']), createForm, createBean)
-    this.type = route.snapshot.data['type']
+    super(new CategoryService(http, route.snapshot.data['type']), createBean)
+
+    this.form = categoryFormGroupService.form
   }
 
-}
-
-function createForm(formBuilder: FormBuilder): FormGroup {
-  return formBuilder.group({
-    inputDescription: ['', [Validators.required, Validators.minLength(3)]]
-  })
 }
 
 function createBean(form: FormGroup): Category {

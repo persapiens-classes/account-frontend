@@ -11,11 +11,12 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputField } from "../field/input-field.component";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FloatLabelModule, PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, AutoFocusModule, ToastModule],
+  imports: [FloatLabelModule, PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, AutoFocusModule, ToastModule, InputField],
   providers: [MessageService],
   template: `
     <p-panel class="container">
@@ -23,14 +24,10 @@ import { FloatLabelModule } from 'primeng/floatlabel';
         <img src="images/account.png" class="login-image"/>
         <h1>Welcome to Account</h1>
 
-        <form [formGroup]="loginForm">
-          <p-float-label variant="in" class="margin-bottom">
-            <input id="username" 
-              pInputText 
-              [pAutoFocus]="true"                 
-              formControlName="inputUsername" />
-            <label for="username" >Username</label>
-          </p-float-label>
+        <form [formGroup]="form">
+          <a-input-field label="Username" 
+            [autoFocus]=true
+            [control]="form.get('inputUsername')!" />
 
           <p-float-label variant="in" class="margin-bottom">
             <p-password id="password"
@@ -40,7 +37,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
             <label for="password" >Password</label>
           </p-float-label>
 
-          <p-button label="Sign In" (onClick)="signin()" [disabled]="loginForm.invalid"></p-button>
+          <p-button label="Sign In" (onClick)="signin()" [disabled]="form.invalid"></p-button>
         </form>
 
         <!-- Toast to show error message -->
@@ -48,25 +45,25 @@ import { FloatLabelModule } from 'primeng/floatlabel';
       </div>
     </p-panel>
   `,
-  styleUrl: './login.component.scss'
+  styleUrl: './login-page.component.scss'
 })
-export class LoginComponent {
-  loginForm: FormGroup
+export class LoginPageComponent {
+  form: FormGroup
 
   constructor(private router: Router,
     formBuilder: FormBuilder,
     private authService: AuthService,
     private messageService: MessageService
   ) {
-    this.loginForm = formBuilder.group({
+    this.form = formBuilder.group({
       inputUsername: ['', [Validators.required, Validators.minLength(1)]],
       inputPassword: ['', [Validators.required, Validators.minLength(1)]]
     })
   }
 
   signin() {
-    if (this.loginForm.valid) {
-      this.authService.signin(this.loginForm.value.inputUsername, this.loginForm.value.inputPassword).pipe(
+    if (this.form.valid) {
+      this.authService.signin(this.form.value.inputUsername, this.form.value.inputPassword).pipe(
         tap((loginResponse) => {
           this.router.navigate(['ownerEquityAccountInitialValues/list'])
         }),

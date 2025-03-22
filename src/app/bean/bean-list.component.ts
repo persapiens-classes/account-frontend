@@ -9,7 +9,7 @@ export class BeanListComponent<T extends Bean, I, U> {
 
   constructor(private router: Router,
     private messageService: MessageService,
-    private beanService: BeanService<T, I, U>
+    public beanService: BeanService<T, I, U>
   ) {
     this.beansList$ = this.beanService.findAll()
   }
@@ -33,10 +33,6 @@ export class BeanListComponent<T extends Bean, I, U> {
         return of()
       })
     ).subscribe()
-  }
-
-  startInsert(): void {
-    this.router.navigate([`${this.beanService.beansName}/new`])
   }
 
   startUpdate(item: T): void {

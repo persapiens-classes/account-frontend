@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 import { environment } from '../../environments/environment';
 import { Bean } from "./bean";
+import { BeanCreateService } from "./bean-create-service";
 
 export class BeanService<T extends Bean, I, U> {
 
@@ -10,7 +11,7 @@ export class BeanService<T extends Bean, I, U> {
   constructor(private http: HttpClient,
     public beanName: string,
     public beansName: string,
-    private createBeanFn: () => T) {
+    private beanCreateService: BeanCreateService<T>) {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
 
@@ -41,6 +42,6 @@ export class BeanService<T extends Bean, I, U> {
   }
 
   toBean(json: any): T {
-    return Object.assign(this.createBeanFn(), json)
+    return this.beanCreateService.toBean(json)
   }
 }

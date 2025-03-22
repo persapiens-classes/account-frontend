@@ -5,25 +5,7 @@
   margin-bottom: 10px;
 }
 
-.detail-field {
-  display: flex;
-  align-items: center;
-}
-
-.detail-field strong {
-  display: inline-block;
-  width: 130px;
-  font-weight: bold;
-}
-
+// change p-columnFilter p-inputtext width
 p-columnFilter .p-inputtext {
   width: 110px !important;
-}
-
-.list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-left: 10px;
 }
