@@ -5,7 +5,7 @@ import { Owner } from './owner';
 import { OwnerService } from './owner-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { InputField } from "../field/input-field.component";
-import { OwnerFormGroupService } from './owner-form-group.service';
+import { OwnerInsertFormGroupService } from './owner-insert-form-group.service';
 
 @Component({
   selector: 'owner-insert',
@@ -19,13 +19,13 @@ import { OwnerFormGroupService } from './owner-form-group.service';
 export class OwnerInsertComponent extends BeanInsertComponent<Owner, Owner, Owner> {
   form: FormGroup
 
-  constructor(ownerFormGroupService: OwnerFormGroupService,
+  constructor(ownerFormGroupService: OwnerInsertFormGroupService,
     ownerService: OwnerService
   ) {
     super(ownerService)
-    this.form = ownerFormGroupService.getForm()
+    this.form = ownerFormGroupService.form
   }
-  
+
   createBean(): Owner {
     return new Owner(this.form.value.inputName)
   }

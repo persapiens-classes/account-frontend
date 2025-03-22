@@ -15,7 +15,7 @@ import { DateField } from "../field/date-field.component";
 import { SelectField } from "../field/select-field.component";
 import { NumberField } from "../field/number-field.component";
 import { InputField } from "../field/input-field.component";
-import { EntryFormGroupService } from './entry-form-group.service';
+import { EntryInsertFormGroupService } from './entry-insert-form-group.service';
 
 @Component({
   selector: 'entry-insert',
@@ -66,18 +66,18 @@ export class EntryInsertComponent extends BeanInsertComponent<Entry, EntryInsert
   constructor(
     http: HttpClient,
     route: ActivatedRoute,
-    entryFormGroupService: EntryFormGroupService,
+    entryFormGroupService: EntryInsertFormGroupService,
     ownerService: OwnerService
   ) {
     super(new EntryService(http, route.snapshot.data['type']))
 
-    this.form = entryFormGroupService.getForm()
+    this.form = entryFormGroupService.form
 
     this.inAccounts$ = new AccountService(http, route.snapshot.data['inAccountType']).findAll()
     this.outAccounts$ = new AccountService(http, route.snapshot.data['outAccountType']).findAll()
     this.owners$ = ownerService.findAll()
   }
-  
+
   createBean(): EntryInsertUpdate {
     return new EntryInsertUpdate(this.form.value.selectInOwner.name,
       this.form.value.selectOutOwner.name,
@@ -88,5 +88,5 @@ export class EntryInsertComponent extends BeanInsertComponent<Entry, EntryInsert
       this.form.value.inputNote
     )
   }
-  
+
 }

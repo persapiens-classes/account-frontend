@@ -18,13 +18,13 @@ import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@ang
     </p-panel>
   `
 })
-export class BeanDetailPainelComponent<T extends Bean, I, U> {
-  @ViewChild('dynamicComponent', { read: ViewContainerRef }) 
+export class BeanDetailPanelComponent<T extends Bean, I, U> {
+  @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef
   beanDetailComponent!: Type<BeanDetailComponent<T, I, U>>
   beanDetailInstance!: ComponentRef<BeanDetailComponent<T, I, U>>
 
-  constructor(private router: Router, 
+  constructor(private router: Router,
     private route: ActivatedRoute) {
   }
 

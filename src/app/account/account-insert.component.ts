@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../category/category-service';
 import { InputField } from "../field/input-field.component";
 import { SelectField } from "../field/select-field.component";
-import { AccountFormGroupService } from './account-form-group.service';
+import { AccountInsertFormGroupService } from './account-insert-form-group.service';
 
 @Component({
   selector: 'account-insert',
@@ -34,19 +34,19 @@ export class AccountInsertComponent extends BeanInsertComponent<Account, Account
   categories$: Observable<Array<Category>>
 
   constructor(
-    accountFormGroupService: AccountFormGroupService,
+    accountFormGroupService: AccountInsertFormGroupService,
     http: HttpClient,
     route: ActivatedRoute
   ) {
     super(new AccountService(http, route.snapshot.data['type']))
 
-    this.form = accountFormGroupService.getForm()
+    this.form = accountFormGroupService.form
 
     this.categories$ = new CategoryService(http, route.snapshot.data['type']).findAll()
   }
-  
+
   createBean(): Account {
     return new Account(this.form.value.inputDescription, this.form.value.selectCategory.description)
   }
-  
+
 }

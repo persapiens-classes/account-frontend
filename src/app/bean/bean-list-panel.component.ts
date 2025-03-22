@@ -30,14 +30,14 @@ import { ButtonModule } from 'primeng/button';
     }  
   `
 })
-export class BeanListPainelComponent<T extends Bean, I, U> {
-  @ViewChild('dynamicComponent', { read: ViewContainerRef }) 
+export class BeanListPanelComponent<T extends Bean, I, U> {
+  @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef
   beanListComponent!: Type<BeanListComponent<T, I, U>>
   beanListInstance!: ComponentRef<BeanListComponent<T, I, U>>
 
-  constructor(private router: Router, 
-    private route: ActivatedRoute) {}
+  constructor(private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.beanListComponent = this.route.snapshot.data['beanListComponent']

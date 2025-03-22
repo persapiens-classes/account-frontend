@@ -22,14 +22,20 @@ import { OwnerEquityAccountInitialValueListComponent } from './owner-equity-acco
 import { OwnerEquityAccountInitialValueDetailComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-detail.component';
 import { OwnerEquityAccountInitialValueUpdateComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update.component';
 import { OwnerEquityAccountInitialValueInsertComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-insert.component';
-import { BeanDetailPainelComponent } from './bean/bean-detail-painel.component';
-import { BeanListPainelComponent } from './bean/bean-list-painel.component';
-import { BeanInsertPainelComponent } from './bean/bean-insert-painel.component';
-import { OwnerFormGroupService } from './owner/owner-form-group.service';
-import { CategoryFormGroupService } from './category/category-form-group.service';
-import { AccountFormGroupService } from './account/account-form-group.service';
-import { EntryFormGroupService } from './entry/entry-form-group.service';
-import { OwnerEquityAccountInitialValueFormGroupService } from './owner-equity-account-initial-value/owner-equity-account-initial-value-form-group.service';
+import { BeanDetailPanelComponent } from './bean/bean-detail-panel.component';
+import { BeanListPanelComponent } from './bean/bean-list-panel.component';
+import { BeanInsertPanelComponent } from './bean/bean-insert-panel.component';
+import { OwnerUpdateFormGroupService } from './owner/owner-update-form-group.service';
+import { CategoryUpdateFormGroupService } from './category/category-update-form-group.service';
+import { AccountUpdateFormGroupService } from './account/account-update-form-group.service';
+import { EntryUpdateFormGroupService } from './entry/entry-update-form-group.service';
+import { BeanUpdatePanelComponent } from './bean/bean-update-panel.component';
+import { OwnerEquityAccountInitialValueInsertFormGroupService } from './owner-equity-account-initial-value/owner-equity-account-initial-value-insert-form-group.service';
+import { EntryInsertFormGroupService } from './entry/entry-insert-form-group.service';
+import { AccountInsertFormGroupService } from './account/account-insert-form-group.service';
+import { CategoryInsertFormGroupService } from './category/category-insert-form-group.service';
+import { OwnerInsertFormGroupService } from './owner/owner-insert-form-group.service';
+import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update-form-group.service';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -37,10 +43,14 @@ export const routes: Routes = [
     path: 'ownerEquityAccountInitialValues', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Balances', titleClass: 'blue' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: OwnerEquityAccountInitialValueListComponent } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: OwnerEquityAccountInitialValueInsertComponent, beanFormGroupService: OwnerEquityAccountInitialValueFormGroupService } },
-      { path: 'edit', component: OwnerEquityAccountInitialValueUpdateComponent },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: OwnerEquityAccountInitialValueDetailComponent } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: OwnerEquityAccountInitialValueListComponent } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: OwnerEquityAccountInitialValueInsertComponent, beanInsertFormGroupService: OwnerEquityAccountInitialValueInsertFormGroupService } },
+      {
+        path: 'edit', component: BeanUpdatePanelComponent, data: {
+          beanUpdateComponent: OwnerEquityAccountInitialValueUpdateComponent, beanUpdateFormGroupService: OwnerEquityAccountInitialValueUpdateFormGroupService
+        }
+      },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: OwnerEquityAccountInitialValueDetailComponent } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -48,10 +58,10 @@ export const routes: Routes = [
     path: 'creditEntries', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Credit Entries', titleClass: 'green' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: EntryListComponent, type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: EntryInsertComponent, beanFormGroupService: EntryFormGroupService, type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
-      { path: 'edit', component: EntryUpdateComponent, data: { type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: EntryDetailComponent, type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: EntryListComponent, type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: EntryInsertComponent, beanInsertFormGroupService: EntryInsertFormGroupService, type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: EntryUpdateComponent, beanUpdateFormGroupService: EntryUpdateFormGroupService, type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: EntryDetailComponent, type: 'Credit', inAccountType: 'Equity', outAccountType: 'Credit' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -59,10 +69,10 @@ export const routes: Routes = [
     path: 'debitEntries', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Debit Entries', titleClass: 'red' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: EntryListComponent, type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: EntryInsertComponent, beanFormGroupService: EntryFormGroupService, type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
-      { path: 'edit', component: EntryUpdateComponent, data: { type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: EntryDetailComponent, type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: EntryListComponent, type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: EntryInsertComponent, beanInsertFormGroupService: EntryInsertFormGroupService, type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: EntryUpdateComponent, beanUpdateFormGroupService: EntryUpdateFormGroupService, type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: EntryDetailComponent, type: 'Debit', inAccountType: 'Debit', outAccountType: 'Equity' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -70,10 +80,10 @@ export const routes: Routes = [
     path: 'transferEntries', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Transfer Entries', titleClass: 'blue' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: EntryListComponent, type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: EntryInsertComponent, beanFormGroupService: EntryFormGroupService, type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
-      { path: 'edit', component: EntryUpdateComponent, data: { type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: EntryDetailComponent, type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: EntryListComponent, type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: EntryInsertComponent, beanInsertFormGroupService: EntryInsertFormGroupService, type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: EntryUpdateComponent, beanUpdateFormGroupService: EntryUpdateFormGroupService, type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: EntryDetailComponent, type: 'Transfer', inAccountType: 'Equity', outAccountType: 'Equity' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -81,10 +91,10 @@ export const routes: Routes = [
     path: 'creditAccounts', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Credit Accounts', titleClass: 'green' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: AccountListComponent, type: 'Credit' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: AccountInsertComponent, beanFormGroupService: AccountFormGroupService, type: 'Credit' } },
-      { path: 'edit', component: AccountUpdateComponent, data: { type: 'Credit' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: AccountDetailComponent, type: 'Credit' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: AccountListComponent, type: 'Credit' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: AccountInsertComponent, beanInsertFormGroupService: AccountInsertFormGroupService, type: 'Credit' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: AccountUpdateComponent, beanUpdateFormGroupService: AccountUpdateFormGroupService, type: 'Credit' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: AccountDetailComponent, type: 'Credit' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -92,10 +102,10 @@ export const routes: Routes = [
     path: 'debitAccounts', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Debit Accounts', titleClass: 'red' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: AccountListComponent, type: 'Debit' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: AccountInsertComponent, beanFormGroupService: AccountFormGroupService, type: 'Debit' } },
-      { path: 'edit', component: AccountUpdateComponent, data: { type: 'Debit' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: AccountDetailComponent, type: 'Debit' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: AccountListComponent, type: 'Debit' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: AccountInsertComponent, beanInsertFormGroupService: AccountInsertFormGroupService, type: 'Debit' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: AccountUpdateComponent, beanUpdateFormGroupService: AccountUpdateFormGroupService, type: 'Debit' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: AccountDetailComponent, type: 'Debit' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -103,10 +113,10 @@ export const routes: Routes = [
     path: 'equityAccounts', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Equity Accounts', titleClass: 'blue' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: AccountListComponent, type: 'Equity' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: AccountInsertComponent, beanFormGroupService: AccountFormGroupService, type: 'Equity' } },
-      { path: 'edit', component: AccountUpdateComponent, data: { type: 'Equity' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: AccountDetailComponent, type: 'Equity' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: AccountListComponent, type: 'Equity' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: AccountInsertComponent, beanInsertFormGroupService: AccountInsertFormGroupService, type: 'Equity' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: AccountUpdateComponent, beanUpdateFormGroupService: AccountUpdateFormGroupService, type: 'Equity' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: AccountDetailComponent, type: 'Equity' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -114,10 +124,10 @@ export const routes: Routes = [
     path: 'creditCategories', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Credit Categories', titleClass: 'green' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: CategoryListComponent, type: 'Credit' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: CategoryInsertComponent, beanFormGroupService: CategoryFormGroupService, type: 'Credit' } },
-      { path: 'edit', component: CategoryUpdateComponent, data: { type: 'Credit' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: CategoryDetailComponent, type: 'Credit' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: CategoryListComponent, type: 'Credit' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: CategoryInsertComponent, beanInsertFormGroupService: CategoryInsertFormGroupService, type: 'Credit' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: CategoryUpdateComponent, beanUpdateFormGroupService: CategoryUpdateFormGroupService, type: 'Credit' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: CategoryDetailComponent, type: 'Credit' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -125,10 +135,10 @@ export const routes: Routes = [
     path: 'debitCategories', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Debit Categories', titleClass: 'red' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: CategoryListComponent, type: 'Debit' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: CategoryInsertComponent, beanFormGroupService: CategoryFormGroupService, type: 'Debit' } },
-      { path: 'edit', component: CategoryUpdateComponent, data: { type: 'Debit' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: CategoryDetailComponent, type: 'Debit' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: CategoryListComponent, type: 'Debit' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: CategoryInsertComponent, beanInsertFormGroupService: CategoryInsertFormGroupService, type: 'Debit' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: CategoryUpdateComponent, beanUpdateFormGroupService: CategoryUpdateFormGroupService, type: 'Debit' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: CategoryDetailComponent, type: 'Debit' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -136,10 +146,10 @@ export const routes: Routes = [
     path: 'equityCategories', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Equity Categories', titleClass: 'blue' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: CategoryListComponent, type: 'Equity' } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: CategoryInsertComponent, beanFormGroupService: CategoryFormGroupService, type: 'Equity' } },
-      { path: 'edit', component: CategoryUpdateComponent, data: { type: 'Equity' } },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: CategoryDetailComponent, type: 'Equity' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: CategoryListComponent, type: 'Equity' } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: CategoryInsertComponent, beanInsertFormGroupService: CategoryInsertFormGroupService, type: 'Equity' } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: CategoryUpdateComponent, beanUpdateFormGroupService: CategoryUpdateFormGroupService, type: 'Equity' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: CategoryDetailComponent, type: 'Equity' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -147,10 +157,10 @@ export const routes: Routes = [
     path: 'owners', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Owners', titleClass: 'blue' },
     children: [
-      { path: 'list', component: BeanListPainelComponent, data: { beanListComponent: OwnerListComponent } },
-      { path: 'new', component: BeanInsertPainelComponent, data: { beanInsertComponent: OwnerInsertComponent, beanFormGroupService: OwnerFormGroupService } },
-      { path: 'edit', component: OwnerUpdateComponent },
-      { path: 'detail', component: BeanDetailPainelComponent, data: { beanDetailComponent: OwnerDetailComponent } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: OwnerListComponent } },
+      { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: OwnerInsertComponent, beanInsertFormGroupService: OwnerInsertFormGroupService } },
+      { path: 'edit', component: BeanUpdatePanelComponent, data: { beanUpdateComponent: OwnerUpdateComponent, beanUpdateFormGroupService: OwnerUpdateFormGroupService } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: OwnerDetailComponent } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },

@@ -15,14 +15,12 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
   `
 })
 export class CategoryDetailComponent extends BeanDetailComponent<Category, Category, Category> {
-  type: string
   constructor(
     router: Router,
     http: HttpClient,
     route: ActivatedRoute
   ) {
     super(router, new CategoryService(http, route.snapshot.data['type']))
-    this.type = route.snapshot.data['type']
   }
 
 }

@@ -55,7 +55,8 @@ import { BeanListComponent } from '../bean/bean-list.component';
 export class AccountListComponent extends BeanListComponent<Account, Account, Account> {
   selectedValue: any
 
-  constructor(router: Router,
+  constructor(
+    router: Router,
     messageService: MessageService,
     http: HttpClient,
     route: ActivatedRoute

@@ -8,7 +8,7 @@ import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
 import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { BeanInsertComponent } from './bean-insert.component';
-import { BeanFormGroupServiceFactory } from './bean-form-group-factory.service';
+import { BeanInsertFormGroupServiceFactory } from './bean-insert-form-group-factory.service';
 
 @Component({
   selector: 'bean-insert',
@@ -24,53 +24,50 @@ import { BeanFormGroupServiceFactory } from './bean-form-group-factory.service';
     </form>
   `
 })
-export class BeanInsertPainelComponent<T extends Bean, I, U> {
+export class BeanInsertPanelComponent<T extends Bean, I, U> {
   form: FormGroup
 
-  @ViewChild('dynamicComponent', { read: ViewContainerRef }) 
+  @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef
-  beanInsertComponent!: Type<BeanInsertComponent<T, I, U>>
-  beanInsertInstance!: ComponentRef<BeanInsertComponent<T, I, U>>
+  beanInsertComponentType!: Type<BeanInsertComponent<T, I, U>>
+  beanInsertComponentInstance!: ComponentRef<BeanInsertComponent<T, I, U>>
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    beanFormGroupServiceFactory: BeanFormGroupServiceFactory) {
-      this.form = beanFormGroupServiceFactory.getBeanFormGroupService(
-        this.route.snapshot.data['beanFormGroupService']).getForm()
-      this.form.reset()
+    beanFormGroupServiceFactory: BeanInsertFormGroupServiceFactory) {
+    this.form = beanFormGroupServiceFactory.getBeanInsertFormGroupService(
+      this.route.snapshot.data['beanInsertFormGroupService']).createForm()
   }
 
   ngOnInit() {
-    this.beanInsertComponent = this.route.snapshot.data['beanInsertComponent']
-    console.log(this.beanInsertComponent)
+    this.beanInsertComponentType = this.route.snapshot.data['beanInsertComponent']
   }
 
   ngAfterViewInit() {
     this.container.clear()
-    this.beanInsertInstance = this.container.createComponent(this.beanInsertComponent)
-    console.log(this.beanInsertInstance)
+    this.beanInsertComponentInstance = this.container.createComponent(this.beanInsertComponentType)
   }
 
   insert() {
     if (this.form.valid) {
-      const newBean = this.beanInsertInstance.instance.createBean()
+      const newBean = this.beanInsertComponentInstance.instance.createBean()
 
-      this.beanInsertInstance.instance.beanService.insert(newBean).pipe(
+      this.beanInsertComponentInstance.instance.beanService.insert(newBean).pipe(
         tap((bean) => {
           this.messageService.add({
             severity: 'success',
-            summary: `${this.beanInsertInstance.instance.beanService.beanName} inserted`,
-            detail: `${this.beanInsertInstance.instance.beanService.beanName} ${bean.getId()} inserted ok.`
+            summary: `${this.beanInsertComponentInstance.instance.beanService.beanName} inserted`,
+            detail: `${this.beanInsertComponentInstance.instance.beanService.beanName} ${bean.getId()} inserted ok.`
           })
-          this.router.navigate([`${this.beanInsertInstance.instance.beanService.beansName}`])
+          this.router.navigate([`${this.beanInsertComponentInstance.instance.beanService.beansName}`])
         }),
         catchError((error) => {
           this.messageService.add({
             severity: 'error',
-            summary: `${this.beanInsertInstance.instance.beanService.beanName} not inserted`,
-            detail: `${this.beanInsertInstance.instance.beanService.beanName} not inserted: ${error.error.error}`
+            summary: `${this.beanInsertComponentInstance.instance.beanService.beanName} not inserted`,
+            detail: `${this.beanInsertComponentInstance.instance.beanService.beanName} not inserted: ${error.error.error}`
           })
           return of()
         })
@@ -79,6 +76,6 @@ export class BeanInsertPainelComponent<T extends Bean, I, U> {
   }
 
   cancelInsert() {
-    this.router.navigate([`${this.beanInsertInstance.instance.beanService.beansName}`])
+    this.router.navigate([`${this.beanInsertComponentInstance.instance.beanService.beansName}`])
   }
 }

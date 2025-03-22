@@ -1,23 +1,24 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Account } from './account';
-import { BeanFormGroupService } from '../bean/bean-form-group.service';
 import { Injectable } from '@angular/core';
+import { BeanInsertFormGroupService } from '../bean/bean-insert-form-group.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccountFormGroupService extends BeanFormGroupService<Account> {
+export class AccountInsertFormGroupService extends BeanInsertFormGroupService<Account> {
 
   constructor(formBuilder: FormBuilder
   ) {
     super(formBuilder)
   }
 
-  createForm(formBuilder: FormBuilder): FormGroup {
-    return formBuilder.group({
+  doCreateForm(): FormGroup {
+    return this.formBuilder.group({
       inputDescription: ['', [Validators.required, Validators.minLength(3)]],
       selectCategory: ['', [Validators.required]]
     })
   }
+
 }
 

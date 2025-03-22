@@ -52,7 +52,8 @@ export class CategoryListComponent extends BeanListComponent<Category, Category,
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(router, messageService, new CategoryService(http, route.snapshot.data['type']))
+    super(router, messageService,
+      new CategoryService(http, route.snapshot.data['type']))
   }
 
 }

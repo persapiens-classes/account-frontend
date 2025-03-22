@@ -1,20 +1,20 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Entry } from './entry';
-import { BeanFormGroupService } from '../bean/bean-form-group.service';
 import { Injectable } from '@angular/core';
+import { BeanInsertFormGroupService } from '../bean/bean-insert-form-group.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EntryFormGroupService extends BeanFormGroupService<Entry> {
+export class EntryInsertFormGroupService extends BeanInsertFormGroupService<Entry> {
 
   constructor(formBuilder: FormBuilder
   ) {
     super(formBuilder)
   }
 
-  createForm(formBuilder: FormBuilder): FormGroup {
-    return formBuilder.group({
+  doCreateForm(): FormGroup {
+    return this.formBuilder.group({
       inputDate: ['', [Validators.required]],
       selectInOwner: ['', [Validators.required]],
       selectInAccount: ['', [Validators.required]],
@@ -24,5 +24,6 @@ export class EntryFormGroupService extends BeanFormGroupService<Entry> {
       inputNote: ['', []]
     })
   }
+
 }
 
