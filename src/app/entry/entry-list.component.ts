@@ -73,7 +73,6 @@ import { ButtonModule } from 'primeng/button';
   `
 })
 export class EntryListComponent extends BeanListComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
-  selectedValue: any
 
   constructor(router: Router,
     messageService: MessageService,
