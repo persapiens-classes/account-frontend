@@ -3,7 +3,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
+import { OwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { DetailField } from "../field/detail-field.component";
 import { NumberField } from "../field/number-field.component";

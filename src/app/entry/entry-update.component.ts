@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { Entry, EntryInsertUpdate } from './entry';
+import { EntryInsertUpdate } from './entry';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';

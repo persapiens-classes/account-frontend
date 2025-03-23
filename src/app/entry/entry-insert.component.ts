@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Entry, EntryInsertUpdate } from './entry';
+import { EntryInsertUpdate } from './entry';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
