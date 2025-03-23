@@ -5,6 +5,8 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { BeanDetailComponent } from './bean-detail.component';
 import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { BeanServiceFactory } from './bean-service-factory';
+import { BeanService } from './bean-service';
 
 @Component({
   selector: 'bean-detail',
@@ -24,10 +26,15 @@ export class BeanDetailPanelComponent<T extends Bean, I, U> {
   beanDetailComponent!: Type<BeanDetailComponent<T, I, U>>
   beanDetailInstance!: ComponentRef<BeanDetailComponent<T, I, U>>
 
+  beanService: BeanService<T, I, U>
+
   constructor(private router: Router,
-    route: ActivatedRoute
+    route: ActivatedRoute,
+    beanServiceFactory: BeanServiceFactory<T, I, U>
   ) {
     this.beanDetailComponent = route.snapshot.data['beanDetailComponent']
+
+    this.beanService = beanServiceFactory.getBeanService(route.snapshot.data['serviceName'])
   }
 
   ngAfterViewInit() {
@@ -36,11 +43,11 @@ export class BeanDetailPanelComponent<T extends Bean, I, U> {
   }
 
   list() {
-    this.router.navigate([`${this.beanDetailInstance.instance.beanService.beansName}`])
+    this.router.navigate([`${this.beanService.beansName}`])
   }
 
   startUpdate() {
-    this.router.navigate([`${this.beanDetailInstance.instance.beanService.beansName}/edit`], { state: { bean: this.beanDetailInstance.instance.bean } })
+    this.router.navigate([`${this.beanService.beansName}/edit`], { state: { bean: this.beanDetailInstance.instance.bean } })
   }
 
 }

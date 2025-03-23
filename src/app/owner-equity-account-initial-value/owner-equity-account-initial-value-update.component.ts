@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
-import { OwnerEquityAccountInitialValueService } from './owner-equity-account-initial-value-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { DetailField } from "../field/detail-field.component";
 import { NumberField } from "../field/number-field.component";
@@ -23,14 +22,13 @@ import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-eq
       [control]="form.get('inputValue')!" />
   `
 })
-export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateComponent<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert, number> {
+export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateComponent<number> {
   form: FormGroup
   bean: OwnerEquityAccountInitialValue
 
-  constructor(ownerEquityAccountInitialValueFormGroupService: OwnerEquityAccountInitialValueUpdateFormGroupService,
-    ownerEquityAccountInitialValueService: OwnerEquityAccountInitialValueService
+  constructor(ownerEquityAccountInitialValueFormGroupService: OwnerEquityAccountInitialValueUpdateFormGroupService
   ) {
-    super(ownerEquityAccountInitialValueService, createBean)
+    super(createBean)
 
     this.form = ownerEquityAccountInitialValueFormGroupService.form
     this.bean = ownerEquityAccountInitialValueFormGroupService.createBeanFromHistory()

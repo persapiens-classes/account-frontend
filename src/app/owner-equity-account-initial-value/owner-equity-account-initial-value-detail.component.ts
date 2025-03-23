@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
-import { OwnerEquityAccountInitialValueService } from './owner-equity-account-initial-value-service';
 import { BalanceService } from './balance-service';
 import { Observable } from 'rxjs';
 import { DetailField } from "../field/detail-field.component";
 import { BeanDetailComponent } from '../bean/bean-detail.component';
+import { OwnerEquityAccountInitialValueCreateService } from './owner-equity-account-initial-value-create-service';
 
 @Component({
   selector: 'owner-equity-account-initial-value-detail',
@@ -22,11 +21,9 @@ export class OwnerEquityAccountInitialValueDetailComponent extends BeanDetailCom
   balance$: Observable<number>
 
   constructor(
-    router: Router,
-    ownerService: OwnerEquityAccountInitialValueService,
     balanceService: BalanceService
   ) {
-    super(router, ownerService)
+    super(new OwnerEquityAccountInitialValueCreateService())
 
     this.balance$ = balanceService.find(this.bean.owner, this.bean.equityAccount.description)
   }

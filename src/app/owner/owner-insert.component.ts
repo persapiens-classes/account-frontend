@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Owner } from './owner';
-import { OwnerService } from './owner-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { InputField } from "../field/input-field.component";
 import { OwnerInsertFormGroupService } from './owner-insert-form-group.service';
@@ -16,13 +15,12 @@ import { OwnerInsertFormGroupService } from './owner-insert-form-group.service';
       [control]="form.get('inputName')!" />
   `
 })
-export class OwnerInsertComponent extends BeanInsertComponent<Owner, Owner, Owner> {
+export class OwnerInsertComponent extends BeanInsertComponent<Owner> {
   form: FormGroup
 
-  constructor(ownerFormGroupService: OwnerInsertFormGroupService,
-    ownerService: OwnerService
+  constructor(ownerFormGroupService: OwnerInsertFormGroupService
   ) {
-    super(ownerService, createBean)
+    super(createBean)
     this.form = ownerFormGroupService.form
   }
 }

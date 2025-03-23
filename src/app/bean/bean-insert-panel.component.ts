@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { Component, ComponentRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { BeanInsertComponent } from './bean-insert.component';
 import { BeanInsertFormGroupService } from './bean-insert-form-group.service';
+import { BeanServiceFactory } from './bean-service-factory';
+import { BeanService } from './bean-service';
 
 @Component({
   selector: 'bean-insert',
@@ -29,18 +31,23 @@ export class BeanInsertPanelComponent<T extends Bean, I, U> {
 
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef
-  beanInsertComponentType!: Type<BeanInsertComponent<T, I, U>>
-  beanInsertComponentInstance!: ComponentRef<BeanInsertComponent<T, I, U>>
+  beanInsertComponentType!: Type<BeanInsertComponent<I>>
+  beanInsertComponentInstance!: ComponentRef<BeanInsertComponent<I>>
+
+  beanService: BeanService<T, I, U>
 
   constructor(
     private router: Router,
     route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    beanServiceFactory: BeanServiceFactory<T, I, U>
   ) {
     const formGroupServiceType = route.snapshot.data['beanInsertFormGroupService'] as Type<BeanInsertFormGroupService<T>>;
     this.form = inject(formGroupServiceType).createForm()
 
     this.beanInsertComponentType = route.snapshot.data['beanInsertComponent']
+
+    this.beanService = beanServiceFactory.getBeanService(route.snapshot.data['serviceName'])
   }
 
   ngAfterViewInit() {
@@ -52,20 +59,20 @@ export class BeanInsertPanelComponent<T extends Bean, I, U> {
     if (this.form.valid) {
       const newBean = this.beanInsertComponentInstance.instance.createBeanFn(this.form)
 
-      this.beanInsertComponentInstance.instance.beanService.insert(newBean).pipe(
+      this.beanService.insert(newBean).pipe(
         tap((bean) => {
           this.messageService.add({
             severity: 'success',
-            summary: `${this.beanInsertComponentInstance.instance.beanService.beanName} inserted`,
-            detail: `${this.beanInsertComponentInstance.instance.beanService.beanName} ${bean.getId()} inserted ok.`
+            summary: `${this.beanService.beanName} inserted`,
+            detail: `${this.beanService.beanName} ${bean.getId()} inserted ok.`
           })
-          this.router.navigate([`${this.beanInsertComponentInstance.instance.beanService.beansName}`])
+          this.router.navigate([`${this.beanService.beansName}`])
         }),
         catchError((error) => {
           this.messageService.add({
             severity: 'error',
-            summary: `${this.beanInsertComponentInstance.instance.beanService.beanName} not inserted`,
-            detail: `${this.beanInsertComponentInstance.instance.beanService.beanName} not inserted: ${error.error.error}`
+            summary: `${this.beanService.beanName} not inserted`,
+            detail: `${this.beanService.beanName} not inserted: ${error.error.error}`
           })
           return of()
         })
@@ -74,6 +81,6 @@ export class BeanInsertPanelComponent<T extends Bean, I, U> {
   }
 
   cancelInsert() {
-    this.router.navigate([`${this.beanInsertComponentInstance.instance.beanService.beansName}`])
+    this.router.navigate([`${this.beanService.beansName}`])
   }
 }

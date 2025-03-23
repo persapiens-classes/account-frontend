@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Category } from './category';
-import { HttpClient } from '@angular/common/http';
-import { CategoryService } from './category-service';
 import { DetailField } from "../field/detail-field.component";
 import { BeanDetailComponent } from '../bean/bean-detail.component';
+import { CategoryCreateService } from './category-create-service';
 
 @Component({
   selector: 'category-detail',
@@ -15,12 +13,8 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
   `
 })
 export class CategoryDetailComponent extends BeanDetailComponent<Category, Category, Category> {
-  constructor(
-    router: Router,
-    http: HttpClient,
-    route: ActivatedRoute
-  ) {
-    super(router, new CategoryService(http, route.snapshot.data['type']))
+  constructor() {
+    super(new CategoryCreateService())
   }
 
 }
