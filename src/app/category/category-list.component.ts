@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { MessageService } from 'primeng/api';
 import { Category } from './category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService } from './category-service';
 import { BeanListComponent } from '../bean/bean-list.component';
+import { StartDetailButton } from "../bean/start-detail-button";
+import { StartUpdateButton } from "../bean/start-update-button";
+import { RemoveButton } from "../bean/remove-button";
 
 @Component({
   selector: 'category-list',
-  imports: [AsyncPipe, ButtonModule, TableModule, TooltipModule, ButtonModule],
+  imports: [AsyncPipe, ButtonModule, TableModule, TooltipModule, ButtonModule, StartDetailButton, StartUpdateButton, RemoveButton],
   template: `
     <p-table 
       [value]="(beansList$ | async)!"
@@ -38,22 +40,20 @@ import { BeanListComponent } from '../bean/bean-list.component';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.description }}</td>
-          <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the category"/></td>
-          <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the category"/></td>
-          <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the category"/></td>
+          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
+          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
+          <td> <a-remove-button [item]=item [beanService]="beanService" (removed)="removed()" /> </td>
         </tr>
       </ng-template>
     </p-table>
   `
 })
 export class CategoryListComponent extends BeanListComponent<Category, Category, Category> {
-  constructor(router: Router,
-    messageService: MessageService,
+  constructor(
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(router, messageService,
-      new CategoryService(http, route.snapshot.data['type']))
+    super(new CategoryService(http, route.snapshot.data['type']))
   }
 
 }
