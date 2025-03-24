@@ -5,6 +5,8 @@ import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@ang
 import { PanelModule } from 'primeng/panel';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { BeanService } from './bean-service';
+import { BeanServiceFactory } from './bean-service-factory';
 
 @Component({
   selector: 'bean-list',
@@ -36,10 +38,15 @@ export class BeanListPanelComponent<T extends Bean, I, U> {
   beanListComponent!: Type<BeanListComponent<T, I, U>>
   beanListInstance!: ComponentRef<BeanListComponent<T, I, U>>
 
+  beanService: BeanService<T, I, U>
+
   constructor(private router: Router,
-    route: ActivatedRoute
+    route: ActivatedRoute,
+    beanServiceFactory: BeanServiceFactory<T, I, U>
   ) {
     this.beanListComponent = route.snapshot.data['beanListComponent']
+
+    this.beanService = beanServiceFactory.getBeanService(route.snapshot.data['serviceName'])
   }
 
   ngAfterViewInit() {
@@ -48,6 +55,6 @@ export class BeanListPanelComponent<T extends Bean, I, U> {
   }
 
   startInsert(): void {
-    this.router.navigate([`${this.beanListInstance.instance.beanService.beansName}/new`])
+    this.router.navigate([`${this.beanService.beansName}/new`])
   }
 }

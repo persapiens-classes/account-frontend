@@ -3,7 +3,6 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Account } from './account';
-import { AccountService } from './account-service';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
@@ -28,7 +27,7 @@ import { AccountInsertFormGroupService } from './account-insert-form-group.servi
       [control]="form.get('selectCategory')!" />
   `
 })
-export class AccountInsertComponent extends BeanInsertComponent<Account, Account, Account> {
+export class AccountInsertComponent extends BeanInsertComponent<Account> {
   form: FormGroup
 
   categories$: Observable<Array<Category>>
@@ -38,11 +37,11 @@ export class AccountInsertComponent extends BeanInsertComponent<Account, Account
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(new AccountService(http, route.snapshot.data['type']), createBean)
+    super(createBean)
 
     this.form = accountFormGroupService.form
 
-    this.categories$ = new CategoryService(http, route.snapshot.data['type']).findAll()
+    this.categories$ = new CategoryService(http, route.snapshot.data['categoryType']).findAll()
   }
 
 }

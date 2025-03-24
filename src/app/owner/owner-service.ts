@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, InjectionToken } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Owner } from "./owner";
 import { BeanService } from "../bean/bean-service";
@@ -14,3 +14,5 @@ export class OwnerService extends BeanService<Owner, Owner, Owner> {
   }
 
 }
+
+export const OWNER_SERVICE = new InjectionToken<OwnerService>('OwnerService')

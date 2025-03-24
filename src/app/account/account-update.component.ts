@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { Account } from './account';
-import { AccountService } from './account-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
@@ -30,7 +29,7 @@ import { AccountUpdateFormGroupService } from './account-update-form-group.servi
       [control]="form.get('selectCategory')!" />
   `
 })
-export class AccountUpdateComponent extends BeanUpdateComponent<Account, Account, Account> {
+export class AccountUpdateComponent extends BeanUpdateComponent<Account> {
   form: FormGroup
 
   categories$: Observable<Array<Category>>
@@ -39,11 +38,11 @@ export class AccountUpdateComponent extends BeanUpdateComponent<Account, Account
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(new AccountService(http, route.snapshot.data['type']), createBean)
+    super(createBean)
 
     this.form = accountFormGroupService.form
 
-    this.categories$ = new CategoryService(http, route.snapshot.data['type']).findAll()
+    this.categories$ = new CategoryService(http, route.snapshot.data['categoryType']).findAll()
   }
 
 }

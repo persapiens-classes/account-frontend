@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Entry, EntryInsertUpdate } from './entry';
-import { HttpClient } from '@angular/common/http';
-import { EntryService } from './entry-service';
 import { DetailField } from "../field/detail-field.component";
 import { BeanDetailComponent } from '../bean/bean-detail.component';
+import { EntryCreateService } from './entry-create-service';
 
 @Component({
   selector: 'entry-detail',
@@ -22,12 +20,8 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
 })
 export class EntryDetailComponent extends BeanDetailComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
 
-  constructor(
-    router: Router,
-    http: HttpClient,
-    route: ActivatedRoute
-  ) {
-    super(router, new EntryService(http, route.snapshot.data['type']))
+  constructor() {
+    super(new EntryCreateService())
   }
 
 }

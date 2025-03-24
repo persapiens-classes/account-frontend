@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Entry, EntryInsertUpdate } from './entry';
-import { EntryService } from './entry-service';
+import { EntryInsertUpdate } from './entry';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -56,7 +55,7 @@ import { EntryInsertFormGroupService } from './entry-insert-form-group.service';
       [control]="form.get('inputNote')!" />
   `
 })
-export class EntryInsertComponent extends BeanInsertComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
+export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate> {
   form: FormGroup
 
   inAccounts$: Observable<Array<Account>>
@@ -69,7 +68,7 @@ export class EntryInsertComponent extends BeanInsertComponent<Entry, EntryInsert
     entryFormGroupService: EntryInsertFormGroupService,
     ownerService: OwnerService
   ) {
-    super(new EntryService(http, route.snapshot.data['type']), createBean)
+    super(createBean)
 
     this.form = entryFormGroupService.form
 

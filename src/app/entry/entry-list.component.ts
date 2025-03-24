@@ -3,16 +3,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { MessageService } from 'primeng/api';
 import { Entry, EntryInsertUpdate } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { EntryService } from './entry-service';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
+import { StartDetailButton } from "../bean/start-detail-button";
+import { StartUpdateButton } from "../bean/start-update-button";
+import { RemoveButton } from "../bean/remove-button";
 
 @Component({
   selector: 'entry-list',
-  imports: [AsyncPipe, CommonModule, TableModule, TooltipModule, ButtonModule],
+  imports: [AsyncPipe, CommonModule, TableModule, TooltipModule, ButtonModule, StartDetailButton, StartUpdateButton, RemoveButton],
   template: `
     <p-table 
       [value]="(beansList$ | async)!"
@@ -64,9 +66,9 @@ import { ButtonModule } from 'primeng/button';
           <td>{{ item.outAccount.description }}</td>
           <td>{{ item.date.toLocaleDateString() }}</td>
           <td>{{ item.value | number:'1.2-2' }}</td>
-          <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the entry"/></td>
-          <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the entry"/></td>
-          <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the entry"/></td>
+          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
+          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
+          <td> <a-remove-button [item]=item [beanService]="beanService" (removed)="removed()" /> </td>
         </tr>
       </ng-template>
     </p-table>
@@ -74,12 +76,11 @@ import { ButtonModule } from 'primeng/button';
 })
 export class EntryListComponent extends BeanListComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
 
-  constructor(router: Router,
-    messageService: MessageService,
+  constructor(
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(router, messageService, new EntryService(http, route.snapshot.data['type']))
+    super(new EntryService(http, route.snapshot.data['type']))
   }
 
 }

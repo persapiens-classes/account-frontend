@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { MessageService } from 'primeng/api';
 import { Account } from './account';
 import { HttpClient } from '@angular/common/http';
 import { AccountService } from './account-service';
 import { BeanListComponent } from '../bean/bean-list.component';
+import { StartDetailButton } from "../bean/start-detail-button";
+import { RemoveButton } from "../bean/remove-button";
+import { StartUpdateButton } from "../bean/start-update-button";
 
 @Component({
   selector: 'account-list',
-  imports: [AsyncPipe, ButtonModule, TableModule, TooltipModule, ButtonModule],
+  imports: [AsyncPipe, ButtonModule, TableModule, TooltipModule, ButtonModule, RemoveButton, StartDetailButton, StartUpdateButton],
   template: `
     <p-table 
       [value]="(beansList$ | async)!"
@@ -44,9 +46,9 @@ import { BeanListComponent } from '../bean/bean-list.component';
         <tr>
           <td>{{ item.description }}</td>
           <td>{{ item.category }}</td>
-          <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the account"/></td>
-          <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the account"/></td>
-          <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the account"/></td>
+          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
+          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
+          <td> <a-remove-button [item]=item [beanService]="beanService" [beanList$]="beansList$" /> </td>
         </tr>
       </ng-template>
     </p-table>
@@ -55,12 +57,10 @@ import { BeanListComponent } from '../bean/bean-list.component';
 export class AccountListComponent extends BeanListComponent<Account, Account, Account> {
 
   constructor(
-    router: Router,
-    messageService: MessageService,
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(router, messageService, new AccountService(http, route.snapshot.data['type']))
+    super(new AccountService(http, route.snapshot.data['type']))
   }
 
 }

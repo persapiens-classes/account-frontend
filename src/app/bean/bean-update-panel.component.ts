@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { Component, ComponentRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { BeanUpdateComponent } from './bean-update.component';
 import { BeanUpdateFormGroupService } from './bean-update-form-group.service';
+import { BeanService } from './bean-service';
+import { BeanServiceFactory } from './bean-service-factory';
 
 @Component({
   selector: 'bean-update',
@@ -31,13 +33,16 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
 
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef
-  beanUpdateComponentType!: Type<BeanUpdateComponent<T, I, U>>
-  beanUpdateComponentInstance!: ComponentRef<BeanUpdateComponent<T, I, U>>
+  beanUpdateComponentType!: Type<BeanUpdateComponent<U>>
+  beanUpdateComponentInstance!: ComponentRef<BeanUpdateComponent<U>>
+
+  beanService: BeanService<T, I, U>
 
   constructor(
     private router: Router,
     route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    beanServiceFactory: BeanServiceFactory<T, I, U>
   ) {
     const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<BeanUpdateFormGroupService<T>>;
     const beanUpdateFormGroupService = inject(formGroupServiceType)
@@ -45,6 +50,8 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
     this.form = beanUpdateFormGroupService.createForm(this.bean)
 
     this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent']
+
+    this.beanService = beanServiceFactory.getBeanService(route.snapshot.data['serviceName'])
   }
 
   ngAfterViewInit() {
@@ -56,20 +63,20 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
     if (this.form.valid) {
       const updatedBean = this.beanUpdateComponentInstance.instance.createBeanFn(this.form)
 
-      this.beanUpdateComponentInstance.instance.beanService.update(this.bean.getId(), updatedBean).pipe(
+      this.beanService.update(this.bean.getId(), updatedBean).pipe(
         tap((bean) => {
           this.messageService.add({
             severity: 'success',
-            summary: `${this.beanUpdateComponentInstance.instance.beanService.beanName} edited`,
-            detail: `${this.beanUpdateComponentInstance.instance.beanService.beanName} ${this.bean.getId()} edited ok.`
+            summary: `${this.beanService.beanName} edited`,
+            detail: `${this.beanService.beanName} ${this.bean.getId()} edited ok.`
           })
-          this.router.navigate([`${this.beanUpdateComponentInstance.instance.beanService.beansName}/detail`], { state: { bean: bean } })
+          this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: bean } })
         }),
         catchError((error) => {
           this.messageService.add({
             severity: 'error',
-            summary: `${this.beanUpdateComponentInstance.instance.beanService.beanName} not edited`,
-            detail: `${this.beanUpdateComponentInstance.instance.beanService.beanName} not edited: ${error.error.error}`
+            summary: `${this.beanService.beanName} not edited`,
+            detail: `${this.beanService.beanName} not edited: ${error.error.error}`
           })
           return of()
         })
@@ -78,10 +85,10 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
   }
 
   cancelToList() {
-    this.router.navigate([`${this.beanUpdateComponentInstance.instance.beanService.beansName}`])
+    this.router.navigate([`${this.beanService.beansName}`])
   }
 
   cancelToDetail() {
-    this.router.navigate([`${this.beanUpdateComponentInstance.instance.beanService.beansName}/detail`], { state: { bean: this.bean } })
+    this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: this.bean } })
   }
 }

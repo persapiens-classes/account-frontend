@@ -4,8 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { Entry, EntryInsertUpdate } from './entry';
-import { EntryService } from './entry-service';
+import { EntryInsertUpdate } from './entry';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -58,7 +57,7 @@ import { EntryUpdateFormGroupService } from './entry-update-form-group.service';
       [control]="form.get('inputNote')!" />
   `
 })
-export class EntryUpdateComponent extends BeanUpdateComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
+export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate> {
   form: FormGroup
 
   inAccounts$: Observable<Array<Account>>
@@ -70,7 +69,7 @@ export class EntryUpdateComponent extends BeanUpdateComponent<Entry, EntryInsert
     route: ActivatedRoute,
     ownerService: OwnerService
   ) {
-    super(new EntryService(http, route.snapshot.data['type']), createBean)
+    super(createBean)
 
     this.form = entryFormGroupService.form
 

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -10,10 +9,13 @@ import { BalanceService } from './balance-service';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
+import { StartDetailButton } from "../bean/start-detail-button";
+import { StartUpdateButton } from "../bean/start-update-button";
+import { RemoveButton } from "../bean/remove-button";
 
 @Component({
   selector: 'owner-equity-account-initial-value-list',
-  imports: [AsyncPipe, CommonModule, TableModule, TooltipModule, ButtonModule],
+  imports: [AsyncPipe, CommonModule, TableModule, TooltipModule, ButtonModule, StartDetailButton, StartUpdateButton, RemoveButton],
   template: `
     <p-table 
       [value]="(beansList$ | async)!"
@@ -49,9 +51,9 @@ import { ButtonModule } from 'primeng/button';
           <td>{{ item.equityAccount.description }}</td>
           <td>{{ balanceList$[i] | async | number:'1.2-2' }}</td>
           <td>{{ item.value | number:'1.2-2' }}</td>
-          <td><p-button icon="pi pi-search" (onClick)="startDetail(item)" pTooltip="Detail the owner"/></td>
-          <td><p-button icon="pi pi-pencil" (onClick)="startUpdate(item)" pTooltip="Edit the owner"/></td>
-          <td><p-button icon="pi pi-trash" (onClick)="remove(item)" pTooltip="Delete the owner"/></td>
+          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
+          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
+          <td> <a-remove-button [item]=item [beanService]="beanService" (removed)="removed()" /> </td>
         </tr>
       </ng-template>
     </p-table>
@@ -60,12 +62,12 @@ import { ButtonModule } from 'primeng/button';
 export class OwnerEquityAccountInitialValueListComponent extends BeanListComponent<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert, number> {
   balanceList$: Array<Observable<number>>
 
-  constructor(router: Router,
+  constructor(
     messageService: MessageService,
     beanService: OwnerEquityAccountInitialValueService,
     balanceService: BalanceService
   ) {
-    super(router, messageService, beanService)
+    super(beanService)
 
     this.balanceList$ = new Array()
 

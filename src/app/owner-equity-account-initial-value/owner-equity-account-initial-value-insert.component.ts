@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
-import { OwnerEquityAccountInitialValueService } from './owner-equity-account-initial-value-service';
+import { OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Observable } from 'rxjs';
 import { Owner } from '../owner/owner';
@@ -35,7 +34,7 @@ import { OwnerEquityAccountInitialValueInsertFormGroupService } from './owner-eq
       [control]="form.get('inputValue')!" />
   `
 })
-export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertComponent<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert, number> {
+export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertComponent<OwnerEquityAccountInitialValueInsert> {
   form: FormGroup
 
   equityAccounts$: Observable<Array<Account>>
@@ -44,10 +43,9 @@ export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertCom
   constructor(
     http: HttpClient,
     ownerEquityAccountInitialValueFormGroupService: OwnerEquityAccountInitialValueInsertFormGroupService,
-    ownerEquityAccountInitialValueService: OwnerEquityAccountInitialValueService,
     ownerService: OwnerService
   ) {
-    super(ownerEquityAccountInitialValueService, createBean)
+    super(createBean)
 
     this.form = ownerEquityAccountInitialValueFormGroupService.form
 

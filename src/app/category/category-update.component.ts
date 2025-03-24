@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { Category } from './category';
-import { CategoryService } from './category-service';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
-import { HttpClient } from '@angular/common/http';
 import { InputField } from '../field/input-field.component';
 import { CategoryUpdateFormGroupService } from './category-update-form-group.service';
 
@@ -20,14 +17,12 @@ import { CategoryUpdateFormGroupService } from './category-update-form-group.ser
       [control]="form.get('inputDescription')!" />
   `
 })
-export class CategoryUpdateComponent extends BeanUpdateComponent<Category, Category, Category> {
+export class CategoryUpdateComponent extends BeanUpdateComponent<Category> {
   form: FormGroup
 
-  constructor(categoryFormGroupService: CategoryUpdateFormGroupService,
-    http: HttpClient,
-    route: ActivatedRoute
+  constructor(categoryFormGroupService: CategoryUpdateFormGroupService
   ) {
-    super(new CategoryService(http, route.snapshot.data['type']), createBean)
+    super(createBean)
 
     this.form = categoryFormGroupService.form
   }
