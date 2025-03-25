@@ -12,6 +12,7 @@ import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputField } from "../field/input-field.component";
+import { addMessageService } from '../parse-http-error';
 
 @Component({
   selector: 'app-login',
@@ -64,15 +65,13 @@ export class LoginPageComponent {
   signin() {
     if (this.form.valid) {
       this.authService.signin(this.form.value.inputUsername, this.form.value.inputPassword).pipe(
-        tap((loginResponse) => {
+        tap(() => {
           this.router.navigate(['ownerEquityAccountInitialValues/list'])
         }),
         catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Sign in failed',
-            detail: 'Invalid credenciais, please try again.'
-          })
+          addMessageService(this.messageService, error,
+            'Sign in failed',
+            'Invalid credenciais, please try again.')
           return of()
         })
       ).subscribe()

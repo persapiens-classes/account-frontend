@@ -11,6 +11,7 @@ import { BeanInsertComponent } from './bean-insert.component';
 import { BeanInsertFormGroupService } from './bean-insert-form-group.service';
 import { BeanServiceFactory } from './bean-service-factory';
 import { BeanService } from './bean-service';
+import { addMessageService } from '../parse-http-error';
 
 @Component({
   selector: 'bean-insert',
@@ -69,11 +70,8 @@ export class BeanInsertPanelComponent<T extends Bean, I, U> {
           this.router.navigate([`${this.beanService.beansName}`])
         }),
         catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: `${this.beanService.beanName} not inserted`,
-            detail: `${this.beanService.beanName} not inserted: ${error.error.message}`
-          })
+          addMessageService(this.messageService, error,
+            `${this.beanService.beanName} not inserted`)
           return of()
         })
       ).subscribe()
