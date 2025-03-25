@@ -19,7 +19,7 @@ import { SelectModule } from 'primeng/select';
       <label [for]="id">{{ label }}</label>
     </p-float-label>
     <div *ngIf="control.invalid && (control.dirty || control.touched)"
-      class="alert" class="margin-bottom">
+      class="alert margin-bottom">
       <div *ngIf="control?.errors?.['required']">{{ label }} is required.</div>
     </div>
   `

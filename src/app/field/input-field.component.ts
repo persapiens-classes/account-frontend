@@ -18,7 +18,7 @@ import { InputTextModule } from 'primeng/inputtext';
       <label [for]="id">{{ label }}</label>
     </p-float-label>
     <div *ngIf="control.invalid && (control.dirty || control.touched)"
-      class="alert" class="margin-bottom">
+      class="alert margin-bottom">
       <div *ngIf="control?.errors?.['required']">{{ label }} is required.</div>
       <div *ngIf="control?.errors?.['minlength']">{{ label }} must be at least 3 characters long.</div>
     </div>
