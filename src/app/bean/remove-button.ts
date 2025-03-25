@@ -4,9 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Bean } from './bean';
 import { BeanService } from './bean-service';
-import { MessageService } from 'primeng/api';
 import { catchError, Observable, of, tap } from 'rxjs';
-import { addMessageService } from '../parse-http-error';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'a-remove-button',
@@ -22,20 +21,18 @@ export class RemoveButton<T extends Bean, I, U> {
   @Input() beanList$!: Observable<Array<T>>
   @Output() removed = new EventEmitter<void>()
 
-  constructor(private messageService: MessageService) { }
+  constructor(private appMessageService: AppMessageService) { }
 
   remove(item: T) {
     this.beanService.remove(item.getId()).pipe(
       tap(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: `${this.beanService.beanName} removed`,
-          detail: `${this.beanService.beanName} removed ok.`
-        })
+        this.appMessageService.addSuccessMessage(
+          `${this.beanService.beanName} removed`,
+          `${this.beanService.beanName} removed ok.`)
         this.removed.emit()
       }),
       catchError((error) => {
-        addMessageService(this.messageService, error,
+        this.appMessageService.addErrorMessage(error,
           `${this.beanService.beanName} not removed`)
         return of()
       })

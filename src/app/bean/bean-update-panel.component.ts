@@ -1,6 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
-import { MessageService } from 'primeng/api';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Bean } from './bean';
 import { ButtonModule } from 'primeng/button';
@@ -11,7 +10,7 @@ import { BeanUpdateComponent } from './bean-update.component';
 import { BeanUpdateFormGroupService } from './bean-update-form-group.service';
 import { BeanService } from './bean-service';
 import { BeanServiceFactory } from './bean-service-factory';
-import { addMessageService } from '../parse-http-error';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'bean-update',
@@ -42,7 +41,7 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
   constructor(
     private router: Router,
     route: ActivatedRoute,
-    private messageService: MessageService,
+    private appMessageService: AppMessageService,
     beanServiceFactory: BeanServiceFactory<T, I, U>
   ) {
     const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<BeanUpdateFormGroupService<T>>;
@@ -66,15 +65,13 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
 
       this.beanService.update(this.bean.getId(), updatedBean).pipe(
         tap((bean) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: `${this.beanService.beanName} edited`,
-            detail: `${this.beanService.beanName} ${this.bean.getId()} edited ok.`
-          })
+          this.appMessageService.addSuccessMessage(
+            `${this.beanService.beanName} edited`,
+            `${this.beanService.beanName} ${this.bean.getId()} edited ok.`)
           this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: bean } })
         }),
         catchError((error) => {
-          addMessageService(this.messageService, error,
+          this.appMessageService.addErrorMessage(error,
             `${this.beanService.beanName} not edited`)
           return of()
         })

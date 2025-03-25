@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Bean } from './bean';
 import { BeanService } from './bean-service';
-import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,8 +19,7 @@ export class StartUpdateButton<T extends Bean, I, U> {
   @Input() beanService!: BeanService<T, I, U>
   @Input() removed!: () => void
 
-  constructor(private messageService: MessageService,
-    private router: Router) { }
+  constructor(private router: Router) { }
 
   startUpdate(item: T): void {
     this.router.navigate([`${this.beanService.beansName}/edit`], { state: { bean: item } })

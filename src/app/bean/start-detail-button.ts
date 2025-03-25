@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Bean } from './bean';
 import { BeanService } from './bean-service';
-import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,8 +18,7 @@ export class StartDetailButton<T extends Bean, I, U> {
   @Input() item!: T
   @Input() beanService!: BeanService<T, I, U>
 
-  constructor(private messageService: MessageService,
-    private router: Router) { }
+  constructor(private router: Router) { }
 
   startDetail(item: T): void {
     this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: item } })
