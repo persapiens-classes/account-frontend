@@ -11,7 +11,7 @@ import { BeanListComponent } from '../bean/bean-list.component';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
-import { MessageService } from 'primeng/api';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'category-list',
@@ -51,11 +51,11 @@ import { MessageService } from 'primeng/api';
 })
 export class CategoryListComponent extends BeanListComponent<Category, Category, Category> {
   constructor(
-    messageService: MessageService,
     http: HttpClient,
-    route: ActivatedRoute
+    route: ActivatedRoute,
+    appMessageService: AppMessageService
   ) {
-    super(messageService, new CategoryService(http, route.snapshot.data['type']))
+    super(appMessageService, new CategoryService(http, route.snapshot.data['type']))
   }
 
 }

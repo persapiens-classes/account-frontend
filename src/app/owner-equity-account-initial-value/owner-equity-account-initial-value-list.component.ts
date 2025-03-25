@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { MessageService } from 'primeng/api';
 import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
 import { OwnerEquityAccountInitialValueService } from './owner-equity-account-initial-value-service';
 import { BalanceService } from './balance-service';
@@ -12,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
-import { addMessageService } from '../parse-http-error';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'owner-equity-account-initial-value-list',
@@ -64,11 +63,11 @@ export class OwnerEquityAccountInitialValueListComponent extends BeanListCompone
   balanceList$: Array<Observable<number>>
 
   constructor(
-    messageService: MessageService,
+    appMessageService: AppMessageService,
     beanService: OwnerEquityAccountInitialValueService,
     balanceService: BalanceService
   ) {
-    super(messageService, beanService)
+    super(appMessageService, beanService)
 
     this.balanceList$ = new Array()
 
@@ -80,7 +79,7 @@ export class OwnerEquityAccountInitialValueListComponent extends BeanListCompone
         })
       }),
       catchError((error) => {
-        addMessageService(messageService, error,
+        appMessageService.addErrorMessage(error,
           `Error reading balance`)
         return of()
       })

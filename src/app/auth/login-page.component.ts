@@ -7,18 +7,16 @@ import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from './auth.service';
-import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputField } from "../field/input-field.component";
-import { addMessageService } from '../parse-http-error';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [FloatLabelModule, PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, AutoFocusModule, ToastModule, InputField],
-  providers: [MessageService],
   template: `
     <p-panel class="container">
       <div class="container" > 
@@ -41,7 +39,6 @@ import { addMessageService } from '../parse-http-error';
           <p-button label="Sign In" (onClick)="signin()" [disabled]="form.invalid"></p-button>
         </form>
 
-        <!-- Toast to show error message -->
         <p-toast></p-toast>
       </div>
     </p-panel>
@@ -54,7 +51,7 @@ export class LoginPageComponent {
   constructor(private router: Router,
     formBuilder: FormBuilder,
     private authService: AuthService,
-    private messageService: MessageService
+    private appMessageService: AppMessageService
   ) {
     this.form = formBuilder.group({
       inputUsername: ['', [Validators.required, Validators.minLength(1)]],
@@ -69,7 +66,7 @@ export class LoginPageComponent {
           this.router.navigate(['ownerEquityAccountInitialValues/list'])
         }),
         catchError((error) => {
-          addMessageService(this.messageService, error,
+          this.appMessageService.addErrorMessage(error,
             'Sign in failed',
             'Invalid credenciais, please try again.')
           return of()

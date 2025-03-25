@@ -1,13 +1,12 @@
 import { catchError, Observable, of } from 'rxjs';
 import { Bean } from './bean';
 import { BeanService } from './bean-service';
-import { addMessageService } from '../parse-http-error';
-import { MessageService } from 'primeng/api';
+import { AppMessageService } from '../app-message-service';
 
 export class BeanListComponent<T extends Bean, I, U> {
   beansList$: Observable<Array<T>>
 
-  constructor(private messageService: MessageService,
+  constructor(private appMessageService: AppMessageService,
     public beanService: BeanService<T, I, U>
   ) {
     this.beansList$ = this.loadBeans()
@@ -16,7 +15,7 @@ export class BeanListComponent<T extends Bean, I, U> {
   loadBeans(): Observable<Array<T>> {
     return this.beanService.findAll().pipe(
       catchError((error) => {
-        addMessageService(this.messageService, error,
+        this.appMessageService.addErrorMessage(error,
           `${this.beanService.beansName} not listed`)
         return of()
       })

@@ -3,13 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MenuComponent } from './menu.component';
-import { MessageService } from 'primeng/api';
 import { HeaderComponent } from './header.component';
 
 @Component({
   selector: 'crud',
   imports: [FormsModule, RouterOutlet, HeaderComponent, MenuComponent, ToastModule],
-  providers: [MessageService],
   template: `
     <p-toast></p-toast>
 
