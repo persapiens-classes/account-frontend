@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'owner-list',
@@ -49,9 +50,10 @@ import { RemoveButton } from "../bean/remove-button";
 export class OwnerListComponent extends BeanListComponent<Owner, Owner, Owner> {
 
   constructor(
+    messageService: MessageService,
     beanService: OwnerService
   ) {
-    super(beanService)
+    super(messageService, beanService)
   }
 
 }

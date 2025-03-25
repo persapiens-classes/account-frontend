@@ -6,6 +6,7 @@ import { Bean } from './bean';
 import { BeanService } from './bean-service';
 import { MessageService } from 'primeng/api';
 import { catchError, Observable, of, tap } from 'rxjs';
+import { addMessageService } from '../parse-http-error';
 
 @Component({
   selector: 'a-remove-button',
@@ -34,11 +35,8 @@ export class RemoveButton<T extends Bean, I, U> {
         this.removed.emit()
       }),
       catchError((error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: `${this.beanService.beanName} not removed`,
-          detail: `${this.beanService.beanName} not removed ${error.error.message}`
-        })
+        addMessageService(this.messageService, error,
+          `${this.beanService.beanName} not removed`)
         return of()
       })
     ).subscribe()

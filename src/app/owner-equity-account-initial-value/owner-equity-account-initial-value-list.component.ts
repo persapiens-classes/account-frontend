@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
+import { addMessageService } from '../parse-http-error';
 
 @Component({
   selector: 'owner-equity-account-initial-value-list',
@@ -67,7 +68,7 @@ export class OwnerEquityAccountInitialValueListComponent extends BeanListCompone
     beanService: OwnerEquityAccountInitialValueService,
     balanceService: BalanceService
   ) {
-    super(beanService)
+    super(messageService, beanService)
 
     this.balanceList$ = new Array()
 
@@ -79,11 +80,8 @@ export class OwnerEquityAccountInitialValueListComponent extends BeanListCompone
         })
       }),
       catchError((error) => {
-        messageService.add({
-          severity: 'error',
-          summary: `Error reading balance`,
-          detail: `Error : ${error.error.message}`
-        })
+        addMessageService(messageService, error,
+          `Error reading balance`)
         return of()
       })
     )

@@ -11,6 +11,7 @@ import { BeanUpdateComponent } from './bean-update.component';
 import { BeanUpdateFormGroupService } from './bean-update-form-group.service';
 import { BeanService } from './bean-service';
 import { BeanServiceFactory } from './bean-service-factory';
+import { addMessageService } from '../parse-http-error';
 
 @Component({
   selector: 'bean-update',
@@ -73,11 +74,8 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
           this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: bean } })
         }),
         catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: `${this.beanService.beanName} not edited`,
-            detail: `${this.beanService.beanName} not edited: ${error.error.message}`
-          })
+          addMessageService(this.messageService, error,
+            `${this.beanService.beanName} not edited`)
           return of()
         })
       ).subscribe()

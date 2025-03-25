@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'entry-list',
@@ -77,10 +78,11 @@ import { RemoveButton } from "../bean/remove-button";
 export class EntryListComponent extends BeanListComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
 
   constructor(
+    messageService: MessageService,
     http: HttpClient,
     route: ActivatedRoute
   ) {
-    super(new EntryService(http, route.snapshot.data['type']))
+    super(messageService, new EntryService(http, route.snapshot.data['type']))
   }
 
 }
