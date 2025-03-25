@@ -76,7 +76,7 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
           this.messageService.add({
             severity: 'error',
             summary: `${this.beanService.beanName} not edited`,
-            detail: `${this.beanService.beanName} not edited: ${error.error.error}`
+            detail: `${this.beanService.beanName} not edited: ${error.error.message}`
           })
           return of()
         })

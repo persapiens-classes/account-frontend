@@ -72,7 +72,7 @@ export class BeanInsertPanelComponent<T extends Bean, I, U> {
           this.messageService.add({
             severity: 'error',
             summary: `${this.beanService.beanName} not inserted`,
-            detail: `${this.beanService.beanName} not inserted: ${error.error.error}`
+            detail: `${this.beanService.beanName} not inserted: ${error.error.message}`
           })
           return of()
         })

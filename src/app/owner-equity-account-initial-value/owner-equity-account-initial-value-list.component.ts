@@ -82,7 +82,7 @@ export class OwnerEquityAccountInitialValueListComponent extends BeanListCompone
         messageService.add({
           severity: 'error',
           summary: `Error reading balance`,
-          detail: `Error : ${error.error.error}`
+          detail: `Error : ${error.error.message}`
         })
         return of()
       })

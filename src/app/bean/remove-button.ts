@@ -37,7 +37,7 @@ export class RemoveButton<T extends Bean, I, U> {
         this.messageService.add({
           severity: 'error',
           summary: `${this.beanService.beanName} not removed`,
-          detail: `${this.beanService.beanName} not removed ${error.error.error}`
+          detail: `${this.beanService.beanName} not removed ${error.error.message}`
         })
         return of()
       })
