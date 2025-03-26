@@ -64,7 +64,7 @@ export class BeanInsertPanelComponent<T extends Bean, I, U> {
           this.appMessageService.addSuccessMessage(
             `${this.beanService.beanName} inserted`,
             `${this.beanService.beanName} ${bean.getId()} inserted ok.`)
-          this.router.navigate([`${this.beanService.beansName}`])
+          this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: bean } })
         }),
         catchError((error) => {
           this.appMessageService.addErrorMessage(error,
