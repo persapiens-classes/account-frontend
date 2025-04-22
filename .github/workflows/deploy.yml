@@ -10,21 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório
+      - name: Checkout
         uses: actions/checkout@v4.2.2
 
-      - name: Instalação do Node
+      - name: Install Node
         uses: actions/setup-node@v4.4.0
         with:
           node-version: '22'
 
-      - name: Instalar dependências
+      - name: Install dependencies
         run: npm install
 
-      - name: Build do projeto
+      - name: Build project
         run: npm run build -- --base-href=/account-frontend/
 
-      - name: Deploy no GitHub Pages
+      - name: Deploy on GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           branch: gh-pages
