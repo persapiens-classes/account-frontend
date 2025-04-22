@@ -1,0 +1,31 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Install Node
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build -- --base-href=/account-frontend/
+
+      - name: Deploy on GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
+        with:
+          branch: gh-pages
+          folder: dist/account/
