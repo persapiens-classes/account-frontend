@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm run build -- --base-href=/account-frontend/
+        run: npm run build -- --configuration=production --base-href=/account-frontend/
 
       - name: Deploy on GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.7.3
