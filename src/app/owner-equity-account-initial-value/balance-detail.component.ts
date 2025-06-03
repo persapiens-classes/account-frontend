@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { DetailField } from "../field/detail-field.component";
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { Balance } from './balance';
-import { BalanceDetailService } from './balance-detail-service';
 import { BalanceCreateService } from './balance-create-service';
+import { PreviousRouteService } from './previous-route-service';
+import { BalanceFilterService } from './balance-filter-service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'balance-detail',
@@ -17,10 +19,17 @@ import { BalanceCreateService } from './balance-create-service';
   `
 })
 export class BalanceDetailComponent extends BeanDetailComponent<Balance> {
-  constructor(
-    balanceService: BalanceDetailService
+  constructor(private previousRouteService: PreviousRouteService,
+    private balanceFilterService: BalanceFilterService
   ) {
     super(new BalanceCreateService())
+  }
+
+  async ngOnInit(): Promise<void> {
+    if (this.previousRouteService.getPreviousUrl()?.endsWith("/edit")
+      || this.previousRouteService.getPreviousUrl()?.endsWith("/new")) {
+      this.bean = await firstValueFrom(this.balanceFilterService.find(this.bean.owner, this.bean.equityAccount.description))
+    }
   }
 
 }
