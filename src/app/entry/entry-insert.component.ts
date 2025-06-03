@@ -8,13 +8,13 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { AccountService } from '../account/account-service';
-import { OwnerService } from '../owner/owner-service';
 import { DateField } from "../field/date-field.component";
 import { SelectField } from "../field/select-field.component";
 import { NumberField } from "../field/number-field.component";
 import { InputField } from "../field/input-field.component";
 import { EntryInsertFormGroupService } from './entry-insert-form-group.service';
+import { OwnerListService } from '../owner/owner-list-service';
+import { AccountListService } from '../account/account-list-service';
 
 @Component({
   selector: 'entry-insert',
@@ -66,14 +66,14 @@ export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate>
     http: HttpClient,
     route: ActivatedRoute,
     entryFormGroupService: EntryInsertFormGroupService,
-    ownerService: OwnerService
+    ownerService: OwnerListService
   ) {
     super(createBean)
 
     this.form = entryFormGroupService.form
 
-    this.inAccounts$ = new AccountService(http, route.snapshot.data['inAccountType']).findAll()
-    this.outAccounts$ = new AccountService(http, route.snapshot.data['outAccountType']).findAll()
+    this.inAccounts$ = new AccountListService(http, route.snapshot.data['inAccountType']).findAll()
+    this.outAccounts$ = new AccountListService(http, route.snapshot.data['outAccountType']).findAll()
     this.owners$ = ownerService.findAll()
   }
 

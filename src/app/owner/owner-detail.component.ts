@@ -12,7 +12,7 @@ import { OwnerCreateService } from './owner-create-service';
     <a-detail-field strong="Name" value="{{ bean.name }}"/>
   `
 })
-export class OwnerDetailComponent extends BeanDetailComponent<Owner, Owner, Owner> {
+export class OwnerDetailComponent extends BeanDetailComponent<Owner> {
 
   constructor() {
     super(new OwnerCreateService())

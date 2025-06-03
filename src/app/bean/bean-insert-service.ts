@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import { Bean } from "./bean";
 import { BeanCreateService } from "./bean-create-service";
 
-export class BeanService<T extends Bean, I, U> {
+export class BeanInsertService<T extends Bean, I> {
 
   private apiUrl;
 
@@ -19,26 +19,6 @@ export class BeanService<T extends Bean, I, U> {
     return this.http.post<T>(this.apiUrl, bean).pipe(
       map(data => this.toBean(data))
     )
-  }
-
-  idSeparator(): string {
-    return '/'
-  }
-
-  update(id: string, bean: U): Observable<T> {
-    return this.http.put<T>(`${this.apiUrl}${this.idSeparator()}${id}`, bean).pipe(
-      map(data => this.toBean(data))
-    )
-  }
-
-  findAll(): Observable<Array<T>> {
-    return this.http.get<Array<T>>(this.apiUrl).pipe(
-      map(data => data.map(bean => this.toBean(bean)))
-    )
-  }
-
-  remove(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${this.idSeparator()}${id}`)
   }
 
   toBean(json: any): T {

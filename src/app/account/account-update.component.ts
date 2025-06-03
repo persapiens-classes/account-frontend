@@ -9,10 +9,10 @@ import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { CategoryService } from '../category/category-service';
 import { InputField } from "../field/input-field.component";
 import { SelectField } from "../field/select-field.component";
 import { AccountUpdateFormGroupService } from './account-update-form-group.service';
+import { CategoryListService } from '../category/category-list-service';
 
 @Component({
   selector: 'account-update',
@@ -42,7 +42,7 @@ export class AccountUpdateComponent extends BeanUpdateComponent<Account> {
 
     this.form = accountFormGroupService.form
 
-    this.categories$ = new CategoryService(http, route.snapshot.data['categoryType']).findAll()
+    this.categories$ = new CategoryListService(http, route.snapshot.data['categoryType']).findAll()
   }
 
 }

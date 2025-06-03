@@ -1,22 +1,22 @@
 import { catchError, Observable, of } from 'rxjs';
 import { Bean } from './bean';
-import { BeanService } from './bean-service';
+import { BeanListService } from './bean-list-service';
 import { AppMessageService } from '../app-message-service';
 
-export class BeanListComponent<T extends Bean, I, U> {
+export class BeanListComponent<T extends Bean> {
   beansList$: Observable<Array<T>>
 
   constructor(private appMessageService: AppMessageService,
-    public beanService: BeanService<T, I, U>
+    public beanListService: BeanListService<T>
   ) {
     this.beansList$ = this.loadBeans()
   }
 
   loadBeans(): Observable<Array<T>> {
-    return this.beanService.findAll().pipe(
+    return this.beanListService.findAll().pipe(
       catchError((error) => {
         this.appMessageService.addErrorMessage(error,
-          `${this.beanService.beansName} not listed`)
+          `${this.beanListService.beansName} not listed`)
         return of()
       })
     )

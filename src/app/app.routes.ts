@@ -18,8 +18,8 @@ import { EntryDetailComponent } from './entry/entry-detail.component';
 import { CategoryDetailComponent } from './category/category-detail.component';
 import { AccountDetailComponent } from './account/account-detail.component';
 import { OwnerDetailComponent } from './owner/owner-detail.component';
-import { OwnerEquityAccountInitialValueListComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-list.component';
-import { OwnerEquityAccountInitialValueDetailComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-detail.component';
+import { BalanceListComponent } from './owner-equity-account-initial-value/balance-list.component';
+import { BalanceDetailComponent } from './owner-equity-account-initial-value/balance-detail.component';
 import { OwnerEquityAccountInitialValueUpdateComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update.component';
 import { OwnerEquityAccountInitialValueInsertComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-insert.component';
 import { BeanDetailPanelComponent } from './bean/bean-detail-panel.component';
@@ -40,17 +40,17 @@ import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-eq
 export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   {
-    path: 'ownerEquityAccountInitialValues', component: CrudBeanPageComponent, canActivate: [AuthGuard],
+    path: 'balances', component: CrudBeanPageComponent, canActivate: [AuthGuard],
     data: { title: 'Balances', titleClass: 'blue' },
     children: [
-      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: OwnerEquityAccountInitialValueListComponent, serviceName: 'OwnerEquityAccountInitialValue' } },
+      { path: 'list', component: BeanListPanelComponent, data: { beanListComponent: BalanceListComponent, serviceName: 'Balance' } },
       { path: 'new', component: BeanInsertPanelComponent, data: { beanInsertComponent: OwnerEquityAccountInitialValueInsertComponent, beanInsertFormGroupService: OwnerEquityAccountInitialValueInsertFormGroupService, serviceName: 'OwnerEquityAccountInitialValue' } },
       {
         path: 'edit', component: BeanUpdatePanelComponent, data: {
           beanUpdateComponent: OwnerEquityAccountInitialValueUpdateComponent, beanUpdateFormGroupService: OwnerEquityAccountInitialValueUpdateFormGroupService, serviceName: 'OwnerEquityAccountInitialValue'
         }
       },
-      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: OwnerEquityAccountInitialValueDetailComponent, serviceName: 'OwnerEquityAccountInitialValue' } },
+      { path: 'detail', component: BeanDetailPanelComponent, data: { beanDetailComponent: BalanceDetailComponent, serviceName: 'Balance' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },

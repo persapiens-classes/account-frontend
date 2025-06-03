@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Bean } from './bean';
-import { BeanService } from './bean-service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,14 +13,14 @@ import { Router } from '@angular/router';
       pTooltip="Edit the account" [style]="{'margin-right': '15px'}"/>
   `
 })
-export class StartUpdateButton<T extends Bean, I, U> {
+export class StartUpdateButton<T extends Bean> {
   @Input() item!: T
-  @Input() beanService!: BeanService<T, I, U>
+  @Input() beansName!: String
   @Input() removed!: () => void
 
   constructor(private router: Router) { }
 
   startUpdate(item: T): void {
-    this.router.navigate([`${this.beanService.beansName}/edit`], { state: { bean: item } })
+    this.router.navigate([`${this.beansName}/edit`], { state: { bean: item } })
   }
 }

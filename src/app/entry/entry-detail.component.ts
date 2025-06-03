@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Entry, EntryInsertUpdate } from './entry';
+import { Entry } from './entry';
 import { DetailField } from "../field/detail-field.component";
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { EntryCreateService } from './entry-create-service';
@@ -18,7 +18,7 @@ import { EntryCreateService } from './entry-create-service';
     <a-detail-field strong="Note" value="{{ bean.note }}"/>
   `
 })
-export class EntryDetailComponent extends BeanDetailComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
+export class EntryDetailComponent extends BeanDetailComponent<Entry> {
 
   constructor() {
     super(new EntryCreateService())

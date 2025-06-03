@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Bean } from './bean';
-import { BeanService } from './bean-service';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AppMessageService } from '../app-message-service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { BeanRemoveService } from './bean-remove-service';
 
 @Component({
   selector: 'a-remove-button',
@@ -22,9 +22,9 @@ import { ConfirmationService } from 'primeng/api';
       pTooltip="Delete the account" [style]="{'margin-right': '10px'}"/>
   `
 })
-export class RemoveButton<T extends Bean, I, U> {
+export class RemoveButton<T extends Bean> {
   @Input() item!: T
-  @Input() beanService!: BeanService<T, I, U>
+  @Input() beanRemoveService!: BeanRemoveService<T>
   @Input() beanList$!: Observable<Array<T>>
   @Output() removed = new EventEmitter<void>()
 
@@ -37,16 +37,16 @@ export class RemoveButton<T extends Bean, I, U> {
       target: event.target as EventTarget,
       message: 'Are you sure you want to remove?',
       accept: () => {
-        this.beanService.remove(this.item.getId()).pipe(
+        this.beanRemoveService.remove(this.item.getId()).pipe(
           tap(() => {
             this.appMessageService.addSuccessMessage(
-              `${this.beanService.beanName} removed`,
-              `${this.beanService.beanName} removed ok.`)
+              `${this.beanRemoveService.beanName} removed`,
+              `${this.beanRemoveService.beanName} removed ok.`)
             this.removed.emit()
           }),
           catchError((error) => {
             this.appMessageService.addErrorMessage(error,
-              `${this.beanService.beanName} not removed`)
+              `${this.beanRemoveService.beanName} not removed`)
             return of()
           })
         ).subscribe()

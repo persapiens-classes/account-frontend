@@ -19,7 +19,7 @@ export class MenuComponent {
       {
         label: 'Balance',
         icon: 'pi pi-arrow-up',
-        routerLink: ['/ownerEquityAccountInitialValues']
+        routerLink: ['/balances']
       },
       {
         label: 'Credit Entry',

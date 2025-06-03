@@ -8,9 +8,9 @@ import { CommonModule } from '@angular/common';
 import { Component, ComponentRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { BeanUpdateComponent } from './bean-update.component';
 import { BeanUpdateFormGroupService } from './bean-update-form-group.service';
-import { BeanService } from './bean-service';
-import { BeanServiceFactory } from './bean-service-factory';
+import { BeanUpdateService } from './bean-update-service';
 import { AppMessageService } from '../app-message-service';
+import { BeanUpdateServiceFactory } from './bean-update-service-factory';
 
 @Component({
   selector: 'bean-update',
@@ -27,7 +27,7 @@ import { AppMessageService } from '../app-message-service';
     </form>
   `
 })
-export class BeanUpdatePanelComponent<T extends Bean, I, U> {
+export class BeanUpdatePanelComponent<T extends Bean, U> {
   form: FormGroup
   bean: T
 
@@ -36,13 +36,13 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
   beanUpdateComponentType!: Type<BeanUpdateComponent<U>>
   beanUpdateComponentInstance!: ComponentRef<BeanUpdateComponent<U>>
 
-  beanService: BeanService<T, I, U>
+  beanUpdateService: BeanUpdateService<T, U>
 
   constructor(
     private router: Router,
     route: ActivatedRoute,
     private appMessageService: AppMessageService,
-    beanServiceFactory: BeanServiceFactory<T, I, U>
+    beanServiceFactory: BeanUpdateServiceFactory<T, U>
   ) {
     const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<BeanUpdateFormGroupService<T>>;
     const beanUpdateFormGroupService = inject(formGroupServiceType)
@@ -51,7 +51,7 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
 
     this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent']
 
-    this.beanService = beanServiceFactory.getBeanService(route.snapshot.data['serviceName'])
+    this.beanUpdateService = beanServiceFactory.getBeanUpdateService(route.snapshot.data['serviceName'])
   }
 
   ngAfterViewInit() {
@@ -63,16 +63,16 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
     if (this.form.valid) {
       const updatedBean = this.beanUpdateComponentInstance.instance.createBeanFn(this.form)
 
-      this.beanService.update(this.bean.getId(), updatedBean).pipe(
+      this.beanUpdateService.update(this.bean.getId(), updatedBean).pipe(
         tap((bean) => {
           this.appMessageService.addSuccessMessage(
-            `${this.beanService.beanName} edited`,
-            `${this.beanService.beanName} ${this.bean.getId()} edited ok.`)
-          this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: bean } })
+            `${this.beanUpdateService.beanName} edited`,
+            `${this.beanUpdateService.beanName} ${this.bean.getId()} edited ok.`)
+          this.router.navigate([`${this.beanUpdateService.beansName}/detail`], { state: { bean: bean } })
         }),
         catchError((error) => {
           this.appMessageService.addErrorMessage(error,
-            `${this.beanService.beanName} not edited`)
+            `${this.beanUpdateService.beanName} not edited`)
           return of()
         })
       ).subscribe()
@@ -80,10 +80,10 @@ export class BeanUpdatePanelComponent<T extends Bean, I, U> {
   }
 
   cancelToList() {
-    this.router.navigate([`${this.beanService.beansName}`])
+    this.router.navigate([`${this.beanUpdateService.beansName}`])
   }
 
   cancelToDetail() {
-    this.router.navigate([`${this.beanService.beansName}/detail`], { state: { bean: this.bean } })
+    this.router.navigate([`${this.beanUpdateService.beansName}/detail`], { state: { bean: this.bean } })
   }
 }

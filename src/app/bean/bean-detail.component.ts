@@ -1,13 +1,13 @@
 import { Bean } from './bean';
 import { BeanCreateService } from './bean-create-service';
 
-export class BeanDetailComponent<T extends Bean, I, U> {
+export class BeanDetailComponent<T extends Bean> {
   bean: T
 
   constructor(
-    beanService: BeanCreateService<T>
+    beanCreateService: BeanCreateService<T>
   ) {
-    this.bean = beanService.toBean(history.state.bean)
+    this.bean = beanCreateService.toBean(history.state.bean)
   }
 
 }
