@@ -6,12 +6,12 @@ import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Observable } from 'rxjs';
 import { Owner } from '../owner/owner';
 import { Account } from '../account/account';
-import { OwnerService } from '../owner/owner-service';
-import { AccountService } from '../account/account-service';
 import { HttpClient } from '@angular/common/http';
 import { SelectField } from "../field/select-field.component";
 import { NumberField } from "../field/number-field.component";
 import { OwnerEquityAccountInitialValueInsertFormGroupService } from './owner-equity-account-initial-value-insert-form-group.service';
+import { OwnerListService } from '../owner/owner-list-service';
+import { AccountListService } from '../account/account-list-service';
 
 @Component({
   selector: 'owner-equity-account-initial-value-insert',
@@ -31,7 +31,7 @@ import { OwnerEquityAccountInitialValueInsertFormGroupService } from './owner-eq
       [control]="form.get('selectEquityAccount')!" />
 
     <a-number-field label="Initial Value"
-      [control]="form.get('inputValue')!" />
+      [control]="form.get('inputInitialValue')!" />
   `
 })
 export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertComponent<OwnerEquityAccountInitialValueInsert> {
@@ -43,13 +43,13 @@ export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertCom
   constructor(
     http: HttpClient,
     ownerEquityAccountInitialValueFormGroupService: OwnerEquityAccountInitialValueInsertFormGroupService,
-    ownerService: OwnerService
+    ownerService: OwnerListService
   ) {
     super(createBean)
 
     this.form = ownerEquityAccountInitialValueFormGroupService.form
 
-    this.equityAccounts$ = new AccountService(http, 'Equity').findAll()
+    this.equityAccounts$ = new AccountListService(http, 'Equity').findAll()
     this.owners$ = ownerService.findAll()
   }
 
@@ -58,5 +58,5 @@ export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertCom
 function createBean(form: FormGroup): OwnerEquityAccountInitialValueInsert {
   return new OwnerEquityAccountInitialValueInsert(form.value.selectOwner.name,
     form.value.selectEquityAccount.description,
-    form.value.inputValue)
+    form.value.inputInitialValue)
 }

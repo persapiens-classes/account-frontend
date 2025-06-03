@@ -2,19 +2,19 @@ import { Component } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
-import { OwnerEquityAccountInitialValueService } from './owner-equity-account-initial-value-service';
-import { BalanceService } from './balance-service';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { BalanceListService } from './balance-list-service';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
 import { AppMessageService } from '../app-message-service';
+import { Balance } from './balance';
+import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-account-initial-value-remove-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'owner-equity-account-initial-value-list',
+  selector: 'balance-list',
   imports: [AsyncPipe, CommonModule, TableModule, TooltipModule, ButtonModule, StartDetailButton, StartUpdateButton, RemoveButton],
   template: `
     <p-table 
@@ -28,8 +28,8 @@ import { AppMessageService } from '../app-message-service';
         <tr>
           <th pSortableColumn="owner">Owner <p-sortIcon field="owner" /></th>
           <th pSortableColumn="equityAccount.description">Equity Account <p-sortIcon field="equityAccount" /></th>
-          <th>Balance</th>
-          <th pSortableColumn="value">Value <p-sortIcon field="value" /></th>
+          <th pSortableColumn="balance">Balance <p-sortIcon field="balance" /></th>
+          <th pSortableColumn="initialValue">Initial Value <p-sortIcon field="initialValue" /></th>
           <th>Detail</th>
           <th>Edit</th>
           <th>Remove</th>
@@ -49,42 +49,28 @@ import { AppMessageService } from '../app-message-service';
         <tr>
           <td>{{ item.owner }}</td>
           <td>{{ item.equityAccount.description }}</td>
-          <td>{{ balanceList$[i] | async | number:'1.2-2' }}</td>
-          <td>{{ item.value | number:'1.2-2' }}</td>
-          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-remove-button [item]=item [beanService]="beanService" (removed)="removed()" /> </td>
+          <td>{{ item.balance | number:'1.2-2' }}</td>
+          <td>{{ item.initialValue | number:'1.2-2' }}</td>
+          <td> <a-start-detail-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-start-update-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-remove-button [item]=item [beanRemoveService]="beanRemoveService" (removed)="removed()" /> </td>
         </tr>
       </ng-template>
     </p-table>
   `
 })
-export class OwnerEquityAccountInitialValueListComponent extends BeanListComponent<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert, number> {
-  balanceList$: Array<Observable<number>>
+export class BalanceListComponent extends BeanListComponent<Balance> {
 
+  beanRemoveService: OwnerEquityAccountInitialValueRemoveService
+  
   constructor(
+    http: HttpClient,
     appMessageService: AppMessageService,
-    beanService: OwnerEquityAccountInitialValueService,
-    balanceService: BalanceService
+    beanService: BalanceListService
   ) {
     super(appMessageService, beanService)
 
-    this.balanceList$ = new Array()
-
-    this.beansList$ = this.beansList$.pipe(
-      tap((beansList) => {
-        this.balanceList$ = new Array(beansList.length)
-        beansList.forEach((value, index) => {
-          this.balanceList$[index] = balanceService.find(value.owner, value.equityAccount.description)
-        })
-      }),
-      catchError((error) => {
-        appMessageService.addErrorMessage(error,
-          `Error reading balance`)
-        return of()
-      })
-    )
-
+    this.beanRemoveService = new OwnerEquityAccountInitialValueRemoveService(http)
   }
 
 }

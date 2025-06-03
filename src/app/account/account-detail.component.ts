@@ -13,7 +13,7 @@ import { AccountCreateService } from './account-create-service';
     <a-detail-field strong="Category" value="{{ bean.category }}"/>
   `
 })
-export class AccountDetailComponent extends BeanDetailComponent<Account, Account, Account> {
+export class AccountDetailComponent extends BeanDetailComponent<Account> {
 
   constructor() {
     super(new AccountCreateService())

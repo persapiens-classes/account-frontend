@@ -3,15 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { Entry, EntryInsertUpdate } from './entry';
+import { Entry } from './entry';
 import { HttpClient } from '@angular/common/http';
-import { EntryService } from './entry-service';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
 import { AppMessageService } from '../app-message-service';
+import { EntryListService } from './entry-list-service';
+import { EntryRemoveService } from './entry-remove-service';
 
 @Component({
   selector: 'entry-list',
@@ -67,22 +68,26 @@ import { AppMessageService } from '../app-message-service';
           <td>{{ item.outAccount.description }}</td>
           <td>{{ item.date.toLocaleDateString() }}</td>
           <td>{{ item.value | number:'1.2-2' }}</td>
-          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-remove-button [item]=item [beanService]="beanService" (removed)="removed()" /> </td>
+          <td> <a-start-detail-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-start-update-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-remove-button [item]=item [beanRemoveService]="beanRemoveService" (removed)="removed()" /> </td>
         </tr>
       </ng-template>
     </p-table>
   `
 })
-export class EntryListComponent extends BeanListComponent<Entry, EntryInsertUpdate, EntryInsertUpdate> {
+export class EntryListComponent extends BeanListComponent<Entry> {
 
+  beanRemoveService: EntryRemoveService
+  
   constructor(
     http: HttpClient,
     route: ActivatedRoute,
     appMessageService: AppMessageService
   ) {
-    super(appMessageService, new EntryService(http, route.snapshot.data['type']))
+    super(appMessageService, new EntryListService(http, route.snapshot.data['type']))
+
+    this.beanRemoveService = new EntryRemoveService(http, route.snapshot.data['type'])
   }
 
 }

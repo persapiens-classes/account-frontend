@@ -3,13 +3,15 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Owner } from './owner';
-import { OwnerService } from './owner-service';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
 import { AppMessageService } from '../app-message-service';
+import { OwnerListService } from './owner-list-service';
+import { OwnerRemoveService } from './owner-remove-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'owner-list',
@@ -39,21 +41,26 @@ import { AppMessageService } from '../app-message-service';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.name }}</td>
-          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-remove-button [item]=item [beanService]="beanService" (removed)="removed()" /> </td>
+          <td> <a-start-detail-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-start-update-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-remove-button [item]=item [beanRemoveService]="beanRemoveService" (removed)="removed()" /> </td>
         </tr>
       </ng-template>
     </p-table>
   `
 })
-export class OwnerListComponent extends BeanListComponent<Owner, Owner, Owner> {
+export class OwnerListComponent extends BeanListComponent<Owner> {
+
+  beanRemoveService: OwnerRemoveService
 
   constructor(
+    http: HttpClient,
     accoutMessageService: AppMessageService,
-    beanService: OwnerService
+    beanService: OwnerListService
   ) {
     super(accoutMessageService, beanService)
+
+    this.beanRemoveService = new OwnerRemoveService(http)
   }
 
 }

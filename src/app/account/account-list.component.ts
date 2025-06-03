@@ -6,12 +6,13 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Account } from './account';
 import { HttpClient } from '@angular/common/http';
-import { AccountService } from './account-service';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { RemoveButton } from "../bean/remove-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { AppMessageService } from '../app-message-service';
+import { AccountListService } from './account-list-service';
+import { AccountRemoveService } from './account-remove-service';
 
 @Component({
   selector: 'account-list',
@@ -47,22 +48,26 @@ import { AppMessageService } from '../app-message-service';
         <tr>
           <td>{{ item.description }}</td>
           <td>{{ item.category }}</td>
-          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-remove-button [item]=item [beanService]="beanService" [beanList$]="beansList$" /> </td>
+          <td> <a-start-detail-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-start-update-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-remove-button [item]=item [beanRemoveService]="beanRemoveService" [beanList$]="beansList$" /> </td>
         </tr>
       </ng-template>
     </p-table>
   `
 })
-export class AccountListComponent extends BeanListComponent<Account, Account, Account> {
+export class AccountListComponent extends BeanListComponent<Account> {
+
+  beanRemoveService: AccountRemoveService
 
   constructor(
     http: HttpClient,
     route: ActivatedRoute,
     appMessageService: AppMessageService
   ) {
-    super(appMessageService, new AccountService(http, route.snapshot.data['type']))
+    super(appMessageService, new AccountListService(http, route.snapshot.data['type']))
+
+    this.beanRemoveService = new AccountRemoveService(http, route.snapshot.data['type'])
   }
 
 }

@@ -5,8 +5,8 @@ import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@ang
 import { PanelModule } from 'primeng/panel';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { BeanService } from './bean-service';
-import { BeanServiceFactory } from './bean-service-factory';
+import { BeanListService } from './bean-list-service';
+import { BeanListServiceFactory } from './bean-list-service-factory';
 
 @Component({
   selector: 'bean-list',
@@ -32,21 +32,21 @@ import { BeanServiceFactory } from './bean-service-factory';
     }  
   `
 })
-export class BeanListPanelComponent<T extends Bean, I, U> {
+export class BeanListPanelComponent<T extends Bean> {
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef
-  beanListComponent!: Type<BeanListComponent<T, I, U>>
-  beanListInstance!: ComponentRef<BeanListComponent<T, I, U>>
+  beanListComponent!: Type<BeanListComponent<T>>
+  beanListInstance!: ComponentRef<BeanListComponent<T>>
 
-  beanService: BeanService<T, I, U>
+  beanListService: BeanListService<T>
 
   constructor(private router: Router,
     route: ActivatedRoute,
-    beanServiceFactory: BeanServiceFactory<T, I, U>
+    beanServiceFactory: BeanListServiceFactory<T>
   ) {
     this.beanListComponent = route.snapshot.data['beanListComponent']
 
-    this.beanService = beanServiceFactory.getBeanService(route.snapshot.data['serviceName'])
+    this.beanListService = beanServiceFactory.getBeanListService(route.snapshot.data['serviceName'])
   }
 
   ngAfterViewInit() {
@@ -55,6 +55,6 @@ export class BeanListPanelComponent<T extends Bean, I, U> {
   }
 
   startInsert(): void {
-    this.router.navigate([`${this.beanService.beansName}/new`])
+    this.router.navigate([`${this.beanListService.beansName}/new`])
   }
 }

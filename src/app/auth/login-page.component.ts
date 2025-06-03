@@ -63,7 +63,7 @@ export class LoginPageComponent {
     if (this.form.valid) {
       this.authService.signin(this.form.value.inputUsername, this.form.value.inputPassword).pipe(
         tap(() => {
-          this.router.navigate(['ownerEquityAccountInitialValues/list'])
+          this.router.navigate(['balances/list'])
         }),
         catchError((error) => {
           this.appMessageService.addErrorMessage(error,

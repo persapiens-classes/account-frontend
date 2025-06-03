@@ -6,12 +6,13 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Category } from './category';
 import { HttpClient } from '@angular/common/http';
-import { CategoryService } from './category-service';
+import { CategoryListService } from './category-list-service';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { StartDetailButton } from "../bean/start-detail-button";
 import { StartUpdateButton } from "../bean/start-update-button";
 import { RemoveButton } from "../bean/remove-button";
 import { AppMessageService } from '../app-message-service';
+import { CategoryRemoveService } from './category-remove-service';
 
 @Component({
   selector: 'category-list',
@@ -41,21 +42,26 @@ import { AppMessageService } from '../app-message-service';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.description }}</td>
-          <td> <a-start-detail-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-start-update-button [item]=item [beanService]="beanService" /> </td>
-          <td> <a-remove-button [item]=item [beanService]="beanService" (removed)="removed()" /> </td>
+          <td> <a-start-detail-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-start-update-button [item]=item [beansName]="beanListService.beansName" /> </td>
+          <td> <a-remove-button [item]=item [beanRemoveService]="beanRemoveService" (removed)="removed()" /> </td>
         </tr>
       </ng-template>
     </p-table>
   `
 })
-export class CategoryListComponent extends BeanListComponent<Category, Category, Category> {
+export class CategoryListComponent extends BeanListComponent<Category> {
+
+  beanRemoveService: CategoryRemoveService
+  
   constructor(
     http: HttpClient,
     route: ActivatedRoute,
     appMessageService: AppMessageService
   ) {
-    super(appMessageService, new CategoryService(http, route.snapshot.data['type']))
+    super(appMessageService, new CategoryListService(http, route.snapshot.data['type']))
+
+    this.beanRemoveService = new CategoryRemoveService(http, route.snapshot.data['type'])
   }
 
 }

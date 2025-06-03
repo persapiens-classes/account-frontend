@@ -18,7 +18,7 @@ export class OwnerEquityAccountInitialValueUpdateFormGroupService extends BeanUp
 
 function createForm(formBuilder: FormBuilder, bean: OwnerEquityAccountInitialValue): FormGroup {
   return formBuilder.group({
-    inputValue: [bean.value, [Validators.required]]
+    inputInitialValue: [bean.initialValue, [Validators.required]]
   })
 }
 

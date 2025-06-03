@@ -19,7 +19,7 @@ import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-eq
 
     <a-number-field label="Initial Value"
       [autoFocus]="true"
-      [control]="form.get('inputValue')!" />
+      [control]="form.get('inputInitialValue')!" />
   `
 })
 export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateComponent<number> {
@@ -37,5 +37,5 @@ export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateCom
 }
 
 function createBean(form: FormGroup): number {
-  return form.value.inputValue
+  return form.value.inputInitialValue
 }

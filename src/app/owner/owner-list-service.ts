@@ -1,18 +1,18 @@
 import { Injectable, InjectionToken } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Owner } from "./owner";
-import { BeanService } from "../bean/bean-service";
+import { BeanListService } from "../bean/bean-list-service";
 import { OwnerCreateService } from "./owner-create-service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class OwnerService extends BeanService<Owner, Owner, Owner> {
+export class OwnerListService extends BeanListService<Owner> {
 
   constructor(http: HttpClient) {
-    super(http, "Owner", "owners", new OwnerCreateService())
+    super(http, "owners", new OwnerCreateService())
   }
 
 }
 
-export const OWNER_SERVICE = new InjectionToken<OwnerService>('OwnerService')
+export const OWNER_LIST_SERVICE = new InjectionToken<OwnerListService>('OwnerListService')
