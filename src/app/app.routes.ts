@@ -164,6 +164,8 @@ export const routes: Routes = [
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
+  { path: 'ownerEquityAccountInitialValues/detail', redirectTo: 'balances/detail', pathMatch: 'full' },
+  { path: 'ownerEquityAccountInitialValues', redirectTo: 'balances', pathMatch: 'full' },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];
