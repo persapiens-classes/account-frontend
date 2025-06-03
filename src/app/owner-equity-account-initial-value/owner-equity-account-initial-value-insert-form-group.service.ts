@@ -19,6 +19,6 @@ function createForm(formBuilder: FormBuilder): FormGroup {
   return formBuilder.group({
     selectOwner: ['', [Validators.required]],
     selectEquityAccount: ['', [Validators.required]],
-    inputValue: ['', [Validators.required]]
+    inputInitialValue: ['', [Validators.required]]
   })
 }

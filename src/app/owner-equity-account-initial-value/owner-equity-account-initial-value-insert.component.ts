@@ -31,7 +31,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectEquityAccount')!" />
 
     <a-number-field label="Initial Value"
-      [control]="form.get('inputValue')!" />
+      [control]="form.get('inputInitialValue')!" />
   `
 })
 export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertComponent<OwnerEquityAccountInitialValueInsert> {
@@ -58,5 +58,5 @@ export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertCom
 function createBean(form: FormGroup): OwnerEquityAccountInitialValueInsert {
   return new OwnerEquityAccountInitialValueInsert(form.value.selectOwner.name,
     form.value.selectEquityAccount.description,
-    form.value.inputValue)
+    form.value.inputInitialValue)
 }
