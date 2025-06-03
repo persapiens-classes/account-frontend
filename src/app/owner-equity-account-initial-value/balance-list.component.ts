@@ -29,7 +29,7 @@ import { HttpClient } from '@angular/common/http';
           <th pSortableColumn="owner">Owner <p-sortIcon field="owner" /></th>
           <th pSortableColumn="equityAccount.description">Equity Account <p-sortIcon field="equityAccount" /></th>
           <th pSortableColumn="balance">Balance <p-sortIcon field="balance" /></th>
-          <th pSortableColumn="initialValue">Value <p-sortIcon field="initialValue" /></th>
+          <th pSortableColumn="initialValue">Initial Value <p-sortIcon field="initialValue" /></th>
           <th>Detail</th>
           <th>Edit</th>
           <th>Remove</th>
