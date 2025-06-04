@@ -31,7 +31,7 @@ import { AppMessageService } from '../app-message-service';
   template: `
     <p-panel class="container">
       <div class="container">
-        <img src="images/account.png" class="login-image" />
+        <img src="images/account.png" class="login-image" alt="Account logo" />
         <h1>Welcome to Account</h1>
 
         <form [formGroup]="form">
