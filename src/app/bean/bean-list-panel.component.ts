@@ -1,7 +1,14 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bean } from './bean';
 import { BeanListComponent } from './bean-list.component';
-import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+  AfterViewInit,
+} from '@angular/core';
 import { PanelModule } from 'primeng/panel';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -9,7 +16,7 @@ import { BeanListService } from './bean-list-service';
 import { BeanListServiceFactory } from './bean-list-service-factory';
 
 @Component({
-  selector: 'bean-list',
+  selector: 'app-bean-list',
   imports: [FormsModule, PanelModule, ButtonModule],
   template: `
     <p-panel header="List">
@@ -37,7 +44,7 @@ import { BeanListServiceFactory } from './bean-list-service-factory';
     }
   `,
 })
-export class BeanListPanelComponent<T extends Bean> {
+export class BeanListPanelComponent<T extends Bean> implements AfterViewInit {
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef;
   beanListComponent!: Type<BeanListComponent<T>>;

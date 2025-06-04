@@ -8,23 +8,23 @@ import { Category } from './category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryListService } from './category-list-service';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { StartDetailButton } from '../bean/start-detail-button';
-import { StartUpdateButton } from '../bean/start-update-button';
-import { RemoveButton } from '../bean/remove-button';
+import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
+import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
+import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { CategoryRemoveService } from './category-remove-service';
 
 @Component({
-  selector: 'category-list',
+  selector: 'app-category-list',
   imports: [
     AsyncPipe,
     ButtonModule,
     TableModule,
     TooltipModule,
     ButtonModule,
-    StartDetailButton,
-    StartUpdateButton,
-    RemoveButton,
+    StartDetailButtonComponent,
+    StartUpdateButtonComponent,
+    RemoveButtonComponent,
   ],
   template: `
     <p-table
@@ -55,10 +55,10 @@ import { CategoryRemoveService } from './category-remove-service';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.description }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               (removed)="removed()"

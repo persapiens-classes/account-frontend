@@ -5,7 +5,15 @@ import { Bean } from './bean';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
-import { Component, ComponentRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  inject,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+  AfterViewInit,
+} from '@angular/core';
 import { BeanInsertComponent } from './bean-insert.component';
 import { BeanInsertFormGroupService } from './bean-insert-form-group.service';
 import { BeanInsertService } from './bean-insert-service';
@@ -13,7 +21,7 @@ import { AppMessageService } from '../app-message-service';
 import { BeanInsertServiceFactory } from './bean-insert-service-factory';
 
 @Component({
-  selector: 'bean-insert',
+  selector: 'app-bean-insert',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
   template: `
     <form *ngIf="form" [formGroup]="form">
@@ -32,7 +40,7 @@ import { BeanInsertServiceFactory } from './bean-insert-service-factory';
     </form>
   `,
 })
-export class BeanInsertPanelComponent<T extends Bean, I> {
+export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewInit {
   form: FormGroup;
 
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
@@ -48,9 +56,9 @@ export class BeanInsertPanelComponent<T extends Bean, I> {
     private appMessageService: AppMessageService,
     beanInsertServiceFactory: BeanInsertServiceFactory<T, I>,
   ) {
-    const formGroupServiceType = route.snapshot.data['beanInsertFormGroupService'] as Type<
-      BeanInsertFormGroupService<T>
-    >;
+    const formGroupServiceType = route.snapshot.data[
+      'beanInsertFormGroupService'
+    ] as Type<BeanInsertFormGroupService>;
     this.form = inject(formGroupServiceType).createForm();
 
     this.beanInsertComponentType = route.snapshot.data['beanInsertComponent'];

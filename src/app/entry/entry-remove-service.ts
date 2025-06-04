@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Entry } from './entry';
 import { InjectionToken } from '@angular/core';
 import { BeanRemoveService } from '../bean/bean-remove-service';
 
-export class EntryRemoveService extends BeanRemoveService<Entry> {
+export class EntryRemoveService extends BeanRemoveService {
   constructor(http: HttpClient, type: string) {
     super(http, `${type} Entry`, `${type.toLowerCase()}Entries`);
   }

@@ -6,7 +6,7 @@ import { AbstractControl, FormControl, ReactiveFormsModule } from '@angular/form
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-  selector: 'a-input-field',
+  selector: 'app-input-field',
   imports: [CommonModule, FloatLabelModule, AutoFocusModule, InputTextModule, ReactiveFormsModule],
   template: `
     <p-float-label variant="in" class="margin-bottom">
@@ -27,11 +27,11 @@ import { InputTextModule } from 'primeng/inputtext';
     </div>
   `,
 })
-export class InputField {
-  @Input() id: string = 'id';
-  @Input() name: string = 'name';
-  @Input() label: string = '';
-  @Input() autoFocus: boolean = false;
+export class InputFieldComponent {
+  @Input() id = 'id';
+  @Input() name = 'name';
+  @Input() label = '';
+  @Input() autoFocus = false;
   @Input() control!: AbstractControl;
 
   get formControl(): FormControl {

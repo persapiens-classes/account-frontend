@@ -7,24 +7,24 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Account } from './account';
 import { HttpClient } from '@angular/common/http';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { StartDetailButton } from '../bean/start-detail-button';
-import { RemoveButton } from '../bean/remove-button';
-import { StartUpdateButton } from '../bean/start-update-button';
+import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
+import { RemoveButtonComponent } from '../bean/remove-button.component';
+import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
 import { AppMessageService } from '../app-message-service';
 import { AccountListService } from './account-list-service';
 import { AccountRemoveService } from './account-remove-service';
 
 @Component({
-  selector: 'account-list',
+  selector: 'app-account-list',
   imports: [
     AsyncPipe,
     ButtonModule,
     TableModule,
     TooltipModule,
     ButtonModule,
-    RemoveButton,
-    StartDetailButton,
-    StartUpdateButton,
+    RemoveButtonComponent,
+    StartDetailButtonComponent,
+    StartUpdateButtonComponent,
   ],
   template: `
     <p-table
@@ -65,10 +65,10 @@ import { AccountRemoveService } from './account-remove-service';
         <tr>
           <td>{{ item.description }}</td>
           <td>{{ item.category }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               [beanList$]="beansList$"

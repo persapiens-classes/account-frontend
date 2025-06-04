@@ -8,21 +8,28 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { DateField } from '../field/date-field.component';
-import { SelectField } from '../field/select-field.component';
-import { NumberField } from '../field/number-field.component';
-import { InputField } from '../field/input-field.component';
+import { DateFieldComponent } from '../field/date-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { EntryInsertFormGroupService } from './entry-insert-form-group.service';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 
 @Component({
-  selector: 'entry-insert',
-  imports: [ReactiveFormsModule, CommonModule, DateField, SelectField, NumberField, InputField],
+  selector: 'app-entry-insert',
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    DateFieldComponent,
+    SelectFieldComponent,
+    NumberFieldComponent,
+    InputFieldComponent,
+  ],
   template: `
-    <a-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
+    <app-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
 
-    <a-select-field
+    <app-select-field
       label="In Owner"
       placeholder="Select in owner"
       optionLabel="name"
@@ -30,7 +37,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectInOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="In Account"
       placeholder="Select in account"
       optionLabel="description"
@@ -38,7 +45,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectInAccount')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Out Owner"
       placeholder="Select out owner"
       optionLabel="name"
@@ -46,7 +53,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectOutOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Out Account"
       placeholder="Select out account"
       optionLabel="description"
@@ -54,17 +61,17 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectOutAccount')!"
     />
 
-    <a-number-field label="Value" [control]="form.get('inputValue')!" />
+    <app-number-field label="Value" [control]="form.get('inputValue')!" />
 
-    <a-input-field label="Note" [control]="form.get('inputNote')!" />
+    <app-input-field label="Note" [control]="form.get('inputNote')!" />
   `,
 })
 export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate> {
   form: FormGroup;
 
-  inAccounts$: Observable<Array<Account>>;
-  outAccounts$: Observable<Array<Account>>;
-  owners$: Observable<Array<Owner>>;
+  inAccounts$: Observable<Account[]>;
+  outAccounts$: Observable<Account[]>;
+  owners$: Observable<Owner[]>;
 
   constructor(
     http: HttpClient,

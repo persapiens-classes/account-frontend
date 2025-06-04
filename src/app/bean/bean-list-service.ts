@@ -5,7 +5,7 @@ import { Bean } from './bean';
 import { BeanCreateService } from './bean-create-service';
 
 export class BeanListService<T extends Bean> {
-  private apiUrl;
+  private apiUrl: string;
 
   constructor(
     private http: HttpClient,
@@ -15,13 +15,13 @@ export class BeanListService<T extends Bean> {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
 
-  findAll(): Observable<Array<T>> {
+  findAll(): Observable<T[]> {
     return this.http
-      .get<Array<T>>(this.apiUrl)
+      .get<T[]>(this.apiUrl)
       .pipe(map((data) => data.map((bean) => this.toBean(bean))));
   }
 
-  toBean(json: any): T {
+  toBean(json: unknown): T {
     return this.beanCreateService.toBean(json);
   }
 }

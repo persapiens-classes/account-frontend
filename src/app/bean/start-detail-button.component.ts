@@ -6,7 +6,7 @@ import { Bean } from './bean';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'a-start-detail-button',
+  selector: 'app-start-detail-button',
   imports: [CommonModule, ButtonModule, ReactiveFormsModule],
   template: `
     <p-button
@@ -17,9 +17,9 @@ import { Router } from '@angular/router';
     />
   `,
 })
-export class StartDetailButton<T extends Bean> {
+export class StartDetailButtonComponent<T extends Bean> {
   @Input() item!: T;
-  @Input() beansName!: String;
+  @Input() beansName!: string;
 
   constructor(private router: Router) {}
 

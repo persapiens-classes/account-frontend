@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Category } from './category';
 import { InjectionToken } from '@angular/core';
 import { BeanRemoveService } from '../bean/bean-remove-service';
 
-export class CategoryRemoveService extends BeanRemoveService<Category> {
+export class CategoryRemoveService extends BeanRemoveService {
   constructor(http: HttpClient, type: string) {
     super(http, `${type} Category`, `${type.toLowerCase()}Categories`);
   }

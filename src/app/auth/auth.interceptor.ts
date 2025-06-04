@@ -18,7 +18,10 @@ export function authIntercept(
   if (authService.isTokenExpired()) {
     const router = inject(Router);
     router.navigate(['/login']); // Redirect login if token expired
-    return new Observable<HttpEvent<any>>(); // Cancel the request
+    return new Observable<HttpEvent<unknown>>((observer) => {
+      observer.complete();
+    });
+    // Cancel the request
   }
 
   // If not login request, add token

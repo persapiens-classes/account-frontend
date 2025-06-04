@@ -5,7 +5,15 @@ import { Bean } from './bean';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
-import { Component, ComponentRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  inject,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+  AfterViewInit,
+} from '@angular/core';
 import { BeanUpdateComponent } from './bean-update.component';
 import { BeanUpdateFormGroupService } from './bean-update-form-group.service';
 import { BeanUpdateService } from './bean-update-service';
@@ -13,7 +21,7 @@ import { AppMessageService } from '../app-message-service';
 import { BeanUpdateServiceFactory } from './bean-update-service-factory';
 
 @Component({
-  selector: 'bean-update',
+  selector: 'app-bean-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
   template: `
     <form *ngIf="form" [formGroup]="form">
@@ -38,7 +46,7 @@ import { BeanUpdateServiceFactory } from './bean-update-service-factory';
     </form>
   `,
 })
-export class BeanUpdatePanelComponent<T extends Bean, U> {
+export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewInit {
   form: FormGroup;
   bean: T;
 

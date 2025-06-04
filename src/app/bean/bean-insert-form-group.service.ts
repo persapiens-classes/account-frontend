@@ -1,7 +1,6 @@
-import { Bean } from './bean';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-export class BeanInsertFormGroupService<T extends Bean> {
+export class BeanInsertFormGroupService {
   public form!: FormGroup;
 
   constructor(

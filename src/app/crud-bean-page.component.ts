@@ -6,14 +6,14 @@ import { MenuComponent } from './menu.component';
 import { HeaderComponent } from './header.component';
 
 @Component({
-  selector: 'crud',
+  selector: 'app-crud',
   imports: [FormsModule, RouterOutlet, HeaderComponent, MenuComponent, ToastModule],
   template: `
     <p-toast></p-toast>
 
-    <a-header />
+    <app-header />
 
-    <a-menu />
+    <app-menu />
 
     <h2 class="{{ titleClass }}">{{ title }}</h2>
 

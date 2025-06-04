@@ -5,25 +5,25 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Owner } from './owner';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
-import { StartDetailButton } from '../bean/start-detail-button';
-import { StartUpdateButton } from '../bean/start-update-button';
-import { RemoveButton } from '../bean/remove-button';
+import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
+import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
+import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { OwnerListService } from './owner-list-service';
 import { OwnerRemoveService } from './owner-remove-service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'owner-list',
+  selector: 'app-owner-list',
   imports: [
     AsyncPipe,
     CommonModule,
     TableModule,
     TooltipModule,
     ButtonModule,
-    StartDetailButton,
-    StartUpdateButton,
-    RemoveButton,
+    StartDetailButtonComponent,
+    StartUpdateButtonComponent,
+    RemoveButtonComponent,
   ],
   template: `
     <p-table
@@ -49,10 +49,10 @@ import { HttpClient } from '@angular/common/http';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.name }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               (removed)="removed()"

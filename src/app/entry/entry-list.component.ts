@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -7,24 +7,24 @@ import { Entry } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
-import { StartDetailButton } from '../bean/start-detail-button';
-import { StartUpdateButton } from '../bean/start-update-button';
-import { RemoveButton } from '../bean/remove-button';
+import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
+import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
+import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { EntryListService } from './entry-list-service';
 import { EntryRemoveService } from './entry-remove-service';
 
 @Component({
-  selector: 'entry-list',
+  selector: 'app-entry-list',
   imports: [
     AsyncPipe,
     CommonModule,
     TableModule,
     TooltipModule,
     ButtonModule,
-    StartDetailButton,
-    StartUpdateButton,
-    RemoveButton,
+    StartDetailButtonComponent,
+    StartUpdateButtonComponent,
+    RemoveButtonComponent,
   ],
   template: `
     <p-table
@@ -96,10 +96,10 @@ import { EntryRemoveService } from './entry-remove-service';
           <td>{{ item.outAccount.description }}</td>
           <td>{{ item.date.toLocaleDateString() }}</td>
           <td>{{ item.value | number: '1.2-2' }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               (removed)="removed()"

@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AbstractControl, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
+import { Bean } from '../bean/bean';
 
 @Component({
-  selector: 'a-select-field',
+  selector: 'app-select-field',
   imports: [CommonModule, FloatLabelModule, SelectModule, ReactiveFormsModule],
   template: `
     <p-float-label variant="in" class="margin-bottom">
@@ -25,14 +26,14 @@ import { SelectModule } from 'primeng/select';
     </div>
   `,
 })
-export class SelectField {
-  @Input() id: string = 'id';
-  @Input() name: string = 'name';
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() autoFocus: boolean = false;
-  @Input() optionLabel: string = '';
-  @Input() options!: any[];
+export class SelectFieldComponent {
+  @Input() id = 'id';
+  @Input() name = 'name';
+  @Input() label = '';
+  @Input() placeholder = '';
+  @Input() autoFocus = false;
+  @Input() optionLabel = '';
+  @Input() options!: Bean[];
   @Input() control!: AbstractControl;
 
   get formControl(): FormControl {

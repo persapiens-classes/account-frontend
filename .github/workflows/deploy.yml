@@ -23,6 +23,9 @@ jobs:
       - name: Prettier run
         run: npx prettier . --check
 
+      - name: ESLint run
+        run: npm run lint
+
       - name: Build project
         run: npm run build -- --configuration=production --base-href=/account-frontend/
 

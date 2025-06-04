@@ -10,7 +10,7 @@ import { ConfirmationService } from 'primeng/api';
 import { BeanRemoveService } from './bean-remove-service';
 
 @Component({
-  selector: 'a-remove-button',
+  selector: 'app-remove-button',
   imports: [CommonModule, ButtonModule, ReactiveFormsModule, ConfirmDialogModule],
   providers: [ConfirmationService],
   template: `
@@ -27,10 +27,10 @@ import { BeanRemoveService } from './bean-remove-service';
     />
   `,
 })
-export class RemoveButton<T extends Bean> {
+export class RemoveButtonComponent<T extends Bean> {
   @Input() item!: T;
-  @Input() beanRemoveService!: BeanRemoveService<T>;
-  @Input() beanList$!: Observable<Array<T>>;
+  @Input() beanRemoveService!: BeanRemoveService;
+  @Input() beanList$!: Observable<T[]>;
   @Output() removed = new EventEmitter<void>();
 
   constructor(

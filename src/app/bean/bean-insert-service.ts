@@ -5,7 +5,7 @@ import { Bean } from './bean';
 import { BeanCreateService } from './bean-create-service';
 
 export class BeanInsertService<T extends Bean, I> {
-  private apiUrl;
+  private apiUrl: string;
 
   constructor(
     private http: HttpClient,
@@ -20,7 +20,7 @@ export class BeanInsertService<T extends Bean, I> {
     return this.http.post<T>(this.apiUrl, bean).pipe(map((data) => this.toBean(data)));
   }
 
-  toBean(json: any): T {
+  toBean(json: unknown): T {
     return this.beanCreateService.toBean(json);
   }
 }

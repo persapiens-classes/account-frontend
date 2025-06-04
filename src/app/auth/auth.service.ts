@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -38,8 +38,8 @@ export class AuthService {
   }
 
   authenticatedLogin(): string {
-    const decodedToken: any = jwtDecode(this.authenticatedToken()!);
-    return decodedToken?.sub; // Usually, login is at "sub"
+    const decodedToken = jwtDecode<JwtPayload>(this.authenticatedToken()!);
+    return decodedToken?.sub ?? ''; // Usually, login is at "sub"
   }
 
   getTokenExpiration(): number | null {
@@ -47,9 +47,10 @@ export class AuthService {
     if (!token) return null;
 
     try {
-      const decoded: any = jwtDecode(token);
+      const decoded = jwtDecode<JwtPayload>(token);
       return decoded.exp ? decoded.exp * 1000 : null;
     } catch (e) {
+      console.log('could not decode jwt: ' + e);
       return null;
     }
   }

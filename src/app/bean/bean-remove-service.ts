@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Bean } from './bean';
 
-export class BeanRemoveService<T extends Bean> {
+export class BeanRemoveService {
   private apiUrl;
 
   constructor(

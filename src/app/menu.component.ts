@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'a-menu',
+  selector: 'app-menu',
   imports: [ButtonModule, TooltipModule, MenubarModule],
   template: ` <p-menubar [model]="items" /> `,
 })

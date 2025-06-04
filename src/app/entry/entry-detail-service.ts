@@ -1,4 +1,4 @@
-import { Entry, EntryInsertUpdate } from './entry';
+import { Entry } from './entry';
 import { EntryCreateService } from './entry-create-service';
 import { InjectionToken } from '@angular/core';
 import { BeanDetailService } from '../bean/bean-detail-service';

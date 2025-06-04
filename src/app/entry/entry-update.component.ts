@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
@@ -10,30 +10,30 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { InputField } from '../field/input-field.component';
-import { NumberField } from '../field/number-field.component';
-import { SelectField } from '../field/select-field.component';
-import { DateField } from '../field/date-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
+import { DateFieldComponent } from '../field/date-field.component';
 import { EntryUpdateFormGroupService } from './entry-update-form-group.service';
 import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
 
 @Component({
-  selector: 'entry-update',
+  selector: 'app-entry-update',
   imports: [
     ReactiveFormsModule,
     ButtonModule,
     PanelModule,
     CommonModule,
-    DateField,
-    SelectField,
-    NumberField,
-    InputField,
+    DateFieldComponent,
+    SelectFieldComponent,
+    NumberFieldComponent,
+    InputFieldComponent,
   ],
   template: `
-    <a-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
+    <app-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
 
-    <a-select-field
+    <app-select-field
       label="In Owner"
       placeholder="Select in owner"
       optionLabel="name"
@@ -41,7 +41,7 @@ import { OwnerListService } from '../owner/owner-list-service';
       [control]="form.get('selectInOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="In Account"
       placeholder="Select in account"
       optionLabel="description"
@@ -49,7 +49,7 @@ import { OwnerListService } from '../owner/owner-list-service';
       [control]="form.get('selectInAccount')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Out Owner"
       placeholder="Select out owner"
       optionLabel="name"
@@ -57,7 +57,7 @@ import { OwnerListService } from '../owner/owner-list-service';
       [control]="form.get('selectOutOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Out Account"
       placeholder="Select out account"
       optionLabel="description"
@@ -65,17 +65,17 @@ import { OwnerListService } from '../owner/owner-list-service';
       [control]="form.get('selectOutAccount')!"
     />
 
-    <a-number-field label="Value" [control]="form.get('inputValue')!" />
+    <app-number-field label="Value" [control]="form.get('inputValue')!" />
 
-    <a-input-field label="Note" [control]="form.get('inputNote')!" />
+    <app-input-field label="Note" [control]="form.get('inputNote')!" />
   `,
 })
 export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate> {
   form: FormGroup;
 
-  inAccounts$: Observable<Array<Account>>;
-  outAccounts$: Observable<Array<Account>>;
-  owners$: Observable<Array<Owner>>;
+  inAccounts$: Observable<Account[]>;
+  outAccounts$: Observable<Account[]>;
+  owners$: Observable<Owner[]>;
 
   constructor(
     entryFormGroupService: EntryUpdateFormGroupService,

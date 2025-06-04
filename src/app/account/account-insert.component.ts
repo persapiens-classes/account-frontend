@@ -7,22 +7,22 @@ import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { InputField } from '../field/input-field.component';
-import { SelectField } from '../field/select-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
 import { AccountInsertFormGroupService } from './account-insert-form-group.service';
 import { CategoryListService } from '../category/category-list-service';
 
 @Component({
-  selector: 'account-insert',
-  imports: [ReactiveFormsModule, CommonModule, InputField, SelectField],
+  selector: 'app-account-insert',
+  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent, SelectFieldComponent],
   template: `
-    <a-input-field
+    <app-input-field
       label="Description"
       [autoFocus]="true"
       [control]="form.get('inputDescription')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Category"
       placeholder="Select one category"
       optionLabel="description"
@@ -34,7 +34,7 @@ import { CategoryListService } from '../category/category-list-service';
 export class AccountInsertComponent extends BeanInsertComponent<Account> {
   form: FormGroup;
 
-  categories$: Observable<Array<Category>>;
+  categories$: Observable<Category[]>;
 
   constructor(
     accountFormGroupService: AccountInsertFormGroupService,

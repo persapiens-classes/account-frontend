@@ -3,14 +3,14 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Owner } from './owner';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
-import { InputField } from '../field/input-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { OwnerInsertFormGroupService } from './owner-insert-form-group.service';
 
 @Component({
-  selector: 'owner-insert',
-  imports: [ReactiveFormsModule, CommonModule, InputField],
+  selector: 'app-owner-insert',
+  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent],
   template: `
-    <a-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
+    <app-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
   `,
 })
 export class OwnerInsertComponent extends BeanInsertComponent<Owner> {

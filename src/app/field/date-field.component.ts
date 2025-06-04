@@ -7,7 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
-  selector: 'a-date-field',
+  selector: 'app-date-field',
   imports: [
     CommonModule,
     FloatLabelModule,
@@ -35,12 +35,12 @@ import { DatePickerModule } from 'primeng/datepicker';
     </div>
   `,
 })
-export class DateField {
-  @Input() id: string = 'id';
-  @Input() name: string = 'name';
-  @Input() label: string = '';
-  @Input() autoFocus: boolean = false;
-  @Input() showIcon: boolean = true;
+export class DateFieldComponent {
+  @Input() id = 'id';
+  @Input() name = 'name';
+  @Input() label = '';
+  @Input() autoFocus = false;
+  @Input() showIcon = true;
   @Input() control!: AbstractControl;
 
   get formControl(): FormControl {
