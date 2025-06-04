@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailField } from '../field/detail-field.component';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
@@ -21,7 +21,7 @@ import { firstValueFrom } from 'rxjs';
     <a-detail-field strong="Initial Value" value="{{ bean.initialValue | number: '1.2-2' }}" />
   `,
 })
-export class BalanceDetailComponent extends BeanDetailComponent<Balance> {
+export class BalanceDetailComponent extends BeanDetailComponent<Balance> implements OnInit {
   constructor(
     private previousRouteService: PreviousRouteService,
     private balanceFilterService: BalanceFilterService,

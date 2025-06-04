@@ -15,9 +15,9 @@ export class BeanListService<T extends Bean> {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
 
-  findAll(): Observable<Array<T>> {
+  findAll(): Observable<T[]> {
     return this.http
-      .get<Array<T>>(this.apiUrl)
+      .get<T[]>(this.apiUrl)
       .pipe(map((data) => data.map((bean) => this.toBean(bean))));
   }
 

@@ -26,12 +26,12 @@ import { SelectModule } from 'primeng/select';
   `,
 })
 export class SelectField {
-  @Input() id: string = 'id';
-  @Input() name: string = 'name';
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() autoFocus: boolean = false;
-  @Input() optionLabel: string = '';
+  @Input() id = 'id';
+  @Input() name = 'name';
+  @Input() label = '';
+  @Input() placeholder = '';
+  @Input() autoFocus = false;
+  @Input() optionLabel = '';
   @Input() options!: any[];
   @Input() control!: AbstractControl;
 

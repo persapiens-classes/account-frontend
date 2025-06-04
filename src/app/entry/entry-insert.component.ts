@@ -62,9 +62,9 @@ import { AccountListService } from '../account/account-list-service';
 export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate> {
   form: FormGroup;
 
-  inAccounts$: Observable<Array<Account>>;
-  outAccounts$: Observable<Array<Account>>;
-  owners$: Observable<Array<Owner>>;
+  inAccounts$: Observable<Account[]>;
+  outAccounts$: Observable<Account[]>;
+  owners$: Observable<Owner[]>;
 
   constructor(
     http: HttpClient,

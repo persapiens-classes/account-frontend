@@ -28,10 +28,10 @@ import { InputTextModule } from 'primeng/inputtext';
   `,
 })
 export class InputField {
-  @Input() id: string = 'id';
-  @Input() name: string = 'name';
-  @Input() label: string = '';
-  @Input() autoFocus: boolean = false;
+  @Input() id = 'id';
+  @Input() name = 'name';
+  @Input() label = '';
+  @Input() autoFocus = false;
   @Input() control!: AbstractControl;
 
   get formControl(): FormControl {

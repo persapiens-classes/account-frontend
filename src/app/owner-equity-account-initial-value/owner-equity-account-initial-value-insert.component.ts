@@ -40,8 +40,8 @@ import { AccountListService } from '../account/account-list-service';
 export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertComponent<OwnerEquityAccountInitialValueInsert> {
   form: FormGroup;
 
-  equityAccounts$: Observable<Array<Account>>;
-  owners$: Observable<Array<Owner>>;
+  equityAccounts$: Observable<Account[]>;
+  owners$: Observable<Owner[]>;
 
   constructor(
     http: HttpClient,

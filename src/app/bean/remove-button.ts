@@ -30,7 +30,7 @@ import { BeanRemoveService } from './bean-remove-service';
 export class RemoveButton<T extends Bean> {
   @Input() item!: T;
   @Input() beanRemoveService!: BeanRemoveService<T>;
-  @Input() beanList$!: Observable<Array<T>>;
+  @Input() beanList$!: Observable<T[]>;
   @Output() removed = new EventEmitter<void>();
 
   constructor(

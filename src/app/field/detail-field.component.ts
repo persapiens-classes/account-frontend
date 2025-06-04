@@ -24,6 +24,6 @@ import { CommonModule } from '@angular/common';
   `,
 })
 export class DetailField {
-  @Input() strong: string = '';
-  @Input() value: string = '';
+  @Input() strong = '';
+  @Input() value = '';
 }

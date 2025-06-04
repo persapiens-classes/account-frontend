@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 })
 export class StartUpdateButton<T extends Bean> {
   @Input() item!: T;
-  @Input() beansName!: String;
+  @Input() beansName!: string;
   @Input() removed!: () => void;
 
   constructor(private router: Router) {}

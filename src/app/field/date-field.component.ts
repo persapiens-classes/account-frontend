@@ -36,11 +36,11 @@ import { DatePickerModule } from 'primeng/datepicker';
   `,
 })
 export class DateField {
-  @Input() id: string = 'id';
-  @Input() name: string = 'name';
-  @Input() label: string = '';
-  @Input() autoFocus: boolean = false;
-  @Input() showIcon: boolean = true;
+  @Input() id = 'id';
+  @Input() name = 'name';
+  @Input() label = '';
+  @Input() autoFocus = false;
+  @Input() showIcon = true;
   @Input() control!: AbstractControl;
 
   get formControl(): FormControl {

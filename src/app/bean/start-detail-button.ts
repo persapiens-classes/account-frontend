@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 })
 export class StartDetailButton<T extends Bean> {
   @Input() item!: T;
-  @Input() beansName!: String;
+  @Input() beansName!: string;
 
   constructor(private router: Router) {}
 

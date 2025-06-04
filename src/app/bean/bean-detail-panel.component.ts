@@ -4,7 +4,14 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { BeanDetailComponent } from './bean-detail.component';
-import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+  AfterViewInit,
+} from '@angular/core';
 import { BeanDetailService } from './bean-detail-service';
 import { BeanDetailServiceFactory } from './bean-detail-service-factory';
 
@@ -25,7 +32,7 @@ import { BeanDetailServiceFactory } from './bean-detail-service-factory';
     </p-panel>
   `,
 })
-export class BeanDetailPanelComponent<T extends Bean> {
+export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef;
   beanDetailComponent!: Type<BeanDetailComponent<T>>;

@@ -73,9 +73,9 @@ import { OwnerListService } from '../owner/owner-list-service';
 export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate> {
   form: FormGroup;
 
-  inAccounts$: Observable<Array<Account>>;
-  outAccounts$: Observable<Array<Account>>;
-  owners$: Observable<Array<Owner>>;
+  inAccounts$: Observable<Account[]>;
+  outAccounts$: Observable<Account[]>;
+  owners$: Observable<Owner[]>;
 
   constructor(
     entryFormGroupService: EntryUpdateFormGroupService,

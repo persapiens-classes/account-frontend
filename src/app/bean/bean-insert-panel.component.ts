@@ -5,7 +5,15 @@ import { Bean } from './bean';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
-import { Component, ComponentRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  inject,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+  AfterViewInit,
+} from '@angular/core';
 import { BeanInsertComponent } from './bean-insert.component';
 import { BeanInsertFormGroupService } from './bean-insert-form-group.service';
 import { BeanInsertService } from './bean-insert-service';
@@ -32,7 +40,7 @@ import { BeanInsertServiceFactory } from './bean-insert-service-factory';
     </form>
   `,
 })
-export class BeanInsertPanelComponent<T extends Bean, I> {
+export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewInit {
   form: FormGroup;
 
   @ViewChild('dynamicComponent', { read: ViewContainerRef })

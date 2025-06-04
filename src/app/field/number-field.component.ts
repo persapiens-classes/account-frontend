@@ -38,13 +38,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
   `,
 })
 export class NumberField {
-  @Input() id: string = 'id';
-  @Input() name: string = 'name';
-  @Input() label: string = '';
-  @Input() autoFocus: boolean = false;
-  @Input() mode: string = 'currency';
-  @Input() currency: string = 'USD';
-  @Input() locale: string = 'en-US';
+  @Input() id = 'id';
+  @Input() name = 'name';
+  @Input() label = '';
+  @Input() autoFocus = false;
+  @Input() mode = 'currency';
+  @Input() currency = 'USD';
+  @Input() locale = 'en-US';
   @Input() control!: AbstractControl;
 
   get formControl(): FormControl {

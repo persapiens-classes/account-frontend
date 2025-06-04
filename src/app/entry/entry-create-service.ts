@@ -11,7 +11,7 @@ export class EntryCreateService extends BeanCreateService<Entry> {
   }
 
   override toBean(json: any): Entry {
-    let result = super.toBean(json);
+    const result = super.toBean(json);
     result.date = new Date(result.date);
     return result;
   }

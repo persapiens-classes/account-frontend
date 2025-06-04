@@ -36,7 +36,7 @@ import { CategoryListService } from '../category/category-list-service';
 export class AccountUpdateComponent extends BeanUpdateComponent<Account> {
   form: FormGroup;
 
-  categories$: Observable<Array<Category>>;
+  categories$: Observable<Category[]>;
 
   constructor(
     accountFormGroupService: AccountUpdateFormGroupService,
