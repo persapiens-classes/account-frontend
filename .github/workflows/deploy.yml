@@ -4,22 +4,28 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Source code checkout
         uses: actions/checkout@v4.2.2
 
-      - name: Install Node
+      - name: Node install
         uses: actions/setup-node@v4.4.0
         with:
           node-version: '22'
 
-      - name: Install dependencies
+      - name: Dependencies install
         run: npm install
+
+      - name: Prettier run
+        run: npx prettier . --check
 
       - name: Build project
         run: npm run build -- --configuration=production --base-href=/account-frontend/
@@ -31,3 +37,4 @@ jobs:
           folder: dist/browser
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'persapiens-classes/account-frontend' }}
