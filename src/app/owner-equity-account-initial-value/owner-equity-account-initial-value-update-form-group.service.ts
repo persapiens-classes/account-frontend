@@ -5,20 +5,16 @@ import { Injectable } from '@angular/core';
 import { OwnerEquityAccountInitialValueCreateService } from './owner-equity-account-initial-value-create-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OwnerEquityAccountInitialValueUpdateFormGroupService extends BeanUpdateFormGroupService<OwnerEquityAccountInitialValue> {
-
-  constructor(formBuilder: FormBuilder
-  ) {
-    super(formBuilder, new OwnerEquityAccountInitialValueCreateService(), createForm)
+  constructor(formBuilder: FormBuilder) {
+    super(formBuilder, new OwnerEquityAccountInitialValueCreateService(), createForm);
   }
-
 }
 
 function createForm(formBuilder: FormBuilder, bean: OwnerEquityAccountInitialValue): FormGroup {
   return formBuilder.group({
-    inputInitialValue: [bean.initialValue, [Validators.required]]
-  })
+    inputInitialValue: [bean.initialValue, [Validators.required]],
+  });
 }
-

@@ -9,17 +9,21 @@ import { Router } from '@angular/router';
   selector: 'a-start-detail-button',
   imports: [CommonModule, ButtonModule, ReactiveFormsModule],
   template: `
-    <p-button icon="pi pi-search" (onClick)="startDetail(item)" 
-      pTooltip="Detail the account" [style]="{'margin-right': '15px'}"/>
-  `
+    <p-button
+      icon="pi pi-search"
+      (onClick)="startDetail(item)"
+      pTooltip="Detail the account"
+      [style]="{ 'margin-right': '15px' }"
+    />
+  `,
 })
 export class StartDetailButton<T extends Bean> {
-  @Input() item!: T
-  @Input() beansName!: String
+  @Input() item!: T;
+  @Input() beansName!: String;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   startDetail(item: T): void {
-    this.router.navigate([`${this.beansName}/detail`], { state: { bean: item } })
+    this.router.navigate([`${this.beansName}/detail`], { state: { bean: item } });
   }
 }

@@ -20,73 +20,90 @@ import { OwnerListService } from '../owner/owner-list-service';
 
 @Component({
   selector: 'entry-update',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, DateField, SelectField, NumberField, InputField],
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    PanelModule,
+    CommonModule,
+    DateField,
+    SelectField,
+    NumberField,
+    InputField,
+  ],
   template: `
-    <a-date-field label="Date"
-      [autoFocus]="true"
-      [control]="form.get('inputDate')!" />
+    <a-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
 
-    <a-select-field label="In Owner"
-      placeholder="Select in owner" 
+    <a-select-field
+      label="In Owner"
+      placeholder="Select in owner"
       optionLabel="name"
       [options]="(owners$ | async)!"
-      [control]="form.get('selectInOwner')!" />
+      [control]="form.get('selectInOwner')!"
+    />
 
-    <a-select-field label="In Account"
-      placeholder="Select in account" 
+    <a-select-field
+      label="In Account"
+      placeholder="Select in account"
       optionLabel="description"
       [options]="(inAccounts$ | async)!"
-      [control]="form.get('selectInAccount')!" />
+      [control]="form.get('selectInAccount')!"
+    />
 
-    <a-select-field label="Out Owner"
-      placeholder="Select out owner" 
+    <a-select-field
+      label="Out Owner"
+      placeholder="Select out owner"
       optionLabel="name"
       [options]="(owners$ | async)!"
-      [control]="form.get('selectOutOwner')!" />
+      [control]="form.get('selectOutOwner')!"
+    />
 
-    <a-select-field label="Out Account"
-      placeholder="Select out account" 
+    <a-select-field
+      label="Out Account"
+      placeholder="Select out account"
       optionLabel="description"
       [options]="(outAccounts$ | async)!"
-      [control]="form.get('selectOutAccount')!" />
+      [control]="form.get('selectOutAccount')!"
+    />
 
-    <a-number-field label="Value"
-      [control]="form.get('inputValue')!" />
+    <a-number-field label="Value" [control]="form.get('inputValue')!" />
 
-    <a-input-field label="Note" 
-      [control]="form.get('inputNote')!" />
-  `
+    <a-input-field label="Note" [control]="form.get('inputNote')!" />
+  `,
 })
 export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate> {
-  form: FormGroup
+  form: FormGroup;
 
-  inAccounts$: Observable<Array<Account>>
-  outAccounts$: Observable<Array<Account>>
-  owners$: Observable<Array<Owner>>
+  inAccounts$: Observable<Array<Account>>;
+  outAccounts$: Observable<Array<Account>>;
+  owners$: Observable<Array<Owner>>;
 
-  constructor(entryFormGroupService: EntryUpdateFormGroupService,
+  constructor(
+    entryFormGroupService: EntryUpdateFormGroupService,
     http: HttpClient,
     route: ActivatedRoute,
-    ownerService: OwnerListService
+    ownerService: OwnerListService,
   ) {
-    super(createBean)
+    super(createBean);
 
-    this.form = entryFormGroupService.form
+    this.form = entryFormGroupService.form;
 
-    this.inAccounts$ = new AccountListService(http, route.snapshot.data['inAccountType']).findAll()
-    this.outAccounts$ = new AccountListService(http, route.snapshot.data['outAccountType']).findAll()
-    this.owners$ = ownerService.findAll()
+    this.inAccounts$ = new AccountListService(http, route.snapshot.data['inAccountType']).findAll();
+    this.outAccounts$ = new AccountListService(
+      http,
+      route.snapshot.data['outAccountType'],
+    ).findAll();
+    this.owners$ = ownerService.findAll();
   }
-
 }
 
 function createBean(form: FormGroup): EntryInsertUpdate {
-  return new EntryInsertUpdate(form.value.selectInOwner.name,
+  return new EntryInsertUpdate(
+    form.value.selectInOwner.name,
     form.value.selectOutOwner.name,
     form.value.inputDate,
     form.value.selectInAccount.description,
     form.value.selectOutAccount.description,
     form.value.inputValue,
-    form.value.inputNote
-  )
+    form.value.inputNote,
+  );
 }

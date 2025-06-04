@@ -12,23 +12,23 @@ import { CategoryUpdateFormGroupService } from './category-update-form-group.ser
   selector: 'category-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
   template: `
-    <a-input-field label="Description" 
-      [autoFocus]=true
-      [control]="form.get('inputDescription')!" />
-  `
+    <a-input-field
+      label="Description"
+      [autoFocus]="true"
+      [control]="form.get('inputDescription')!"
+    />
+  `,
 })
 export class CategoryUpdateComponent extends BeanUpdateComponent<Category> {
-  form: FormGroup
+  form: FormGroup;
 
-  constructor(categoryFormGroupService: CategoryUpdateFormGroupService
-  ) {
-    super(createBean)
+  constructor(categoryFormGroupService: CategoryUpdateFormGroupService) {
+    super(createBean);
 
-    this.form = categoryFormGroupService.form
+    this.form = categoryFormGroupService.form;
   }
-
 }
 
 function createBean(form: FormGroup): Category {
-  return new Category(form.value.inputDescription)
+  return new Category(form.value.inputDescription);
 }

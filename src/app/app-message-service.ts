@@ -3,55 +3,44 @@ import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppMessageService {
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService) {}
 
-  addErrorMessage(
-    error: HttpErrorResponse,
-    summary: string): void
+  addErrorMessage(error: HttpErrorResponse, summary: string): void;
 
-  addErrorMessage(
-    error: HttpErrorResponse,
-    summary: string,
-    defaultDetail: string): void
+  addErrorMessage(error: HttpErrorResponse, summary: string, defaultDetail: string): void;
 
-  addErrorMessage(
-    error: HttpErrorResponse,
-    summary: string,
-    defaultDetail?: string): void {
-
-    let detail: string
+  addErrorMessage(error: HttpErrorResponse, summary: string, defaultDetail?: string): void {
+    let detail: string;
     if (defaultDetail) {
-      detail = defaultDetail!
-    }
-    else {
-      detail = 'An unexpected error occurred.'
+      detail = defaultDetail!;
+    } else {
+      detail = 'An unexpected error occurred.';
     }
 
     this.messageService.add({
       severity: 'error',
       summary: summary,
-      detail: this.parseHttpError(error, detail)
-    })
+      detail: this.parseHttpError(error, detail),
+    });
   }
 
   addSuccessMessage(summary: string, detail: string): void {
     this.messageService.add({
       severity: 'success',
       summary: summary,
-      detail: detail
-    })
+      detail: detail,
+    });
   }
 
   private parseHttpError(error: HttpErrorResponse, defaultDetail: string): string {
     if (error.error?.message) {
-      return error.error.message
+      return error.error.message;
     } else if (error.status === 0) {
-      return 'Cannot connect to the server. Please check your internet connection.'
+      return 'Cannot connect to the server. Please check your internet connection.';
     }
-    return defaultDetail
+    return defaultDetail;
   }
-
 }

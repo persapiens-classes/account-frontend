@@ -5,9 +5,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Owner } from './owner';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
-import { StartDetailButton } from "../bean/start-detail-button";
-import { StartUpdateButton } from "../bean/start-update-button";
-import { RemoveButton } from "../bean/remove-button";
+import { StartDetailButton } from '../bean/start-detail-button';
+import { StartUpdateButton } from '../bean/start-update-button';
+import { RemoveButton } from '../bean/remove-button';
 import { AppMessageService } from '../app-message-service';
 import { OwnerListService } from './owner-list-service';
 import { OwnerRemoveService } from './owner-remove-service';
@@ -15,9 +15,18 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'owner-list',
-  imports: [AsyncPipe, CommonModule, TableModule, TooltipModule, ButtonModule, StartDetailButton, StartUpdateButton, RemoveButton],
+  imports: [
+    AsyncPipe,
+    CommonModule,
+    TableModule,
+    TooltipModule,
+    ButtonModule,
+    StartDetailButton,
+    StartUpdateButton,
+    RemoveButton,
+  ],
   template: `
-    <p-table 
+    <p-table
       [value]="(beansList$ | async)!"
       [rows]="5"
       [paginator]="true"
@@ -26,41 +35,44 @@ import { HttpClient } from '@angular/common/http';
     >
       <ng-template #header>
         <tr>
-          <th pSortableColumn="name"> Name <p-sortIcon field="name" /> </th>
+          <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
           <th>Detail</th>
           <th>Edit</th>
           <th>Remove</th>
         </tr>
         <tr>
           <th>
-            <p-columnFilter type="text" field="name"
-              placeholder="name" ariaLabel="Filter Name" />
+            <p-columnFilter type="text" field="name" placeholder="name" ariaLabel="Filter Name" />
           </th>
         </tr>
       </ng-template>
       <ng-template #body let-item>
         <tr>
           <td>{{ item.name }}</td>
-          <td> <a-start-detail-button [item]=item [beansName]="beanListService.beansName" /> </td>
-          <td> <a-start-update-button [item]=item [beansName]="beanListService.beansName" /> </td>
-          <td> <a-remove-button [item]=item [beanRemoveService]="beanRemoveService" (removed)="removed()" /> </td>
+          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td>
+            <a-remove-button
+              [item]="item"
+              [beanRemoveService]="beanRemoveService"
+              (removed)="removed()"
+            />
+          </td>
         </tr>
       </ng-template>
     </p-table>
-  `
+  `,
 })
 export class OwnerListComponent extends BeanListComponent<Owner> {
-
-  beanRemoveService: OwnerRemoveService
+  beanRemoveService: OwnerRemoveService;
 
   constructor(
     http: HttpClient,
     accoutMessageService: AppMessageService,
-    beanService: OwnerListService
+    beanService: OwnerListService,
   ) {
-    super(accoutMessageService, beanService)
+    super(accoutMessageService, beanService);
 
-    this.beanRemoveService = new OwnerRemoveService(http)
+    this.beanRemoveService = new OwnerRemoveService(http);
   }
-
 }

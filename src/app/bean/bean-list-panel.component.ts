@@ -15,7 +15,12 @@ import { BeanListServiceFactory } from './bean-list-service-factory';
     <p-panel header="List">
       <ng-template pTemplate="header">
         <div class="list-header">
-          <p-button icon="pi pi-plus" (onClick)="startInsert()" autofocus="true" pTooltip="Start new owner" />
+          <p-button
+            icon="pi pi-plus"
+            (onClick)="startInsert()"
+            autofocus="true"
+            pTooltip="Start new owner"
+          />
         </div>
       </ng-template>
 
@@ -29,32 +34,35 @@ import { BeanListServiceFactory } from './bean-list-service-factory';
       align-items: center;
       width: 100%;
       margin-left: 10px;
-    }  
-  `
+    }
+  `,
 })
 export class BeanListPanelComponent<T extends Bean> {
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
-  container!: ViewContainerRef
-  beanListComponent!: Type<BeanListComponent<T>>
-  beanListInstance!: ComponentRef<BeanListComponent<T>>
+  container!: ViewContainerRef;
+  beanListComponent!: Type<BeanListComponent<T>>;
+  beanListInstance!: ComponentRef<BeanListComponent<T>>;
 
-  beanListService: BeanListService<T>
+  beanListService: BeanListService<T>;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     route: ActivatedRoute,
-    beanServiceFactory: BeanListServiceFactory<T>
+    beanServiceFactory: BeanListServiceFactory<T>,
   ) {
-    this.beanListComponent = route.snapshot.data['beanListComponent']
+    this.beanListComponent = route.snapshot.data['beanListComponent'];
 
-    this.beanListService = beanServiceFactory.getBeanListService(route.snapshot.data['serviceName'])
+    this.beanListService = beanServiceFactory.getBeanListService(
+      route.snapshot.data['serviceName'],
+    );
   }
 
   ngAfterViewInit() {
-    this.container.clear()
-    this.beanListInstance = this.container.createComponent(this.beanListComponent)
+    this.container.clear();
+    this.beanListInstance = this.container.createComponent(this.beanListComponent);
   }
 
   startInsert(): void {
-    this.router.navigate([`${this.beanListService.beansName}/new`])
+    this.router.navigate([`${this.beanListService.beansName}/new`]);
   }
 }

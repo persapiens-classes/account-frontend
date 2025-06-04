@@ -6,20 +6,20 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    target-branch: "main"
+  - package-ecosystem: 'npm'
+    directory: '/'
+    target-branch: 'main'
     schedule:
-      interval: "daily"
+      interval: 'daily'
 
-  - package-ecosystem: "devcontainers"
-    directory: "/"
-    target-branch: "main"
+  - package-ecosystem: 'devcontainers'
+    directory: '/'
+    target-branch: 'main'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    target-branch: "main"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    target-branch: 'main'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'

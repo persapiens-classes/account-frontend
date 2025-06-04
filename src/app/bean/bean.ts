@@ -1,3 +1,3 @@
 export interface Bean {
-  getId(): string
+  getId(): string;
 }

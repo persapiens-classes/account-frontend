@@ -1,19 +1,18 @@
-import { BeanCreateService } from "../bean/bean-create-service";
-import { Injectable } from "@angular/core";
-import { createEntry, Entry } from "./entry";
+import { BeanCreateService } from '../bean/bean-create-service';
+import { Injectable } from '@angular/core';
+import { createEntry, Entry } from './entry';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EntryCreateService extends BeanCreateService<Entry> {
-
   constructor() {
-    super(createEntry)
+    super(createEntry);
   }
 
   override toBean(json: any): Entry {
-    let result = super.toBean(json)
-    result.date = new Date(result.date)
-    return result
+    let result = super.toBean(json);
+    result.date = new Date(result.date);
+    return result;
   }
 }
