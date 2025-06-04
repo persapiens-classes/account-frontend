@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AbstractControl, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
+import { Bean } from '../bean/bean';
 
 @Component({
   selector: 'a-select-field',
@@ -32,7 +33,7 @@ export class SelectFieldComponent {
   @Input() placeholder = '';
   @Input() autoFocus = false;
   @Input() optionLabel = '';
-  @Input() options!: any[];
+  @Input() options!: Bean[];
   @Input() control!: AbstractControl;
 
   get formControl(): FormControl {

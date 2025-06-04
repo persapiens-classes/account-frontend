@@ -56,9 +56,9 @@ export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewIni
     private appMessageService: AppMessageService,
     beanInsertServiceFactory: BeanInsertServiceFactory<T, I>,
   ) {
-    const formGroupServiceType = route.snapshot.data['beanInsertFormGroupService'] as Type<
-      BeanInsertFormGroupService<T>
-    >;
+    const formGroupServiceType = route.snapshot.data[
+      'beanInsertFormGroupService'
+    ] as Type<BeanInsertFormGroupService>;
     this.form = inject(formGroupServiceType).createForm();
 
     this.beanInsertComponentType = route.snapshot.data['beanInsertComponent'];

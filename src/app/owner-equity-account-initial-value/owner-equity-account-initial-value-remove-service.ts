@@ -1,12 +1,11 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { OwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
 import { BeanRemoveService } from '../bean/bean-remove-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OwnerEquityAccountInitialValueRemoveService extends BeanRemoveService<OwnerEquityAccountInitialValue> {
+export class OwnerEquityAccountInitialValueRemoveService extends BeanRemoveService {
   constructor(http: HttpClient) {
     super(http, 'OwnerEquityAccountInitialValue', 'ownerEquityAccountInitialValues');
   }

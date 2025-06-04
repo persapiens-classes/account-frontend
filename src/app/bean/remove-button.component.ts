@@ -29,7 +29,7 @@ import { BeanRemoveService } from './bean-remove-service';
 })
 export class RemoveButtonComponent<T extends Bean> {
   @Input() item!: T;
-  @Input() beanRemoveService!: BeanRemoveService<T>;
+  @Input() beanRemoveService!: BeanRemoveService;
   @Input() beanList$!: Observable<T[]>;
   @Output() removed = new EventEmitter<void>();
 

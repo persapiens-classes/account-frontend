@@ -26,7 +26,7 @@ export class BeanUpdateService<T extends Bean, U> {
       .pipe(map((data) => this.toBean(data)));
   }
 
-  toBean(json: any): T {
+  toBean(json: unknown): T {
     return this.beanCreateService.toBean(json);
   }
 }
