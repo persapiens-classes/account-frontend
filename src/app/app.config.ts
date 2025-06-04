@@ -138,7 +138,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authIntercept])),
     {
       provide: CREDIT_CATEGORY_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new CategoryDetailService('Credit'),
+      useFactory: () => new CategoryDetailService('Credit'),
       deps: [HttpClient],
     },
     {
@@ -168,7 +168,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: DEBIT_CATEGORY_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new CategoryDetailService('Debit'),
+      useFactory: () => new CategoryDetailService('Debit'),
       deps: [HttpClient],
     },
     {
@@ -193,7 +193,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: EQUITY_CATEGORY_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new CategoryDetailService('Equity'),
+      useFactory: () => new CategoryDetailService('Equity'),
       deps: [HttpClient],
     },
     {
@@ -218,7 +218,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: CREDIT_ACCOUNT_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new AccountDetailService('Credit'),
+      useFactory: () => new AccountDetailService('Credit'),
       deps: [HttpClient],
     },
     {
@@ -243,7 +243,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: DEBIT_ACCOUNT_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new AccountDetailService('Debit'),
+      useFactory: () => new AccountDetailService('Debit'),
       deps: [HttpClient],
     },
     {
@@ -268,7 +268,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: EQUITY_ACCOUNT_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new AccountDetailService('Equity'),
+      useFactory: () => new AccountDetailService('Equity'),
       deps: [HttpClient],
     },
     {
@@ -293,7 +293,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: CREDIT_ENTRY_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new EntryDetailService('Credit'),
+      useFactory: () => new EntryDetailService('Credit'),
       deps: [HttpClient],
     },
     {
@@ -318,7 +318,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: DEBIT_ENTRY_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new EntryDetailService('Debit'),
+      useFactory: () => new EntryDetailService('Debit'),
       deps: [HttpClient],
     },
     {
@@ -343,7 +343,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: TRANSFER_ENTRY_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new EntryDetailService('Transfer'),
+      useFactory: () => new EntryDetailService('Transfer'),
       deps: [HttpClient],
     },
     {
@@ -368,7 +368,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: OWNER_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new OwnerDetailService(),
+      useFactory: () => new OwnerDetailService(),
       deps: [HttpClient],
     },
     {
@@ -388,7 +388,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: BALANCE_DETAIL_SERVICE,
-      useFactory: (http: HttpClient) => new BalanceDetailService(),
+      useFactory: () => new BalanceDetailService(),
       deps: [HttpClient],
     },
     {
