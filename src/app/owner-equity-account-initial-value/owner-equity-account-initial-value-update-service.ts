@@ -1,9 +1,6 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {
-  OwnerEquityAccountInitialValue,
-  OwnerEquityAccountInitialValueInsert,
-} from './owner-equity-account-initial-value';
+import { OwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
 import { OwnerEquityAccountInitialValueCreateService } from './owner-equity-account-initial-value-create-service';
 import { BeanUpdateService } from '../bean/bean-update-service';
 

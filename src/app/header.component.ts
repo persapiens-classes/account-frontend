@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Entry, EntryInsertUpdate } from './entry';
+import { Entry } from './entry';
 import { EntryCreateService } from './entry-create-service';
 import { InjectionToken } from '@angular/core';
 import { BeanListService } from '../bean/bean-list-service';

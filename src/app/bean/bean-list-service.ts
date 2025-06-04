@@ -5,7 +5,7 @@ import { Bean } from './bean';
 import { BeanCreateService } from './bean-create-service';
 
 export class BeanListService<T extends Bean> {
-  private apiUrl;
+  private apiUrl: string;
 
   constructor(
     private http: HttpClient,
