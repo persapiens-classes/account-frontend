@@ -30,7 +30,6 @@ If you are running a devcontainer inside Windows, you should run the project wit
 ng serve --host 0.0.0.0 --port 4200 --poll 2000
 ```
 
-
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:

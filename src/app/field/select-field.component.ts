@@ -9,32 +9,33 @@ import { SelectModule } from 'primeng/select';
   imports: [CommonModule, FloatLabelModule, SelectModule, ReactiveFormsModule],
   template: `
     <p-float-label variant="in" class="margin-bottom">
-      <p-select [id]="id"
+      <p-select
+        [id]="id"
         [name]="name"
         placeholder="{{ placeholder }}"
         [autofocus]="autoFocus"
         [options]="options"
         optionLabel="{{ optionLabel }}"
-        [formControl]="formControl" />
+        [formControl]="formControl"
+      />
       <label [for]="id">{{ label }}</label>
     </p-float-label>
-    <div *ngIf="control.invalid && (control.dirty || control.touched)"
-      class="alert margin-bottom">
+    <div *ngIf="control.invalid && (control.dirty || control.touched)" class="alert margin-bottom">
       <div *ngIf="control?.errors?.['required']">{{ label }} is required.</div>
     </div>
-  `
+  `,
 })
 export class SelectField {
-  @Input() id: string = 'id'
-  @Input() name: string = 'name'
-  @Input() label: string = ''
-  @Input() placeholder: string = ''
-  @Input() autoFocus: boolean = false
-  @Input() optionLabel: string = ''
-  @Input() options!: any[]
-  @Input() control!: AbstractControl
+  @Input() id: string = 'id';
+  @Input() name: string = 'name';
+  @Input() label: string = '';
+  @Input() placeholder: string = '';
+  @Input() autoFocus: boolean = false;
+  @Input() optionLabel: string = '';
+  @Input() options!: any[];
+  @Input() control!: AbstractControl;
 
   get formControl(): FormControl {
-    return this.control as FormControl
+    return this.control as FormControl;
   }
 }

@@ -19,71 +19,96 @@ import { BeanUpdateServiceFactory } from './bean-update-service-factory';
     <form *ngIf="form" [formGroup]="form">
       <p-panel header="Edit">
         <ng-container #dynamicComponent></ng-container>
-        
-        <p-button icon="pi pi-check" (onClick)="update()" [style]="{'margin-right': '10px'}" [disabled]="form.invalid" pTooltip="Save the category"/>
-        <p-button icon="pi pi-list" (onClick)="cancelToList()" [style]="{'margin-right': '10px'}" pTooltip="Cancel to list"/>
-        <p-button icon="pi pi-search" (onClick)="cancelToDetail()" pTooltip="Cancel to detail"/>
+
+        <p-button
+          icon="pi pi-check"
+          (onClick)="update()"
+          [style]="{ 'margin-right': '10px' }"
+          [disabled]="form.invalid"
+          pTooltip="Save the category"
+        />
+        <p-button
+          icon="pi pi-list"
+          (onClick)="cancelToList()"
+          [style]="{ 'margin-right': '10px' }"
+          pTooltip="Cancel to list"
+        />
+        <p-button icon="pi pi-search" (onClick)="cancelToDetail()" pTooltip="Cancel to detail" />
       </p-panel>
     </form>
-  `
+  `,
 })
 export class BeanUpdatePanelComponent<T extends Bean, U> {
-  form: FormGroup
-  bean: T
+  form: FormGroup;
+  bean: T;
 
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
-  container!: ViewContainerRef
-  beanUpdateComponentType!: Type<BeanUpdateComponent<U>>
-  beanUpdateComponentInstance!: ComponentRef<BeanUpdateComponent<U>>
+  container!: ViewContainerRef;
+  beanUpdateComponentType!: Type<BeanUpdateComponent<U>>;
+  beanUpdateComponentInstance!: ComponentRef<BeanUpdateComponent<U>>;
 
-  beanUpdateService: BeanUpdateService<T, U>
+  beanUpdateService: BeanUpdateService<T, U>;
 
   constructor(
     private router: Router,
     route: ActivatedRoute,
     private appMessageService: AppMessageService,
-    beanServiceFactory: BeanUpdateServiceFactory<T, U>
+    beanServiceFactory: BeanUpdateServiceFactory<T, U>,
   ) {
-    const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<BeanUpdateFormGroupService<T>>;
-    const beanUpdateFormGroupService = inject(formGroupServiceType)
-    this.bean = beanUpdateFormGroupService.createBeanFromHistory()
-    this.form = beanUpdateFormGroupService.createForm(this.bean)
+    const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<
+      BeanUpdateFormGroupService<T>
+    >;
+    const beanUpdateFormGroupService = inject(formGroupServiceType);
+    this.bean = beanUpdateFormGroupService.createBeanFromHistory();
+    this.form = beanUpdateFormGroupService.createForm(this.bean);
 
-    this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent']
+    this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent'];
 
-    this.beanUpdateService = beanServiceFactory.getBeanUpdateService(route.snapshot.data['serviceName'])
+    this.beanUpdateService = beanServiceFactory.getBeanUpdateService(
+      route.snapshot.data['serviceName'],
+    );
   }
 
   ngAfterViewInit() {
-    this.container.clear()
-    this.beanUpdateComponentInstance = this.container.createComponent(this.beanUpdateComponentType)
+    this.container.clear();
+    this.beanUpdateComponentInstance = this.container.createComponent(this.beanUpdateComponentType);
   }
 
   update() {
     if (this.form.valid) {
-      const updatedBean = this.beanUpdateComponentInstance.instance.createBeanFn(this.form)
+      const updatedBean = this.beanUpdateComponentInstance.instance.createBeanFn(this.form);
 
-      this.beanUpdateService.update(this.bean.getId(), updatedBean).pipe(
-        tap((bean) => {
-          this.appMessageService.addSuccessMessage(
-            `${this.beanUpdateService.beanName} edited`,
-            `${this.beanUpdateService.beanName} ${this.bean.getId()} edited ok.`)
-          this.router.navigate([`${this.beanUpdateService.beansName}/detail`], { state: { bean: bean } })
-        }),
-        catchError((error) => {
-          this.appMessageService.addErrorMessage(error,
-            `${this.beanUpdateService.beanName} not edited`)
-          return of()
-        })
-      ).subscribe()
+      this.beanUpdateService
+        .update(this.bean.getId(), updatedBean)
+        .pipe(
+          tap((bean) => {
+            this.appMessageService.addSuccessMessage(
+              `${this.beanUpdateService.beanName} edited`,
+              `${this.beanUpdateService.beanName} ${this.bean.getId()} edited ok.`,
+            );
+            this.router.navigate([`${this.beanUpdateService.beansName}/detail`], {
+              state: { bean: bean },
+            });
+          }),
+          catchError((error) => {
+            this.appMessageService.addErrorMessage(
+              error,
+              `${this.beanUpdateService.beanName} not edited`,
+            );
+            return of();
+          }),
+        )
+        .subscribe();
     }
   }
 
   cancelToList() {
-    this.router.navigate([`${this.beanUpdateService.beansName}`])
+    this.router.navigate([`${this.beanUpdateService.beansName}`]);
   }
 
   cancelToDetail() {
-    this.router.navigate([`${this.beanUpdateService.beansName}/detail`], { state: { bean: this.bean } })
+    this.router.navigate([`${this.beanUpdateService.beansName}/detail`], {
+      state: { bean: this.bean },
+    });
   }
 }

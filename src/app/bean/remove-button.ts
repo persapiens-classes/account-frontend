@@ -14,43 +14,55 @@ import { BeanRemoveService } from './bean-remove-service';
   imports: [CommonModule, ButtonModule, ReactiveFormsModule, ConfirmDialogModule],
   providers: [ConfirmationService],
   template: `
-    <p-confirmdialog 
+    <p-confirmdialog
       header="Confirm"
       acceptButtonStyleClass="p-button-danger"
-      rejectButtonStyleClass="p-button-text" />
-    <p-button icon="pi pi-trash" (onClick)="remove($event)"
-      pTooltip="Delete the account" [style]="{'margin-right': '10px'}"/>
-  `
+      rejectButtonStyleClass="p-button-text"
+    />
+    <p-button
+      icon="pi pi-trash"
+      (onClick)="remove($event)"
+      pTooltip="Delete the account"
+      [style]="{ 'margin-right': '10px' }"
+    />
+  `,
 })
 export class RemoveButton<T extends Bean> {
-  @Input() item!: T
-  @Input() beanRemoveService!: BeanRemoveService<T>
-  @Input() beanList$!: Observable<Array<T>>
-  @Output() removed = new EventEmitter<void>()
+  @Input() item!: T;
+  @Input() beanRemoveService!: BeanRemoveService<T>;
+  @Input() beanList$!: Observable<Array<T>>;
+  @Output() removed = new EventEmitter<void>();
 
-  constructor(private appMessageService: AppMessageService,
-    private confirmationService: ConfirmationService
-  ) { }
+  constructor(
+    private appMessageService: AppMessageService,
+    private confirmationService: ConfirmationService,
+  ) {}
 
   remove(event: Event) {
-    this.confirmationService.confirm( {
+    this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Are you sure you want to remove?',
       accept: () => {
-        this.beanRemoveService.remove(this.item.getId()).pipe(
-          tap(() => {
-            this.appMessageService.addSuccessMessage(
-              `${this.beanRemoveService.beanName} removed`,
-              `${this.beanRemoveService.beanName} removed ok.`)
-            this.removed.emit()
-          }),
-          catchError((error) => {
-            this.appMessageService.addErrorMessage(error,
-              `${this.beanRemoveService.beanName} not removed`)
-            return of()
-          })
-        ).subscribe()
-      }
-    })
+        this.beanRemoveService
+          .remove(this.item.getId())
+          .pipe(
+            tap(() => {
+              this.appMessageService.addSuccessMessage(
+                `${this.beanRemoveService.beanName} removed`,
+                `${this.beanRemoveService.beanName} removed ok.`,
+              );
+              this.removed.emit();
+            }),
+            catchError((error) => {
+              this.appMessageService.addErrorMessage(
+                error,
+                `${this.beanRemoveService.beanName} not removed`,
+              );
+              return of();
+            }),
+          )
+          .subscribe();
+      },
+    });
   }
 }

@@ -2,12 +2,9 @@ import { Bean } from './bean';
 import { BeanCreateService } from './bean-create-service';
 
 export class BeanDetailComponent<T extends Bean> {
-  bean: T
+  bean: T;
 
-  constructor(
-    beanCreateService: BeanCreateService<T>
-  ) {
-    this.bean = beanCreateService.toBean(history.state.bean)
+  constructor(beanCreateService: BeanCreateService<T>) {
+    this.bean = beanCreateService.toBean(history.state.bean);
   }
-
 }

@@ -15,39 +15,48 @@ import { BeanDetailServiceFactory } from './bean-detail-service-factory';
     <p-panel header="Detail">
       <ng-container #dynamicComponent></ng-container>
 
-      <p-button icon="pi pi-list" (onClick)="list()" [style]="{'margin-right': '10px'}" pTooltip="Back to List"/>
-      <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit"/>
+      <p-button
+        icon="pi pi-list"
+        (onClick)="list()"
+        [style]="{ 'margin-right': '10px' }"
+        pTooltip="Back to List"
+      />
+      <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit" />
     </p-panel>
-  `
+  `,
 })
 export class BeanDetailPanelComponent<T extends Bean> {
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
-  container!: ViewContainerRef
-  beanDetailComponent!: Type<BeanDetailComponent<T>>
-  beanDetailInstance!: ComponentRef<BeanDetailComponent<T>>
+  container!: ViewContainerRef;
+  beanDetailComponent!: Type<BeanDetailComponent<T>>;
+  beanDetailInstance!: ComponentRef<BeanDetailComponent<T>>;
 
-  beanDetailService: BeanDetailService<T>
+  beanDetailService: BeanDetailService<T>;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     route: ActivatedRoute,
-    beanServiceFactory: BeanDetailServiceFactory<T>
+    beanServiceFactory: BeanDetailServiceFactory<T>,
   ) {
-    this.beanDetailComponent = route.snapshot.data['beanDetailComponent']
+    this.beanDetailComponent = route.snapshot.data['beanDetailComponent'];
 
-    this.beanDetailService = beanServiceFactory.getBeanDetailService(route.snapshot.data['serviceName'])
+    this.beanDetailService = beanServiceFactory.getBeanDetailService(
+      route.snapshot.data['serviceName'],
+    );
   }
 
   ngAfterViewInit() {
-    this.container.clear()
-    this.beanDetailInstance = this.container.createComponent(this.beanDetailComponent)
+    this.container.clear();
+    this.beanDetailInstance = this.container.createComponent(this.beanDetailComponent);
   }
 
   list() {
-    this.router.navigate([`${this.beanDetailService.beansName}`])
+    this.router.navigate([`${this.beanDetailService.beansName}`]);
   }
 
   startUpdate() {
-    this.router.navigate([`${this.beanDetailService.beansName}/edit`], { state: { bean: this.beanDetailInstance.instance.bean } })
+    this.router.navigate([`${this.beanDetailService.beansName}/edit`], {
+      state: { bean: this.beanDetailInstance.instance.bean },
+    });
   }
-
 }

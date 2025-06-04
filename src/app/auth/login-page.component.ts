@@ -10,30 +10,45 @@ import { AuthService } from './auth.service';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputField } from "../field/input-field.component";
+import { InputField } from '../field/input-field.component';
 import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FloatLabelModule, PanelModule, ButtonModule, InputTextModule, PasswordModule, ReactiveFormsModule, RouterModule, AutoFocusModule, ToastModule, InputField],
+  imports: [
+    FloatLabelModule,
+    PanelModule,
+    ButtonModule,
+    InputTextModule,
+    PasswordModule,
+    ReactiveFormsModule,
+    RouterModule,
+    AutoFocusModule,
+    ToastModule,
+    InputField,
+  ],
   template: `
     <p-panel class="container">
-      <div class="container" > 
-        <img src="images/account.png" class="login-image"/>
+      <div class="container">
+        <img src="images/account.png" class="login-image" />
         <h1>Welcome to Account</h1>
 
         <form [formGroup]="form">
-          <a-input-field label="Username" 
-            [autoFocus]=true
-            [control]="form.get('inputUsername')!" />
+          <a-input-field
+            label="Username"
+            [autoFocus]="true"
+            [control]="form.get('inputUsername')!"
+          />
 
           <p-float-label variant="in" class="margin-bottom">
-            <p-password id="password"
+            <p-password
+              id="password"
               [toggleMask]="true"
-              [feedback]="false" 
-              formControlName="inputPassword" />
-            <label for="password" >Password</label>
+              [feedback]="false"
+              formControlName="inputPassword"
+            />
+            <label for="password">Password</label>
           </p-float-label>
 
           <p-button label="Sign In" (onClick)="signin()" [disabled]="form.invalid"></p-button>
@@ -43,36 +58,41 @@ import { AppMessageService } from '../app-message-service';
       </div>
     </p-panel>
   `,
-  styleUrl: './login-page.component.scss'
+  styleUrl: './login-page.component.scss',
 })
 export class LoginPageComponent {
-  form: FormGroup
+  form: FormGroup;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     formBuilder: FormBuilder,
     private authService: AuthService,
-    private appMessageService: AppMessageService
+    private appMessageService: AppMessageService,
   ) {
     this.form = formBuilder.group({
       inputUsername: ['', [Validators.required, Validators.minLength(1)]],
-      inputPassword: ['', [Validators.required, Validators.minLength(1)]]
-    })
+      inputPassword: ['', [Validators.required, Validators.minLength(1)]],
+    });
   }
 
   signin() {
     if (this.form.valid) {
-      this.authService.signin(this.form.value.inputUsername, this.form.value.inputPassword).pipe(
-        tap(() => {
-          this.router.navigate(['balances/list'])
-        }),
-        catchError((error) => {
-          this.appMessageService.addErrorMessage(error,
-            'Sign in failed',
-            'Invalid credenciais, please try again.')
-          return of()
-        })
-      ).subscribe()
+      this.authService
+        .signin(this.form.value.inputUsername, this.form.value.inputPassword)
+        .pipe(
+          tap(() => {
+            this.router.navigate(['balances/list']);
+          }),
+          catchError((error) => {
+            this.appMessageService.addErrorMessage(
+              error,
+              'Sign in failed',
+              'Invalid credenciais, please try again.',
+            );
+            return of();
+          }),
+        )
+        .subscribe();
     }
   }
-
 }

@@ -6,21 +6,17 @@ import { Category } from '../category/category';
 import { AccountCreateService } from './account-create-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccountUpdateFormGroupService extends BeanUpdateFormGroupService<Account> {
-
-  constructor(formBuilder: FormBuilder
-  ) {
-    super(formBuilder, new AccountCreateService(), createForm)
+  constructor(formBuilder: FormBuilder) {
+    super(formBuilder, new AccountCreateService(), createForm);
   }
-
 }
 
 function createForm(formBuilder: FormBuilder, bean: Account): FormGroup {
   return formBuilder.group({
     inputDescription: [bean.description, [Validators.required, Validators.minLength(3)]],
-    selectCategory: [new Category(bean.category), [Validators.required]]
-  })
+    selectCategory: [new Category(bean.category), [Validators.required]],
+  });
 }
-

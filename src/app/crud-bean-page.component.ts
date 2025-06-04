@@ -13,20 +13,20 @@ import { HeaderComponent } from './header.component';
 
     <a-header />
 
-    <a-menu/>
+    <a-menu />
 
     <h2 class="{{ titleClass }}">{{ title }}</h2>
 
     <router-outlet></router-outlet>
   `,
-  styleUrl: './crud-bean-page.component.scss'
+  styleUrl: './crud-bean-page.component.scss',
 })
 export class CrudBeanPageComponent {
-  title: string
-  titleClass: string
+  title: string;
+  titleClass: string;
 
   constructor(private route: ActivatedRoute) {
-    this.title = this.route.snapshot.data['title']
-    this.titleClass = this.route.snapshot.data['titleClass']
+    this.title = this.route.snapshot.data['title'];
+    this.titleClass = this.route.snapshot.data['titleClass'];
   }
 }
