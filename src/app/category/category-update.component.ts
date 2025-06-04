@@ -5,12 +5,12 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { Category } from './category';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
-import { InputField } from '../field/input-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { CategoryUpdateFormGroupService } from './category-update-form-group.service';
 
 @Component({
   selector: 'category-update',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField],
+  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputFieldComponent],
   template: `
     <a-input-field
       label="Description"

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DetailField } from '../field/detail-field.component';
+import { DetailFieldComponent } from '../field/detail-field.component';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { Balance } from './balance';
 import { BalanceCreateService } from './balance-create-service';
@@ -10,7 +10,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'balance-detail',
-  imports: [CommonModule, DetailField],
+  imports: [CommonModule, DetailFieldComponent],
   template: `
     <a-detail-field strong="Owner" value="{{ bean.owner }}" />
     <a-detail-field

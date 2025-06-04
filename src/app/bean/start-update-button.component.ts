@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
     />
   `,
 })
-export class StartUpdateButton<T extends Bean> {
+export class StartUpdateButtonComponent<T extends Bean> {
   @Input() item!: T;
   @Input() beansName!: string;
   @Input() removed!: () => void;

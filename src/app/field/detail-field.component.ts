@@ -23,7 +23,7 @@ import { CommonModule } from '@angular/common';
     }
   `,
 })
-export class DetailField {
+export class DetailFieldComponent {
   @Input() strong = '';
   @Input() value = '';
 }

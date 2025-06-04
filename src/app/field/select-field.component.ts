@@ -25,7 +25,7 @@ import { SelectModule } from 'primeng/select';
     </div>
   `,
 })
-export class SelectField {
+export class SelectFieldComponent {
   @Input() id = 'id';
   @Input() name = 'name';
   @Input() label = '';

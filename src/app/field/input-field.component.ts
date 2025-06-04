@@ -27,7 +27,7 @@ import { InputTextModule } from 'primeng/inputtext';
     </div>
   `,
 })
-export class InputField {
+export class InputFieldComponent {
   @Input() id = 'id';
   @Input() name = 'name';
   @Input() label = '';

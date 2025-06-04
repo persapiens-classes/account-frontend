@@ -7,15 +7,15 @@ import { Observable } from 'rxjs';
 import { Owner } from '../owner/owner';
 import { Account } from '../account/account';
 import { HttpClient } from '@angular/common/http';
-import { SelectField } from '../field/select-field.component';
-import { NumberField } from '../field/number-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
 import { OwnerEquityAccountInitialValueInsertFormGroupService } from './owner-equity-account-initial-value-insert-form-group.service';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 
 @Component({
   selector: 'owner-equity-account-initial-value-insert',
-  imports: [ReactiveFormsModule, CommonModule, NumberField, SelectField],
+  imports: [ReactiveFormsModule, CommonModule, NumberFieldComponent, SelectFieldComponent],
   template: `
     <a-select-field
       label="Owner"

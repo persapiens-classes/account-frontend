@@ -7,9 +7,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Account } from './account';
 import { HttpClient } from '@angular/common/http';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { StartDetailButton } from '../bean/start-detail-button';
-import { RemoveButton } from '../bean/remove-button';
-import { StartUpdateButton } from '../bean/start-update-button';
+import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
+import { RemoveButtonComponent } from '../bean/remove-button.component';
+import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
 import { AppMessageService } from '../app-message-service';
 import { AccountListService } from './account-list-service';
 import { AccountRemoveService } from './account-remove-service';
@@ -22,9 +22,9 @@ import { AccountRemoveService } from './account-remove-service';
     TableModule,
     TooltipModule,
     ButtonModule,
-    RemoveButton,
-    StartDetailButton,
-    StartUpdateButton,
+    RemoveButtonComponent,
+    StartDetailButtonComponent,
+    StartUpdateButtonComponent,
   ],
   template: `
     <p-table

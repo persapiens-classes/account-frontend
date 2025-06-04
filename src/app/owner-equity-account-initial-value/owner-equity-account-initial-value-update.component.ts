@@ -5,13 +5,20 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { OwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
 import { BeanUpdateComponent } from '../bean/bean-update.component';
-import { DetailField } from '../field/detail-field.component';
-import { NumberField } from '../field/number-field.component';
+import { DetailFieldComponent } from '../field/detail-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
 import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-equity-account-initial-value-update-form-group.service';
 
 @Component({
   selector: 'owner-equity-account-initial-value-update',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, NumberField, DetailField],
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    PanelModule,
+    CommonModule,
+    NumberFieldComponent,
+    DetailFieldComponent,
+  ],
   template: `
     <a-detail-field strong="Owner" value="{{ bean.owner }}" />
 

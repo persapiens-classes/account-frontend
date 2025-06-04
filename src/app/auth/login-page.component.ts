@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputField } from '../field/input-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { AppMessageService } from '../app-message-service';
 
 @Component({
@@ -26,7 +26,7 @@ import { AppMessageService } from '../app-message-service';
     RouterModule,
     AutoFocusModule,
     ToastModule,
-    InputField,
+    InputFieldComponent,
   ],
   template: `
     <p-panel class="container">

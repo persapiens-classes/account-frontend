@@ -3,12 +3,12 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Category } from './category';
 import { BeanInsertComponent } from '../bean/bean-insert.component';
-import { InputField } from '../field/input-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { CategoryInsertFormGroupService } from './category-insert-form-group.service';
 
 @Component({
   selector: 'category-insert',
-  imports: [ReactiveFormsModule, CommonModule, InputField],
+  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent],
   template: `
     <a-input-field
       label="Description"

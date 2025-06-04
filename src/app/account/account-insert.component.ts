@@ -7,14 +7,14 @@ import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { InputField } from '../field/input-field.component';
-import { SelectField } from '../field/select-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
 import { AccountInsertFormGroupService } from './account-insert-form-group.service';
 import { CategoryListService } from '../category/category-list-service';
 
 @Component({
   selector: 'account-insert',
-  imports: [ReactiveFormsModule, CommonModule, InputField, SelectField],
+  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent, SelectFieldComponent],
   template: `
     <a-input-field
       label="Description"

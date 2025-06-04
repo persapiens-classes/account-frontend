@@ -9,14 +9,21 @@ import { BeanUpdateComponent } from '../bean/bean-update.component';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { InputField } from '../field/input-field.component';
-import { SelectField } from '../field/select-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
 import { AccountUpdateFormGroupService } from './account-update-form-group.service';
 import { CategoryListService } from '../category/category-list-service';
 
 @Component({
   selector: 'account-update',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputField, SelectField],
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    PanelModule,
+    CommonModule,
+    InputFieldComponent,
+    SelectFieldComponent,
+  ],
   template: `
     <a-input-field
       label="Description"

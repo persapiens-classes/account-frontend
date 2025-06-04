@@ -8,17 +8,24 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { DateField } from '../field/date-field.component';
-import { SelectField } from '../field/select-field.component';
-import { NumberField } from '../field/number-field.component';
-import { InputField } from '../field/input-field.component';
+import { DateFieldComponent } from '../field/date-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { EntryInsertFormGroupService } from './entry-insert-form-group.service';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 
 @Component({
   selector: 'entry-insert',
-  imports: [ReactiveFormsModule, CommonModule, DateField, SelectField, NumberField, InputField],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    DateFieldComponent,
+    SelectFieldComponent,
+    NumberFieldComponent,
+    InputFieldComponent,
+  ],
   template: `
     <a-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
 

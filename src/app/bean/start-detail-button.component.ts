@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
     />
   `,
 })
-export class StartDetailButton<T extends Bean> {
+export class StartDetailButtonComponent<T extends Bean> {
   @Input() item!: T;
   @Input() beansName!: string;
 

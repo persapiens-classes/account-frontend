@@ -35,7 +35,7 @@ import { DatePickerModule } from 'primeng/datepicker';
     </div>
   `,
 })
-export class DateField {
+export class DateFieldComponent {
   @Input() id = 'id';
   @Input() name = 'name';
   @Input() label = '';

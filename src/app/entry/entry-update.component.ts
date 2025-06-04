@@ -10,10 +10,10 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { InputField } from '../field/input-field.component';
-import { NumberField } from '../field/number-field.component';
-import { SelectField } from '../field/select-field.component';
-import { DateField } from '../field/date-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
+import { DateFieldComponent } from '../field/date-field.component';
 import { EntryUpdateFormGroupService } from './entry-update-form-group.service';
 import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
@@ -25,10 +25,10 @@ import { OwnerListService } from '../owner/owner-list-service';
     ButtonModule,
     PanelModule,
     CommonModule,
-    DateField,
-    SelectField,
-    NumberField,
-    InputField,
+    DateFieldComponent,
+    SelectFieldComponent,
+    NumberFieldComponent,
+    InputFieldComponent,
   ],
   template: `
     <a-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />

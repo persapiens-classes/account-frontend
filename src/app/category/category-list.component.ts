@@ -8,9 +8,9 @@ import { Category } from './category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryListService } from './category-list-service';
 import { BeanListComponent } from '../bean/bean-list.component';
-import { StartDetailButton } from '../bean/start-detail-button';
-import { StartUpdateButton } from '../bean/start-update-button';
-import { RemoveButton } from '../bean/remove-button';
+import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
+import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
+import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { CategoryRemoveService } from './category-remove-service';
 
@@ -22,9 +22,9 @@ import { CategoryRemoveService } from './category-remove-service';
     TableModule,
     TooltipModule,
     ButtonModule,
-    StartDetailButton,
-    StartUpdateButton,
-    RemoveButton,
+    StartDetailButtonComponent,
+    StartUpdateButtonComponent,
+    RemoveButtonComponent,
   ],
   template: `
     <p-table

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Entry } from './entry';
-import { DetailField } from '../field/detail-field.component';
+import { DetailFieldComponent } from '../field/detail-field.component';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { EntryCreateService } from './entry-create-service';
 
 @Component({
   selector: 'entry-detail',
-  imports: [CommonModule, DetailField],
+  imports: [CommonModule, DetailFieldComponent],
   template: `
     <a-detail-field
       strong="Date"

@@ -37,7 +37,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     </div>
   `,
 })
-export class NumberField {
+export class NumberFieldComponent {
   @Input() id = 'id';
   @Input() name = 'name';
   @Input() label = '';

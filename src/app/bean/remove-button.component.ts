@@ -27,7 +27,7 @@ import { BeanRemoveService } from './bean-remove-service';
     />
   `,
 })
-export class RemoveButton<T extends Bean> {
+export class RemoveButtonComponent<T extends Bean> {
   @Input() item!: T;
   @Input() beanRemoveService!: BeanRemoveService<T>;
   @Input() beanList$!: Observable<T[]>;

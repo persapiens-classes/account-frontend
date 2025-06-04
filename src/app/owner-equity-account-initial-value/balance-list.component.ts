@@ -5,9 +5,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { BalanceListService } from './balance-list-service';
 import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
-import { StartDetailButton } from '../bean/start-detail-button';
-import { StartUpdateButton } from '../bean/start-update-button';
-import { RemoveButton } from '../bean/remove-button';
+import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
+import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
+import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { Balance } from './balance';
 import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-account-initial-value-remove-service';
@@ -21,9 +21,9 @@ import { HttpClient } from '@angular/common/http';
     TableModule,
     TooltipModule,
     ButtonModule,
-    StartDetailButton,
-    StartUpdateButton,
-    RemoveButton,
+    StartDetailButtonComponent,
+    StartUpdateButtonComponent,
+    RemoveButtonComponent,
   ],
   template: `
     <p-table
