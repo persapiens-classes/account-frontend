@@ -6,7 +6,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MenubarModule } from 'primeng/menubar';
 
 @Component({
-  selector: 'a-header',
+  selector: 'app-header',
   imports: [ButtonModule, TooltipModule, MenubarModule],
   template: `
     <div style="display: flex; align-items: center; gap: 10px;">

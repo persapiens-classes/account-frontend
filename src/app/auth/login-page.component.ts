@@ -35,7 +35,7 @@ import { AppMessageService } from '../app-message-service';
         <h1>Welcome to Account</h1>
 
         <form [formGroup]="form">
-          <a-input-field
+          <app-input-field
             label="Username"
             [autoFocus]="true"
             [control]="form.get('inputUsername')!"

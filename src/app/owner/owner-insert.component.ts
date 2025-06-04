@@ -7,10 +7,10 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { OwnerInsertFormGroupService } from './owner-insert-form-group.service';
 
 @Component({
-  selector: 'owner-insert',
+  selector: 'app-owner-insert',
   imports: [ReactiveFormsModule, CommonModule, InputFieldComponent],
   template: `
-    <a-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
+    <app-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
   `,
 })
 export class OwnerInsertComponent extends BeanInsertComponent<Owner> {

@@ -6,7 +6,7 @@ import { Bean } from './bean';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'a-start-update-button',
+  selector: 'app-start-update-button',
   imports: [CommonModule, ButtonModule, ReactiveFormsModule],
   template: `
     <p-button

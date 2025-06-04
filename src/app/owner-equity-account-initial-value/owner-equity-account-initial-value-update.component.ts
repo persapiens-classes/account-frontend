@@ -10,7 +10,7 @@ import { NumberFieldComponent } from '../field/number-field.component';
 import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-equity-account-initial-value-update-form-group.service';
 
 @Component({
-  selector: 'owner-equity-account-initial-value-update',
+  selector: 'app-owner-equity-account-initial-value-update',
   imports: [
     ReactiveFormsModule,
     ButtonModule,
@@ -20,14 +20,14 @@ import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-eq
     DetailFieldComponent,
   ],
   template: `
-    <a-detail-field strong="Owner" value="{{ bean.owner }}" />
+    <app-detail-field strong="Owner" value="{{ bean.owner }}" />
 
-    <a-detail-field
+    <app-detail-field
       strong="Equity Account"
       value="{{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}"
     />
 
-    <a-number-field
+    <app-number-field
       label="Initial Value"
       [autoFocus]="true"
       [control]="form.get('inputInitialValue')!"

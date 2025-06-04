@@ -15,7 +15,7 @@ import { AccountUpdateFormGroupService } from './account-update-form-group.servi
 import { CategoryListService } from '../category/category-list-service';
 
 @Component({
-  selector: 'account-update',
+  selector: 'app-account-update',
   imports: [
     ReactiveFormsModule,
     ButtonModule,
@@ -25,13 +25,13 @@ import { CategoryListService } from '../category/category-list-service';
     SelectFieldComponent,
   ],
   template: `
-    <a-input-field
+    <app-input-field
       label="Description"
       [autoFocus]="true"
       [control]="form.get('inputDescription')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Category"
       placeholder="Select one category"
       optionLabel="description"

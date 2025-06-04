@@ -16,7 +16,7 @@ import { BeanDetailService } from './bean-detail-service';
 import { BeanDetailServiceFactory } from './bean-detail-service-factory';
 
 @Component({
-  selector: 'bean-detail',
+  selector: 'app-bean-detail',
   imports: [CommonModule, ButtonModule, PanelModule],
   template: `
     <p-panel header="Detail">

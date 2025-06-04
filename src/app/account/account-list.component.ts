@@ -15,7 +15,7 @@ import { AccountListService } from './account-list-service';
 import { AccountRemoveService } from './account-remove-service';
 
 @Component({
-  selector: 'account-list',
+  selector: 'app-account-list',
   imports: [
     AsyncPipe,
     ButtonModule,
@@ -65,10 +65,10 @@ import { AccountRemoveService } from './account-remove-service';
         <tr>
           <td>{{ item.description }}</td>
           <td>{{ item.category }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               [beanList$]="beansList$"

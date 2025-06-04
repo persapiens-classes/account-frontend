@@ -17,7 +17,7 @@ import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 
 @Component({
-  selector: 'entry-insert',
+  selector: 'app-entry-insert',
   imports: [
     ReactiveFormsModule,
     CommonModule,
@@ -27,9 +27,9 @@ import { AccountListService } from '../account/account-list-service';
     InputFieldComponent,
   ],
   template: `
-    <a-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
+    <app-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
 
-    <a-select-field
+    <app-select-field
       label="In Owner"
       placeholder="Select in owner"
       optionLabel="name"
@@ -37,7 +37,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectInOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="In Account"
       placeholder="Select in account"
       optionLabel="description"
@@ -45,7 +45,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectInAccount')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Out Owner"
       placeholder="Select out owner"
       optionLabel="name"
@@ -53,7 +53,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectOutOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Out Account"
       placeholder="Select out account"
       optionLabel="description"
@@ -61,9 +61,9 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectOutAccount')!"
     />
 
-    <a-number-field label="Value" [control]="form.get('inputValue')!" />
+    <app-number-field label="Value" [control]="form.get('inputValue')!" />
 
-    <a-input-field label="Note" [control]="form.get('inputNote')!" />
+    <app-input-field label="Note" [control]="form.get('inputNote')!" />
   `,
 })
 export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate> {

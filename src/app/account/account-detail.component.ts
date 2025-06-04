@@ -6,11 +6,11 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { AccountCreateService } from './account-create-service';
 
 @Component({
-  selector: 'account-detail',
+  selector: 'app-account-detail',
   imports: [CommonModule, DetailFieldComponent],
   template: `
-    <a-detail-field strong="Description" value="{{ bean.description }}" />
-    <a-detail-field strong="Category" value="{{ bean.category }}" />
+    <app-detail-field strong="Description" value="{{ bean.description }}" />
+    <app-detail-field strong="Category" value="{{ bean.category }}" />
   `,
 })
 export class AccountDetailComponent extends BeanDetailComponent<Account> {

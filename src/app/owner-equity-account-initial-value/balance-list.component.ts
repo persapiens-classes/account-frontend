@@ -14,7 +14,7 @@ import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-acco
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'balance-list',
+  selector: 'app-balance-list',
   imports: [
     AsyncPipe,
     CommonModule,
@@ -70,10 +70,10 @@ import { HttpClient } from '@angular/common/http';
           <td>{{ item.equityAccount.description }}</td>
           <td>{{ item.balance | number: '1.2-2' }}</td>
           <td>{{ item.initialValue | number: '1.2-2' }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               (removed)="removed()"

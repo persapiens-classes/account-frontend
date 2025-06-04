@@ -7,7 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
-  selector: 'a-number-field',
+  selector: 'app-number-field',
   imports: [
     CommonModule,
     FloatLabelModule,

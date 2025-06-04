@@ -6,7 +6,7 @@ import { AbstractControl, FormControl, ReactiveFormsModule } from '@angular/form
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-  selector: 'a-input-field',
+  selector: 'app-input-field',
   imports: [CommonModule, FloatLabelModule, AutoFocusModule, InputTextModule, ReactiveFormsModule],
   template: `
     <p-float-label variant="in" class="margin-bottom">

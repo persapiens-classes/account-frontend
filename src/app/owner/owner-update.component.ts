@@ -9,10 +9,10 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { OwnerUpdateFormGroupService } from './owner-update-form-group.service';
 
 @Component({
-  selector: 'owner-update',
+  selector: 'app-owner-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputFieldComponent],
   template: `
-    <a-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
+    <app-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
   `,
 })
 export class OwnerUpdateComponent extends BeanUpdateComponent<Owner> {

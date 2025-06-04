@@ -14,7 +14,7 @@ import { OwnerRemoveService } from './owner-remove-service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'owner-list',
+  selector: 'app-owner-list',
   imports: [
     AsyncPipe,
     CommonModule,
@@ -49,10 +49,10 @@ import { HttpClient } from '@angular/common/http';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.name }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               (removed)="removed()"

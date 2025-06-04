@@ -15,7 +15,7 @@ import { EntryListService } from './entry-list-service';
 import { EntryRemoveService } from './entry-remove-service';
 
 @Component({
-  selector: 'entry-list',
+  selector: 'app-entry-list',
   imports: [
     AsyncPipe,
     CommonModule,
@@ -96,10 +96,10 @@ import { EntryRemoveService } from './entry-remove-service';
           <td>{{ item.outAccount.description }}</td>
           <td>{{ item.date.toLocaleDateString() }}</td>
           <td>{{ item.value | number: '1.2-2' }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               (removed)="removed()"

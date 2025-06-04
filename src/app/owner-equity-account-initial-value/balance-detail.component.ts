@@ -9,16 +9,16 @@ import { BalanceFilterService } from './balance-filter-service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'balance-detail',
+  selector: 'app-balance-detail',
   imports: [CommonModule, DetailFieldComponent],
   template: `
-    <a-detail-field strong="Owner" value="{{ bean.owner }}" />
-    <a-detail-field
+    <app-detail-field strong="Owner" value="{{ bean.owner }}" />
+    <app-detail-field
       strong="Equity Account"
       value="{{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}"
     />
-    <a-detail-field strong="Balance" value="{{ bean.balance | number: '1.2-2' }}" />
-    <a-detail-field strong="Initial Value" value="{{ bean.initialValue | number: '1.2-2' }}" />
+    <app-detail-field strong="Balance" value="{{ bean.balance | number: '1.2-2' }}" />
+    <app-detail-field strong="Initial Value" value="{{ bean.initialValue | number: '1.2-2' }}" />
   `,
 })
 export class BalanceDetailComponent extends BeanDetailComponent<Balance> implements OnInit {

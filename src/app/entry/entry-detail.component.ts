@@ -6,25 +6,25 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { EntryCreateService } from './entry-create-service';
 
 @Component({
-  selector: 'entry-detail',
+  selector: 'app-entry-detail',
   imports: [CommonModule, DetailFieldComponent],
   template: `
-    <a-detail-field
+    <app-detail-field
       strong="Date"
       value="{{ bean.date.toLocaleDateString() }} {{ bean.date.toLocaleTimeString() }}"
     />
-    <a-detail-field strong="In Owner" value="{{ bean.inOwner }}" />
-    <a-detail-field
+    <app-detail-field strong="In Owner" value="{{ bean.inOwner }}" />
+    <app-detail-field
       strong="In Account"
       value="{{ bean.inAccount.description }} - {{ bean.inAccount.category }}"
     />
-    <a-detail-field strong="Out Owner" value="{{ bean.outOwner }}" />
-    <a-detail-field
+    <app-detail-field strong="Out Owner" value="{{ bean.outOwner }}" />
+    <app-detail-field
       strong="Out Account"
       value="{{ bean.outAccount.description }} - {{ bean.outAccount.category }}"
     />
-    <a-detail-field strong="Value" value="{{ bean.value | number: '1.2-2' }}" />
-    <a-detail-field strong="Note" value="{{ bean.note }}" />
+    <app-detail-field strong="Value" value="{{ bean.value | number: '1.2-2' }}" />
+    <app-detail-field strong="Note" value="{{ bean.note }}" />
   `,
 })
 export class EntryDetailComponent extends BeanDetailComponent<Entry> {

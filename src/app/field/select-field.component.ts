@@ -6,7 +6,7 @@ import { SelectModule } from 'primeng/select';
 import { Bean } from '../bean/bean';
 
 @Component({
-  selector: 'a-select-field',
+  selector: 'app-select-field',
   imports: [CommonModule, FloatLabelModule, SelectModule, ReactiveFormsModule],
   template: `
     <p-float-label variant="in" class="margin-bottom">

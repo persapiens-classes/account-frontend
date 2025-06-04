@@ -6,9 +6,9 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { CategoryCreateService } from './category-create-service';
 
 @Component({
-  selector: 'category-detail',
+  selector: 'app-category-detail',
   imports: [CommonModule, DetailFieldComponent],
-  template: ` <a-detail-field strong="Description" value="{{ bean.description }}" /> `,
+  template: ` <app-detail-field strong="Description" value="{{ bean.description }}" /> `,
 })
 export class CategoryDetailComponent extends BeanDetailComponent<Category> {
   constructor() {

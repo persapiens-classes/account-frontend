@@ -21,7 +21,7 @@ import { AppMessageService } from '../app-message-service';
 import { BeanUpdateServiceFactory } from './bean-update-service-factory';
 
 @Component({
-  selector: 'bean-update',
+  selector: 'app-bean-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
   template: `
     <form *ngIf="form" [formGroup]="form">

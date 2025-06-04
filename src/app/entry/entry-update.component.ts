@@ -19,7 +19,7 @@ import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
 
 @Component({
-  selector: 'entry-update',
+  selector: 'app-entry-update',
   imports: [
     ReactiveFormsModule,
     ButtonModule,
@@ -31,9 +31,9 @@ import { OwnerListService } from '../owner/owner-list-service';
     InputFieldComponent,
   ],
   template: `
-    <a-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
+    <app-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
 
-    <a-select-field
+    <app-select-field
       label="In Owner"
       placeholder="Select in owner"
       optionLabel="name"
@@ -41,7 +41,7 @@ import { OwnerListService } from '../owner/owner-list-service';
       [control]="form.get('selectInOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="In Account"
       placeholder="Select in account"
       optionLabel="description"
@@ -49,7 +49,7 @@ import { OwnerListService } from '../owner/owner-list-service';
       [control]="form.get('selectInAccount')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Out Owner"
       placeholder="Select out owner"
       optionLabel="name"
@@ -57,7 +57,7 @@ import { OwnerListService } from '../owner/owner-list-service';
       [control]="form.get('selectOutOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Out Account"
       placeholder="Select out account"
       optionLabel="description"
@@ -65,9 +65,9 @@ import { OwnerListService } from '../owner/owner-list-service';
       [control]="form.get('selectOutAccount')!"
     />
 
-    <a-number-field label="Value" [control]="form.get('inputValue')!" />
+    <app-number-field label="Value" [control]="form.get('inputValue')!" />
 
-    <a-input-field label="Note" [control]="form.get('inputNote')!" />
+    <app-input-field label="Note" [control]="form.get('inputNote')!" />
   `,
 })
 export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate> {

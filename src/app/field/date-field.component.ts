@@ -7,7 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
-  selector: 'a-date-field',
+  selector: 'app-date-field',
   imports: [
     CommonModule,
     FloatLabelModule,

@@ -6,9 +6,9 @@ import { BeanDetailComponent } from '../bean/bean-detail.component';
 import { OwnerCreateService } from './owner-create-service';
 
 @Component({
-  selector: 'owner-detail',
+  selector: 'app-owner-detail',
   imports: [CommonModule, DetailFieldComponent],
-  template: ` <a-detail-field strong="Name" value="{{ bean.name }}" /> `,
+  template: ` <app-detail-field strong="Name" value="{{ bean.name }}" /> `,
 })
 export class OwnerDetailComponent extends BeanDetailComponent<Owner> {
   constructor() {

@@ -21,7 +21,7 @@ import { AppMessageService } from '../app-message-service';
 import { BeanInsertServiceFactory } from './bean-insert-service-factory';
 
 @Component({
-  selector: 'bean-insert',
+  selector: 'app-bean-insert',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
   template: `
     <form *ngIf="form" [formGroup]="form">

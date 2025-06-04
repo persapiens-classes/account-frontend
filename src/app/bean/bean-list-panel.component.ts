@@ -16,7 +16,7 @@ import { BeanListService } from './bean-list-service';
 import { BeanListServiceFactory } from './bean-list-service-factory';
 
 @Component({
-  selector: 'bean-list',
+  selector: 'app-bean-list',
   imports: [FormsModule, PanelModule, ButtonModule],
   template: `
     <p-panel header="List">

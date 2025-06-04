@@ -9,10 +9,10 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { CategoryUpdateFormGroupService } from './category-update-form-group.service';
 
 @Component({
-  selector: 'category-update',
+  selector: 'app-category-update',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputFieldComponent],
   template: `
-    <a-input-field
+    <app-input-field
       label="Description"
       [autoFocus]="true"
       [control]="form.get('inputDescription')!"

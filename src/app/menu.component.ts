@@ -5,7 +5,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'a-menu',
+  selector: 'app-menu',
   imports: [ButtonModule, TooltipModule, MenubarModule],
   template: ` <p-menubar [model]="items" /> `,
 })

@@ -10,7 +10,7 @@ import { ConfirmationService } from 'primeng/api';
 import { BeanRemoveService } from './bean-remove-service';
 
 @Component({
-  selector: 'a-remove-button',
+  selector: 'app-remove-button',
   imports: [CommonModule, ButtonModule, ReactiveFormsModule, ConfirmDialogModule],
   providers: [ConfirmationService],
   template: `

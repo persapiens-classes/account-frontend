@@ -15,7 +15,7 @@ import { AppMessageService } from '../app-message-service';
 import { CategoryRemoveService } from './category-remove-service';
 
 @Component({
-  selector: 'category-list',
+  selector: 'app-category-list',
   imports: [
     AsyncPipe,
     ButtonModule,
@@ -55,10 +55,10 @@ import { CategoryRemoveService } from './category-remove-service';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.description }}</td>
-          <td><a-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><a-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
           <td>
-            <a-remove-button
+            <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
               (removed)="removed()"

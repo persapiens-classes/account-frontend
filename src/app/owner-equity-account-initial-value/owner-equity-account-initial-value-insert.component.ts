@@ -14,10 +14,10 @@ import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 
 @Component({
-  selector: 'owner-equity-account-initial-value-insert',
+  selector: 'app-owner-equity-account-initial-value-insert',
   imports: [ReactiveFormsModule, CommonModule, NumberFieldComponent, SelectFieldComponent],
   template: `
-    <a-select-field
+    <app-select-field
       label="Owner"
       placeholder="Select owner"
       [autoFocus]="true"
@@ -26,7 +26,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectOwner')!"
     />
 
-    <a-select-field
+    <app-select-field
       label="Equity Account"
       placeholder="Select equity account"
       optionLabel="description"
@@ -34,7 +34,7 @@ import { AccountListService } from '../account/account-list-service';
       [control]="form.get('selectEquityAccount')!"
     />
 
-    <a-number-field label="Initial Value" [control]="form.get('inputInitialValue')!" />
+    <app-number-field label="Initial Value" [control]="form.get('inputInitialValue')!" />
   `,
 })
 export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertComponent<OwnerEquityAccountInitialValueInsert> {
