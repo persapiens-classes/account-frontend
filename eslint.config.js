@@ -7,6 +7,11 @@ const prettierPlugin = require('eslint-plugin-prettier');
 module.exports = tseslint.config(
   {
     files: ['**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+    },
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -35,6 +40,7 @@ module.exports = tseslint.config(
           style: 'kebab-case',
         },
       ],
+      '@typescript-eslint/no-deprecated': 'error',
     },
   },
   {
