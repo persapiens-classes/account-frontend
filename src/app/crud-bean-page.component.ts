@@ -25,7 +25,7 @@ export class CrudBeanPageComponent {
   title: string;
   titleClass: string;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private readonly route: ActivatedRoute) {
     this.title = this.route.snapshot.data['title'];
     this.titleClass = this.route.snapshot.data['titleClass'];
   }

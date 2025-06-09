@@ -8,10 +8,10 @@ export class BeanInsertService<T extends Bean, I> {
   private apiUrl: string;
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
     public beanName: string,
     public beansName: string,
-    private beanCreateService: BeanCreateService<T>,
+    private readonly beanCreateService: BeanCreateService<T>,
   ) {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }

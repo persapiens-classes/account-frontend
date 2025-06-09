@@ -22,7 +22,7 @@ export class StartUpdateButtonComponent<T extends Bean> {
   @Input() beansName!: string;
   @Input() removed!: () => void;
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   startUpdate(item: T): void {
     this.router.navigate([`${this.beansName}/edit`], { state: { bean: item } });

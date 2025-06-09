@@ -8,9 +8,9 @@ export class BeanListService<T extends Bean> {
   private apiUrl: string;
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
     public beansName: string,
-    private beanCreateService: BeanCreateService<T>,
+    private readonly beanCreateService: BeanCreateService<T>,
   ) {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }

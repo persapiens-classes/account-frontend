@@ -64,10 +64,10 @@ export class LoginPageComponent {
   form: FormGroup;
 
   constructor(
-    private router: Router,
+    private readonly router: Router,
     formBuilder: FormBuilder,
-    private authService: AuthService,
-    private appMessageService: AppMessageService,
+    private readonly authService: AuthService,
+    private readonly appMessageService: AppMessageService,
   ) {
     this.form = formBuilder.group({
       inputUsername: ['', [Validators.required, Validators.minLength(1)]],

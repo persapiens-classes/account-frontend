@@ -34,8 +34,8 @@ export class RemoveButtonComponent<T extends Bean> {
   @Output() removed = new EventEmitter<void>();
 
   constructor(
-    private appMessageService: AppMessageService,
-    private confirmationService: ConfirmationService,
+    private readonly appMessageService: AppMessageService,
+    private readonly confirmationService: ConfirmationService,
   ) {}
 
   remove(event: Event) {

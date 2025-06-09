@@ -7,7 +7,7 @@ export class BeanUpdateFormGroupService<T extends Bean> {
 
   constructor(
     public formBuilder: FormBuilder,
-    private beanCreateService: BeanCreateService<T>,
+    readonly beanCreateService: BeanCreateService<T>,
     public createFormFn: (formBuilder: FormBuilder, bean: T) => FormGroup,
   ) {}
 

@@ -58,9 +58,9 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
   beanUpdateService: BeanUpdateService<T, U>;
 
   constructor(
-    private router: Router,
+    private readonly router: Router,
     route: ActivatedRoute,
-    private appMessageService: AppMessageService,
+    private readonly appMessageService: AppMessageService,
     beanServiceFactory: BeanUpdateServiceFactory<T, U>,
   ) {
     const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<

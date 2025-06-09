@@ -20,8 +20,8 @@ import { MenubarModule } from 'primeng/menubar';
 })
 export class HeaderComponent {
   constructor(
-    private authService: AuthService,
-    private router: Router,
+    private readonly authService: AuthService,
+    private readonly router: Router,
   ) {}
 
   authenticatedLogin() {

@@ -8,7 +8,7 @@ export class PreviousRouteService {
   private previousUrl: string | null = null;
   private currentUrl: string | null = null;
 
-  constructor(private router: Router) {
+  constructor(private readonly router: Router) {
     this.currentUrl = this.router.url;
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
