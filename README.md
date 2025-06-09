@@ -1,5 +1,4 @@
-# Account Frontend
-
+Account Frontend
 =======
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://github.com/persapiens-classes/account-frontend/actions/workflows/deploy.yml/badge.svg)](https://github.com/persapiens-classes/account-frontend/actions)
