@@ -13,7 +13,7 @@ export class AccountInsertFormGroupService extends BeanInsertFormGroupService {
 
 function createForm(formBuilder: FormBuilder): FormGroup {
   return formBuilder.group({
-    inputDescription: ['', [Validators.required, Validators.minLength(3)]],
     selectCategory: ['', [Validators.required]],
+    inputDescription: ['', [Validators.required, Validators.minLength(3)]],
   });
 }

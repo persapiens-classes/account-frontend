@@ -1,7 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
+import { Bean } from './bean';
 import { catchError, of, tap } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Bean } from './bean';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';

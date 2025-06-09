@@ -1,8 +1,8 @@
+import { Bean } from './bean';
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { Bean } from './bean';
 import { Router } from '@angular/router';
 
 @Component({
