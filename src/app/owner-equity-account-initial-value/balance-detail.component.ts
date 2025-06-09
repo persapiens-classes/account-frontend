@@ -29,7 +29,11 @@ export class BalanceDetailComponent extends BeanDetailComponent<Balance> impleme
     super(new BalanceCreateService());
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
+    this.initAsync();
+  }
+
+  private async initAsync(): Promise<void> {
     if (
       this.previousRouteService.getPreviousUrl()?.endsWith('/edit') ||
       this.previousRouteService.getPreviousUrl()?.endsWith('/new')
