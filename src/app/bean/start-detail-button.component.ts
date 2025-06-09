@@ -21,7 +21,7 @@ export class StartDetailButtonComponent<T extends Bean> {
   @Input() item!: T;
   @Input() beansName!: string;
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   startDetail(item: T): void {
     this.router.navigate([`${this.beansName}/detail`], { state: { bean: item } });

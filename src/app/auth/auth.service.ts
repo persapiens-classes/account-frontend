@@ -19,7 +19,7 @@ export class LoginResponse {
 export class AuthService {
   private apiUrl = environment.apiUrl + '/login';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   signin(username: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.apiUrl, { username, password }).pipe(

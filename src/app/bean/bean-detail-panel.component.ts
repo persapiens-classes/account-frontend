@@ -41,7 +41,7 @@ export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
   beanDetailService: BeanDetailService<T>;
 
   constructor(
-    private router: Router,
+    private readonly router: Router,
     route: ActivatedRoute,
     beanServiceFactory: BeanDetailServiceFactory<T>,
   ) {

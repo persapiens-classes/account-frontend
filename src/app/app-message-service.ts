@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
   providedIn: 'root',
 })
 export class AppMessageService {
-  constructor(private messageService: MessageService) {}
+  constructor(private readonly messageService: MessageService) {}
 
   addErrorMessage(error: HttpErrorResponse, summary: string): void;
 

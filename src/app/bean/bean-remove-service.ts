@@ -6,7 +6,7 @@ export class BeanRemoveService {
   private apiUrl;
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
     public beanName: string,
     public beansName: string,
   ) {

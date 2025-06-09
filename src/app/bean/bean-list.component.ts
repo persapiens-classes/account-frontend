@@ -7,7 +7,7 @@ export class BeanListComponent<T extends Bean> {
   beansList$: Observable<T[]>;
 
   constructor(
-    private appMessageService: AppMessageService,
+    private readonly appMessageService: AppMessageService,
     public beanListService: BeanListService<T>,
   ) {
     this.beansList$ = this.loadBeans();

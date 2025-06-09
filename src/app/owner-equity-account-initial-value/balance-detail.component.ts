@@ -23,8 +23,8 @@ import { firstValueFrom } from 'rxjs';
 })
 export class BalanceDetailComponent extends BeanDetailComponent<Balance> implements OnInit {
   constructor(
-    private previousRouteService: PreviousRouteService,
-    private balanceFilterService: BalanceFilterService,
+    private readonly previousRouteService: PreviousRouteService,
+    private readonly balanceFilterService: BalanceFilterService,
   ) {
     super(new BalanceCreateService());
   }

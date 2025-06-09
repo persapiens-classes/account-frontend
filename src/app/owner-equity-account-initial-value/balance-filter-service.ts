@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 export class BalanceFilterService {
   private apiUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.apiUrl = environment.apiUrl + '/balances/filter';
   }
 
