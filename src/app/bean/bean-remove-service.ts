@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export class BeanRemoveService {
-  private apiUrl;
+  private readonly apiUrl: string;
 
   constructor(
     private readonly http: HttpClient,
