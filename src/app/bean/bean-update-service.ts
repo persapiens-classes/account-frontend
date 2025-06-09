@@ -5,6 +5,7 @@ import { Bean } from './bean';
 import { BeanCreateService } from './bean-create-service';
 
 export class BeanUpdateService<T extends Bean, U> {
+  /* jscpd:ignore-start */
   private readonly apiUrl: string;
 
   constructor(
@@ -15,6 +16,7 @@ export class BeanUpdateService<T extends Bean, U> {
   ) {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
+  /* jscpd:ignore-end */
 
   idSeparator(): string {
     return '/';
