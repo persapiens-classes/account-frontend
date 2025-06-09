@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "jscpd": "jscpd ./src --min-lines 5 --reporters console,json"
+    "check-duplication": "jscpd ./src --min-lines 5 --threshold 0.001 --reporters console,json"
   },
   "private": true,
   "dependencies": {

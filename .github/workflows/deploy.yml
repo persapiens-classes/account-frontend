@@ -24,7 +24,7 @@ jobs:
         run: npx prettier . --check
 
       - name: Jscpd run
-        run: npm run jscpd
+        run: npm run check-duplication
 
       - name: ESLint run
         run: npm run lint
