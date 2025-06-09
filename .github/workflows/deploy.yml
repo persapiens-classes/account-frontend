@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Source code checkout
         uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Node install
         uses: actions/setup-node@v4.4.0
@@ -36,6 +38,11 @@ jobs:
 
       - name: ESLint run
         run: npm run lint
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5.2.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Build project
         run: npm run build -- --configuration=production --base-href=/account-frontend/
