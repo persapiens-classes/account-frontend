@@ -29,14 +29,6 @@ module.exports = tseslint.config(
     },
     processor: angular.processInlineTemplates,
     rules: {
-      'selector-type-no-unknown': [
-        true,
-        {
-          ignoreTypes: [
-            '/^p-/', // ignore selectors that starts with "p-"
-          ],
-        },
-      ],
       ...sonarjs.configs.recommended.rules,
       ...prettierDisableRules.rules,
       'prettier/prettier': 'error',
