@@ -1,5 +1,5 @@
-Account Frontend
-=======
+# Account Frontend
+
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://github.com/persapiens-classes/account-frontend/actions/workflows/deploy.yml/badge.svg)](https://github.com/persapiens-classes/account-frontend/actions)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=persapiens-classes_account-frontend&metric=code_smells)](https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=persapiens-classes_account-frontend)

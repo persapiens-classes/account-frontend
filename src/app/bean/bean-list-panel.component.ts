@@ -53,7 +53,7 @@ export class BeanListPanelComponent<T extends Bean> implements AfterViewInit {
   beanListService: BeanListService<T>;
 
   constructor(
-    private router: Router,
+    private readonly router: Router,
     route: ActivatedRoute,
     beanServiceFactory: BeanListServiceFactory<T>,
   ) {

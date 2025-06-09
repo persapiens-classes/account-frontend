@@ -5,7 +5,7 @@ export class BeanInsertFormGroupService {
 
   constructor(
     public formBuilder: FormBuilder,
-    private createFormFn: (formBuilder: FormBuilder) => FormGroup,
+    private readonly createFormFn: (formBuilder: FormBuilder) => FormGroup,
   ) {}
 
   public createForm(): FormGroup {
