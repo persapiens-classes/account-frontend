@@ -13,7 +13,12 @@
   "runArgs": ["-p", "4200:4200"],
   "customizations": {
     "vscode": {
-      "extensions": ["Angular.ng-template", "esbenp.prettier-vscode", "dbaeumer.vscode-eslint"]
+      "extensions": [
+        "Angular.ng-template",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "SonarSource.sonarlint-vscode"
+      ]
     }
   },
 
