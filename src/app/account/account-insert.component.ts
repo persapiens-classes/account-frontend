@@ -43,9 +43,9 @@ export class AccountInsertComponent extends BeanInsertComponent<Account> {
   ) {
     super(createBean);
 
-    this.form = accountFormGroupService.form;
-
     this.categories$ = new CategoryListService(http, route.snapshot.data['categoryType']).findAll();
+
+    this.form = accountFormGroupService.form;
   }
 }
 

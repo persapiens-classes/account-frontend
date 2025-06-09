@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "check-duplication": "jscpd ./src --min-lines 5 --threshold 0.001 --reporters console,json"
   },
   "private": true,
   "dependencies": {
@@ -40,6 +41,7 @@
     "eslint-plugin-prettier": "^5.4.1",
     "eslint-plugin-security": "^3.0.1",
     "jasmine-core": "~5.7.1",
+    "jscpd": "^4.0.5",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.1",

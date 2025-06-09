@@ -1,8 +1,8 @@
+import { AbstractControl, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { AbstractControl, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
 

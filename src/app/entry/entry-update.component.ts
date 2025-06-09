@@ -17,6 +17,7 @@ import { DateFieldComponent } from '../field/date-field.component';
 import { EntryUpdateFormGroupService } from './entry-update-form-group.service';
 import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
+import { createBean } from './entry-insert.component';
 
 @Component({
   selector: 'app-entry-update',
@@ -94,16 +95,4 @@ export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate>
     ).findAll();
     this.owners$ = ownerService.findAll();
   }
-}
-
-function createBean(form: FormGroup): EntryInsertUpdate {
-  return new EntryInsertUpdate(
-    form.value.selectInOwner.name,
-    form.value.selectOutOwner.name,
-    form.value.inputDate,
-    form.value.selectInAccount.description,
-    form.value.selectOutAccount.description,
-    form.value.inputValue,
-    form.value.inputNote,
-  );
 }

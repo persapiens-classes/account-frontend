@@ -82,17 +82,17 @@ export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate>
     super(createBean);
 
     this.form = entryFormGroupService.form;
+    this.owners$ = ownerService.findAll();
 
     this.inAccounts$ = new AccountListService(http, route.snapshot.data['inAccountType']).findAll();
     this.outAccounts$ = new AccountListService(
       http,
       route.snapshot.data['outAccountType'],
     ).findAll();
-    this.owners$ = ownerService.findAll();
   }
 }
 
-function createBean(form: FormGroup): EntryInsertUpdate {
+export function createBean(form: FormGroup): EntryInsertUpdate {
   return new EntryInsertUpdate(
     form.value.selectInOwner.name,
     form.value.selectOutOwner.name,
