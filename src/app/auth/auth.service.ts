@@ -17,7 +17,7 @@ export class LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl + '/login';
+  private readonly apiUrl = environment.apiUrl + '/login';
 
   constructor(private readonly http: HttpClient) {}
 

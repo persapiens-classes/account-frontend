@@ -5,7 +5,7 @@ import { Bean } from './bean';
 import { BeanCreateService } from './bean-create-service';
 
 export class BeanUpdateService<T extends Bean, U> {
-  private apiUrl: string;
+  private readonly apiUrl: string;
 
   constructor(
     private readonly http: HttpClient,
