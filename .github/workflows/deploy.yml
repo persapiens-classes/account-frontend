@@ -26,6 +26,14 @@ jobs:
       - name: Jscpd run
         run: npm run check-duplication
 
+      - name: Jscpd upload artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: jscpd
+          path: |
+            report/jscpd-report.json
+            report/html
+
       - name: ESLint run
         run: npm run lint
 
