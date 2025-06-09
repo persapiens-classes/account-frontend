@@ -6,6 +6,7 @@ const prettierPlugin = require('eslint-plugin-prettier');
 const securityPlugin = require('eslint-plugin-security');
 const prettierDisableRules = require('eslint-config-prettier');
 const securityPluginRecommended = require('eslint-plugin-security').configs.recommended;
+const sonarjs = require('eslint-plugin-sonarjs');
 
 module.exports = tseslint.config(
   {
@@ -24,9 +25,11 @@ module.exports = tseslint.config(
     plugins: {
       prettier: prettierPlugin,
       security: securityPlugin,
+      sonarjs,
     },
     processor: angular.processInlineTemplates,
     rules: {
+      ...sonarjs.configs.recommended.rules,
       ...prettierDisableRules.rules,
       'prettier/prettier': 'error',
       '@angular-eslint/directive-selector': [
