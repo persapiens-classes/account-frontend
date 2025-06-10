@@ -33,3 +33,8 @@ export class EntryInsertUpdate {
 export function createEntry(): Entry {
   return new Entry(0, '', '', new Date(), new Account('', ''), new Account('', ''), 0, '');
 }
+
+export function jsonToEntry(result: Entry): Entry {
+  result.date = new Date(result.date);
+  return result;
+}

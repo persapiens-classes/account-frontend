@@ -1,12 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { BeanInsertService } from '../bean/bean-insert-service';
-import { Category } from './category';
-import { CategoryCreateService } from './category-create-service';
+import { Category, createCategory } from './category';
 import { InjectionToken } from '@angular/core';
+import { defaultJsonToBean } from '../bean/bean';
 
 export class CategoryInsertService extends BeanInsertService<Category, Category> {
   constructor(http: HttpClient, type: string) {
-    super(http, `${type} Category`, `${type.toLowerCase()}Categories`, new CategoryCreateService());
+    super(
+      http,
+      `${type} Category`,
+      `${type.toLowerCase()}Categories`,
+      createCategory,
+      defaultJsonToBean,
+    );
   }
 }
 

@@ -1,11 +1,9 @@
 import { InjectionToken } from '@angular/core';
-import { Category } from './category';
-import { CategoryCreateService } from './category-create-service';
 import { BeanDetailService } from '../bean/bean-detail-service';
 
-export class CategoryDetailService extends BeanDetailService<Category> {
+export class CategoryDetailService extends BeanDetailService {
   constructor(type: string) {
-    super(`${type.toLowerCase()}Categories`, new CategoryCreateService());
+    super(`${type.toLowerCase()}Categories`);
   }
 }
 

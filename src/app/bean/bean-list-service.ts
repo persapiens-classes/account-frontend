@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Bean } from './bean';
-import { BeanCreateService } from './bean-create-service';
+import { Bean, toBean } from './bean';
 
 export class BeanListService<T extends Bean> {
   private readonly apiUrl: string;
@@ -10,7 +9,8 @@ export class BeanListService<T extends Bean> {
   constructor(
     private readonly http: HttpClient,
     public beansName: string,
-    private readonly beanCreateService: BeanCreateService<T>,
+    private readonly beanCreateFunction: () => T,
+    private readonly jsonToBeanFunction: (t: T) => T,
   ) {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
@@ -22,6 +22,6 @@ export class BeanListService<T extends Bean> {
   }
 
   toBean(json: unknown): T {
-    return this.beanCreateService.toBean(json);
+    return toBean(json, this.beanCreateFunction, this.jsonToBeanFunction);
   }
 }

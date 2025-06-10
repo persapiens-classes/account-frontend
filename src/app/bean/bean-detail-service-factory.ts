@@ -23,7 +23,7 @@ import { BALANCE_DETAIL_SERVICE } from '../owner-equity-account-initial-value/ba
   providedIn: 'root',
 })
 export class BeanDetailServiceFactory<T extends Bean> {
-  mapApiDetailService: Map<string, InjectionToken<BeanDetailService<T>>>;
+  mapApiDetailService: Map<string, InjectionToken<BeanDetailService>>;
 
   constructor() {
     this.mapApiDetailService = new Map();
@@ -43,7 +43,7 @@ export class BeanDetailServiceFactory<T extends Bean> {
     this.mapApiDetailService.set('BalanceDetailService', BALANCE_DETAIL_SERVICE);
   }
 
-  getBeanDetailService(typeName: string): BeanDetailService<T> {
+  getBeanDetailService(typeName: string): BeanDetailService {
     return inject(this.mapApiDetailService.get(`${typeName}DetailService`)!);
   }
 }

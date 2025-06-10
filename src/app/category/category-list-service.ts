@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Category } from './category';
-import { CategoryCreateService } from './category-create-service';
+import { Category, createCategory } from './category';
 import { InjectionToken } from '@angular/core';
 import { BeanListService } from '../bean/bean-list-service';
+import { defaultJsonToBean } from '../bean/bean';
 
 export class CategoryListService extends BeanListService<Category> {
   constructor(http: HttpClient, type: string) {
-    super(http, `${type.toLowerCase()}Categories`, new CategoryCreateService());
+    super(http, `${type.toLowerCase()}Categories`, createCategory, defaultJsonToBean);
   }
 }
 

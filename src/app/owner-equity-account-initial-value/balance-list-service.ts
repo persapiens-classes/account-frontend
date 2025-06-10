@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectionToken } from '@angular/core';
-import { Balance } from './balance';
-import { BalanceCreateService } from './balance-create-service';
+import { Balance, createBalance } from './balance';
 import { BeanListService } from '../bean/bean-list-service';
+import { defaultJsonToBean } from '../bean/bean';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BalanceListService extends BeanListService<Balance> {
   constructor(http: HttpClient) {
-    super(http, 'balances', new BalanceCreateService());
+    super(http, 'balances', createBalance, defaultJsonToBean);
   }
 }
 
