@@ -1,4 +1,3 @@
-import { Bean } from './bean';
 import { inject, Injectable, InjectionToken } from '@angular/core';
 import { OWNER_DETAIL_SERVICE } from '../owner/owner-detail-service';
 import { BeanDetailService } from './bean-detail-service';
@@ -22,7 +21,7 @@ import { BALANCE_DETAIL_SERVICE } from '../owner-equity-account-initial-value/ba
 @Injectable({
   providedIn: 'root',
 })
-export class BeanDetailServiceFactory<T extends Bean> {
+export class BeanDetailServiceFactory {
   mapApiDetailService: Map<string, InjectionToken<BeanDetailService>>;
 
   constructor() {

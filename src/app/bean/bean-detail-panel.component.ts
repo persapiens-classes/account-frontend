@@ -43,7 +43,7 @@ export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
   constructor(
     private readonly router: Router,
     route: ActivatedRoute,
-    beanServiceFactory: BeanDetailServiceFactory<T>,
+    beanServiceFactory: BeanDetailServiceFactory,
   ) {
     this.beanDetailComponentType = route.snapshot.data['beanDetailComponent'];
 
