@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Bean } from './bean';
-import { BeanCreateService } from './bean-create-service';
+import { Bean, toBean } from './bean';
 
 export class BeanUpdateService<T extends Bean, U> {
   /* jscpd:ignore-start */
@@ -12,7 +11,8 @@ export class BeanUpdateService<T extends Bean, U> {
     private readonly http: HttpClient,
     public beanName: string,
     public beansName: string,
-    private readonly beanCreateService: BeanCreateService<T>,
+    private readonly beanCreateFunction: () => T,
+    private readonly jsonToBeanFunction: (t: T) => T,
   ) {
     this.apiUrl = environment.apiUrl + '/' + beansName;
   }
@@ -29,6 +29,6 @@ export class BeanUpdateService<T extends Bean, U> {
   }
 
   toBean(json: unknown): T {
-    return this.beanCreateService.toBean(json);
+    return toBean(json, this.beanCreateFunction, this.jsonToBeanFunction);
   }
 }

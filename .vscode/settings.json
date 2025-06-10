@@ -16,5 +16,9 @@
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "sonarlint.connectedMode.project": {
+    "connectionId": "persapiens-classes",
+    "projectKey": "persapiens-classes_account-frontend"
   }
 }

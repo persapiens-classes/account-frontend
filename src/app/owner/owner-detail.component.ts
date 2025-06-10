@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Owner } from './owner';
+import { createOwner, Owner } from './owner';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
-import { OwnerCreateService } from './owner-create-service';
+import { defaultJsonToBean } from '../bean/bean';
 
 @Component({
   selector: 'app-owner-detail',
@@ -12,6 +12,6 @@ import { OwnerCreateService } from './owner-create-service';
 })
 export class OwnerDetailComponent extends BeanDetailComponent<Owner> {
   constructor() {
-    super(new OwnerCreateService());
+    super(createOwner, defaultJsonToBean);
   }
 }

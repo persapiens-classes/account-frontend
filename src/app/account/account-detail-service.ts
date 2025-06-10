@@ -1,11 +1,9 @@
-import { Account } from './account';
-import { AccountCreateService } from './account-create-service';
 import { InjectionToken } from '@angular/core';
 import { BeanDetailService } from '../bean/bean-detail-service';
 
-export class AccountDetailService extends BeanDetailService<Account> {
+export class AccountDetailService extends BeanDetailService {
   constructor(type: string) {
-    super(`${type.toLowerCase()}Accounts`, new AccountCreateService());
+    super(`${type.toLowerCase()}Accounts`);
   }
 }
 

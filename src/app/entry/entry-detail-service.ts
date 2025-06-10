@@ -1,11 +1,9 @@
-import { Entry } from './entry';
-import { EntryCreateService } from './entry-create-service';
 import { InjectionToken } from '@angular/core';
 import { BeanDetailService } from '../bean/bean-detail-service';
 
-export class EntryDetailService extends BeanDetailService<Entry> {
+export class EntryDetailService extends BeanDetailService {
   constructor(type: string) {
-    super(`${type.toLowerCase()}Entries`, new EntryCreateService());
+    super(`${type.toLowerCase()}Entries`);
   }
 }
 

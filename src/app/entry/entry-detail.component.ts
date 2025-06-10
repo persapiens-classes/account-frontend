@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Entry } from './entry';
+import { createEntry, Entry, jsonToEntry } from './entry';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
-import { EntryCreateService } from './entry-create-service';
 
 @Component({
   selector: 'app-entry-detail',
@@ -29,6 +28,6 @@ import { EntryCreateService } from './entry-create-service';
 })
 export class EntryDetailComponent extends BeanDetailComponent<Entry> {
   constructor() {
-    super(new EntryCreateService());
+    super(createEntry, jsonToEntry);
   }
 }

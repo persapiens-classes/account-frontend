@@ -35,17 +35,17 @@ import { BeanDetailServiceFactory } from './bean-detail-service-factory';
 export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
   container!: ViewContainerRef;
-  beanDetailComponent!: Type<BeanDetailComponent<T>>;
-  beanDetailInstance!: ComponentRef<BeanDetailComponent<T>>;
+  beanDetailComponentType!: Type<BeanDetailComponent<T>>;
+  beanDetailComponentInstance!: ComponentRef<BeanDetailComponent<T>>;
 
-  beanDetailService: BeanDetailService<T>;
+  beanDetailService: BeanDetailService;
 
   constructor(
     private readonly router: Router,
     route: ActivatedRoute,
-    beanServiceFactory: BeanDetailServiceFactory<T>,
+    beanServiceFactory: BeanDetailServiceFactory,
   ) {
-    this.beanDetailComponent = route.snapshot.data['beanDetailComponent'];
+    this.beanDetailComponentType = route.snapshot.data['beanDetailComponent'];
 
     this.beanDetailService = beanServiceFactory.getBeanDetailService(
       route.snapshot.data['serviceName'],
@@ -54,7 +54,7 @@ export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
 
   ngAfterViewInit() {
     this.container.clear();
-    this.beanDetailInstance = this.container.createComponent(this.beanDetailComponent);
+    this.beanDetailComponentInstance = this.container.createComponent(this.beanDetailComponentType);
   }
 
   list() {
@@ -63,7 +63,7 @@ export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
 
   startUpdate() {
     this.router.navigate([`${this.beanDetailService.beansName}/edit`], {
-      state: { bean: this.beanDetailInstance.instance.bean },
+      state: { bean: this.beanDetailComponentInstance.instance.bean },
     });
   }
 }

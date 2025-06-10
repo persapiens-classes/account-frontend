@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Account } from './account';
+import { Account, createAccount } from './account';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
-import { AccountCreateService } from './account-create-service';
+import { defaultJsonToBean } from '../bean/bean';
 
 @Component({
   selector: 'app-account-detail',
@@ -15,6 +15,6 @@ import { AccountCreateService } from './account-create-service';
 })
 export class AccountDetailComponent extends BeanDetailComponent<Account> {
   constructor() {
-    super(new AccountCreateService());
+    super(createAccount, defaultJsonToBean);
   }
 }

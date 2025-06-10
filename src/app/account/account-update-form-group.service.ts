@@ -1,16 +1,16 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Account } from './account';
+import { Account, createAccount } from './account';
 import { BeanUpdateFormGroupService } from '../bean/bean-update-form-group.service';
 import { Injectable } from '@angular/core';
 import { Category } from '../category/category';
-import { AccountCreateService } from './account-create-service';
+import { defaultJsonToBean } from '../bean/bean';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountUpdateFormGroupService extends BeanUpdateFormGroupService<Account> {
   constructor(formBuilder: FormBuilder) {
-    super(formBuilder, new AccountCreateService(), createForm);
+    super(formBuilder, createAccount, defaultJsonToBean, createForm);
   }
 }
 

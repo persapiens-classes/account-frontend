@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Account } from './account';
-import { AccountCreateService } from './account-create-service';
+import { Account, createAccount } from './account';
 import { InjectionToken } from '@angular/core';
 import { BeanListService } from '../bean/bean-list-service';
+import { defaultJsonToBean } from '../bean/bean';
 
 export class AccountListService extends BeanListService<Account> {
   constructor(http: HttpClient, type: string) {
-    super(http, `${type.toLowerCase()}Accounts`, new AccountCreateService());
+    super(http, `${type.toLowerCase()}Accounts`, createAccount, defaultJsonToBean);
   }
 }
 

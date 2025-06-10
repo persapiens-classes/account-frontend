@@ -1,11 +1,12 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
+  createOwnerEquityAccountInitialValue,
   OwnerEquityAccountInitialValue,
   OwnerEquityAccountInitialValueInsert,
 } from './owner-equity-account-initial-value';
 import { BeanInsertService } from '../bean/bean-insert-service';
-import { OwnerEquityAccountInitialValueCreateService } from './owner-equity-account-initial-value-create-service';
+import { defaultJsonToBean } from '../bean/bean';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class OwnerEquityAccountInitialValueInsertService extends BeanInsertServi
       http,
       'OwnerEquityAccountInitialValue',
       'ownerEquityAccountInitialValues',
-      new OwnerEquityAccountInitialValueCreateService(),
+      createOwnerEquityAccountInitialValue,
+      defaultJsonToBean,
     );
   }
 }

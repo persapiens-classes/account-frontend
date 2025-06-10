@@ -1,4 +1,3 @@
-import { Bean } from './bean';
 import { inject, Injectable, InjectionToken } from '@angular/core';
 import { OWNER_DETAIL_SERVICE } from '../owner/owner-detail-service';
 import { BeanDetailService } from './bean-detail-service';
@@ -22,8 +21,8 @@ import { BALANCE_DETAIL_SERVICE } from '../owner-equity-account-initial-value/ba
 @Injectable({
   providedIn: 'root',
 })
-export class BeanDetailServiceFactory<T extends Bean> {
-  mapApiDetailService: Map<string, InjectionToken<BeanDetailService<T>>>;
+export class BeanDetailServiceFactory {
+  mapApiDetailService: Map<string, InjectionToken<BeanDetailService>>;
 
   constructor() {
     this.mapApiDetailService = new Map();
@@ -43,7 +42,7 @@ export class BeanDetailServiceFactory<T extends Bean> {
     this.mapApiDetailService.set('BalanceDetailService', BALANCE_DETAIL_SERVICE);
   }
 
-  getBeanDetailService(typeName: string): BeanDetailService<T> {
+  getBeanDetailService(typeName: string): BeanDetailService {
     return inject(this.mapApiDetailService.get(`${typeName}DetailService`)!);
   }
 }

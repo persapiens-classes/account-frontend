@@ -1,14 +1,12 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import { BeanDetailService } from '../bean/bean-detail-service';
-import { BalanceCreateService } from './balance-create-service';
-import { Balance } from './balance';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BalanceDetailService extends BeanDetailService<Balance> {
+export class BalanceDetailService extends BeanDetailService {
   constructor() {
-    super('balances', new BalanceCreateService());
+    super('balances');
   }
 }
 

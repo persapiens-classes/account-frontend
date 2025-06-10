@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
-import { Balance } from './balance';
-import { BalanceCreateService } from './balance-create-service';
+import { Balance, createBalance } from './balance';
 import { PreviousRouteService } from './previous-route-service';
 import { BalanceFilterService } from './balance-filter-service';
 import { firstValueFrom } from 'rxjs';
+import { defaultJsonToBean } from '../bean/bean';
 
 @Component({
   selector: 'app-balance-detail',
@@ -26,7 +26,7 @@ export class BalanceDetailComponent extends BeanDetailComponent<Balance> impleme
     private readonly previousRouteService: PreviousRouteService,
     private readonly balanceFilterService: BalanceFilterService,
   ) {
-    super(new BalanceCreateService());
+    super(createBalance, defaultJsonToBean);
   }
 
   ngOnInit(): void {

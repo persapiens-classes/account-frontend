@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Entry, EntryInsertUpdate } from './entry';
-import { EntryCreateService } from './entry-create-service';
+import { createEntry, Entry, EntryInsertUpdate, jsonToEntry } from './entry';
 import { InjectionToken } from '@angular/core';
 import { BeanUpdateService } from '../bean/bean-update-service';
 
 export class EntryUpdateService extends BeanUpdateService<Entry, EntryInsertUpdate> {
   constructor(http: HttpClient, type: string) {
-    super(http, `${type} Entry`, `${type.toLowerCase()}Entries`, new EntryCreateService());
+    super(http, `${type} Entry`, `${type.toLowerCase()}Entries`, createEntry, jsonToEntry);
   }
 }
 

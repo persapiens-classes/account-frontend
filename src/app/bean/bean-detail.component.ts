@@ -1,10 +1,16 @@
-import { Bean } from './bean';
-import { BeanCreateService } from './bean-create-service';
+import { Bean, toBean } from './bean';
 
 export class BeanDetailComponent<T extends Bean> {
   bean: T;
 
-  constructor(beanCreateService: BeanCreateService<T>) {
-    this.bean = beanCreateService.toBean(history.state.bean);
+  constructor(
+    private readonly beanCreateFunction: () => T,
+    private readonly jsonToBeanFunction: (t: T) => T,
+  ) {
+    this.bean = this.toBean(history.state.bean);
+  }
+
+  toBean(json: unknown): T {
+    return toBean(json, this.beanCreateFunction, this.jsonToBeanFunction);
   }
 }

@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Entry } from './entry';
-import { EntryCreateService } from './entry-create-service';
+import { createEntry, Entry, jsonToEntry } from './entry';
 import { InjectionToken } from '@angular/core';
 import { BeanListService } from '../bean/bean-list-service';
 
 export class EntryListService extends BeanListService<Entry> {
   constructor(http: HttpClient, type: string) {
-    super(http, `${type.toLowerCase()}Entries`, new EntryCreateService());
+    super(http, `${type.toLowerCase()}Entries`, createEntry, jsonToEntry);
   }
 }
 
