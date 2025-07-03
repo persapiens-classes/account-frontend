@@ -23,7 +23,7 @@
   },
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "npm install -g @angular/cli@19"
+  "postCreateCommand": "npm install -g @angular/cli@20"
 
   // Configure tool-specific properties.
   // "customizations": {},
