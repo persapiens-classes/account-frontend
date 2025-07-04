@@ -75,12 +75,12 @@ export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate>
 
   constructor() {
     super(createBean);
-
-    this.form = inject(EntryInsertFormGroupService).form;
     this.owners$ = inject(OwnerListService).findAll();
 
-    const http = inject(HttpClient);
+    this.form = inject(EntryInsertFormGroupService).form;
+
     const route = inject(ActivatedRoute);
+    const http = inject(HttpClient);
     this.inAccounts$ = new AccountListService(http, route.snapshot.data['inAccountType']).findAll();
     this.outAccounts$ = new AccountListService(
       http,
