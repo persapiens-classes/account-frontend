@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -18,9 +18,9 @@ import { OwnerUpdateFormGroupService } from './owner-update-form-group.service';
 export class OwnerUpdateComponent extends BeanUpdateComponent<Owner> {
   form: FormGroup;
 
-  constructor(ownerFormGroupService: OwnerUpdateFormGroupService) {
+  constructor() {
     super(createBean);
-    this.form = ownerFormGroupService.form;
+    this.form = inject(OwnerUpdateFormGroupService).form;
   }
 }
 

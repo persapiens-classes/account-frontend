@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -11,7 +11,6 @@ import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { OwnerListService } from './owner-list-service';
 import { OwnerRemoveService } from './owner-remove-service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-owner-list',
@@ -64,15 +63,9 @@ import { HttpClient } from '@angular/common/http';
   `,
 })
 export class OwnerListComponent extends BeanListComponent<Owner> {
-  beanRemoveService: OwnerRemoveService;
+  beanRemoveService = inject(OwnerRemoveService);
 
-  constructor(
-    http: HttpClient,
-    accoutMessageService: AppMessageService,
-    beanService: OwnerListService,
-  ) {
-    super(accoutMessageService, beanService);
-
-    this.beanRemoveService = new OwnerRemoveService(http);
+  constructor() {
+    super(inject(AppMessageService), inject(OwnerListService));
   }
 }

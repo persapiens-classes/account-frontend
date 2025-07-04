@@ -363,7 +363,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: OWNER_INSERT_SERVICE,
-      useFactory: (http: HttpClient) => new OwnerInsertService(http),
+      useFactory: () => new OwnerInsertService(),
       deps: [HttpClient],
     },
     {
@@ -373,17 +373,17 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: OWNER_LIST_SERVICE,
-      useFactory: (http: HttpClient) => new OwnerListService(http),
+      useFactory: () => new OwnerListService(),
       deps: [HttpClient],
     },
     {
       provide: OWNER_REMOVE_SERVICE,
-      useFactory: (http: HttpClient) => new OwnerRemoveService(http),
+      useFactory: () => new OwnerRemoveService(),
       deps: [HttpClient],
     },
     {
       provide: OWNER_UPDATE_SERVICE,
-      useFactory: (http: HttpClient) => new OwnerUpdateService(http),
+      useFactory: () => new OwnerUpdateService(),
       deps: [HttpClient],
     },
     {

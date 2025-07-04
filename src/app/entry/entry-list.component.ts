@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
@@ -113,8 +113,10 @@ import { EntryRemoveService } from './entry-remove-service';
 export class EntryListComponent extends BeanListComponent<Entry> {
   beanRemoveService: EntryRemoveService;
 
-  constructor(http: HttpClient, route: ActivatedRoute, appMessageService: AppMessageService) {
-    super(appMessageService, new EntryListService(http, route.snapshot.data['type']));
+  constructor() {
+    const http = inject(HttpClient);
+    const route = inject(ActivatedRoute);
+    super(inject(AppMessageService), new EntryListService(http, route.snapshot.data['type']));
 
     this.beanRemoveService = new EntryRemoveService(http, route.snapshot.data['type']);
   }

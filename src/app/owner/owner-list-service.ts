@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { createOwner, Owner } from './owner';
 import { BeanListService } from '../bean/bean-list-service';
@@ -8,8 +8,8 @@ import { defaultJsonToBean } from '../bean/bean';
   providedIn: 'root',
 })
 export class OwnerListService extends BeanListService<Owner> {
-  constructor(http: HttpClient) {
-    super(http, 'owners', createOwner, defaultJsonToBean);
+  constructor() {
+    super(inject(HttpClient), 'owners', createOwner, defaultJsonToBean);
   }
 }
 

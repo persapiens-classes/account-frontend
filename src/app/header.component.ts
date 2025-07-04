@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
@@ -19,10 +19,8 @@ import { MenubarModule } from 'primeng/menubar';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router,
-  ) {}
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   authenticatedLogin() {
     return this.authService.authenticatedLogin();
