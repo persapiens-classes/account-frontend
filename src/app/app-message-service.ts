@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppMessageService {
-  constructor(private readonly messageService: MessageService) {}
+  private readonly messageService = inject(MessageService);
 
   addErrorMessage(error: HttpErrorResponse, summary: string): void;
 

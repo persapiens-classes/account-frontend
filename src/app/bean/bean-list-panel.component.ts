@@ -8,6 +8,7 @@ import {
   ViewChild,
   ViewContainerRef,
   AfterViewInit,
+  inject,
 } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
 import { FormsModule } from '@angular/forms';
@@ -52,14 +53,12 @@ export class BeanListPanelComponent<T extends Bean> implements AfterViewInit {
 
   beanListService: BeanListService<T>;
 
-  constructor(
-    private readonly router: Router,
-    route: ActivatedRoute,
-    beanServiceFactory: BeanListServiceFactory<T>,
-  ) {
+  private readonly router = inject(Router);
+  constructor() {
+    const route = inject(ActivatedRoute);
     this.beanListComponent = route.snapshot.data['beanListComponent'];
 
-    this.beanListService = beanServiceFactory.getBeanListService(
+    this.beanListService = inject(BeanListServiceFactory<T>).getBeanListService(
       route.snapshot.data['serviceName'],
     );
   }
