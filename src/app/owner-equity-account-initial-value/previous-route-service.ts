@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Injectable({
@@ -8,8 +8,9 @@ export class PreviousRouteService {
   private previousUrl: string | null = null;
   private currentUrl: string | null = null;
 
-  constructor(private readonly router: Router) {
-    this.currentUrl = this.router.url;
+  constructor() {
+    const router = inject(Router);
+    this.currentUrl = router.url;
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.previousUrl = this.currentUrl;

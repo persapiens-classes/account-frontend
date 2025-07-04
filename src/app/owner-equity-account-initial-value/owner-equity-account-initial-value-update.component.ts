@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -38,10 +38,12 @@ export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateCom
   form: FormGroup;
   bean: OwnerEquityAccountInitialValue;
 
-  constructor(
-    ownerEquityAccountInitialValueFormGroupService: OwnerEquityAccountInitialValueUpdateFormGroupService,
-  ) {
+  constructor() {
     super(createBean);
+
+    const ownerEquityAccountInitialValueFormGroupService = inject(
+      OwnerEquityAccountInitialValueUpdateFormGroupService,
+    );
 
     this.form = ownerEquityAccountInitialValueFormGroupService.form;
     this.bean = ownerEquityAccountInitialValueFormGroupService.createBeanFromHistory();

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { BeanDetailComponent } from '../bean/bean-detail.component';
@@ -22,10 +22,9 @@ import { defaultJsonToBean } from '../bean/bean';
   `,
 })
 export class BalanceDetailComponent extends BeanDetailComponent<Balance> implements OnInit {
-  constructor(
-    private readonly previousRouteService: PreviousRouteService,
-    private readonly balanceFilterService: BalanceFilterService,
-  ) {
+  private readonly previousRouteService = inject(PreviousRouteService);
+  private readonly balanceFilterService = inject(BalanceFilterService);
+  constructor() {
     super(createBalance, defaultJsonToBean);
   }
 
