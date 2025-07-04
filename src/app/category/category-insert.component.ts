@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Category } from './category';
@@ -20,10 +20,10 @@ import { CategoryInsertFormGroupService } from './category-insert-form-group.ser
 export class CategoryInsertComponent extends BeanInsertComponent<Category> {
   form: FormGroup;
 
-  constructor(categoryFormGroupService: CategoryInsertFormGroupService) {
+  constructor() {
     super(createBean);
 
-    this.form = categoryFormGroupService.form;
+    this.form = inject(CategoryInsertFormGroupService).form;
   }
 }
 
