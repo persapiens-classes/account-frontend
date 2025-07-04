@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -82,8 +82,10 @@ import { AccountRemoveService } from './account-remove-service';
 export class AccountListComponent extends BeanListComponent<Account> {
   beanRemoveService: AccountRemoveService;
 
-  constructor(http: HttpClient, route: ActivatedRoute, appMessageService: AppMessageService) {
-    super(appMessageService, new AccountListService(http, route.snapshot.data['type']));
+  constructor() {
+    const http = inject(HttpClient);
+    const route = inject(ActivatedRoute);
+    super(inject(AppMessageService), new AccountListService(http, route.snapshot.data['type']));
 
     this.beanRemoveService = new AccountRemoveService(http, route.snapshot.data['type']);
   }

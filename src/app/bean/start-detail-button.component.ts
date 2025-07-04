@@ -1,5 +1,5 @@
 import { Bean } from './bean';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -21,7 +21,7 @@ export class StartDetailButtonComponent<T extends Bean> {
   @Input() item!: T;
   @Input() beansName!: string;
 
-  constructor(private readonly router: Router) {}
+  private readonly router = inject(Router);
 
   startDetail(item: T): void {
     this.router.navigate([`${this.beansName}/detail`], { state: { bean: item } });

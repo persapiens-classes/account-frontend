@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -33,10 +33,8 @@ export class RemoveButtonComponent<T extends Bean> {
   @Input() beanList$!: Observable<T[]>;
   @Output() removed = new EventEmitter<void>();
 
-  constructor(
-    private readonly appMessageService: AppMessageService,
-    private readonly confirmationService: ConfirmationService,
-  ) {}
+  private readonly appMessageService = inject(AppMessageService);
+  private readonly confirmationService = inject(ConfirmationService);
 
   remove(event: Event) {
     this.confirmationService.confirm({

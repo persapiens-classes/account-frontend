@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BeanRemoveService } from '../bean/bean-remove-service';
 
@@ -6,8 +6,8 @@ import { BeanRemoveService } from '../bean/bean-remove-service';
   providedIn: 'root',
 })
 export class OwnerEquityAccountInitialValueRemoveService extends BeanRemoveService {
-  constructor(http: HttpClient) {
-    super(http, 'OwnerEquityAccountInitialValue', 'ownerEquityAccountInitialValues');
+  constructor() {
+    super(inject(HttpClient), 'OwnerEquityAccountInitialValue', 'ownerEquityAccountInitialValues');
   }
 
   override idSeparator(): string {

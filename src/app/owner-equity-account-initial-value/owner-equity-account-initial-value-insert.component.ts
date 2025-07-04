@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
@@ -43,17 +43,13 @@ export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertCom
   equityAccounts$: Observable<Account[]>;
   owners$: Observable<Owner[]>;
 
-  constructor(
-    http: HttpClient,
-    ownerEquityAccountInitialValueFormGroupService: OwnerEquityAccountInitialValueInsertFormGroupService,
-    ownerService: OwnerListService,
-  ) {
+  constructor() {
     super(createBean);
 
-    this.form = ownerEquityAccountInitialValueFormGroupService.form;
+    this.form = inject(OwnerEquityAccountInitialValueInsertFormGroupService).form;
 
-    this.equityAccounts$ = new AccountListService(http, 'Equity').findAll();
-    this.owners$ = ownerService.findAll();
+    this.equityAccounts$ = new AccountListService(inject(HttpClient), 'Equity').findAll();
+    this.owners$ = inject(OwnerListService).findAll();
   }
 }
 

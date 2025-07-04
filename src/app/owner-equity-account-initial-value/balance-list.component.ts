@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -11,7 +11,6 @@ import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { Balance } from './balance';
 import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-account-initial-value-remove-service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-balance-list',
@@ -85,15 +84,9 @@ import { HttpClient } from '@angular/common/http';
   `,
 })
 export class BalanceListComponent extends BeanListComponent<Balance> {
-  beanRemoveService: OwnerEquityAccountInitialValueRemoveService;
+  beanRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
 
-  constructor(
-    http: HttpClient,
-    appMessageService: AppMessageService,
-    beanService: BalanceListService,
-  ) {
-    super(appMessageService, beanService);
-
-    this.beanRemoveService = new OwnerEquityAccountInitialValueRemoveService(http);
+  constructor() {
+    super(inject(AppMessageService), inject(BalanceListService));
   }
 }

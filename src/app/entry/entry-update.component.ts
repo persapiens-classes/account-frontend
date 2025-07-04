@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -78,21 +78,18 @@ export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate>
   outAccounts$: Observable<Account[]>;
   owners$: Observable<Owner[]>;
 
-  constructor(
-    entryFormGroupService: EntryUpdateFormGroupService,
-    http: HttpClient,
-    route: ActivatedRoute,
-    ownerService: OwnerListService,
-  ) {
+  constructor() {
     super(createBean);
 
-    this.form = entryFormGroupService.form;
+    this.form = inject(EntryUpdateFormGroupService).form;
 
+    const http = inject(HttpClient);
+    const route = inject(ActivatedRoute);
     this.inAccounts$ = new AccountListService(http, route.snapshot.data['inAccountType']).findAll();
     this.outAccounts$ = new AccountListService(
       http,
       route.snapshot.data['outAccountType'],
     ).findAll();
-    this.owners$ = ownerService.findAll();
+    this.owners$ = inject(OwnerListService).findAll();
   }
 }

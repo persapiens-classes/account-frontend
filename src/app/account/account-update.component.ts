@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -45,16 +45,15 @@ export class AccountUpdateComponent extends BeanUpdateComponent<Account> {
 
   categories$: Observable<Category[]>;
 
-  constructor(
-    accountFormGroupService: AccountUpdateFormGroupService,
-    http: HttpClient,
-    route: ActivatedRoute,
-  ) {
+  constructor() {
     super(createBean);
 
-    this.form = accountFormGroupService.form;
+    this.form = inject(AccountUpdateFormGroupService).form;
 
-    this.categories$ = new CategoryListService(http, route.snapshot.data['categoryType']).findAll();
+    this.categories$ = new CategoryListService(
+      inject(HttpClient),
+      inject(ActivatedRoute).snapshot.data['categoryType'],
+    ).findAll();
   }
 }
 

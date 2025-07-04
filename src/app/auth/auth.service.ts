@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -19,7 +19,7 @@ export class LoginResponse {
 export class AuthService {
   private readonly apiUrl = environment.apiUrl + '/login';
 
-  constructor(private readonly http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   signin(username: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.apiUrl, { username, password }).pipe(

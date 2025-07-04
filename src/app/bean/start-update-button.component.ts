@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -22,7 +22,7 @@ export class StartUpdateButtonComponent<T extends Bean> {
   @Input() beansName!: string;
   @Input() removed!: () => void;
 
-  constructor(private readonly router: Router) {}
+  private readonly router = inject(Router);
 
   startUpdate(item: T): void {
     this.router.navigate([`${this.beansName}/edit`], { state: { bean: item } });

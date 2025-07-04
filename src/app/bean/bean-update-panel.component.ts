@@ -57,12 +57,11 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
 
   beanUpdateService: BeanUpdateService<T, U>;
 
-  constructor(
-    private readonly router: Router,
-    route: ActivatedRoute,
-    private readonly appMessageService: AppMessageService,
-    beanServiceFactory: BeanUpdateServiceFactory<T, U>,
-  ) {
+  private readonly router = inject(Router);
+  private readonly appMessageService = inject(AppMessageService);
+
+  constructor() {
+    const route = inject(ActivatedRoute);
     const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<
       BeanUpdateFormGroupService<T>
     >;
@@ -72,7 +71,7 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
 
     this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent'];
 
-    this.beanUpdateService = beanServiceFactory.getBeanUpdateService(
+    this.beanUpdateService = inject(BeanUpdateServiceFactory<T, U>).getBeanUpdateService(
       route.snapshot.data['serviceName'],
     );
   }

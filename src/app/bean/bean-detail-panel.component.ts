@@ -11,6 +11,7 @@ import {
   ViewChild,
   ViewContainerRef,
   AfterViewInit,
+  inject,
 } from '@angular/core';
 import { BeanDetailService } from './bean-detail-service';
 import { BeanDetailServiceFactory } from './bean-detail-service-factory';
@@ -40,14 +41,13 @@ export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
 
   beanDetailService: BeanDetailService;
 
-  constructor(
-    private readonly router: Router,
-    route: ActivatedRoute,
-    beanServiceFactory: BeanDetailServiceFactory,
-  ) {
+  private readonly router = inject(Router);
+
+  constructor() {
+    const route = inject(ActivatedRoute);
     this.beanDetailComponentType = route.snapshot.data['beanDetailComponent'];
 
-    this.beanDetailService = beanServiceFactory.getBeanDetailService(
+    this.beanDetailService = inject(BeanDetailServiceFactory).getBeanDetailService(
       route.snapshot.data['serviceName'],
     );
   }

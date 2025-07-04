@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Owner } from './owner';
@@ -16,9 +16,9 @@ import { OwnerInsertFormGroupService } from './owner-insert-form-group.service';
 export class OwnerInsertComponent extends BeanInsertComponent<Owner> {
   form: FormGroup;
 
-  constructor(ownerFormGroupService: OwnerInsertFormGroupService) {
+  constructor() {
     super(createBean);
-    this.form = ownerFormGroupService.form;
+    this.form = inject(OwnerInsertFormGroupService).form;
   }
 }
 

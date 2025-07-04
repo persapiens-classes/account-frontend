@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -63,13 +63,12 @@ import { AppMessageService } from '../app-message-service';
 export class LoginPageComponent {
   form: FormGroup;
 
-  constructor(
-    private readonly router: Router,
-    formBuilder: FormBuilder,
-    private readonly authService: AuthService,
-    private readonly appMessageService: AppMessageService,
-  ) {
-    this.form = formBuilder.group({
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly appMessageService = inject(AppMessageService);
+
+  constructor() {
+    this.form = inject(FormBuilder).group({
       inputUsername: ['', [Validators.required, Validators.minLength(1)]],
       inputPassword: ['', [Validators.required, Validators.minLength(1)]],
     });

@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   createOwnerEquityAccountInitialValue,
@@ -15,9 +15,9 @@ export class OwnerEquityAccountInitialValueInsertService extends BeanInsertServi
   OwnerEquityAccountInitialValue,
   OwnerEquityAccountInitialValueInsert
 > {
-  constructor(http: HttpClient) {
+  constructor() {
     super(
-      http,
+      inject(HttpClient),
       'OwnerEquityAccountInitialValue',
       'ownerEquityAccountInitialValues',
       createOwnerEquityAccountInitialValue,

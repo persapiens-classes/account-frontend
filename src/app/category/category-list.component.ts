@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -72,8 +72,10 @@ import { CategoryRemoveService } from './category-remove-service';
 export class CategoryListComponent extends BeanListComponent<Category> {
   beanRemoveService: CategoryRemoveService;
 
-  constructor(http: HttpClient, route: ActivatedRoute, appMessageService: AppMessageService) {
-    super(appMessageService, new CategoryListService(http, route.snapshot.data['type']));
+  constructor() {
+    const http = inject(HttpClient);
+    const route = inject(ActivatedRoute);
+    super(inject(AppMessageService), new CategoryListService(http, route.snapshot.data['type']));
 
     this.beanRemoveService = new CategoryRemoveService(http, route.snapshot.data['type']);
   }

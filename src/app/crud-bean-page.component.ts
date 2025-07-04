@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
@@ -25,8 +25,9 @@ export class CrudBeanPageComponent {
   title: string;
   titleClass: string;
 
-  constructor(private readonly route: ActivatedRoute) {
-    this.title = this.route.snapshot.data['title'];
-    this.titleClass = this.route.snapshot.data['titleClass'];
+  constructor() {
+    const route = inject(ActivatedRoute);
+    this.title = route.snapshot.data['title'];
+    this.titleClass = route.snapshot.data['titleClass'];
   }
 }
