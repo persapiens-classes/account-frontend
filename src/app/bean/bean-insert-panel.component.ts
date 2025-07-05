@@ -47,6 +47,8 @@ export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewIni
   container!: ViewContainerRef;
   beanInsertComponentType!: Type<BeanInsertComponent<I>>;
   beanInsertComponentInstance!: ComponentRef<BeanInsertComponent<I>>;
+  beanName!: string;
+  routerName!: string;
 
   beanInsertService: BeanInsertService<T, I>;
 
@@ -61,6 +63,8 @@ export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewIni
     this.form = inject(formGroupServiceType).createForm();
 
     this.beanInsertComponentType = route.snapshot.data['beanInsertComponent'];
+    this.beanName = route.snapshot.data['beanName'];
+    this.routerName = route.snapshot.data['routerName'];
 
     this.beanInsertService = inject(BeanInsertServiceFactory<T, I>).getBeanInsertService(
       route.snapshot.data['serviceName'],
@@ -74,25 +78,22 @@ export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewIni
 
   insert() {
     if (this.form.valid) {
-      const newBean = this.beanInsertComponentInstance.instance.createBeanFn(this.form);
+      const newBean = this.beanInsertComponentInstance.instance.createBean(this.form);
 
       this.beanInsertService
         .insert(newBean)
         .pipe(
           tap((bean) => {
             this.appMessageService.addSuccessMessage(
-              `${this.beanInsertService.beanName} inserted`,
-              `${this.beanInsertService.beanName} ${bean.getId()} inserted ok.`,
+              `${this.beanName} inserted`,
+              `${this.beanName} ${bean.getId()} inserted ok.`,
             );
-            this.router.navigate([`${this.beanInsertService.beansName}/detail`], {
+            this.router.navigate([`${this.routerName}/detail`], {
               state: { bean: bean },
             });
           }),
           catchError((error) => {
-            this.appMessageService.addErrorMessage(
-              error,
-              `${this.beanInsertService.beanName} not inserted`,
-            );
+            this.appMessageService.addErrorMessage(error, `${this.beanName} not inserted`);
             return of();
           }),
         )
@@ -101,6 +102,6 @@ export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewIni
   }
 
   cancelInsert() {
-    this.router.navigate([`${this.beanInsertService.beansName}`]);
+    this.router.navigate([`${this.routerName}`]);
   }
 }

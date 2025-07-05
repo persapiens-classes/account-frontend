@@ -48,12 +48,13 @@ import { OwnerRemoveService } from './owner-remove-service';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.name }}</td>
-          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
+          <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
           <td>
             <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
+              [beanName]="beanName"
               (removed)="removed()"
             />
           </td>
@@ -66,6 +67,6 @@ export class OwnerListComponent extends BeanListComponent<Owner> {
   beanRemoveService = inject(OwnerRemoveService);
 
   constructor() {
-    super(inject(AppMessageService), inject(OwnerListService));
+    super(inject(AppMessageService), inject(OwnerListService), 'Owner', 'owners');
   }
 }

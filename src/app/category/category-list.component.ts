@@ -55,12 +55,13 @@ import { CategoryRemoveService } from './category-remove-service';
       <ng-template #body let-item>
         <tr>
           <td>{{ item.description }}</td>
-          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
+          <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
           <td>
             <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
+              [beanName]="beanName"
               (removed)="removed()"
             />
           </td>
@@ -75,8 +76,14 @@ export class CategoryListComponent extends BeanListComponent<Category> {
   constructor() {
     const http = inject(HttpClient);
     const route = inject(ActivatedRoute);
-    super(inject(AppMessageService), new CategoryListService(http, route.snapshot.data['type']));
+    const type = route.snapshot.data['type'];
+    super(
+      inject(AppMessageService),
+      new CategoryListService(http, type),
+      `${type} Category`,
+      `${type.toLowerCase()}Categories`,
+    );
 
-    this.beanRemoveService = new CategoryRemoveService(http, route.snapshot.data['type']);
+    this.beanRemoveService = new CategoryRemoveService(http, type);
   }
 }

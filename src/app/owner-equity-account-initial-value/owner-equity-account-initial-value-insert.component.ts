@@ -37,26 +37,26 @@ import { AccountListService } from '../account/account-list-service';
     <app-number-field label="Initial Value" [control]="form.get('inputInitialValue')!" />
   `,
 })
-export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertComponent<OwnerEquityAccountInitialValueInsert> {
+export class OwnerEquityAccountInitialValueInsertComponent
+  implements BeanInsertComponent<OwnerEquityAccountInitialValueInsert>
+{
   form: FormGroup;
 
   equityAccounts$: Observable<Account[]>;
   owners$: Observable<Owner[]>;
 
   constructor() {
-    super(createBean);
-
     this.form = inject(OwnerEquityAccountInitialValueInsertFormGroupService).form;
 
     this.equityAccounts$ = new AccountListService(inject(HttpClient), 'Equity').findAll();
     this.owners$ = inject(OwnerListService).findAll();
   }
-}
 
-function createBean(form: FormGroup): OwnerEquityAccountInitialValueInsert {
-  return new OwnerEquityAccountInitialValueInsert(
-    form.value.selectOwner.name,
-    form.value.selectEquityAccount.description,
-    form.value.inputInitialValue,
-  );
+  createBean(form: FormGroup): OwnerEquityAccountInitialValueInsert {
+    return new OwnerEquityAccountInitialValueInsert(
+      form.value.selectOwner.name,
+      form.value.selectEquityAccount.description,
+      form.value.inputInitialValue,
+    );
+  }
 }

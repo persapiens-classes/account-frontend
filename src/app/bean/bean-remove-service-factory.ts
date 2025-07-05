@@ -1,4 +1,3 @@
-import { Bean } from './bean';
 import { inject, Injectable, InjectionToken } from '@angular/core';
 import { BeanRemoveService } from './bean-remove-service';
 import {
@@ -22,8 +21,8 @@ import { OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_REMOVE_SERVICE } from '../owner-equi
 @Injectable({
   providedIn: 'root',
 })
-export class BeanRemoveServiceFactory<T extends Bean> {
-  mapApiRemoveService: Map<string, InjectionToken<BeanRemoveService<T>>>;
+export class BeanRemoveServiceFactory {
+  mapApiRemoveService: Map<string, InjectionToken<BeanRemoveService>>;
 
   constructor() {
     this.mapApiRemoveService = new Map();
@@ -46,7 +45,7 @@ export class BeanRemoveServiceFactory<T extends Bean> {
     );
   }
 
-  getBeanRemoveService(typeName: string): BeanRemoveService<T> {
+  getBeanRemoveService(typeName: string): BeanRemoveService {
     return inject(this.mapApiRemoveService.get(`${typeName}RemoveService`)!);
   }
 }

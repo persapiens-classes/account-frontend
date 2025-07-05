@@ -15,15 +15,14 @@ import { OwnerUpdateFormGroupService } from './owner-update-form-group.service';
     <app-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
   `,
 })
-export class OwnerUpdateComponent extends BeanUpdateComponent<Owner> {
+export class OwnerUpdateComponent implements BeanUpdateComponent<Owner> {
   form: FormGroup;
 
   constructor() {
-    super(createBean);
     this.form = inject(OwnerUpdateFormGroupService).form;
   }
-}
 
-function createBean(form: FormGroup): Owner {
-  return new Owner(form.value.inputName);
+  createBean(form: FormGroup): Owner {
+    return new Owner(form.value.inputName);
+  }
 }

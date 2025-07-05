@@ -69,12 +69,13 @@ import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-acco
           <td>{{ item.equityAccount.description }}</td>
           <td>{{ item.balance | number: '1.2-2' }}</td>
           <td>{{ item.initialValue | number: '1.2-2' }}</td>
-          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
+          <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
           <td>
             <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
+              beanName="Balance"
               (removed)="removed()"
             />
           </td>
@@ -87,6 +88,6 @@ export class BalanceListComponent extends BeanListComponent<Balance> {
   beanRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
 
   constructor() {
-    super(inject(AppMessageService), inject(BalanceListService));
+    super(inject(AppMessageService), inject(BalanceListService), 'Balances', 'balances');
   }
 }

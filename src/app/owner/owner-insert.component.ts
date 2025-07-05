@@ -13,15 +13,14 @@ import { OwnerInsertFormGroupService } from './owner-insert-form-group.service';
     <app-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
   `,
 })
-export class OwnerInsertComponent extends BeanInsertComponent<Owner> {
+export class OwnerInsertComponent implements BeanInsertComponent<Owner> {
   form: FormGroup;
 
   constructor() {
-    super(createBean);
     this.form = inject(OwnerInsertFormGroupService).form;
   }
-}
 
-function createBean(form: FormGroup): Owner {
-  return new Owner(form.value.inputName);
+  createBean(form: FormGroup): Owner {
+    return new Owner(form.value.inputName);
+  }
 }

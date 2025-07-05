@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Bean } from './bean';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { AppMessageService } from '../app-message-service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -30,7 +30,7 @@ import { BeanRemoveService } from './bean-remove-service';
 export class RemoveButtonComponent<T extends Bean> {
   @Input() item!: T;
   @Input() beanRemoveService!: BeanRemoveService;
-  @Input() beanList$!: Observable<T[]>;
+  @Input() beanName!: string;
   @Output() removed = new EventEmitter<void>();
 
   private readonly appMessageService = inject(AppMessageService);
@@ -46,16 +46,13 @@ export class RemoveButtonComponent<T extends Bean> {
           .pipe(
             tap(() => {
               this.appMessageService.addSuccessMessage(
-                `${this.beanRemoveService.beanName} removed`,
-                `${this.beanRemoveService.beanName} removed ok.`,
+                `${this.beanName} removed`,
+                `${this.beanName} removed ok.`,
               );
               this.removed.emit();
             }),
             catchError((error) => {
-              this.appMessageService.addErrorMessage(
-                error,
-                `${this.beanRemoveService.beanName} not removed`,
-              );
+              this.appMessageService.addErrorMessage(error, `${this.beanName} not removed`);
               return of();
             }),
           )

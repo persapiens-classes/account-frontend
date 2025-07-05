@@ -5,23 +5,25 @@ import {
   OwnerEquityAccountInitialValue,
   OwnerEquityAccountInitialValueInsert,
 } from './owner-equity-account-initial-value';
-import { BeanInsertService } from '../bean/bean-insert-service';
+import { BeanInsertService, insertBean } from '../bean/bean-insert-service';
 import { defaultJsonToBean } from '../bean/bean';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OwnerEquityAccountInitialValueInsertService extends BeanInsertService<
-  OwnerEquityAccountInitialValue,
-  OwnerEquityAccountInitialValueInsert
-> {
-  constructor() {
-    super(
-      inject(HttpClient),
-      'OwnerEquityAccountInitialValue',
+export class OwnerEquityAccountInitialValueInsertService
+  implements BeanInsertService<OwnerEquityAccountInitialValue, OwnerEquityAccountInitialValueInsert>
+{
+  private readonly http = inject(HttpClient);
+
+  insert(bean: OwnerEquityAccountInitialValueInsert): Observable<OwnerEquityAccountInitialValue> {
+    return insertBean(
+      this.http,
       'ownerEquityAccountInitialValues',
       createOwnerEquityAccountInitialValue,
       defaultJsonToBean,
+      bean,
     );
   }
 }

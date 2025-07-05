@@ -96,12 +96,13 @@ import { EntryRemoveService } from './entry-remove-service';
           <td>{{ item.outAccount.description }}</td>
           <td>{{ item.date.toLocaleDateString() }}</td>
           <td>{{ item.value | number: '1.2-2' }}</td>
-          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
+          <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
           <td>
             <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
+              [beanName]="beanName"
               (removed)="removed()"
             />
           </td>
@@ -116,8 +117,14 @@ export class EntryListComponent extends BeanListComponent<Entry> {
   constructor() {
     const http = inject(HttpClient);
     const route = inject(ActivatedRoute);
-    super(inject(AppMessageService), new EntryListService(http, route.snapshot.data['type']));
+    const type = route.snapshot.data['type'];
+    super(
+      inject(AppMessageService),
+      new EntryListService(http, type),
+      `${type} Entry`,
+      `${type.toLowerCase()}Entries`,
+    );
 
-    this.beanRemoveService = new EntryRemoveService(http, route.snapshot.data['type']);
+    this.beanRemoveService = new EntryRemoveService(http, type);
   }
 }

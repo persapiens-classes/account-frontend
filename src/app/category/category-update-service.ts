@@ -1,17 +1,25 @@
 import { HttpClient } from '@angular/common/http';
-import { BeanUpdateService } from '../bean/bean-update-service';
+import { BeanUpdateService, updateBean } from '../bean/bean-update-service';
 import { Category, createCategory } from './category';
 import { InjectionToken } from '@angular/core';
 import { defaultJsonToBean } from '../bean/bean';
+import { Observable } from 'rxjs';
 
-export class CategoryUpdateService extends BeanUpdateService<Category, Category> {
-  constructor(http: HttpClient, type: string) {
-    super(
-      http,
-      `${type} Category`,
-      `${type.toLowerCase()}Categories`,
+export class CategoryUpdateService implements BeanUpdateService<Category, Category> {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly type: string,
+  ) {}
+
+  update(id: string, category: Category): Observable<Category> {
+    return updateBean(
+      this.http,
+      `${this.type.toLowerCase()}Categories`,
       createCategory,
       defaultJsonToBean,
+      id,
+      '/',
+      category,
     );
   }
 }

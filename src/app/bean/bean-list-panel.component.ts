@@ -69,6 +69,6 @@ export class BeanListPanelComponent<T extends Bean> implements AfterViewInit {
   }
 
   startInsert(): void {
-    this.router.navigate([`${this.beanListService.beansName}/new`]);
+    this.router.navigate([`${this.beanListInstance.instance.routerName}/new`]);
   }
 }

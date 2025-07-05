@@ -3,25 +3,18 @@ import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Bean, toBean } from './bean';
 
-export class BeanListService<T extends Bean> {
-  private readonly apiUrl: string;
+export interface BeanListService<T extends Bean> {
+  findAll(): Observable<T[]>;
+}
 
-  constructor(
-    private readonly http: HttpClient,
-    public beansName: string,
-    private readonly beanCreateFunction: () => T,
-    private readonly jsonToBeanFunction: (t: T) => T,
-  ) {
-    this.apiUrl = environment.apiUrl + '/' + beansName;
-  }
-
-  findAll(): Observable<T[]> {
-    return this.http
-      .get<T[]>(this.apiUrl)
-      .pipe(map((data) => data.map((bean) => this.toBean(bean))));
-  }
-
-  toBean(json: unknown): T {
-    return toBean(json, this.beanCreateFunction, this.jsonToBeanFunction);
-  }
+export function findAllBeans<T extends Bean>(
+  http: HttpClient,
+  routerName: string,
+  beanCreateFunction: () => T,
+  jsonToBeanFunction: (t: T) => T,
+): Observable<T[]> {
+  const apiUrl = environment.apiUrl + '/' + routerName;
+  return http
+    .get<T[]>(apiUrl)
+    .pipe(map((data) => data.map((bean) => toBean(bean, beanCreateFunction, jsonToBeanFunction))));
 }

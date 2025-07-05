@@ -19,11 +19,11 @@ import { Router } from '@angular/router';
 })
 export class StartDetailButtonComponent<T extends Bean> {
   @Input() item!: T;
-  @Input() beansName!: string;
+  @Input() routerName!: string;
 
   private readonly router = inject(Router);
 
   startDetail(item: T): void {
-    this.router.navigate([`${this.beansName}/detail`], { state: { bean: item } });
+    this.router.navigate([`${this.routerName}/detail`], { state: { bean: item } });
   }
 }

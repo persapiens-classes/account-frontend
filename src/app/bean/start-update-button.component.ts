@@ -19,12 +19,12 @@ import { Router } from '@angular/router';
 })
 export class StartUpdateButtonComponent<T extends Bean> {
   @Input() item!: T;
-  @Input() beansName!: string;
+  @Input() routerName!: string;
   @Input() removed!: () => void;
 
   private readonly router = inject(Router);
 
   startUpdate(item: T): void {
-    this.router.navigate([`${this.beansName}/edit`], { state: { bean: item } });
+    this.router.navigate([`${this.routerName}/edit`], { state: { bean: item } });
   }
 }

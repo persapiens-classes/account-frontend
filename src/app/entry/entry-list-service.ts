@@ -1,11 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { createEntry, Entry, jsonToEntry } from './entry';
 import { InjectionToken } from '@angular/core';
-import { BeanListService } from '../bean/bean-list-service';
+import { BeanListService, findAllBeans } from '../bean/bean-list-service';
+import { Observable } from 'rxjs';
 
-export class EntryListService extends BeanListService<Entry> {
-  constructor(http: HttpClient, type: string) {
-    super(http, `${type.toLowerCase()}Entries`, createEntry, jsonToEntry);
+export class EntryListService implements BeanListService<Entry> {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly type: string,
+  ) {}
+
+  findAll(): Observable<Entry[]> {
+    return findAllBeans(this.http, `${this.type.toLowerCase()}Entries`, createEntry, jsonToEntry);
   }
 }
 

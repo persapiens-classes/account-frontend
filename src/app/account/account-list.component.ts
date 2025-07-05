@@ -65,13 +65,14 @@ import { AccountRemoveService } from './account-remove-service';
         <tr>
           <td>{{ item.description }}</td>
           <td>{{ item.category }}</td>
-          <td><app-start-detail-button [item]="item" [beansName]="beanListService.beansName" /></td>
-          <td><app-start-update-button [item]="item" [beansName]="beanListService.beansName" /></td>
+          <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
+          <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
           <td>
             <app-remove-button
               [item]="item"
               [beanRemoveService]="beanRemoveService"
-              [beanList$]="beansList$"
+              [beanName]="beanName"
+              (removed)="removed()"
             />
           </td>
         </tr>
@@ -85,8 +86,14 @@ export class AccountListComponent extends BeanListComponent<Account> {
   constructor() {
     const http = inject(HttpClient);
     const route = inject(ActivatedRoute);
-    super(inject(AppMessageService), new AccountListService(http, route.snapshot.data['type']));
+    const type = route.snapshot.data['type'];
+    super(
+      inject(AppMessageService),
+      new AccountListService(http, type),
+      `${type} Account`,
+      `${type.toLowerCase()}Accounts`,
+    );
 
-    this.beanRemoveService = new AccountRemoveService(http, route.snapshot.data['type']);
+    this.beanRemoveService = new AccountRemoveService(http, type);
   }
 }
