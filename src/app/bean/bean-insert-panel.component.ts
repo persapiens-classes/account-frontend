@@ -83,6 +83,10 @@ export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewIni
       this.beanInsertService
         .insert(newBean)
         .pipe(
+          catchError((error) => {
+            this.appMessageService.addErrorMessage(error, `${this.beanName} not inserted`);
+            return of();
+          }),
           tap((bean) => {
             this.appMessageService.addSuccessMessage(
               `${this.beanName} inserted`,
@@ -91,10 +95,6 @@ export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewIni
             this.router.navigate([`${this.routerName}/detail`], {
               state: { bean: bean },
             });
-          }),
-          catchError((error) => {
-            this.appMessageService.addErrorMessage(error, `${this.beanName} not inserted`);
-            return of();
           }),
         )
         .subscribe();
