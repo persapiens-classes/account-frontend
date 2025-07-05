@@ -43,6 +43,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v5.2.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        if: github.actor != 'dependabot[bot]'
 
       - name: Build project
         run: npm run build -- --configuration=production --base-href=/account-frontend/
