@@ -1,13 +1,16 @@
 import { inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BeanRemoveService } from '../bean/bean-remove-service';
+import { BeanRemoveService, removeBean } from '../bean/bean-remove-service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OwnerRemoveService extends BeanRemoveService {
-  constructor() {
-    super(inject(HttpClient), 'Owner', 'owners');
+export class OwnerRemoveService implements BeanRemoveService {
+  private readonly http = inject(HttpClient);
+
+  remove(id: string): Observable<void> {
+    return removeBean(this.http, 'owners', id, '/');
   }
 }
 

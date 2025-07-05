@@ -9,6 +9,8 @@ export class BeanListComponent<T extends Bean> {
   constructor(
     private readonly appMessageService: AppMessageService,
     public beanListService: BeanListService<T>,
+    public readonly beanName: string,
+    public readonly routerName: string,
   ) {
     this.beansList$ = this.loadBeans();
   }
@@ -16,10 +18,7 @@ export class BeanListComponent<T extends Bean> {
   loadBeans(): Observable<T[]> {
     return this.beanListService.findAll().pipe(
       catchError((error) => {
-        this.appMessageService.addErrorMessage(
-          error,
-          `${this.beanListService.beansName} not listed`,
-        );
+        this.appMessageService.addErrorMessage(error, `${this.beanName} not listed`);
         return of();
       }),
     );

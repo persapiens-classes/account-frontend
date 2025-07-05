@@ -13,8 +13,6 @@ import {
   AfterViewInit,
   inject,
 } from '@angular/core';
-import { BeanDetailService } from './bean-detail-service';
-import { BeanDetailServiceFactory } from './bean-detail-service-factory';
 
 @Component({
   selector: 'app-bean-detail',
@@ -38,18 +36,14 @@ export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
   container!: ViewContainerRef;
   beanDetailComponentType!: Type<BeanDetailComponent<T>>;
   beanDetailComponentInstance!: ComponentRef<BeanDetailComponent<T>>;
-
-  beanDetailService: BeanDetailService;
+  routerName!: string;
 
   private readonly router = inject(Router);
 
   constructor() {
     const route = inject(ActivatedRoute);
     this.beanDetailComponentType = route.snapshot.data['beanDetailComponent'];
-
-    this.beanDetailService = inject(BeanDetailServiceFactory).getBeanDetailService(
-      route.snapshot.data['serviceName'],
-    );
+    this.routerName = route.snapshot.data['routerName'];
   }
 
   ngAfterViewInit() {
@@ -58,11 +52,11 @@ export class BeanDetailPanelComponent<T extends Bean> implements AfterViewInit {
   }
 
   list() {
-    this.router.navigate([`${this.beanDetailService.beansName}`]);
+    this.router.navigate([`${this.routerName}`]);
   }
 
   startUpdate() {
-    this.router.navigate([`${this.beanDetailService.beansName}/edit`], {
+    this.router.navigate([`${this.routerName}/edit`], {
       state: { bean: this.beanDetailComponentInstance.instance.bean },
     });
   }

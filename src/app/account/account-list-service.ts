@@ -1,12 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Account, createAccount } from './account';
 import { InjectionToken } from '@angular/core';
-import { BeanListService } from '../bean/bean-list-service';
+import { BeanListService, findAllBeans } from '../bean/bean-list-service';
 import { defaultJsonToBean } from '../bean/bean';
+import { Observable } from 'rxjs';
 
-export class AccountListService extends BeanListService<Account> {
-  constructor(http: HttpClient, type: string) {
-    super(http, `${type.toLowerCase()}Accounts`, createAccount, defaultJsonToBean);
+export class AccountListService implements BeanListService<Account> {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly type: string,
+  ) {}
+
+  findAll(): Observable<Account[]> {
+    return findAllBeans(
+      this.http,
+      `${this.type.toLowerCase()}Accounts`,
+      createAccount,
+      defaultJsonToBean,
+    );
   }
 }
 

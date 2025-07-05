@@ -66,7 +66,7 @@ import { AccountListService } from '../account/account-list-service';
     <app-input-field label="Note" [control]="form.get('inputNote')!" />
   `,
 })
-export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate> {
+export class EntryInsertComponent implements BeanInsertComponent<EntryInsertUpdate> {
   form: FormGroup;
 
   inAccounts$: Observable<Account[]>;
@@ -74,7 +74,6 @@ export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate>
   owners$: Observable<Owner[]>;
 
   constructor() {
-    super(createBean);
     this.owners$ = inject(OwnerListService).findAll();
 
     this.form = inject(EntryInsertFormGroupService).form;
@@ -87,16 +86,16 @@ export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate>
       route.snapshot.data['outAccountType'],
     ).findAll();
   }
-}
 
-export function createBean(form: FormGroup): EntryInsertUpdate {
-  return new EntryInsertUpdate(
-    form.value.selectInOwner.name,
-    form.value.selectOutOwner.name,
-    form.value.inputDate,
-    form.value.selectInAccount.description,
-    form.value.selectOutAccount.description,
-    form.value.inputValue,
-    form.value.inputNote,
-  );
+  createBean(form: FormGroup): EntryInsertUpdate {
+    return new EntryInsertUpdate(
+      form.value.selectInOwner.name,
+      form.value.selectOutOwner.name,
+      form.value.inputDate,
+      form.value.selectInAccount.description,
+      form.value.selectOutAccount.description,
+      form.value.inputValue,
+      form.value.inputNote,
+    );
+  }
 }

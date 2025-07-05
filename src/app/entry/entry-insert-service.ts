@@ -1,11 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { BeanInsertService } from '../bean/bean-insert-service';
+import { BeanInsertService, insertBean } from '../bean/bean-insert-service';
 import { createEntry, Entry, EntryInsertUpdate, jsonToEntry } from './entry';
 import { InjectionToken } from '@angular/core';
+import { Observable } from 'rxjs';
 
-export class EntryInsertService extends BeanInsertService<Entry, EntryInsertUpdate> {
-  constructor(http: HttpClient, type: string) {
-    super(http, `${type} Entry`, `${type.toLowerCase()}Entries`, createEntry, jsonToEntry);
+export class EntryInsertService implements BeanInsertService<Entry, EntryInsertUpdate> {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly type: string,
+  ) {}
+
+  insert(entry: EntryInsertUpdate): Observable<Entry> {
+    return insertBean(
+      this.http,
+      `${this.type.toLowerCase()}Entries`,
+      createEntry,
+      jsonToEntry,
+      entry,
+    );
   }
 }
 

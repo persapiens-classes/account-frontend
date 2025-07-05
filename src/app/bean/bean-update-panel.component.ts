@@ -54,6 +54,8 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
   container!: ViewContainerRef;
   beanUpdateComponentType!: Type<BeanUpdateComponent<U>>;
   beanUpdateComponentInstance!: ComponentRef<BeanUpdateComponent<U>>;
+  beanName!: string;
+  routerName!: string;
 
   beanUpdateService: BeanUpdateService<T, U>;
 
@@ -70,6 +72,8 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
     this.form = beanUpdateFormGroupService.createForm(this.bean);
 
     this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent'];
+    this.beanName = route.snapshot.data['beanName'];
+    this.routerName = route.snapshot.data['routerName'];
 
     this.beanUpdateService = inject(BeanUpdateServiceFactory<T, U>).getBeanUpdateService(
       route.snapshot.data['serviceName'],
@@ -83,25 +87,22 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
 
   update() {
     if (this.form.valid) {
-      const updatedBean = this.beanUpdateComponentInstance.instance.createBeanFn(this.form);
+      const updatedBean = this.beanUpdateComponentInstance.instance.createBean(this.form);
 
       this.beanUpdateService
         .update(this.bean.getId(), updatedBean)
         .pipe(
           tap((bean) => {
             this.appMessageService.addSuccessMessage(
-              `${this.beanUpdateService.beanName} edited`,
-              `${this.beanUpdateService.beanName} ${this.bean.getId()} edited ok.`,
+              `${this.beanName} edited`,
+              `${this.beanName} ${this.bean.getId()} edited ok.`,
             );
-            this.router.navigate([`${this.beanUpdateService.beansName}/detail`], {
+            this.router.navigate([`${this.routerName}/detail`], {
               state: { bean: bean },
             });
           }),
           catchError((error) => {
-            this.appMessageService.addErrorMessage(
-              error,
-              `${this.beanUpdateService.beanName} not edited`,
-            );
+            this.appMessageService.addErrorMessage(error, `${this.beanName} not edited`);
             return of();
           }),
         )
@@ -110,11 +111,11 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
   }
 
   cancelToList() {
-    this.router.navigate([`${this.beanUpdateService.beansName}`]);
+    this.router.navigate([`${this.routerName}`]);
   }
 
   cancelToDetail() {
-    this.router.navigate([`${this.beanUpdateService.beansName}/detail`], {
+    this.router.navigate([`${this.routerName}/detail`], {
       state: { bean: this.bean },
     });
   }

@@ -34,13 +34,11 @@ import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-eq
     />
   `,
 })
-export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateComponent<number> {
+export class OwnerEquityAccountInitialValueUpdateComponent implements BeanUpdateComponent<number> {
   form: FormGroup;
   bean: OwnerEquityAccountInitialValue;
 
   constructor() {
-    super(createBean);
-
     const ownerEquityAccountInitialValueFormGroupService = inject(
       OwnerEquityAccountInitialValueUpdateFormGroupService,
     );
@@ -48,8 +46,8 @@ export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateCom
     this.form = ownerEquityAccountInitialValueFormGroupService.form;
     this.bean = ownerEquityAccountInitialValueFormGroupService.createBeanFromHistory();
   }
-}
 
-function createBean(form: FormGroup): number {
-  return form.value.inputInitialValue;
+  createBean(form: FormGroup): number {
+    return form.value.inputInitialValue;
+  }
 }

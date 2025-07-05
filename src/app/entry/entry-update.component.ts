@@ -17,7 +17,7 @@ import { DateFieldComponent } from '../field/date-field.component';
 import { EntryUpdateFormGroupService } from './entry-update-form-group.service';
 import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
-import { createBean } from './entry-insert.component';
+import { EntryInsertComponent } from './entry-insert.component';
 
 @Component({
   selector: 'app-entry-update',
@@ -71,7 +71,7 @@ import { createBean } from './entry-insert.component';
     <app-input-field label="Note" [control]="form.get('inputNote')!" />
   `,
 })
-export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate> {
+export class EntryUpdateComponent implements BeanUpdateComponent<EntryInsertUpdate> {
   form: FormGroup;
 
   inAccounts$: Observable<Account[]>;
@@ -79,8 +79,6 @@ export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate>
   owners$: Observable<Owner[]>;
 
   constructor() {
-    super(createBean);
-
     this.form = inject(EntryUpdateFormGroupService).form;
 
     const http = inject(HttpClient);
@@ -91,5 +89,9 @@ export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate>
       route.snapshot.data['outAccountType'],
     ).findAll();
     this.owners$ = inject(OwnerListService).findAll();
+  }
+
+  createBean(form: FormGroup): EntryInsertUpdate {
+    return new EntryInsertComponent().createBean(form);
   }
 }

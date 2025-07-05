@@ -17,16 +17,14 @@ import { CategoryInsertFormGroupService } from './category-insert-form-group.ser
     />
   `,
 })
-export class CategoryInsertComponent extends BeanInsertComponent<Category> {
+export class CategoryInsertComponent implements BeanInsertComponent<Category> {
   form: FormGroup;
 
   constructor() {
-    super(createBean);
-
     this.form = inject(CategoryInsertFormGroupService).form;
   }
-}
 
-function createBean(form: FormGroup): Category {
-  return new Category(form.value.inputDescription);
+  createBean(form: FormGroup): Category {
+    return new Category(form.value.inputDescription);
+  }
 }

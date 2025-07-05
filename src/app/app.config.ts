@@ -35,12 +35,6 @@ import {
   BalanceListService,
 } from './owner-equity-account-initial-value/balance-list-service';
 import {
-  CategoryDetailService,
-  CREDIT_CATEGORY_DETAIL_SERVICE,
-  DEBIT_CATEGORY_DETAIL_SERVICE,
-  EQUITY_CATEGORY_DETAIL_SERVICE,
-} from './category/category-detail-service';
-import {
   CategoryListService,
   CREDIT_CATEGORY_LIST_SERVICE,
   DEBIT_CATEGORY_LIST_SERVICE,
@@ -71,19 +65,6 @@ import {
   TRANSFER_ENTRY_INSERT_SERVICE,
 } from './entry/entry-insert-service';
 import {
-  AccountDetailService,
-  CREDIT_ACCOUNT_DETAIL_SERVICE,
-  DEBIT_ACCOUNT_DETAIL_SERVICE,
-  EQUITY_ACCOUNT_DETAIL_SERVICE,
-} from './account/account-detail-service';
-import {
-  CREDIT_ENTRY_DETAIL_SERVICE,
-  DEBIT_ENTRY_DETAIL_SERVICE,
-  EntryDetailService,
-  TRANSFER_ENTRY_DETAIL_SERVICE,
-} from './entry/entry-detail-service';
-import { OWNER_DETAIL_SERVICE, OwnerDetailService } from './owner/owner-detail-service';
-import {
   AccountListService,
   CREDIT_ACCOUNT_LIST_SERVICE,
   DEBIT_ACCOUNT_LIST_SERVICE,
@@ -111,10 +92,6 @@ import {
 import { OWNER_REMOVE_SERVICE, OwnerRemoveService } from './owner/owner-remove-service';
 import { OWNER_UPDATE_SERVICE, OwnerUpdateService } from './owner/owner-update-service';
 import {
-  BALANCE_DETAIL_SERVICE,
-  BalanceDetailService,
-} from './owner-equity-account-initial-value/balance-detail-service';
-import {
   OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_UPDATE_SERVICE,
   OwnerEquityAccountInitialValueUpdateService,
 } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update-service';
@@ -136,11 +113,6 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideHttpClient(withInterceptors([authIntercept])),
-    {
-      provide: CREDIT_CATEGORY_DETAIL_SERVICE,
-      useFactory: () => new CategoryDetailService('Credit'),
-      deps: [HttpClient],
-    },
     {
       provide: CREDIT_CATEGORY_INSERT_SERVICE,
       useFactory: (http: HttpClient) => new CategoryInsertService(http, 'Credit'),
@@ -167,11 +139,6 @@ export const appConfig: ApplicationConfig = {
       deps: [HttpClient],
     },
     {
-      provide: DEBIT_CATEGORY_DETAIL_SERVICE,
-      useFactory: () => new CategoryDetailService('Debit'),
-      deps: [HttpClient],
-    },
-    {
       provide: DEBIT_CATEGORY_LIST_SERVICE,
       useFactory: (http: HttpClient) => new CategoryListService(http, 'Debit'),
       deps: [HttpClient],
@@ -189,11 +156,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: EQUITY_CATEGORY_INSERT_SERVICE,
       useFactory: (http: HttpClient) => new CategoryInsertService(http, 'Equity'),
-      deps: [HttpClient],
-    },
-    {
-      provide: EQUITY_CATEGORY_DETAIL_SERVICE,
-      useFactory: () => new CategoryDetailService('Equity'),
       deps: [HttpClient],
     },
     {
@@ -217,11 +179,6 @@ export const appConfig: ApplicationConfig = {
       deps: [HttpClient],
     },
     {
-      provide: CREDIT_ACCOUNT_DETAIL_SERVICE,
-      useFactory: () => new AccountDetailService('Credit'),
-      deps: [HttpClient],
-    },
-    {
       provide: CREDIT_ACCOUNT_LIST_SERVICE,
       useFactory: (http: HttpClient) => new AccountListService(http, 'Credit'),
       deps: [HttpClient],
@@ -239,11 +196,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: DEBIT_ACCOUNT_INSERT_SERVICE,
       useFactory: (http: HttpClient) => new AccountInsertService(http, 'Debit'),
-      deps: [HttpClient],
-    },
-    {
-      provide: DEBIT_ACCOUNT_DETAIL_SERVICE,
-      useFactory: () => new AccountDetailService('Debit'),
       deps: [HttpClient],
     },
     {
@@ -267,11 +219,6 @@ export const appConfig: ApplicationConfig = {
       deps: [HttpClient],
     },
     {
-      provide: EQUITY_ACCOUNT_DETAIL_SERVICE,
-      useFactory: () => new AccountDetailService('Equity'),
-      deps: [HttpClient],
-    },
-    {
       provide: EQUITY_ACCOUNT_LIST_SERVICE,
       useFactory: (http: HttpClient) => new AccountListService(http, 'Equity'),
       deps: [HttpClient],
@@ -289,11 +236,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: CREDIT_ENTRY_INSERT_SERVICE,
       useFactory: (http: HttpClient) => new EntryInsertService(http, 'Credit'),
-      deps: [HttpClient],
-    },
-    {
-      provide: CREDIT_ENTRY_DETAIL_SERVICE,
-      useFactory: () => new EntryDetailService('Credit'),
       deps: [HttpClient],
     },
     {
@@ -317,11 +259,6 @@ export const appConfig: ApplicationConfig = {
       deps: [HttpClient],
     },
     {
-      provide: DEBIT_ENTRY_DETAIL_SERVICE,
-      useFactory: () => new EntryDetailService('Debit'),
-      deps: [HttpClient],
-    },
-    {
       provide: DEBIT_ENTRY_LIST_SERVICE,
       useFactory: (http: HttpClient) => new EntryListService(http, 'Debit'),
       deps: [HttpClient],
@@ -339,11 +276,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: TRANSFER_ENTRY_INSERT_SERVICE,
       useFactory: (http: HttpClient) => new EntryInsertService(http, 'Transfer'),
-      deps: [HttpClient],
-    },
-    {
-      provide: TRANSFER_ENTRY_DETAIL_SERVICE,
-      useFactory: () => new EntryDetailService('Transfer'),
       deps: [HttpClient],
     },
     {
@@ -367,11 +299,6 @@ export const appConfig: ApplicationConfig = {
       deps: [HttpClient],
     },
     {
-      provide: OWNER_DETAIL_SERVICE,
-      useFactory: () => new OwnerDetailService(),
-      deps: [HttpClient],
-    },
-    {
       provide: OWNER_LIST_SERVICE,
       useFactory: () => new OwnerListService(),
       deps: [HttpClient],
@@ -384,11 +311,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: OWNER_UPDATE_SERVICE,
       useFactory: () => new OwnerUpdateService(),
-      deps: [HttpClient],
-    },
-    {
-      provide: BALANCE_DETAIL_SERVICE,
-      useFactory: () => new BalanceDetailService(),
       deps: [HttpClient],
     },
     {

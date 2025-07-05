@@ -2,22 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-export class BeanRemoveService {
-  private readonly apiUrl: string;
+export interface BeanRemoveService {
+  remove(id: string): Observable<void>;
+}
 
-  constructor(
-    private readonly http: HttpClient,
-    public beanName: string,
-    public beansName: string,
-  ) {
-    this.apiUrl = environment.apiUrl + '/' + beansName;
-  }
-
-  idSeparator(): string {
-    return '/';
-  }
-
-  remove(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${this.idSeparator()}${id}`);
-  }
+export function removeBean(
+  http: HttpClient,
+  routerName: string,
+  id: string,
+  idSeparator: string,
+): Observable<void> {
+  const apiUrl = environment.apiUrl + '/' + routerName;
+  return http.delete<void>(`${apiUrl}${idSeparator}${id}`);
 }

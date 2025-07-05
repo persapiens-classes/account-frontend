@@ -1,17 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { BeanInsertService } from '../bean/bean-insert-service';
+import { BeanInsertService, insertBean } from '../bean/bean-insert-service';
 import { Account, createAccount } from './account';
 import { InjectionToken } from '@angular/core';
 import { defaultJsonToBean } from '../bean/bean';
+import { Observable } from 'rxjs';
 
-export class AccountInsertService extends BeanInsertService<Account, Account> {
-  constructor(http: HttpClient, type: string) {
-    super(
-      http,
-      `${type} Account`,
-      `${type.toLowerCase()}Accounts`,
+export class AccountInsertService implements BeanInsertService<Account, Account> {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly type: string,
+  ) {}
+
+  insert(account: Account): Observable<Account> {
+    return insertBean(
+      this.http,
+      `${this.type.toLowerCase()}Accounts`,
       createAccount,
       defaultJsonToBean,
+      account,
     );
   }
 }

@@ -40,14 +40,12 @@ import { CategoryListService } from '../category/category-list-service';
     />
   `,
 })
-export class AccountUpdateComponent extends BeanUpdateComponent<Account> {
+export class AccountUpdateComponent implements BeanUpdateComponent<Account> {
   form: FormGroup;
 
   categories$: Observable<Category[]>;
 
   constructor() {
-    super(createBean);
-
     this.form = inject(AccountUpdateFormGroupService).form;
 
     this.categories$ = new CategoryListService(
@@ -55,8 +53,8 @@ export class AccountUpdateComponent extends BeanUpdateComponent<Account> {
       inject(ActivatedRoute).snapshot.data['categoryType'],
     ).findAll();
   }
-}
 
-function createBean(form: FormGroup): Account {
-  return new Account(form.value.inputDescription, form.value.selectCategory.description);
+  createBean(form: FormGroup): Account {
+    return new Account(form.value.inputDescription, form.value.selectCategory.description);
+  }
 }

@@ -31,14 +31,12 @@ import { CategoryListService } from '../category/category-list-service';
     />
   `,
 })
-export class AccountInsertComponent extends BeanInsertComponent<Account> {
+export class AccountInsertComponent implements BeanInsertComponent<Account> {
   form: FormGroup;
 
   categories$: Observable<Category[]>;
 
   constructor() {
-    super(createBean);
-
     this.categories$ = new CategoryListService(
       inject(HttpClient),
       inject(ActivatedRoute).snapshot.data['categoryType'],
@@ -46,8 +44,8 @@ export class AccountInsertComponent extends BeanInsertComponent<Account> {
 
     this.form = inject(AccountInsertFormGroupService).form;
   }
-}
 
-function createBean(form: FormGroup): Account {
-  return new Account(form.value.inputDescription, form.value.selectCategory.description);
+  createBean(form: FormGroup): Account {
+    return new Account(form.value.inputDescription, form.value.selectCategory.description);
+  }
 }

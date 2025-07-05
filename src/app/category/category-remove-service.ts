@@ -1,10 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { InjectionToken } from '@angular/core';
-import { BeanRemoveService } from '../bean/bean-remove-service';
+import { BeanRemoveService, removeBean } from '../bean/bean-remove-service';
+import { Observable } from 'rxjs';
 
-export class CategoryRemoveService extends BeanRemoveService {
-  constructor(http: HttpClient, type: string) {
-    super(http, `${type} Category`, `${type.toLowerCase()}Categories`);
+export class CategoryRemoveService implements BeanRemoveService {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly type: string,
+  ) {}
+
+  remove(id: string): Observable<void> {
+    return removeBean(this.http, `${this.type.toLowerCase()}Categories`, id, '/');
   }
 }
 

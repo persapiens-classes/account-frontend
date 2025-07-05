@@ -3,32 +3,21 @@ import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Bean, toBean } from './bean';
 
-export class BeanUpdateService<T extends Bean, U> {
-  /* jscpd:ignore-start */
-  private readonly apiUrl: string;
+export interface BeanUpdateService<T extends Bean, U> {
+  update(id: string, bean: U): Observable<T>;
+}
 
-  constructor(
-    private readonly http: HttpClient,
-    public beanName: string,
-    public beansName: string,
-    private readonly beanCreateFunction: () => T,
-    private readonly jsonToBeanFunction: (t: T) => T,
-  ) {
-    this.apiUrl = environment.apiUrl + '/' + beansName;
-  }
-  /* jscpd:ignore-end */
-
-  idSeparator(): string {
-    return '/';
-  }
-
-  update(id: string, bean: U): Observable<T> {
-    return this.http
-      .put<T>(`${this.apiUrl}${this.idSeparator()}${id}`, bean)
-      .pipe(map((data) => this.toBean(data)));
-  }
-
-  toBean(json: unknown): T {
-    return toBean(json, this.beanCreateFunction, this.jsonToBeanFunction);
-  }
+export function updateBean<T extends Bean, U>(
+  http: HttpClient,
+  routerName: string,
+  beanCreateFunction: () => T,
+  jsonToBeanFunction: (t: T) => T,
+  id: string,
+  idSeparator: string,
+  bean: U,
+): Observable<T> {
+  const apiUrl = environment.apiUrl + '/' + routerName;
+  return http
+    .put<T>(`${apiUrl}${idSeparator}${id}`, bean)
+    .pipe(map((data) => toBean(data, beanCreateFunction, jsonToBeanFunction)));
 }

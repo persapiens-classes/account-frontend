@@ -19,16 +19,14 @@ import { CategoryUpdateFormGroupService } from './category-update-form-group.ser
     />
   `,
 })
-export class CategoryUpdateComponent extends BeanUpdateComponent<Category> {
+export class CategoryUpdateComponent implements BeanUpdateComponent<Category> {
   form: FormGroup;
 
   constructor() {
-    super(createBean);
-
     this.form = inject(CategoryUpdateFormGroupService).form;
   }
-}
 
-function createBean(form: FormGroup): Category {
-  return new Category(form.value.inputDescription);
+  createBean(form: FormGroup): Category {
+    return new Category(form.value.inputDescription);
+  }
 }
