@@ -9,9 +9,7 @@ export class BeanInsertFormGroupService {
   ) {}
 
   public getForm(): FormGroup {
-    if (this.form == null) {
-      this.form = this.createFormFn(this.formBuilder);
-    }
+    this.form ??= this.createFormFn(this.formBuilder);
     return this.form;
   }
 }
