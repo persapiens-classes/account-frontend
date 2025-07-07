@@ -1,15 +1,15 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 export class BeanInsertFormGroupService {
-  public form!: FormGroup;
+  private form!: FormGroup;
 
   constructor(
-    public formBuilder: FormBuilder,
+    private readonly formBuilder: FormBuilder,
     private readonly createFormFn: (formBuilder: FormBuilder) => FormGroup,
   ) {}
 
-  public createForm(): FormGroup {
-    this.form = this.createFormFn(this.formBuilder);
+  public getForm(): FormGroup {
+    this.form ??= this.createFormFn(this.formBuilder);
     return this.form;
   }
 }

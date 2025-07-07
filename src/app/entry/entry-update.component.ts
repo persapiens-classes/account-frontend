@@ -79,7 +79,7 @@ export class EntryUpdateComponent implements BeanUpdateComponent<EntryInsertUpda
   owners$: Observable<Owner[]>;
 
   constructor() {
-    this.form = inject(EntryUpdateFormGroupService).form;
+    this.form = inject(EntryUpdateFormGroupService).getForm();
 
     const http = inject(HttpClient);
     const route = inject(ActivatedRoute);

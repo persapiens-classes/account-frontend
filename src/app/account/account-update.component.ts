@@ -46,7 +46,7 @@ export class AccountUpdateComponent implements BeanUpdateComponent<Account> {
   categories$: Observable<Category[]>;
 
   constructor() {
-    this.form = inject(AccountUpdateFormGroupService).form;
+    this.form = inject(AccountUpdateFormGroupService).getForm();
 
     this.categories$ = new CategoryListService(
       inject(HttpClient),

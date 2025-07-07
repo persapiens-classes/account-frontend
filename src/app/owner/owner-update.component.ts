@@ -19,7 +19,7 @@ export class OwnerUpdateComponent implements BeanUpdateComponent<Owner> {
   form: FormGroup;
 
   constructor() {
-    this.form = inject(OwnerUpdateFormGroupService).form;
+    this.form = inject(OwnerUpdateFormGroupService).getForm();
   }
 
   createBean(form: FormGroup): Owner {

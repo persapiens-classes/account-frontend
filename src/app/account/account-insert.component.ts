@@ -42,7 +42,7 @@ export class AccountInsertComponent implements BeanInsertComponent<Account> {
       inject(ActivatedRoute).snapshot.data['categoryType'],
     ).findAll();
 
-    this.form = inject(AccountInsertFormGroupService).form;
+    this.form = inject(AccountInsertFormGroupService).getForm();
   }
 
   createBean(form: FormGroup): Account {
