@@ -23,7 +23,7 @@ export class CategoryUpdateComponent implements BeanUpdateComponent<Category> {
   form: FormGroup;
 
   constructor() {
-    this.form = inject(CategoryUpdateFormGroupService).form;
+    this.form = inject(CategoryUpdateFormGroupService).getForm();
   }
 
   createBean(form: FormGroup): Category {

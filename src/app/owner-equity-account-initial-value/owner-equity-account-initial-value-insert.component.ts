@@ -46,7 +46,7 @@ export class OwnerEquityAccountInitialValueInsertComponent
   owners$: Observable<Owner[]>;
 
   constructor() {
-    this.form = inject(OwnerEquityAccountInitialValueInsertFormGroupService).form;
+    this.form = inject(OwnerEquityAccountInitialValueInsertFormGroupService).getForm();
 
     this.equityAccounts$ = new AccountListService(inject(HttpClient), 'Equity').findAll();
     this.owners$ = inject(OwnerListService).findAll();

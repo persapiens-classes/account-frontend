@@ -43,8 +43,8 @@ export class OwnerEquityAccountInitialValueUpdateComponent implements BeanUpdate
       OwnerEquityAccountInitialValueUpdateFormGroupService,
     );
 
-    this.form = ownerEquityAccountInitialValueFormGroupService.form;
-    this.bean = ownerEquityAccountInitialValueFormGroupService.createBeanFromHistory();
+    this.form = ownerEquityAccountInitialValueFormGroupService.getForm();
+    this.bean = ownerEquityAccountInitialValueFormGroupService.getBeanFromHistory();
   }
 
   createBean(form: FormGroup): number {

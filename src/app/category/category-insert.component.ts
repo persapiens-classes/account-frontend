@@ -21,7 +21,7 @@ export class CategoryInsertComponent implements BeanInsertComponent<Category> {
   form: FormGroup;
 
   constructor() {
-    this.form = inject(CategoryInsertFormGroupService).form;
+    this.form = inject(CategoryInsertFormGroupService).getForm();
   }
 
   createBean(form: FormGroup): Category {

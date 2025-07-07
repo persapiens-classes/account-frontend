@@ -17,7 +17,7 @@ export class OwnerInsertComponent implements BeanInsertComponent<Owner> {
   form: FormGroup;
 
   constructor() {
-    this.form = inject(OwnerInsertFormGroupService).form;
+    this.form = inject(OwnerInsertFormGroupService).getForm();
   }
 
   createBean(form: FormGroup): Owner {
