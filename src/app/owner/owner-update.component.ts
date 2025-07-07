@@ -20,7 +20,7 @@ export class OwnerUpdateComponent extends BeanUpdateComponent<Owner> {
 
   constructor() {
     super(createBean);
-    this.form = inject(OwnerUpdateFormGroupService).form;
+    this.form = inject(OwnerUpdateFormGroupService).getForm();
   }
 }
 

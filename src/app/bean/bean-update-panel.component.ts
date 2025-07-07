@@ -66,8 +66,8 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
       BeanUpdateFormGroupService<T>
     >;
     const beanUpdateFormGroupService = inject(formGroupServiceType);
-    this.bean = beanUpdateFormGroupService.createBeanFromHistory();
-    this.form = beanUpdateFormGroupService.createForm(this.bean);
+    this.bean = beanUpdateFormGroupService.getBeanFromHistory();
+    this.form = beanUpdateFormGroupService.getForm();
 
     this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent'];
 

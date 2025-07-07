@@ -45,8 +45,8 @@ export class OwnerEquityAccountInitialValueUpdateComponent extends BeanUpdateCom
       OwnerEquityAccountInitialValueUpdateFormGroupService,
     );
 
-    this.form = ownerEquityAccountInitialValueFormGroupService.form;
-    this.bean = ownerEquityAccountInitialValueFormGroupService.createBeanFromHistory();
+    this.form = ownerEquityAccountInitialValueFormGroupService.getForm();
+    this.bean = ownerEquityAccountInitialValueFormGroupService.getBeanFromHistory();
   }
 }
 

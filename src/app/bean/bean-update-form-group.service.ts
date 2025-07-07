@@ -2,21 +2,24 @@ import { Bean, toBean } from './bean';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 export class BeanUpdateFormGroupService<T extends Bean> {
-  public form!: FormGroup;
+  private form!: FormGroup;
 
   constructor(
-    public formBuilder: FormBuilder,
-    readonly beanCreateFunction: () => T,
-    readonly jsonToBeanFunction: (t: T) => T,
-    public createFormFn: (formBuilder: FormBuilder, bean: T) => FormGroup,
+    private readonly formBuilder: FormBuilder,
+    private readonly beanCreateFunction: () => T,
+    private readonly jsonToBeanFunction: (t: T) => T,
+    private createFormFn: (formBuilder: FormBuilder, bean: T) => FormGroup,
   ) {}
 
-  public createBeanFromHistory(): T {
+  public getBeanFromHistory(): T {
     return toBean(history.state.bean, this.beanCreateFunction, this.jsonToBeanFunction);
   }
 
-  public createForm(bean: T): FormGroup {
-    this.form = this.createFormFn(this.formBuilder, bean);
+  public getForm(): FormGroup {
+    const bean = this.getBeanFromHistory();
+    if (this.form == null) {
+      this.form = this.createFormFn(this.formBuilder, bean);
+    }
     return this.form;
   }
 }

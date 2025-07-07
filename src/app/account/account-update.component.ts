@@ -48,7 +48,7 @@ export class AccountUpdateComponent extends BeanUpdateComponent<Account> {
   constructor() {
     super(createBean);
 
-    this.form = inject(AccountUpdateFormGroupService).form;
+    this.form = inject(AccountUpdateFormGroupService).getForm();
 
     this.categories$ = new CategoryListService(
       inject(HttpClient),

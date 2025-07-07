@@ -46,7 +46,7 @@ export class OwnerEquityAccountInitialValueInsertComponent extends BeanInsertCom
   constructor() {
     super(createBean);
 
-    this.form = inject(OwnerEquityAccountInitialValueInsertFormGroupService).form;
+    this.form = inject(OwnerEquityAccountInitialValueInsertFormGroupService).getForm();
 
     this.equityAccounts$ = new AccountListService(inject(HttpClient), 'Equity').findAll();
     this.owners$ = inject(OwnerListService).findAll();

@@ -25,7 +25,7 @@ export class CategoryUpdateComponent extends BeanUpdateComponent<Category> {
   constructor() {
     super(createBean);
 
-    this.form = inject(CategoryUpdateFormGroupService).form;
+    this.form = inject(CategoryUpdateFormGroupService).getForm();
   }
 }
 

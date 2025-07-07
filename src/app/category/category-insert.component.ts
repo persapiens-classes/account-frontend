@@ -23,7 +23,7 @@ export class CategoryInsertComponent extends BeanInsertComponent<Category> {
   constructor() {
     super(createBean);
 
-    this.form = inject(CategoryInsertFormGroupService).form;
+    this.form = inject(CategoryInsertFormGroupService).getForm();
   }
 }
 

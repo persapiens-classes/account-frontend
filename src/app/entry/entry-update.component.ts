@@ -81,7 +81,7 @@ export class EntryUpdateComponent extends BeanUpdateComponent<EntryInsertUpdate>
   constructor() {
     super(createBean);
 
-    this.form = inject(EntryUpdateFormGroupService).form;
+    this.form = inject(EntryUpdateFormGroupService).getForm();
 
     const http = inject(HttpClient);
     const route = inject(ActivatedRoute);

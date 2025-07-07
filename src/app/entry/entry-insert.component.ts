@@ -77,7 +77,7 @@ export class EntryInsertComponent extends BeanInsertComponent<EntryInsertUpdate>
     super(createBean);
     this.owners$ = inject(OwnerListService).findAll();
 
-    this.form = inject(EntryInsertFormGroupService).form;
+    this.form = inject(EntryInsertFormGroupService).getForm();
 
     const route = inject(ActivatedRoute);
     const http = inject(HttpClient);
