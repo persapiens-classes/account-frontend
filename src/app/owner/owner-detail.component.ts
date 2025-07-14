@@ -2,16 +2,22 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { createOwner, Owner } from './owner';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { BeanDetailComponent } from '../bean/bean-detail.component';
-import { defaultJsonToBean } from '../bean/bean';
+import { defaultJsonToBean, toBeanFromHistory } from '../bean/bean';
+import { BeanDetailPanelComponent } from '../bean/bean-detail-panel.component';
 
 @Component({
   selector: 'app-owner-detail',
-  imports: [CommonModule, DetailFieldComponent],
-  template: ` <app-detail-field strong="Name" value="{{ bean.name }}" /> `,
+  imports: [CommonModule, DetailFieldComponent, BeanDetailPanelComponent],
+  template: `
+    <app-bean-detail-panel [routerName]="'owners'" [bean]="bean">
+      <app-detail-field strong="Name" [value]="bean.name" />
+    </app-bean-detail-panel>
+  `,
 })
-export class OwnerDetailComponent extends BeanDetailComponent<Owner> {
+export class OwnerDetailComponent {
+  bean: Owner;
+
   constructor() {
-    super(createOwner, defaultJsonToBean);
+    this.bean = toBeanFromHistory(createOwner, defaultJsonToBean);
   }
 }
