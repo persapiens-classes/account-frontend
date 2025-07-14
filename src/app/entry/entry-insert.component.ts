@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EntryInsertUpdate } from './entry';
-import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
@@ -12,9 +11,10 @@ import { DateFieldComponent } from '../field/date-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
 import { InputFieldComponent } from '../field/input-field.component';
-import { EntryInsertFormGroupService } from './entry-insert-form-group.service';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
+import { EntryInsertService } from './entry-insert-service';
+import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 
 @Component({
   selector: 'app-entry-insert',
@@ -25,77 +25,104 @@ import { AccountListService } from '../account/account-list-service';
     SelectFieldComponent,
     NumberFieldComponent,
     InputFieldComponent,
+    BeanInsertPanelComponent,
   ],
   template: `
-    <app-date-field label="Date" [autoFocus]="true" [control]="form.get('inputDate')!" />
+    <app-bean-insert-panel
+      [formGroup]="formGroup"
+      [createBean]="createBean.bind(this)"
+      [beanInsertService]="beanInsertService"
+      [beanName]="beanName"
+      [routerName]="routerName"
+    >
+      <app-date-field label="Date" [autoFocus]="true" [control]="formGroup.get('inputDate')!" />
 
-    <app-select-field
-      label="In Owner"
-      placeholder="Select in owner"
-      optionLabel="name"
-      [options]="(owners$ | async)!"
-      [control]="form.get('selectInOwner')!"
-    />
+      <app-select-field
+        label="In Owner"
+        placeholder="Select in owner"
+        optionLabel="name"
+        [options]="(owners$ | async)!"
+        [control]="formGroup.get('selectInOwner')!"
+      />
 
-    <app-select-field
-      label="In Account"
-      placeholder="Select in account"
-      optionLabel="description"
-      [options]="(inAccounts$ | async)!"
-      [control]="form.get('selectInAccount')!"
-    />
+      <app-select-field
+        label="In Account"
+        placeholder="Select in account"
+        optionLabel="description"
+        [options]="(inAccounts$ | async)!"
+        [control]="formGroup.get('selectInAccount')!"
+      />
 
-    <app-select-field
-      label="Out Owner"
-      placeholder="Select out owner"
-      optionLabel="name"
-      [options]="(owners$ | async)!"
-      [control]="form.get('selectOutOwner')!"
-    />
+      <app-select-field
+        label="Out Owner"
+        placeholder="Select out owner"
+        optionLabel="name"
+        [options]="(owners$ | async)!"
+        [control]="formGroup.get('selectOutOwner')!"
+      />
 
-    <app-select-field
-      label="Out Account"
-      placeholder="Select out account"
-      optionLabel="description"
-      [options]="(outAccounts$ | async)!"
-      [control]="form.get('selectOutAccount')!"
-    />
+      <app-select-field
+        label="Out Account"
+        placeholder="Select out account"
+        optionLabel="description"
+        [options]="(outAccounts$ | async)!"
+        [control]="formGroup.get('selectOutAccount')!"
+      />
 
-    <app-number-field label="Value" [control]="form.get('inputValue')!" />
+      <app-number-field label="Value" [control]="formGroup.get('inputValue')!" />
 
-    <app-input-field label="Note" [control]="form.get('inputNote')!" />
+      <app-input-field label="Note" [control]="formGroup.get('inputNote')!" />
+    </app-bean-insert-panel>
   `,
 })
-export class EntryInsertComponent implements BeanInsertComponent<EntryInsertUpdate> {
-  form: FormGroup;
+export class EntryInsertComponent {
+  formGroup: FormGroup;
+  routerName: string;
+  beanName: string;
+  beanInsertService: EntryInsertService;
 
   inAccounts$: Observable<Account[]>;
   outAccounts$: Observable<Account[]>;
   owners$: Observable<Owner[]>;
 
   constructor() {
-    this.owners$ = inject(OwnerListService).findAll();
+    this.formGroup = inject(FormBuilder).group({
+      inputDate: ['', [Validators.required]],
+      selectInOwner: ['', [Validators.required]],
+      selectInAccount: ['', [Validators.required]],
+      selectOutOwner: ['', [Validators.required]],
+      selectOutAccount: ['', [Validators.required]],
+      inputValue: ['', [Validators.required]],
+      inputNote: ['', []],
+    });
 
-    this.form = inject(EntryInsertFormGroupService).getForm();
-
-    const route = inject(ActivatedRoute);
+    const activatedRoute = inject(ActivatedRoute);
+    const type = activatedRoute.snapshot.data['type'];
+    this.routerName = `${type.toLowerCase()}Entries`;
+    this.beanName = `${type} Entry`;
     const http = inject(HttpClient);
-    this.inAccounts$ = new AccountListService(http, route.snapshot.data['inAccountType']).findAll();
+    this.beanInsertService = new EntryInsertService(http, type);
+
+    this.inAccounts$ = new AccountListService(
+      http,
+      activatedRoute.snapshot.data['inAccountType'],
+    ).findAll();
     this.outAccounts$ = new AccountListService(
       http,
-      route.snapshot.data['outAccountType'],
+      activatedRoute.snapshot.data['outAccountType'],
     ).findAll();
+    this.owners$ = inject(OwnerListService).findAll();
   }
 
-  createBean(form: FormGroup): EntryInsertUpdate {
+  createBean(): EntryInsertUpdate {
     return new EntryInsertUpdate(
-      form.value.selectInOwner.name,
-      form.value.selectOutOwner.name,
-      form.value.inputDate,
-      form.value.selectInAccount.description,
-      form.value.selectOutAccount.description,
-      form.value.inputValue,
-      form.value.inputNote,
+      this.formGroup.value.selectInOwner.name,
+      this.formGroup.value.selectOutOwner.name,
+      this.formGroup.value.inputDate,
+      this.formGroup.value.selectInAccount.description,
+      this.formGroup.value.selectOutAccount.description,
+      this.formGroup.value.inputValue,
+      this.formGroup.value.inputNote,
     );
   }
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { createOwner, Owner } from './owner';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { defaultJsonToBean, toBeanFromHistory } from '../bean/bean';
+import { toBeanFromHistory } from '../bean/bean';
 import { BeanDetailPanelComponent } from '../bean/bean-detail-panel.component';
 
 @Component({
@@ -18,6 +18,6 @@ export class OwnerDetailComponent {
   bean: Owner;
 
   constructor() {
-    this.bean = toBeanFromHistory(createOwner, defaultJsonToBean);
+    this.bean = toBeanFromHistory(createOwner);
   }
 }

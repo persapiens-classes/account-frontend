@@ -1,38 +1,27 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Bean } from './bean';
 import { catchError, of, tap } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ComponentRef,
-  inject,
-  Type,
-  ViewChild,
-  ViewContainerRef,
-  AfterViewInit,
-} from '@angular/core';
-import { BeanInsertComponent } from './bean-insert.component';
-import { BeanInsertFormGroupService } from './bean-insert-form-group.service';
+import { Component, inject, Input } from '@angular/core';
 import { BeanInsertService } from './bean-insert-service';
 import { AppMessageService } from '../app-message-service';
-import { BeanInsertServiceFactory } from './bean-insert-service-factory';
 
 @Component({
-  selector: 'app-bean-insert',
+  selector: 'app-bean-insert-panel',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
   template: `
-    <form *ngIf="form" [formGroup]="form">
+    <form *ngIf="formGroup" [formGroup]="formGroup">
       <p-panel header="New">
-        <ng-container #dynamicComponent></ng-container>
+        <ng-content></ng-content>
 
         <p-button
           icon="pi pi-check"
           (onClick)="insert()"
           [style]="{ 'margin-right': '10px' }"
-          [disabled]="form.invalid"
+          [disabled]="formGroup.invalid"
           pTooltip="Save"
         />
         <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list" />
@@ -40,48 +29,29 @@ import { BeanInsertServiceFactory } from './bean-insert-service-factory';
     </form>
   `,
 })
-export class BeanInsertPanelComponent<T extends Bean, I> implements AfterViewInit {
-  form: FormGroup;
+export class BeanInsertPanelComponent<T extends Bean, I> {
+  @Input()
+  formGroup!: FormGroup;
 
-  @ViewChild('dynamicComponent', { read: ViewContainerRef })
-  container!: ViewContainerRef;
-  beanInsertComponentType!: Type<BeanInsertComponent<I>>;
-  beanInsertComponentInstance!: ComponentRef<BeanInsertComponent<I>>;
+  @Input()
+  createBean!: () => I;
+
+  @Input()
+  beanInsertService!: BeanInsertService<T, I>;
+
+  @Input()
   beanName!: string;
-  routerName!: string;
 
-  beanInsertService: BeanInsertService<T, I>;
+  @Input()
+  routerName!: string;
 
   private readonly router = inject(Router);
   private readonly appMessageService = inject(AppMessageService);
 
-  constructor() {
-    const route = inject(ActivatedRoute);
-    const formGroupServiceType = route.snapshot.data[
-      'beanInsertFormGroupService'
-    ] as Type<BeanInsertFormGroupService>;
-    this.form = inject(formGroupServiceType).getForm();
-
-    this.beanInsertComponentType = route.snapshot.data['beanInsertComponent'];
-    this.beanName = route.snapshot.data['beanName'];
-    this.routerName = route.snapshot.data['routerName'];
-
-    this.beanInsertService = inject(BeanInsertServiceFactory<T, I>).getBeanInsertService(
-      route.snapshot.data['serviceName'],
-    );
-  }
-
-  ngAfterViewInit() {
-    this.container.clear();
-    this.beanInsertComponentInstance = this.container.createComponent(this.beanInsertComponentType);
-  }
-
   insert() {
-    if (this.form.valid) {
-      const newBean = this.beanInsertComponentInstance.instance.createBean(this.form);
-
+    if (this.formGroup.valid) {
       this.beanInsertService
-        .insert(newBean)
+        .insert(this.createBean())
         .pipe(
           catchError((error) => {
             this.appMessageService.addErrorMessage(error, `${this.beanName} not inserted`);

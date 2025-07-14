@@ -1,30 +1,52 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Category } from './category';
-import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { InputFieldComponent } from '../field/input-field.component';
-import { CategoryInsertFormGroupService } from './category-insert-form-group.service';
+import { CategoryInsertService } from './category-insert-service';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 
 @Component({
   selector: 'app-category-insert',
-  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent],
+  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent, BeanInsertPanelComponent],
   template: `
-    <app-input-field
-      label="Description"
-      [autoFocus]="true"
-      [control]="form.get('inputDescription')!"
-    />
+    <app-bean-insert-panel
+      [formGroup]="formGroup"
+      [createBean]="createBean.bind(this)"
+      [beanInsertService]="beanInsertService"
+      [beanName]="beanName"
+      [routerName]="routerName"
+    >
+      <app-input-field
+        label="Description"
+        [autoFocus]="true"
+        [control]="formGroup.get('inputDescription')!"
+      />
+    </app-bean-insert-panel>
   `,
 })
-export class CategoryInsertComponent implements BeanInsertComponent<Category> {
-  form: FormGroup;
+export class CategoryInsertComponent {
+  formGroup: FormGroup;
+  routerName: string;
+  beanName: string;
+  beanInsertService: CategoryInsertService;
 
   constructor() {
-    this.form = inject(CategoryInsertFormGroupService).getForm();
+    this.formGroup = inject(FormBuilder).group({
+      inputDescription: ['', [Validators.required, Validators.minLength(3)]],
+    });
+
+    const activatedRoute = inject(ActivatedRoute);
+    const http = inject(HttpClient);
+    const type = activatedRoute.snapshot.data['type'];
+    this.routerName = `${type.toLowerCase()}Categories`;
+    this.beanName = `${type} Category`;
+    this.beanInsertService = new CategoryInsertService(http, type);
   }
 
-  createBean(form: FormGroup): Category {
-    return new Category(form.value.inputDescription);
+  createBean(): Category {
+    return new Category(this.formGroup.value.inputDescription);
   }
 }

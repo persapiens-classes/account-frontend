@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Category, createCategory } from './category';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { defaultJsonToBean, toBeanFromHistory } from '../bean/bean';
+import { toBeanFromHistory } from '../bean/bean';
 import { ActivatedRoute } from '@angular/router';
 import { BeanDetailPanelComponent } from '../bean/bean-detail-panel.component';
 
@@ -21,6 +21,6 @@ export class CategoryDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Categories`;
-    this.bean = toBeanFromHistory(createCategory, defaultJsonToBean);
+    this.bean = toBeanFromHistory(createCategory);
   }
 }

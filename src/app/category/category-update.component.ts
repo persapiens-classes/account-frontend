@@ -1,32 +1,68 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { Category } from './category';
-import { BeanUpdateComponent } from '../bean/bean-update.component';
+import { Category, createCategory } from './category';
 import { InputFieldComponent } from '../field/input-field.component';
-import { CategoryUpdateFormGroupService } from './category-update-form-group.service';
+import { toBeanFromHistory } from '../bean/bean';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { CategoryUpdateService } from './category-update-service';
+import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 
 @Component({
   selector: 'app-category-update',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule, InputFieldComponent],
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    PanelModule,
+    CommonModule,
+    InputFieldComponent,
+    BeanUpdatePanelComponent,
+  ],
   template: `
-    <app-input-field
-      label="Description"
-      [autoFocus]="true"
-      [control]="form.get('inputDescription')!"
-    />
+    <app-bean-update-panel
+      [formGroup]="formGroup"
+      [beanFromHistory]="beanFromHistory"
+      [createBean]="createBean.bind(this)"
+      [beanUpdateService]="beanUpdateService"
+      [beanName]="beanName"
+      [routerName]="routerName"
+    >
+      <app-input-field
+        label="Description"
+        [autoFocus]="true"
+        [control]="formGroup.get('inputDescription')!"
+      />
+    </app-bean-update-panel>
   `,
 })
-export class CategoryUpdateComponent implements BeanUpdateComponent<Category> {
-  form: FormGroup;
+export class CategoryUpdateComponent {
+  formGroup: FormGroup;
+  beanFromHistory: Category;
+  routerName: string;
+  beanName: string;
+  beanUpdateService: CategoryUpdateService;
 
   constructor() {
-    this.form = inject(CategoryUpdateFormGroupService).getForm();
+    this.beanFromHistory = toBeanFromHistory(createCategory);
+    this.formGroup = inject(FormBuilder).group({
+      inputDescription: [
+        this.beanFromHistory.description,
+        [Validators.required, Validators.minLength(3)],
+      ],
+    });
+
+    const activatedRoute = inject(ActivatedRoute);
+    const type = activatedRoute.snapshot.data['type'];
+    this.routerName = `${type.toLowerCase()}Categories`;
+    this.beanName = `${type} Category`;
+    const http = inject(HttpClient);
+    this.beanUpdateService = new CategoryUpdateService(http, type);
   }
 
-  createBean(form: FormGroup): Category {
-    return new Category(form.value.inputDescription);
+  createBean(): Category {
+    return new Category(this.formGroup.value.inputDescription);
   }
 }

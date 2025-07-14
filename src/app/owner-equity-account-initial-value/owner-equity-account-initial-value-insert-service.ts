@@ -1,4 +1,4 @@
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   createOwnerEquityAccountInitialValue,
@@ -6,7 +6,6 @@ import {
   OwnerEquityAccountInitialValueInsert,
 } from './owner-equity-account-initial-value';
 import { BeanInsertService, insertBean } from '../bean/bean-insert-service';
-import { defaultJsonToBean } from '../bean/bean';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,16 +18,10 @@ export class OwnerEquityAccountInitialValueInsertService
 
   insert(bean: OwnerEquityAccountInitialValueInsert): Observable<OwnerEquityAccountInitialValue> {
     return insertBean(
+      bean,
       this.http,
       'ownerEquityAccountInitialValues',
       createOwnerEquityAccountInitialValue,
-      defaultJsonToBean,
-      bean,
     );
   }
 }
-
-export const OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_INSERT_SERVICE =
-  new InjectionToken<OwnerEquityAccountInitialValueInsertService>(
-    'OwnerEquityAccountInitialValueInsertService',
-  );
