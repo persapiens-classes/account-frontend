@@ -1,4 +1,4 @@
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BeanRemoveService, removeBean } from '../bean/bean-remove-service';
 import { Observable } from 'rxjs';
@@ -13,5 +13,3 @@ export class OwnerRemoveService implements BeanRemoveService {
     return removeBean(this.http, 'owners', id, '/');
   }
 }
-
-export const OWNER_REMOVE_SERVICE = new InjectionToken<OwnerRemoveService>('OwnerRemoveService');

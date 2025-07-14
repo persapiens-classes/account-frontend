@@ -1,26 +1,37 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Owner } from './owner';
-import { BeanInsertComponent } from '../bean/bean-insert.component';
 import { InputFieldComponent } from '../field/input-field.component';
-import { OwnerInsertFormGroupService } from './owner-insert-form-group.service';
+import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { OwnerInsertService } from './owner-insert-service';
 
 @Component({
   selector: 'app-owner-insert',
-  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent],
+  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent, BeanInsertPanelComponent],
   template: `
-    <app-input-field label="Name" [autoFocus]="true" [control]="form.get('inputName')!" />
+    <app-bean-insert-panel
+      [formGroup]="formGroup"
+      [createBean]="createBean.bind(this)"
+      [beanInsertService]="beanInsertService"
+      [beanName]="'Owner'"
+      [routerName]="'owners'"
+    >
+      <app-input-field label="Name" [autoFocus]="true" [control]="formGroup.get('inputName')!" />
+    </app-bean-insert-panel>
   `,
 })
-export class OwnerInsertComponent implements BeanInsertComponent<Owner> {
-  form: FormGroup;
+export class OwnerInsertComponent {
+  formGroup: FormGroup;
+  beanInsertService = inject(OwnerInsertService);
 
   constructor() {
-    this.form = inject(OwnerInsertFormGroupService).getForm();
+    this.formGroup = inject(FormBuilder).group({
+      inputName: ['', [Validators.required, Validators.minLength(3)]],
+    });
   }
 
-  createBean(form: FormGroup): Owner {
-    return new Owner(form.value.inputName);
+  createBean(): Owner {
+    return new Owner(this.formGroup.value.inputName);
   }
 }

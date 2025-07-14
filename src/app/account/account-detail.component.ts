@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Account, createAccount } from './account';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { defaultJsonToBean, toBeanFromHistory } from '../bean/bean';
+import { toBeanFromHistory } from '../bean/bean';
 import { ActivatedRoute } from '@angular/router';
 import { BeanDetailPanelComponent } from '../bean/bean-detail-panel.component';
 
@@ -22,6 +22,6 @@ export class AccountDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Accounts`;
-    this.bean = toBeanFromHistory(createAccount, defaultJsonToBean);
+    this.bean = toBeanFromHistory(createAccount);
   }
 }

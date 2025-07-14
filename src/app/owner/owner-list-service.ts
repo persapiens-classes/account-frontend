@@ -1,8 +1,7 @@
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { createOwner, Owner } from './owner';
 import { BeanListService, findAllBeans } from '../bean/bean-list-service';
-import { defaultJsonToBean } from '../bean/bean';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,8 +11,6 @@ export class OwnerListService implements BeanListService<Owner> {
   private readonly http = inject(HttpClient);
 
   findAll(): Observable<Owner[]> {
-    return findAllBeans(this.http, 'owners', createOwner, defaultJsonToBean);
+    return findAllBeans(this.http, 'owners', createOwner);
   }
 }
-
-export const OWNER_LIST_SERVICE = new InjectionToken<OwnerListService>('OwnerListService');

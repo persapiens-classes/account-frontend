@@ -21,19 +21,6 @@ import { BalanceListComponent } from './owner-equity-account-initial-value/balan
 import { BalanceDetailComponent } from './owner-equity-account-initial-value/balance-detail.component';
 import { OwnerEquityAccountInitialValueUpdateComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update.component';
 import { OwnerEquityAccountInitialValueInsertComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-insert.component';
-import { BeanListPanelComponent } from './bean/bean-list-panel.component';
-import { BeanInsertPanelComponent } from './bean/bean-insert-panel.component';
-import { OwnerUpdateFormGroupService } from './owner/owner-update-form-group.service';
-import { CategoryUpdateFormGroupService } from './category/category-update-form-group.service';
-import { AccountUpdateFormGroupService } from './account/account-update-form-group.service';
-import { EntryUpdateFormGroupService } from './entry/entry-update-form-group.service';
-import { BeanUpdatePanelComponent } from './bean/bean-update-panel.component';
-import { OwnerEquityAccountInitialValueInsertFormGroupService } from './owner-equity-account-initial-value/owner-equity-account-initial-value-insert-form-group.service';
-import { EntryInsertFormGroupService } from './entry/entry-insert-form-group.service';
-import { AccountInsertFormGroupService } from './account/account-insert-form-group.service';
-import { CategoryInsertFormGroupService } from './category/category-insert-form-group.service';
-import { OwnerInsertFormGroupService } from './owner/owner-insert-form-group.service';
-import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update-form-group.service';
 import { OwnerDetailComponent } from './owner/owner-detail.component';
 
 export const routes: Routes = [
@@ -46,32 +33,15 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
-        data: {
-          beanListComponent: BalanceListComponent,
-          serviceName: 'Balance',
-          routerName: 'balances',
-        },
+        component: BalanceListComponent,
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
-        data: {
-          beanInsertComponent: OwnerEquityAccountInitialValueInsertComponent,
-          beanInsertFormGroupService: OwnerEquityAccountInitialValueInsertFormGroupService,
-          serviceName: 'OwnerEquityAccountInitialValue',
-          routerName: 'ownerEquityAccountInitialValues',
-        },
+        component: OwnerEquityAccountInitialValueInsertComponent,
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
-        data: {
-          beanUpdateComponent: OwnerEquityAccountInitialValueUpdateComponent,
-          beanUpdateFormGroupService: OwnerEquityAccountInitialValueUpdateFormGroupService,
-          serviceName: 'OwnerEquityAccountInitialValue',
-          routerName: 'ownerEquityAccountInitialValues',
-        },
+        component: OwnerEquityAccountInitialValueUpdateComponent,
       },
       {
         path: 'detail',
@@ -88,33 +58,25 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
-        data: { beanListComponent: EntryListComponent, serviceName: 'CreditEntry', type: 'Credit' },
+        component: EntryListComponent,
+        data: { type: 'Credit' },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: EntryInsertComponent,
         data: {
-          beanInsertComponent: EntryInsertComponent,
-          beanInsertFormGroupService: EntryInsertFormGroupService,
-          serviceName: 'CreditEntry',
+          type: 'Credit',
           inAccountType: 'Equity',
           outAccountType: 'Credit',
-          beanName: 'Credit Entry',
-          routerName: 'creditEntries',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: EntryUpdateComponent,
         data: {
-          beanUpdateComponent: EntryUpdateComponent,
-          beanUpdateFormGroupService: EntryUpdateFormGroupService,
-          serviceName: 'CreditEntry',
+          type: 'Credit',
           inAccountType: 'Equity',
           outAccountType: 'Credit',
-          beanName: 'Credit Entry',
-          routerName: 'creditEntries',
         },
       },
       {
@@ -135,33 +97,25 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
-        data: { beanListComponent: EntryListComponent, serviceName: 'DebitEntry', type: 'Debit' },
+        component: EntryListComponent,
+        data: { type: 'Debit' },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: EntryInsertComponent,
         data: {
-          beanInsertComponent: EntryInsertComponent,
-          beanInsertFormGroupService: EntryInsertFormGroupService,
-          serviceName: 'DebitEntry',
+          type: 'Debit',
           inAccountType: 'Debit',
           outAccountType: 'Equity',
-          beanName: 'Debit Entry',
-          routerName: 'debitEntries',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: EntryUpdateComponent,
         data: {
-          beanUpdateComponent: EntryUpdateComponent,
-          beanUpdateFormGroupService: EntryUpdateFormGroupService,
-          serviceName: 'DebitEntry',
+          type: 'Debit',
           inAccountType: 'Debit',
           outAccountType: 'Equity',
-          beanName: 'Debit Entry',
-          routerName: 'debitEntries',
         },
       },
       {
@@ -182,37 +136,27 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
+        component: EntryListComponent,
         data: {
-          beanListComponent: EntryListComponent,
-          serviceName: 'TransferEntry',
           type: 'Transfer',
         },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: EntryInsertComponent,
         data: {
-          beanInsertComponent: EntryInsertComponent,
-          beanInsertFormGroupService: EntryInsertFormGroupService,
-          serviceName: 'TransferEntry',
+          type: 'Transfer',
           inAccountType: 'Equity',
           outAccountType: 'Equity',
-          beanName: 'Transfer Entry',
-          routerName: 'transferEntries',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: EntryUpdateComponent,
         data: {
-          beanUpdateComponent: EntryUpdateComponent,
-          beanUpdateFormGroupService: EntryUpdateFormGroupService,
-          serviceName: 'TransferEntry',
+          type: 'Transfer',
           inAccountType: 'Equity',
           outAccountType: 'Equity',
-          beanName: 'Transfer Entry',
-          routerName: 'transferEntries',
         },
       },
       {
@@ -233,35 +177,24 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
+        component: AccountListComponent,
         data: {
-          beanListComponent: AccountListComponent,
-          serviceName: 'CreditAccount',
           type: 'Credit',
         },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: AccountInsertComponent,
         data: {
-          beanInsertComponent: AccountInsertComponent,
-          beanInsertFormGroupService: AccountInsertFormGroupService,
-          serviceName: 'CreditAccount',
-          categoryType: 'Credit',
-          beanName: 'Credit Account',
-          routerName: 'creditAccounts',
+          type: 'Credit',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: AccountUpdateComponent,
         data: {
-          beanUpdateComponent: AccountUpdateComponent,
-          beanUpdateFormGroupService: AccountUpdateFormGroupService,
-          serviceName: 'CreditAccount',
+          type: 'Credit',
           categoryType: 'Credit',
-          beanName: 'Credit Account',
-          routerName: 'creditAccounts',
         },
       },
       {
@@ -282,35 +215,24 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
+        component: AccountListComponent,
         data: {
-          beanListComponent: AccountListComponent,
-          serviceName: 'DebitAccount',
           type: 'Debit',
         },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: AccountInsertComponent,
         data: {
-          beanInsertComponent: AccountInsertComponent,
-          beanInsertFormGroupService: AccountInsertFormGroupService,
-          serviceName: 'DebitAccount',
-          categoryType: 'Debit',
-          beanName: 'Debit Account',
-          routerName: 'debitAccounts',
+          type: 'Debit',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: AccountUpdateComponent,
         data: {
-          beanUpdateComponent: AccountUpdateComponent,
-          beanUpdateFormGroupService: AccountUpdateFormGroupService,
-          serviceName: 'DebitAccount',
+          type: 'Debit',
           categoryType: 'Debit',
-          beanName: 'Debit Account',
-          routerName: 'debitAccounts',
         },
       },
       {
@@ -331,35 +253,24 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
+        component: AccountListComponent,
         data: {
-          beanListComponent: AccountListComponent,
-          serviceName: 'EquityAccount',
           type: 'Equity',
         },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: AccountInsertComponent,
         data: {
-          beanInsertComponent: AccountInsertComponent,
-          beanInsertFormGroupService: AccountInsertFormGroupService,
-          serviceName: 'EquityAccount',
-          categoryType: 'Equity',
-          beanName: 'Equity Account',
-          routerName: 'equityAccounts',
+          type: 'Equity',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: AccountUpdateComponent,
         data: {
-          beanUpdateComponent: AccountUpdateComponent,
-          beanUpdateFormGroupService: AccountUpdateFormGroupService,
-          serviceName: 'EquityAccount',
+          type: 'Equity',
           categoryType: 'Equity',
-          beanName: 'Equity Account',
-          routerName: 'equityAccounts',
         },
       },
       {
@@ -380,33 +291,23 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
+        component: CategoryListComponent,
         data: {
-          beanListComponent: CategoryListComponent,
-          serviceName: 'CreditCategory',
           type: 'Credit',
         },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: CategoryInsertComponent,
         data: {
-          beanInsertComponent: CategoryInsertComponent,
-          beanInsertFormGroupService: CategoryInsertFormGroupService,
-          serviceName: 'CreditCategory',
-          beanName: 'Credit Category',
-          routerName: 'creditCategories',
+          type: 'Credit',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: CategoryUpdateComponent,
         data: {
-          beanUpdateComponent: CategoryUpdateComponent,
-          beanUpdateFormGroupService: CategoryUpdateFormGroupService,
-          serviceName: 'CreditCategory',
-          beanName: 'Credit Category',
-          routerName: 'creditCategories',
+          type: 'Credit',
         },
       },
       {
@@ -427,33 +328,23 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
+        component: CategoryListComponent,
         data: {
-          beanListComponent: CategoryListComponent,
-          serviceName: 'DebitCategory',
           type: 'Debit',
         },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: CategoryInsertComponent,
         data: {
-          beanInsertComponent: CategoryInsertComponent,
-          beanInsertFormGroupService: CategoryInsertFormGroupService,
-          serviceName: 'DebitCategory',
-          beanName: 'Debit Category',
-          routerName: 'debitCategories',
+          type: 'Debit',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: CategoryUpdateComponent,
         data: {
-          beanUpdateComponent: CategoryUpdateComponent,
-          beanUpdateFormGroupService: CategoryUpdateFormGroupService,
-          serviceName: 'DebitCategory',
-          beanName: 'Debit Category',
-          routerName: 'debitCategories',
+          type: 'Debit',
         },
       },
       {
@@ -474,33 +365,23 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
+        component: CategoryListComponent,
         data: {
-          beanListComponent: CategoryListComponent,
-          serviceName: 'EquityCategory',
           type: 'Equity',
         },
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
+        component: CategoryInsertComponent,
         data: {
-          beanInsertComponent: CategoryInsertComponent,
-          beanInsertFormGroupService: CategoryInsertFormGroupService,
-          serviceName: 'EquityCategory',
-          beanName: 'Equity Category',
-          routerName: 'equityCategories',
+          type: 'Equity',
         },
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
+        component: CategoryUpdateComponent,
         data: {
-          beanUpdateComponent: CategoryUpdateComponent,
-          beanUpdateFormGroupService: CategoryUpdateFormGroupService,
-          serviceName: 'EquityCategory',
-          beanName: 'Equity Category',
-          routerName: 'equityCategories',
+          type: 'Equity',
         },
       },
       {
@@ -521,30 +402,15 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: BeanListPanelComponent,
-        data: { beanListComponent: OwnerListComponent, serviceName: 'Owner' },
+        component: OwnerListComponent,
       },
       {
         path: 'new',
-        component: BeanInsertPanelComponent,
-        data: {
-          beanInsertComponent: OwnerInsertComponent,
-          beanInsertFormGroupService: OwnerInsertFormGroupService,
-          serviceName: 'Owner',
-          beanName: 'Owner',
-          routerName: 'owners',
-        },
+        component: OwnerInsertComponent,
       },
       {
         path: 'edit',
-        component: BeanUpdatePanelComponent,
-        data: {
-          beanUpdateComponent: OwnerUpdateComponent,
-          beanUpdateFormGroupService: OwnerUpdateFormGroupService,
-          serviceName: 'Owner',
-          beanName: 'Owner',
-          routerName: 'owners',
-        },
+        component: OwnerUpdateComponent,
       },
       {
         path: 'detail',

@@ -5,7 +5,7 @@ export interface Bean {
 export function toBean<T extends Bean>(
   json: unknown,
   createBeanFn: () => T,
-  jsonToBeanFn: (t: T) => T,
+  jsonToBeanFn: (t: T) => T = defaultJsonToBean,
 ): T {
   return jsonToBeanFn(Object.assign(createBeanFn(), json));
 }
@@ -16,7 +16,7 @@ export function defaultJsonToBean<T extends Bean>(result: T): T {
 
 export function toBeanFromHistory<T extends Bean>(
   createBeanFn: () => T,
-  jsonToBeanFn: (t: T) => T,
+  jsonToBeanFn: (t: T) => T = defaultJsonToBean,
 ): T {
   return toBean(history.state.bean, createBeanFn, jsonToBeanFn);
 }

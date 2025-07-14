@@ -1,38 +1,27 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Bean } from './bean';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ComponentRef,
-  inject,
-  Type,
-  ViewChild,
-  ViewContainerRef,
-  AfterViewInit,
-} from '@angular/core';
-import { BeanUpdateComponent } from './bean-update.component';
-import { BeanUpdateFormGroupService } from './bean-update-form-group.service';
+import { Component, inject, Input } from '@angular/core';
 import { BeanUpdateService } from './bean-update-service';
 import { AppMessageService } from '../app-message-service';
-import { BeanUpdateServiceFactory } from './bean-update-service-factory';
 
 @Component({
-  selector: 'app-bean-update',
+  selector: 'app-bean-update-panel',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
   template: `
-    <form *ngIf="form" [formGroup]="form">
+    <form *ngIf="formGroup" [formGroup]="formGroup">
       <p-panel header="Edit">
-        <ng-container #dynamicComponent></ng-container>
+        <ng-content></ng-content>
 
         <p-button
           icon="pi pi-check"
           (onClick)="update()"
           [style]="{ 'margin-right': '10px' }"
-          [disabled]="form.invalid"
+          [disabled]="formGroup.invalid"
           pTooltip="Save the category"
         />
         <p-button
@@ -46,56 +35,36 @@ import { BeanUpdateServiceFactory } from './bean-update-service-factory';
     </form>
   `,
 })
-export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewInit {
-  form: FormGroup;
-  bean: T;
+export class BeanUpdatePanelComponent<T extends Bean, U> {
+  @Input()
+  formGroup!: FormGroup;
 
-  @ViewChild('dynamicComponent', { read: ViewContainerRef })
-  container!: ViewContainerRef;
-  beanUpdateComponentType!: Type<BeanUpdateComponent<U>>;
-  beanUpdateComponentInstance!: ComponentRef<BeanUpdateComponent<U>>;
+  @Input()
+  beanFromHistory!: T;
+
+  @Input()
+  createBean!: () => U;
+
+  @Input()
+  beanUpdateService!: BeanUpdateService<T, U>;
+
+  @Input()
   beanName!: string;
+  @Input()
   routerName!: string;
-
-  beanUpdateService: BeanUpdateService<T, U>;
 
   private readonly router = inject(Router);
   private readonly appMessageService = inject(AppMessageService);
 
-  constructor() {
-    const route = inject(ActivatedRoute);
-    const formGroupServiceType = route.snapshot.data['beanUpdateFormGroupService'] as Type<
-      BeanUpdateFormGroupService<T>
-    >;
-    const beanUpdateFormGroupService = inject(formGroupServiceType);
-    this.bean = beanUpdateFormGroupService.getBeanFromHistory();
-    this.form = beanUpdateFormGroupService.getForm();
-
-    this.beanUpdateComponentType = route.snapshot.data['beanUpdateComponent'];
-    this.beanName = route.snapshot.data['beanName'];
-    this.routerName = route.snapshot.data['routerName'];
-
-    this.beanUpdateService = inject(BeanUpdateServiceFactory<T, U>).getBeanUpdateService(
-      route.snapshot.data['serviceName'],
-    );
-  }
-
-  ngAfterViewInit() {
-    this.container.clear();
-    this.beanUpdateComponentInstance = this.container.createComponent(this.beanUpdateComponentType);
-  }
-
   update() {
-    if (this.form.valid) {
-      const updatedBean = this.beanUpdateComponentInstance.instance.createBean(this.form);
-
+    if (this.formGroup.valid) {
       this.beanUpdateService
-        .update(this.bean.getId(), updatedBean)
+        .update(this.beanFromHistory.getId(), this.createBean())
         .pipe(
           tap((bean) => {
             this.appMessageService.addSuccessMessage(
               `${this.beanName} edited`,
-              `${this.beanName} ${this.bean.getId()} edited ok.`,
+              `${this.beanName} ${this.beanFromHistory.getId()} edited ok.`,
             );
             this.router.navigate([`${this.routerName}/detail`], {
               state: { bean: bean },
@@ -116,7 +85,7 @@ export class BeanUpdatePanelComponent<T extends Bean, U> implements AfterViewIni
 
   cancelToDetail() {
     this.router.navigate([`${this.routerName}/detail`], {
-      state: { bean: this.bean },
+      state: { bean: this.beanFromHistory },
     });
   }
 }

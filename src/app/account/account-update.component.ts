@@ -1,18 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { Account } from './account';
-import { BeanUpdateComponent } from '../bean/bean-update.component';
+import { Account, createAccount } from './account';
 import { Category } from '../category/category';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
-import { AccountUpdateFormGroupService } from './account-update-form-group.service';
 import { CategoryListService } from '../category/category-list-service';
+import { AccountUpdateService } from './account-update-service';
+import { toBeanFromHistory } from '../bean/bean';
+import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 
 @Component({
   selector: 'app-account-update',
@@ -23,38 +24,69 @@ import { CategoryListService } from '../category/category-list-service';
     CommonModule,
     InputFieldComponent,
     SelectFieldComponent,
+    BeanUpdatePanelComponent,
   ],
   template: `
-    <app-input-field
-      label="Description"
-      [autoFocus]="true"
-      [control]="form.get('inputDescription')!"
-    />
+    <app-bean-update-panel
+      [formGroup]="formGroup"
+      [beanFromHistory]="beanFromHistory"
+      [createBean]="createBean.bind(this)"
+      [beanUpdateService]="beanUpdateService"
+      [beanName]="beanName"
+      [routerName]="routerName"
+    >
+      <app-input-field
+        label="Description"
+        [autoFocus]="true"
+        [control]="formGroup.get('inputDescription')!"
+      />
 
-    <app-select-field
-      label="Category"
-      placeholder="Select one category"
-      optionLabel="description"
-      [options]="(categories$ | async)!"
-      [control]="form.get('selectCategory')!"
-    />
+      <app-select-field
+        label="Category"
+        placeholder="Select one category"
+        optionLabel="description"
+        [options]="(categories$ | async)!"
+        [control]="formGroup.get('selectCategory')!"
+      />
+    </app-bean-update-panel>
   `,
 })
-export class AccountUpdateComponent implements BeanUpdateComponent<Account> {
-  form: FormGroup;
+export class AccountUpdateComponent {
+  formGroup: FormGroup;
+  beanFromHistory: Account;
+  routerName: string;
+  beanName: string;
+  beanUpdateService: AccountUpdateService;
 
   categories$: Observable<Category[]>;
 
   constructor() {
-    this.form = inject(AccountUpdateFormGroupService).getForm();
+    this.beanFromHistory = toBeanFromHistory(createAccount);
+    this.formGroup = inject(FormBuilder).group({
+      inputDescription: [
+        this.beanFromHistory.description,
+        [Validators.required, Validators.minLength(3)],
+      ],
+      selectCategory: [new Category(this.beanFromHistory.category), [Validators.required]],
+    });
+
+    const activatedRoute = inject(ActivatedRoute);
+    const type = activatedRoute.snapshot.data['type'];
+    this.beanName = `${type} Account`;
+    this.routerName = `${type.toLowerCase()}Accounts`;
+    const http = inject(HttpClient);
+    this.beanUpdateService = new AccountUpdateService(http, type);
 
     this.categories$ = new CategoryListService(
-      inject(HttpClient),
-      inject(ActivatedRoute).snapshot.data['categoryType'],
+      http,
+      activatedRoute.snapshot.data['categoryType'],
     ).findAll();
   }
 
-  createBean(form: FormGroup): Account {
-    return new Account(form.value.inputDescription, form.value.selectCategory.description);
+  createBean(): Account {
+    return new Account(
+      this.formGroup.value.inputDescription,
+      this.formGroup.value.selectCategory.description,
+    );
   }
 }

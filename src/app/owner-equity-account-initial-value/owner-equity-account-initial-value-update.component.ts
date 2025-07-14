@@ -1,13 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { OwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
-import { BeanUpdateComponent } from '../bean/bean-update.component';
+import {
+  createOwnerEquityAccountInitialValue,
+  OwnerEquityAccountInitialValue,
+} from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
-import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-equity-account-initial-value-update-form-group.service';
+import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
+import { OwnerEquityAccountInitialValueUpdateService } from './owner-equity-account-initial-value-update-service';
+import { toBeanFromHistory } from '../bean/bean';
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-update',
@@ -18,36 +22,47 @@ import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-eq
     CommonModule,
     NumberFieldComponent,
     DetailFieldComponent,
+    BeanUpdatePanelComponent,
   ],
   template: `
-    <app-detail-field strong="Owner" value="{{ bean.owner }}" />
+    <app-bean-update-panel
+      [formGroup]="formGroup"
+      [beanFromHistory]="beanFromHistory"
+      [createBean]="createBean.bind(this)"
+      [beanUpdateService]="beanUpdateService"
+      [beanName]="'Balances'"
+      [routerName]="'ownerEquityAccountInitialValues'"
+    >
+      <app-detail-field strong="Owner" value="{{ beanFromHistory.owner }}" />
 
-    <app-detail-field
-      strong="Equity Account"
-      value="{{ bean.equityAccount.description }} - {{ bean.equityAccount.category }}"
-    />
+      <app-detail-field
+        strong="Equity Account"
+        value="{{ beanFromHistory.equityAccount.description }} - {{
+          beanFromHistory.equityAccount.category
+        }}"
+      />
 
-    <app-number-field
-      label="Initial Value"
-      [autoFocus]="true"
-      [control]="form.get('inputInitialValue')!"
-    />
+      <app-number-field
+        label="Initial Value"
+        [autoFocus]="true"
+        [control]="formGroup.get('inputInitialValue')!"
+      />
+    </app-bean-update-panel>
   `,
 })
-export class OwnerEquityAccountInitialValueUpdateComponent implements BeanUpdateComponent<number> {
-  form: FormGroup;
-  bean: OwnerEquityAccountInitialValue;
+export class OwnerEquityAccountInitialValueUpdateComponent {
+  formGroup: FormGroup;
+  beanFromHistory: OwnerEquityAccountInitialValue;
+  beanUpdateService = inject(OwnerEquityAccountInitialValueUpdateService);
 
   constructor() {
-    const ownerEquityAccountInitialValueFormGroupService = inject(
-      OwnerEquityAccountInitialValueUpdateFormGroupService,
-    );
-
-    this.form = ownerEquityAccountInitialValueFormGroupService.getForm();
-    this.bean = ownerEquityAccountInitialValueFormGroupService.getBeanFromHistory();
+    this.beanFromHistory = toBeanFromHistory(createOwnerEquityAccountInitialValue);
+    this.formGroup = inject(FormBuilder).group({
+      inputInitialValue: [this.beanFromHistory.initialValue, [Validators.required]],
+    });
   }
 
-  createBean(form: FormGroup): number {
-    return form.value.inputInitialValue;
+  createBean(): number {
+    return this.formGroup.value.inputInitialValue;
   }
 }

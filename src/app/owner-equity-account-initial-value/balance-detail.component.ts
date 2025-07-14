@@ -5,7 +5,7 @@ import { Balance, createBalance } from './balance';
 import { PreviousRouteService } from './previous-route-service';
 import { BalanceFilterService } from './balance-filter-service';
 import { firstValueFrom } from 'rxjs';
-import { defaultJsonToBean, toBeanFromHistory } from '../bean/bean';
+import { toBeanFromHistory } from '../bean/bean';
 import { BeanDetailPanelComponent } from '../bean/bean-detail-panel.component';
 
 @Component({
@@ -28,7 +28,7 @@ export class BalanceDetailComponent implements OnInit {
   private readonly previousRouteService = inject(PreviousRouteService);
   private readonly balanceFilterService = inject(BalanceFilterService);
   constructor() {
-    this.bean = toBeanFromHistory(createBalance, defaultJsonToBean);
+    this.bean = toBeanFromHistory(createBalance);
   }
 
   ngOnInit(): void {
