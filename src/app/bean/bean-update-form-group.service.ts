@@ -1,4 +1,4 @@
-import { Bean, toBean } from './bean';
+import { Bean, toBeanFromHistory } from './bean';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 export class BeanUpdateFormGroupService<T extends Bean> {
@@ -13,7 +13,7 @@ export class BeanUpdateFormGroupService<T extends Bean> {
   ) {}
 
   public getBeanFromHistory(): T {
-    this.bean ??= toBean(history.state.bean, this.beanCreateFunction, this.jsonToBeanFunction);
+    this.bean ??= toBeanFromHistory(this.beanCreateFunction, this.jsonToBeanFunction);
     return this.bean;
   }
 

@@ -17,12 +17,10 @@ import { EntryUpdateComponent } from './entry/entry-update.component';
 import { EntryDetailComponent } from './entry/entry-detail.component';
 import { CategoryDetailComponent } from './category/category-detail.component';
 import { AccountDetailComponent } from './account/account-detail.component';
-import { OwnerDetailComponent } from './owner/owner-detail.component';
 import { BalanceListComponent } from './owner-equity-account-initial-value/balance-list.component';
 import { BalanceDetailComponent } from './owner-equity-account-initial-value/balance-detail.component';
 import { OwnerEquityAccountInitialValueUpdateComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update.component';
 import { OwnerEquityAccountInitialValueInsertComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-insert.component';
-import { BeanDetailPanelComponent } from './bean/bean-detail-panel.component';
 import { BeanListPanelComponent } from './bean/bean-list-panel.component';
 import { BeanInsertPanelComponent } from './bean/bean-insert-panel.component';
 import { OwnerUpdateFormGroupService } from './owner/owner-update-form-group.service';
@@ -36,6 +34,7 @@ import { AccountInsertFormGroupService } from './account/account-insert-form-gro
 import { CategoryInsertFormGroupService } from './category/category-insert-form-group.service';
 import { OwnerInsertFormGroupService } from './owner/owner-insert-form-group.service';
 import { OwnerEquityAccountInitialValueUpdateFormGroupService } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update-form-group.service';
+import { OwnerDetailComponent } from './owner/owner-detail.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -76,12 +75,7 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
-        data: {
-          beanDetailComponent: BalanceDetailComponent,
-          serviceName: 'Balance',
-          routerName: 'balances',
-        },
+        component: BalanceDetailComponent,
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
     ],
@@ -125,11 +119,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: EntryDetailComponent,
         data: {
-          beanDetailComponent: EntryDetailComponent,
-          serviceName: 'CreditEntry',
-          routerName: 'creditEntries',
+          type: 'Credit',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -174,11 +166,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: EntryDetailComponent,
         data: {
-          beanDetailComponent: EntryDetailComponent,
-          serviceName: 'DebitEntry',
-          routerName: 'debitEntries',
+          type: 'Debit',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -227,11 +217,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: EntryDetailComponent,
         data: {
-          beanDetailComponent: EntryDetailComponent,
-          serviceName: 'TransferEntry',
-          routerName: 'transferEntries',
+          type: 'Transfer',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -278,11 +266,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: AccountDetailComponent,
         data: {
-          beanDetailComponent: AccountDetailComponent,
-          serviceName: 'CreditAccount',
-          routerName: 'creditAccounts',
+          type: 'Credit',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -329,11 +315,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: AccountDetailComponent,
         data: {
-          beanDetailComponent: AccountDetailComponent,
-          serviceName: 'DebitAccount',
-          routerName: 'debitAccounts',
+          type: 'Debit',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -380,11 +364,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: AccountDetailComponent,
         data: {
-          beanDetailComponent: AccountDetailComponent,
-          serviceName: 'EquityAccount',
-          routerName: 'equityAccounts',
+          type: 'Equity',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -429,11 +411,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: CategoryDetailComponent,
         data: {
-          beanDetailComponent: CategoryDetailComponent,
-          serviceName: 'CreditCategory',
-          routerName: 'creditCategories',
+          type: 'Credit',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -478,11 +458,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: CategoryDetailComponent,
         data: {
-          beanDetailComponent: CategoryDetailComponent,
-          serviceName: 'DebitCategory',
-          routerName: 'debitCategories',
+          type: 'Debit',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -527,11 +505,9 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
+        component: CategoryDetailComponent,
         data: {
-          beanDetailComponent: CategoryDetailComponent,
-          serviceName: 'EquityCategory',
-          routerName: 'equityCategories',
+          type: 'Equity',
         },
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -572,12 +548,7 @@ export const routes: Routes = [
       },
       {
         path: 'detail',
-        component: BeanDetailPanelComponent,
-        data: {
-          beanDetailComponent: OwnerDetailComponent,
-          serviceName: 'Owner',
-          routerName: 'owners',
-        },
+        component: OwnerDetailComponent,
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
     ],
