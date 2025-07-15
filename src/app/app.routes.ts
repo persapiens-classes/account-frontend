@@ -187,6 +187,7 @@ export const routes: Routes = [
         component: AccountInsertComponent,
         data: {
           type: 'Credit',
+          categoryType: 'Credit',
         },
       },
       {
@@ -225,6 +226,7 @@ export const routes: Routes = [
         component: AccountInsertComponent,
         data: {
           type: 'Debit',
+          categoryType: 'Debit',
         },
       },
       {
@@ -263,6 +265,7 @@ export const routes: Routes = [
         component: AccountInsertComponent,
         data: {
           type: 'Equity',
+          categoryType: 'Equity',
         },
       },
       {
