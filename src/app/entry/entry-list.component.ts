@@ -5,7 +5,6 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Entry } from './entry';
 import { HttpClient } from '@angular/common/http';
-import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
@@ -14,6 +13,8 @@ import { AppMessageService } from '../app-message-service';
 import { EntryListService } from './entry-list-service';
 import { EntryRemoveService } from './entry-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { Observable } from 'rxjs';
+import { loadBeans } from '../bean/bean-list-service';
 
 @Component({
   selector: 'app-entry-list',
@@ -115,20 +116,30 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
     </app-bean-list-panel>
   `,
 })
-export class EntryListComponent extends BeanListComponent<Entry> {
+export class EntryListComponent {
+  beansList$: Observable<Entry[]>;
+  beanName: string;
+  routerName: string;
+  beanListService: EntryListService;
   beanRemoveService: EntryRemoveService;
+  appMessageService = inject(AppMessageService);
 
   constructor() {
     const http = inject(HttpClient);
     const route = inject(ActivatedRoute);
     const type = route.snapshot.data['type'];
-    super(
-      inject(AppMessageService),
-      new EntryListService(http, type),
-      `${type} Entry`,
-      `${type.toLowerCase()}Entries`,
-    );
+    this.beanName = `${type} Entry`;
+    this.routerName = `${type.toLowerCase()}Entries`;
 
+    this.beanListService = new EntryListService(http, type);
     this.beanRemoveService = new EntryRemoveService(http, type);
+
+    /* jscpd:ignore-start */
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
   }
+
+  removed() {
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
+  }
+  /* jscpd:ignore-end */
 }

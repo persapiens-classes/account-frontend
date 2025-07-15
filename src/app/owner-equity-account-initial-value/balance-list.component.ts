@@ -3,7 +3,6 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { BalanceListService } from './balance-list-service';
-import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
@@ -12,6 +11,8 @@ import { AppMessageService } from '../app-message-service';
 import { Balance } from './balance';
 import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-account-initial-value-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { Observable } from 'rxjs';
+import { loadBeans } from '../bean/bean-list-service';
 
 @Component({
   selector: 'app-balance-list',
@@ -90,10 +91,21 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
     </app-bean-list-panel>
   `,
 })
-export class BalanceListComponent extends BeanListComponent<Balance> {
+export class BalanceListComponent {
+  beansList$: Observable<Balance[]>;
+  beanName = 'Balance';
+  routerName = 'balances';
+  beanListService = inject(BalanceListService);
   beanRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
+  appMessageService = inject(AppMessageService);
 
+  /* jscpd:ignore-start */
   constructor() {
-    super(inject(AppMessageService), inject(BalanceListService), 'Balances', 'balances');
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
   }
+
+  removed() {
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
+  }
+  /* jscpd:ignore-end */
 }

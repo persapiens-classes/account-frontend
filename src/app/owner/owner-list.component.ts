@@ -3,7 +3,6 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Owner } from './owner';
-import { BeanListComponent } from '../bean/bean-list.component';
 import { ButtonModule } from 'primeng/button';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
@@ -12,6 +11,8 @@ import { AppMessageService } from '../app-message-service';
 import { OwnerListService } from './owner-list-service';
 import { OwnerRemoveService } from './owner-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { Observable } from 'rxjs';
+import { loadBeans } from '../bean/bean-list-service';
 
 @Component({
   selector: 'app-owner-list',
@@ -67,10 +68,19 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
     </app-bean-list-panel>
   `,
 })
-export class OwnerListComponent extends BeanListComponent<Owner> {
+export class OwnerListComponent {
+  beansList$: Observable<Owner[]>;
+  beanName = 'Owner';
+  routerName = 'owners';
+  beanListService = inject(OwnerListService);
   beanRemoveService = inject(OwnerRemoveService);
+  appMessageService = inject(AppMessageService);
 
   constructor() {
-    super(inject(AppMessageService), inject(OwnerListService), 'Owner', 'owners');
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
+  }
+
+  removed() {
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
   }
 }

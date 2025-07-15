@@ -6,7 +6,6 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Account } from './account';
 import { HttpClient } from '@angular/common/http';
-import { BeanListComponent } from '../bean/bean-list.component';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
@@ -14,6 +13,8 @@ import { AppMessageService } from '../app-message-service';
 import { AccountListService } from './account-list-service';
 import { AccountRemoveService } from './account-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { loadBeans } from '../bean/bean-list-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account-list',
@@ -84,20 +85,28 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
     </app-bean-list-panel>
   `,
 })
-export class AccountListComponent extends BeanListComponent<Account> {
+export class AccountListComponent {
+  beansList$: Observable<Account[]>;
+  beanName: string;
+  routerName: string;
+  beanListService: AccountListService;
   beanRemoveService: AccountRemoveService;
+  appMessageService = inject(AppMessageService);
 
   constructor() {
     const http = inject(HttpClient);
     const route = inject(ActivatedRoute);
     const type = route.snapshot.data['type'];
-    super(
-      inject(AppMessageService),
-      new AccountListService(http, type),
-      `${type} Account`,
-      `${type.toLowerCase()}Accounts`,
-    );
+    this.beanName = `${type} Account`;
+    this.routerName = `${type.toLowerCase()}Accounts`;
 
+    this.beanListService = new AccountListService(http, type);
     this.beanRemoveService = new AccountRemoveService(http, type);
+
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
+  }
+
+  removed() {
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
   }
 }

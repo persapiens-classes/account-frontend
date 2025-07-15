@@ -7,13 +7,14 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Category } from './category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryListService } from './category-list-service';
-import { BeanListComponent } from '../bean/bean-list.component';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
 import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { CategoryRemoveService } from './category-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { loadBeans } from '../bean/bean-list-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-category-list',
@@ -74,20 +75,30 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
     </app-bean-list-panel>
   `,
 })
-export class CategoryListComponent extends BeanListComponent<Category> {
+export class CategoryListComponent {
+  beansList$: Observable<Category[]>;
+  beanName: string;
+  routerName: string;
+  beanListService: CategoryListService;
   beanRemoveService: CategoryRemoveService;
+  appMessageService = inject(AppMessageService);
 
   constructor() {
     const http = inject(HttpClient);
     const route = inject(ActivatedRoute);
     const type = route.snapshot.data['type'];
-    super(
-      inject(AppMessageService),
-      new CategoryListService(http, type),
-      `${type} Category`,
-      `${type.toLowerCase()}Categories`,
-    );
+    this.beanName = `${type} Category`;
+    this.routerName = `${type.toLowerCase()}Categories`;
 
     this.beanRemoveService = new CategoryRemoveService(http, type);
+    this.beanListService = new CategoryListService(http, type);
+
+    /* jscpd:ignore-start */
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
   }
+
+  removed() {
+    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
+  }
+  /* jscpd:ignore-end */
 }
