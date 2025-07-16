@@ -6,7 +6,7 @@ import { MenuComponent } from './menu.component';
 import { HeaderComponent } from './header.component';
 
 @Component({
-  selector: 'app-crud',
+  selector: 'app-layout-component',
   imports: [FormsModule, RouterOutlet, HeaderComponent, MenuComponent, ToastModule],
   template: `
     <p-toast></p-toast>
@@ -19,15 +19,15 @@ import { HeaderComponent } from './header.component';
 
     <router-outlet></router-outlet>
   `,
-  styleUrl: './crud-bean-page.component.scss',
+  styleUrl: './layout.component.scss',
 })
-export class CrudBeanPageComponent {
+export class LayoutComponent {
   title: string;
   titleClass: string;
 
   constructor() {
-    const route = inject(ActivatedRoute);
-    this.title = route.snapshot.data['title'];
-    this.titleClass = route.snapshot.data['titleClass'];
+    const activatedRoute = inject(ActivatedRoute);
+    this.title = activatedRoute.snapshot.data['title'];
+    this.titleClass = activatedRoute.snapshot.data['titleClass'];
   }
 }
