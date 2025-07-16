@@ -126,8 +126,8 @@ export class EntryListComponent {
 
   constructor() {
     const http = inject(HttpClient);
-    const route = inject(ActivatedRoute);
-    const type = route.snapshot.data['type'];
+    const activatedRoute = inject(ActivatedRoute);
+    const type = activatedRoute.snapshot.data['type'];
     this.beanName = `${type} Entry`;
     this.routerName = `${type.toLowerCase()}Entries`;
 
