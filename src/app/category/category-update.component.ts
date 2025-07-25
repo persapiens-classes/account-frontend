@@ -30,11 +30,7 @@ import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-input-field
-        label="Description"
-        [autoFocus]="true"
-        [control]="formGroup.get('inputDescription')!"
-      />
+      <app-input-field label="Description" [autoFocus]="true" formControlName="inputDescription" />
     </app-bean-update-panel>
   `,
 })

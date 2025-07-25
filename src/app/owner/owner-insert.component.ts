@@ -17,7 +17,7 @@ import { OwnerInsertService } from './owner-insert-service';
       [beanName]="'Owner'"
       [routerName]="'owners'"
     >
-      <app-input-field label="Name" [autoFocus]="true" [control]="formGroup.get('inputName')!" />
+      <app-input-field label="Name" [autoFocus]="true" formControlName="inputName" />
     </app-bean-insert-panel>
   `,
 })

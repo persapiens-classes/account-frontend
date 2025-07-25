@@ -28,7 +28,7 @@ import { toBeanFromHistory } from '../bean/bean';
       [beanName]="'Owner'"
       [routerName]="'owners'"
     >
-      <app-input-field label="Name" [autoFocus]="true" [control]="formGroup.get('inputName')!" />
+      <app-input-field label="Name" [autoFocus]="true" formControlName="inputName" />
     </app-bean-update-panel>
   `,
 })

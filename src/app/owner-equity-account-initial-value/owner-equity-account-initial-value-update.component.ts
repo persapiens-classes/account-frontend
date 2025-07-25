@@ -45,7 +45,7 @@ import { toBeanFromHistory } from '../bean/bean';
       <app-number-field
         label="Initial Value"
         [autoFocus]="true"
-        [control]="formGroup.get('inputInitialValue')!"
+        formControlName="inputInitialValue"
       />
     </app-bean-update-panel>
   `,

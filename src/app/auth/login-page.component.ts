@@ -35,11 +35,7 @@ import { AppMessageService } from '../app-message-service';
         <h1>Welcome to Account</h1>
 
         <form [formGroup]="form">
-          <app-input-field
-            label="Username"
-            [autoFocus]="true"
-            [control]="form.get('inputUsername')!"
-          />
+          <app-input-field label="Username" [autoFocus]="true" formControlName="inputUsername" />
 
           <p-float-label variant="in" class="margin-bottom">
             <p-password
