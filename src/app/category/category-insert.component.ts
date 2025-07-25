@@ -19,11 +19,7 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-input-field
-        label="Description"
-        [autoFocus]="true"
-        [control]="formGroup.get('inputDescription')!"
-      />
+      <app-input-field label="Description" [autoFocus]="true" formControlName="inputDescription" />
     </app-bean-insert-panel>
   `,
 })

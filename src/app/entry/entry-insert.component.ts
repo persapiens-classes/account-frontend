@@ -35,14 +35,14 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-date-field label="Date" [autoFocus]="true" [control]="formGroup.get('inputDate')!" />
+      <app-date-field label="Date" [autoFocus]="true" formControlName="inputDate" />
 
       <app-select-field
         label="In Owner"
         placeholder="Select in owner"
         optionLabel="name"
         [options]="(owners$ | async)!"
-        [control]="formGroup.get('selectInOwner')!"
+        formControlName="selectInOwner"
       />
 
       <app-select-field
@@ -50,7 +50,7 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
         placeholder="Select in account"
         optionLabel="description"
         [options]="(inAccounts$ | async)!"
-        [control]="formGroup.get('selectInAccount')!"
+        formControlName="selectInAccount"
       />
 
       <app-select-field
@@ -58,7 +58,7 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
         placeholder="Select out owner"
         optionLabel="name"
         [options]="(owners$ | async)!"
-        [control]="formGroup.get('selectOutOwner')!"
+        formControlName="selectOutOwner"
       />
 
       <app-select-field
@@ -66,12 +66,12 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
         placeholder="Select out account"
         optionLabel="description"
         [options]="(outAccounts$ | async)!"
-        [control]="formGroup.get('selectOutAccount')!"
+        formControlName="selectOutAccount"
       />
 
-      <app-number-field label="Value" [control]="formGroup.get('inputValue')!" />
+      <app-number-field label="Value" formControlName="inputValue" />
 
-      <app-input-field label="Note" [control]="formGroup.get('inputNote')!" />
+      <app-input-field label="Note" formControlName="inputNote" />
     </app-bean-insert-panel>
   `,
 })

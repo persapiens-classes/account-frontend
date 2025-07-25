@@ -36,7 +36,7 @@ import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-acco
         [autoFocus]="true"
         optionLabel="name"
         [options]="(owners$ | async)!"
-        [control]="formGroup.get('selectOwner')!"
+        formControlName="selectOwner"
       />
 
       <app-select-field
@@ -44,10 +44,10 @@ import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-acco
         placeholder="Select equity account"
         optionLabel="description"
         [options]="(equityAccounts$ | async)!"
-        [control]="formGroup.get('selectEquityAccount')!"
+        formControlName="selectEquityAccount"
       />
 
-      <app-number-field label="Initial Value" [control]="formGroup.get('inputInitialValue')!" />
+      <app-number-field label="Initial Value" formControlName="inputInitialValue" />
     </app-bean-insert-panel>
   `,
 })
