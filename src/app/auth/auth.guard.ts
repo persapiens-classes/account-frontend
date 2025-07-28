@@ -1,19 +1,9 @@
-import { inject, Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
+import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthGuard implements CanActivate {
-  private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
-
-  canActivate(): boolean {
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-      return false;
-    }
-    return true;
-  }
-}
+// https://angular.dev/guide/routing/route-guards#canactivate
+// eslint-disable-next-line sonarjs/function-return-type
+export const authGuard: CanActivateFn = () => {
+  return inject(AuthService).isAuthenticated() ? true : inject(Router).createUrlTree(['/login']);
+};
