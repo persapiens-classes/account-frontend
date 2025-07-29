@@ -20,11 +20,11 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/platform-browser-dynamic": "^20.1.0",
     "@angular/router": "^20.1.0",
-    "@primeng/themes": "^20.0.0",
+    "@primeng/themes": "^20.0.1",
     "account": "file:",
     "jwt-decode": "^4.0.0",
     "primeicons": "^7.0.0",
-    "primeng": "^20.0.0",
+    "primeng": "^20.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
