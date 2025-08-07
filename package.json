@@ -32,7 +32,7 @@
   "devDependencies": {
     "@angular/build": "^20.1.0",
     "@angular/cli": "^20.1.0",
-    "@angular/compiler-cli": "^20.1.0",
+    "@angular/compiler-cli": "^20.1.6",
     "@types/jasmine": "~5.1.0",
     "angular-cli-ghpages": "^2.0.3",
     "angular-eslint": "20.1.1",
