@@ -18,7 +18,7 @@
     "@angular/core": "^20.1.0",
     "@angular/forms": "^20.1.0",
     "@angular/platform-browser": "^20.1.0",
-    "@angular/platform-browser-dynamic": "^20.1.0",
+    "@angular/platform-browser-dynamic": "^20.1.6",
     "@angular/router": "^20.1.0",
     "@primeng/themes": "^20.0.1",
     "account": "file:",
