@@ -48,6 +48,6 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "prettier": "^3.5.3",
     "typescript": "~5.9.2",
-    "typescript-eslint": "^8.38.0"
+    "typescript-eslint": "^8.41.0"
   }
 }
