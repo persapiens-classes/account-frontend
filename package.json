@@ -17,7 +17,7 @@
     "@angular/core": "^20.2.0",
     "@angular/forms": "^20.2.0",
     "@angular/platform-browser": "^20.2.0",
-    "@angular/router": "^20.2.0",
+    "@angular/router": "^20.2.2",
     "@primeng/themes": "^20.0.1",
     "account": "file:",
     "jwt-decode": "^4.0.0",
