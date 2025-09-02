@@ -11,6 +11,6 @@ import { RouterOutlet } from '@angular/router';
       <router-outlet></router-outlet>
     </main>
   `,
-  styleUrl: './app.component.scss',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {}

@@ -54,7 +54,7 @@ import { AppMessageService } from '../app-message-service';
       </div>
     </p-panel>
   `,
-  styleUrl: './login-page.component.scss',
+  styleUrl: './login-page.component.css',
 })
 export class LoginPageComponent {
   form: FormGroup;

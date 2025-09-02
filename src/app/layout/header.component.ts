@@ -16,7 +16,7 @@ import { MenubarModule } from 'primeng/menubar';
       <p-button pTooltip="Logout" icon="pi pi-sign-out" (click)="logout()" severity="danger" />
     </div>
   `,
-  styleUrl: './header.component.scss',
+  styleUrl: './header.component.css',
 })
 export class HeaderComponent {
   private readonly authService = inject(AuthService);
