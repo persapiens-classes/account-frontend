@@ -5,22 +5,10 @@ import { CommonModule } from '@angular/common';
   selector: 'app-detail-field',
   imports: [CommonModule],
   template: `
-    <div class="margin-bottom detail-field">
-      <strong>{{ strong }}</strong>
-      {{ value }}
+    <div class="flex items-center mb-2.5">
+      <strong class="inline-block w-[130px] font-bold">{{ strong }}</strong>
+      <span>{{ value }}</span>
     </div>
-  `,
-  styles: `
-    .detail-field {
-      display: flex;
-      align-items: center;
-    }
-
-    .detail-field strong {
-      display: inline-block;
-      width: 130px;
-      font-weight: bold;
-    }
   `,
 })
 export class DetailFieldComponent {

@@ -15,7 +15,7 @@ import { HeaderComponent } from './header.component';
 
     <app-menu />
 
-    <h2 class="{{ titleClass }}">{{ title }}</h2>
+    <h2 class="{{ titleClass }} mb-4 mt-4 text-2xl">{{ title }}</h2>
 
     <router-outlet></router-outlet>
   `,

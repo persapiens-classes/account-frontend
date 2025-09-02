@@ -18,7 +18,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     FormsModule,
   ],
   template: `
-    <p-float-label variant="in" class="margin-bottom">
+    <p-float-label variant="in" class="mb-2.5">
       <p-inputnumber
         [id]="id"
         [name]="name"
@@ -35,7 +35,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     </p-float-label>
     <div
       *ngIf="ngControl?.invalid && (ngControl?.dirty || ngControl?.touched)"
-      class="alert margin-bottom"
+      class="alert mb-2.5"
     >
       <div *ngIf="ngControl?.errors?.['required']">{{ label }} is required.</div>
       <div *ngIf="ngControl?.errors?.['minlength']">

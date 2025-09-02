@@ -9,14 +9,13 @@ import { MenubarModule } from 'primeng/menubar';
   selector: 'app-header',
   imports: [ButtonModule, TooltipModule, MenubarModule],
   template: `
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <img src="images/account.png" class="account-image" alt="Account logo" />
-      <h1 class="account-font">Account</h1>
-      <span style="margin-left: auto;">{{ authenticatedLogin() }}</span>
+    <div class="flex items-center gap-2.5 mb-3">
+      <img src="images/account.png" class="w-[70px] h-auto self-center" alt="Account logo" />
+      <h1 class="font-serif italic text-3xl">Account</h1>
+      <span class="ml-auto">{{ authenticatedLogin() }}</span>
       <p-button pTooltip="Logout" icon="pi pi-sign-out" (click)="logout()" severity="danger" />
     </div>
   `,
-  styleUrl: './header.component.css',
 })
 export class HeaderComponent {
   private readonly authService = inject(AuthService);

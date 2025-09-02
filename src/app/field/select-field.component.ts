@@ -9,7 +9,7 @@ import { Bean } from '../bean/bean';
   selector: 'app-select-field',
   imports: [CommonModule, FloatLabelModule, SelectModule, FormsModule],
   template: `
-    <p-float-label variant="in" class="margin-bottom">
+    <p-float-label variant="in" class="mb-2.5">
       <p-select
         [id]="id"
         [name]="name"
@@ -26,7 +26,7 @@ import { Bean } from '../bean/bean';
     </p-float-label>
     <div
       *ngIf="ngControl?.invalid && (ngControl?.dirty || ngControl?.touched)"
-      class="alert margin-bottom"
+      class="alert mb-2.5"
     >
       <div *ngIf="ngControl?.errors?.['required']">{{ label }} is required.</div>
     </div>

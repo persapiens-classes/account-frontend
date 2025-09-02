@@ -12,12 +12,7 @@ import { Component, inject, Input } from '@angular/core';
     <p-panel header="Detail">
       <ng-content></ng-content>
 
-      <p-button
-        icon="pi pi-list"
-        (onClick)="list()"
-        [style]="{ 'margin-right': '10px' }"
-        pTooltip="Back to List"
-      />
+      <p-button icon="pi pi-list" (onClick)="list()" class="mr-3" pTooltip="Back to List" />
       <p-button icon="pi pi-pencil" (onClick)="startUpdate()" pTooltip="Start Edit" />
     </p-panel>
   `,

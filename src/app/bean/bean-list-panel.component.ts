@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
   template: `
     <p-panel header="List">
       <ng-template pTemplate="header">
-        <div class="list-header">
+        <div class="flex justify-between items-center w-full ml-2.5">
           <p-button
             icon="pi pi-plus"
             (onClick)="startInsert()"
@@ -22,15 +22,6 @@ import { ButtonModule } from 'primeng/button';
 
       <ng-content></ng-content>
     </p-panel>
-  `,
-  styles: `
-    .list-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      margin-left: 10px;
-    }
   `,
 })
 export class BeanListPanelComponent {

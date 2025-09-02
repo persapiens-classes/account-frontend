@@ -29,15 +29,19 @@ import { AppMessageService } from '../app-message-service';
     InputFieldComponent,
   ],
   template: `
-    <p-panel class="container">
-      <div class="container">
-        <img src="images/account.png" class="login-image" alt="Account logo" />
-        <h1>Welcome to Account</h1>
+    <p-panel class="w-[420px] mx-auto">
+      <div class="flex flex-col items-center p-5">
+        <img
+          src="images/account.png"
+          class="w-[70px] h-auto mb-8 mt-6 self-center"
+          alt="Account logo"
+        />
+        <h1 class="text-[2em] font-bold mb-4">Welcome to Account</h1>
 
         <form [formGroup]="form">
           <app-input-field label="Username" [autoFocus]="true" formControlName="inputUsername" />
 
-          <p-float-label variant="in" class="margin-bottom">
+          <p-float-label variant="in" class="mb-2.5">
             <p-password
               id="password"
               [toggleMask]="true"
@@ -54,7 +58,6 @@ import { AppMessageService } from '../app-message-service';
       </div>
     </p-panel>
   `,
-  styleUrl: './login-page.component.css',
 })
 export class LoginPageComponent {
   form: FormGroup;
