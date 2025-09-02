@@ -19,7 +19,7 @@ import { HeaderComponent } from './header.component';
 
     <router-outlet></router-outlet>
   `,
-  styleUrl: './layout.component.scss',
+  styleUrl: './layout.component.css',
 })
 export class LayoutComponent {
   title: string;

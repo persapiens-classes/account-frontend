@@ -1,12 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'primeicons/primeicons.css';
 
+/* mb-2.5 */
 .margin-bottom {
   margin-bottom: 10px;
 }
 
 /* stylelint-disable selector-type-no-unknown */
-// change p-columnFilter p-inputtext width
+/* change p-columnFilter p-inputtext width */
 p-columnFilter .p-inputtext {
   width: 110px !important;
 }
