@@ -4,10 +4,11 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MenuComponent } from './menu.component';
 import { HeaderComponent } from './header.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-layout-component',
-  imports: [FormsModule, RouterOutlet, HeaderComponent, MenuComponent, ToastModule],
+  imports: [FormsModule, RouterOutlet, HeaderComponent, MenuComponent, ToastModule, CommonModule],
   template: `
     <p-toast></p-toast>
 
@@ -15,11 +16,10 @@ import { HeaderComponent } from './header.component';
 
     <app-menu />
 
-    <h2 class="{{ titleClass }} mb-4 mt-4 text-2xl">{{ title }}</h2>
+    <h2 class="mb-4 mt-4 text-2xl" [ngClass]="titleClass">{{ title }}</h2>
 
     <router-outlet></router-outlet>
   `,
-  styleUrl: './layout.component.css',
 })
 export class LayoutComponent {
   title: string;
@@ -28,6 +28,14 @@ export class LayoutComponent {
   constructor() {
     const activatedRoute = inject(ActivatedRoute);
     this.title = activatedRoute.snapshot.data['title'];
-    this.titleClass = activatedRoute.snapshot.data['titleClass'];
+
+    type TitleColor = 'blue' | 'green' | 'red';
+
+    this.titleClass =
+      {
+        blue: 'text-sky-400',
+        green: 'text-green-300',
+        red: 'text-red-600',
+      }[activatedRoute.snapshot.data['titleClass'] as TitleColor] ?? '';
   }
 }
