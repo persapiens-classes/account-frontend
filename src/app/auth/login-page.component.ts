@@ -29,7 +29,7 @@ import { AppMessageService } from '../app-message-service';
     InputFieldComponent,
   ],
   template: `
-    <p-panel class="w-[420px] mx-auto">
+    <p-panel class="w-[480px] mx-auto">
       <div class="flex flex-col items-center p-5">
         <img
           src="images/account.png"
