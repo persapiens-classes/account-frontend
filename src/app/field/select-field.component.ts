@@ -24,12 +24,13 @@ import { Bean } from '../bean/bean';
       />
       <label [for]="id">{{ label }}</label>
     </p-float-label>
-    <div
-      *ngIf="ngControl?.invalid && (ngControl?.dirty || ngControl?.touched)"
-      class="alert mb-2.5"
-    >
-      <div *ngIf="ngControl?.errors?.['required']">{{ label }} is required.</div>
-    </div>
+    @if (ngControl?.invalid && (ngControl?.dirty || ngControl?.touched)) {
+      <div class="alert mb-2.5">
+        @if (ngControl?.errors?.['required']) {
+          <div>{{ label }} is required.</div>
+        }
+      </div>
+    }
   `,
 })
 export class SelectFieldComponent implements ControlValueAccessor {

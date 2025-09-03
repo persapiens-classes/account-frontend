@@ -13,19 +13,21 @@ import { AppMessageService } from '../app-message-service';
   selector: 'app-bean-insert-panel',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
   template: `
-    <form *ngIf="formGroup" [formGroup]="formGroup">
-      <p-panel header="New">
-        <ng-content></ng-content>
+    <form [formGroup]="formGroup">
+      @if (formGroup) {
+        <p-panel header="New">
+          <ng-content></ng-content>
 
-        <p-button
-          icon="pi pi-check"
-          (onClick)="insert()"
-          class="mr-3"
-          [disabled]="formGroup.invalid"
-          pTooltip="Save"
-        />
-        <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list" />
-      </p-panel>
+          <p-button
+            icon="pi pi-check"
+            (onClick)="insert()"
+            class="mr-3"
+            [disabled]="formGroup.invalid"
+            pTooltip="Save"
+          />
+          <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list" />
+        </p-panel>
+      }
     </form>
   `,
 })

@@ -13,25 +13,27 @@ import { AppMessageService } from '../app-message-service';
   selector: 'app-bean-update-panel',
   imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
   template: `
-    <form *ngIf="formGroup" [formGroup]="formGroup">
-      <p-panel header="Edit">
-        <ng-content></ng-content>
+    <form [formGroup]="formGroup">
+      @if (formGroup) {
+        <p-panel header="Edit">
+          <ng-content></ng-content>
 
-        <p-button
-          icon="pi pi-check"
-          (onClick)="update()"
-          class="mr-3"
-          [disabled]="formGroup.invalid"
-          pTooltip="Save the category"
-        />
-        <p-button
-          icon="pi pi-list"
-          (onClick)="cancelToList()"
-          class="mr-3"
-          pTooltip="Cancel to list"
-        />
-        <p-button icon="pi pi-search" (onClick)="cancelToDetail()" pTooltip="Cancel to detail" />
-      </p-panel>
+          <p-button
+            icon="pi pi-check"
+            (onClick)="update()"
+            class="mr-3"
+            [disabled]="formGroup.invalid"
+            pTooltip="Save the category"
+          />
+          <p-button
+            icon="pi pi-list"
+            (onClick)="cancelToList()"
+            class="mr-3"
+            pTooltip="Cancel to list"
+          />
+          <p-button icon="pi pi-search" (onClick)="cancelToDetail()" pTooltip="Cancel to detail" />
+        </p-panel>
+      }
     </form>
   `,
 })
