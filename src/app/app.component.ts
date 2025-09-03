@@ -7,10 +7,9 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [FormsModule, PanelModule, RouterOutlet],
   template: `
-    <main class="main">
+    <main class="p-4 font-sans text-[18px]">
       <router-outlet></router-outlet>
     </main>
   `,
-  styleUrl: './app.component.css',
 })
 export class AppComponent {}

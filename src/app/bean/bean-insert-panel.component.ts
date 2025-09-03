@@ -20,7 +20,7 @@ import { AppMessageService } from '../app-message-service';
         <p-button
           icon="pi pi-check"
           (onClick)="insert()"
-          [style]="{ 'margin-right': '10px' }"
+          class="mr-3"
           [disabled]="formGroup.invalid"
           pTooltip="Save"
         />

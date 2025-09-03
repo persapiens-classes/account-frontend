@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
       icon="pi pi-search"
       (onClick)="startDetail(item)"
       pTooltip="Detail the account"
-      [style]="{ 'margin-right': '15px' }"
+      class="mr-4"
     />
   `,
 })

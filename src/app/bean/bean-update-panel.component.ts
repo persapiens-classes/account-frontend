@@ -20,14 +20,14 @@ import { AppMessageService } from '../app-message-service';
         <p-button
           icon="pi pi-check"
           (onClick)="update()"
-          [style]="{ 'margin-right': '10px' }"
+          class="mr-3"
           [disabled]="formGroup.invalid"
           pTooltip="Save the category"
         />
         <p-button
           icon="pi pi-list"
           (onClick)="cancelToList()"
-          [style]="{ 'margin-right': '10px' }"
+          class="mr-3"
           pTooltip="Cancel to list"
         />
         <p-button icon="pi pi-search" (onClick)="cancelToDetail()" pTooltip="Cancel to detail" />

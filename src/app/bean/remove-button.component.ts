@@ -23,7 +23,7 @@ import { BeanRemoveService } from './bean-remove-service';
       icon="pi pi-trash"
       (onClick)="remove($event)"
       pTooltip="Delete the account"
-      [style]="{ 'margin-right': '10px' }"
+      class="mr-3"
     />
   `,
 })

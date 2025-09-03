@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
       icon="pi pi-pencil"
       (onClick)="startUpdate(item)"
       pTooltip="Edit the account"
-      [style]="{ 'margin-right': '15px' }"
+      class="mr-4"
     />
   `,
 })
