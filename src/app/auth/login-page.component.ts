@@ -29,14 +29,14 @@ import { AppMessageService } from '../app-message-service';
     InputFieldComponent,
   ],
   template: `
-    <p-panel class="w-[480px] mx-auto">
+    <p-panel class="w-[420px] mx-auto">
       <div class="flex flex-col items-center p-5">
         <img
           src="images/account.png"
           class="w-[70px] h-auto mb-8 mt-6 self-center"
           alt="Account logo"
         />
-        <h1 class="text-[2em] font-bold mb-4">Welcome to Account</h1>
+        <h1 class="text-[1.5em] font-bold mb-4">Welcome to Account</h1>
 
         <form [formGroup]="form">
           <app-input-field label="Username" [autoFocus]="true" formControlName="inputUsername" />
