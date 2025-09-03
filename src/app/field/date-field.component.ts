@@ -31,15 +31,16 @@ import { DatePickerModule } from 'primeng/datepicker';
       />
       <label [for]="id">{{ label }}</label>
     </p-float-label>
-    <div
-      *ngIf="ngControl?.invalid && (ngControl?.dirty || ngControl?.touched)"
-      class="alert mb-2.5"
-    >
-      <div *ngIf="ngControl?.errors?.['required']">{{ label }} is required.</div>
-      <div *ngIf="ngControl?.errors?.['minlength']">
-        {{ label }} must be at least 3 characters long.
+    @if (ngControl?.invalid && (ngControl?.dirty || ngControl?.touched)) {
+      <div class="alert mb-2.5">
+        @if (ngControl?.errors?.['required']) {
+          <div>{{ label }} is required.</div>
+        }
+        @if (ngControl?.errors?.['minlength']) {
+          <div>{{ label }} must be at least 3 characters long.</div>
+        }
       </div>
-    </div>
+    }
   `,
 })
 export class DateFieldComponent implements ControlValueAccessor {
