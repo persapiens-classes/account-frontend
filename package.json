@@ -15,7 +15,7 @@
     "@angular/common": "^20.2.0",
     "@angular/compiler": "^20.2.0",
     "@angular/core": "^20.2.0",
-    "@angular/forms": "^20.2.0",
+    "@angular/forms": "^20.2.4",
     "@angular/platform-browser": "^20.2.0",
     "@angular/router": "^20.2.0",
     "@primeuix/themes": "^1.2.3",
