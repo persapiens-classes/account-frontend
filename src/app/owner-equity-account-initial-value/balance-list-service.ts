@@ -1,16 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, WritableSignal } from '@angular/core';
+import { BeanListService, loadBeans } from '../bean/bean-list-service';
+import { AppMessageService } from '../app-message-service';
 import { Balance, createBalance } from './balance';
-import { BeanListService, findAllBeans } from '../bean/bean-list-service';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BalanceListService implements BeanListService<Balance> {
-  private readonly http = inject(HttpClient);
-
-  findAll(): Observable<Balance[]> {
-    return findAllBeans(this.http, 'balances', createBalance);
+  findAll(): WritableSignal<Balance[]> {
+    return loadBeans(inject(AppMessageService), 'Balance', 'balances', createBalance);
   }
 }

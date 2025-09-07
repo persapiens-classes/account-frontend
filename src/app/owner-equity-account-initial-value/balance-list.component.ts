@@ -1,23 +1,20 @@
-import { Component, inject } from '@angular/core';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, inject, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { BalanceListService } from './balance-list-service';
 import { ButtonModule } from 'primeng/button';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
 import { RemoveButtonComponent } from '../bean/remove-button.component';
-import { AppMessageService } from '../app-message-service';
 import { Balance } from './balance';
 import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-account-initial-value-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
-import { Observable } from 'rxjs';
-import { loadBeans } from '../bean/bean-list-service';
+
+import { BalanceListService } from './balance-list-service';
 
 @Component({
   selector: 'app-balance-list',
   imports: [
-    AsyncPipe,
     CommonModule,
     TableModule,
     TooltipModule,
@@ -30,7 +27,7 @@ import { loadBeans } from '../bean/bean-list-service';
   template: `
     <app-bean-list-panel [routerName]="routerName">
       <p-table
-        [value]="(beansList$ | async)!"
+        [value]="beansList()"
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
@@ -79,12 +76,26 @@ import { loadBeans } from '../bean/bean-list-service';
             <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
             <td>
               <app-remove-button
+                [beansList]="beansList"
                 [item]="item"
                 [beanRemoveService]="beanRemoveService"
-                beanName="Balance"
-                (removed)="removed()"
+                [beanName]="beanName"
               />
             </td>
+          </tr>
+        </ng-template>
+
+        <ng-template #footer>
+          <tr>
+            <td colspan="2"><strong>Total</strong></td>
+            <td>
+              <strong
+                class="text-xl font-bold"
+                [ngClass]="total() >= 0 ? 'text-green-400' : 'text-red-400'"
+                >{{ total() | number: '1.2-2' }}</strong
+              >
+            </td>
+            <td colspan="4"></td>
           </tr>
         </ng-template>
       </p-table>
@@ -92,20 +103,13 @@ import { loadBeans } from '../bean/bean-list-service';
   `,
 })
 export class BalanceListComponent {
-  beansList$: Observable<Balance[]>;
   beanName = 'Balance';
   routerName = 'balances';
-  beanListService = inject(BalanceListService);
   beanRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
-  appMessageService = inject(AppMessageService);
 
-  /* jscpd:ignore-start */
-  constructor() {
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
-  }
+  beansList = inject(BalanceListService).findAll();
 
-  removed() {
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
-  }
-  /* jscpd:ignore-end */
+  total = computed(() =>
+    this.beansList().reduce((sum: number, b: Balance) => sum + (b.balance ?? 0), 0),
+  );
 }

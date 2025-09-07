@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -13,13 +12,10 @@ import { RemoveButtonComponent } from '../bean/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { CategoryRemoveService } from './category-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
-import { loadBeans } from '../bean/bean-list-service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-category-list',
   imports: [
-    AsyncPipe,
     ButtonModule,
     TableModule,
     TooltipModule,
@@ -32,7 +28,7 @@ import { Observable } from 'rxjs';
   template: `
     <app-bean-list-panel [routerName]="routerName">
       <p-table
-        [value]="(beansList$ | async)!"
+        [value]="beansList()"
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
@@ -63,10 +59,10 @@ import { Observable } from 'rxjs';
             <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
             <td>
               <app-remove-button
+                [beansList]="beansList"
                 [item]="item"
                 [beanRemoveService]="beanRemoveService"
                 [beanName]="beanName"
-                (removed)="removed()"
               />
             </td>
           </tr>
@@ -76,12 +72,11 @@ import { Observable } from 'rxjs';
   `,
 })
 export class CategoryListComponent {
-  beansList$: Observable<Category[]>;
   beanName: string;
   routerName: string;
-  beanListService: CategoryListService;
   beanRemoveService: CategoryRemoveService;
-  appMessageService = inject(AppMessageService);
+
+  beansList: WritableSignal<Category[]>;
 
   constructor() {
     const http = inject(HttpClient);
@@ -89,16 +84,8 @@ export class CategoryListComponent {
     const type = activatedRoute.snapshot.data['type'];
     this.beanName = `${type} Category`;
     this.routerName = `${type.toLowerCase()}Categories`;
-
     this.beanRemoveService = new CategoryRemoveService(http, type);
-    this.beanListService = new CategoryListService(http, type);
 
-    /* jscpd:ignore-start */
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
+    this.beansList = new CategoryListService(inject(AppMessageService), type).findAll();
   }
-
-  removed() {
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
-  }
-  /* jscpd:ignore-end */
 }

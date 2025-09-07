@@ -1,17 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
-import { Observable } from 'rxjs';
 import { Owner } from '../owner/owner';
 import { Account } from '../account/account';
-import { HttpClient } from '@angular/common/http';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-account-initial-value-insert-service';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-insert',
@@ -35,7 +34,7 @@ import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-acco
         placeholder="Select owner"
         [autoFocus]="true"
         optionLabel="name"
-        [options]="(owners$ | async)!"
+        [options]="owners()"
         formControlName="selectOwner"
       />
 
@@ -43,7 +42,7 @@ import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-acco
         label="Equity Account"
         placeholder="Select equity account"
         optionLabel="description"
-        [options]="(equityAccounts$ | async)!"
+        [options]="equityAccounts()"
         formControlName="selectEquityAccount"
       />
 
@@ -55,8 +54,8 @@ export class OwnerEquityAccountInitialValueInsertComponent {
   formGroup: FormGroup;
   beanInsertService = inject(OwnerEquityAccountInitialValueInsertService);
 
-  equityAccounts$: Observable<Account[]>;
-  owners$: Observable<Owner[]>;
+  equityAccounts: WritableSignal<Account[]>;
+  owners: WritableSignal<Owner[]>;
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
@@ -65,8 +64,8 @@ export class OwnerEquityAccountInitialValueInsertComponent {
       inputInitialValue: ['', [Validators.required]],
     });
 
-    this.equityAccounts$ = new AccountListService(inject(HttpClient), 'Equity').findAll();
-    this.owners$ = inject(OwnerListService).findAll();
+    this.equityAccounts = new AccountListService(inject(AppMessageService), 'Equity').findAll();
+    this.owners = inject(OwnerListService).findAll();
   }
 
   createBean(): OwnerEquityAccountInitialValueInsert {

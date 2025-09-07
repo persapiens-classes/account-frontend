@@ -1,15 +1,20 @@
-import { HttpClient } from '@angular/common/http';
+import { WritableSignal } from '@angular/core';
 import { Category, createCategory } from './category';
-import { BeanListService, findAllBeans } from '../bean/bean-list-service';
-import { Observable } from 'rxjs';
+import { BeanListService, loadBeans } from '../bean/bean-list-service';
+import { AppMessageService } from '../app-message-service';
 
 export class CategoryListService implements BeanListService<Category> {
   constructor(
-    private readonly http: HttpClient,
+    private readonly appMessageService: AppMessageService,
     private readonly type: string,
   ) {}
 
-  findAll(): Observable<Category[]> {
-    return findAllBeans(this.http, `${this.type.toLowerCase()}Categories`, createCategory);
+  findAll(): WritableSignal<Category[]> {
+    return loadBeans(
+      this.appMessageService,
+      `${this.type} Category`,
+      `${this.type.toLowerCase()}Categories`,
+      createCategory,
+    );
   }
 }
