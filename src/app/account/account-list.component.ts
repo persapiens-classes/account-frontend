@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -13,13 +12,10 @@ import { AppMessageService } from '../app-message-service';
 import { AccountListService } from './account-list-service';
 import { AccountRemoveService } from './account-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
-import { loadBeans } from '../bean/bean-list-service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account-list',
   imports: [
-    AsyncPipe,
     ButtonModule,
     TableModule,
     TooltipModule,
@@ -32,7 +28,7 @@ import { Observable } from 'rxjs';
   template: `
     <app-bean-list-panel [routerName]="routerName">
       <p-table
-        [value]="(beansList$ | async)!"
+        [value]="beansList()"
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
@@ -73,10 +69,10 @@ import { Observable } from 'rxjs';
             <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
             <td>
               <app-remove-button
+                [beansList]="beansList"
                 [item]="item"
                 [beanRemoveService]="beanRemoveService"
                 [beanName]="beanName"
-                (removed)="removed()"
               />
             </td>
           </tr>
@@ -86,12 +82,11 @@ import { Observable } from 'rxjs';
   `,
 })
 export class AccountListComponent {
-  beansList$: Observable<Account[]>;
   beanName: string;
   routerName: string;
-  beanListService: AccountListService;
   beanRemoveService: AccountRemoveService;
-  appMessageService = inject(AppMessageService);
+
+  beansList: WritableSignal<Account[]>;
 
   constructor() {
     const http = inject(HttpClient);
@@ -99,14 +94,8 @@ export class AccountListComponent {
     const type = activatedRoute.snapshot.data['type'];
     this.beanName = `${type} Account`;
     this.routerName = `${type.toLowerCase()}Accounts`;
-
-    this.beanListService = new AccountListService(http, type);
     this.beanRemoveService = new AccountRemoveService(http, type);
 
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
-  }
-
-  removed() {
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
+    this.beansList = new AccountListService(inject(AppMessageService), type).findAll();
   }
 }

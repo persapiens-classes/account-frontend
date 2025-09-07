@@ -1,16 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Account } from './account';
 import { Category } from '../category/category';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { CategoryListService } from '../category/category-list-service';
 import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { AccountInsertService } from './account-insert-service';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-account-insert',
@@ -35,7 +35,7 @@ import { AccountInsertService } from './account-insert-service';
         label="Category"
         placeholder="Select one category"
         optionLabel="description"
-        [options]="(categories$ | async)!"
+        [options]="categories()"
         formControlName="selectCategory"
       />
     </app-bean-insert-panel>
@@ -47,7 +47,7 @@ export class AccountInsertComponent {
   beanName: string;
   beanInsertService: AccountInsertService;
 
-  categories$: Observable<Category[]>;
+  categories: WritableSignal<Category[]>;
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
@@ -58,8 +58,8 @@ export class AccountInsertComponent {
     const activatedRoute = inject(ActivatedRoute);
     const http = inject(HttpClient);
 
-    this.categories$ = new CategoryListService(
-      http,
+    this.categories = new CategoryListService(
+      inject(AppMessageService),
       activatedRoute.snapshot.data['categoryType'],
     ).findAll();
 

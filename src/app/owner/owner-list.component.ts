@@ -1,23 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
-import { Owner } from './owner';
 import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
 import { RemoveButtonComponent } from '../bean/remove-button.component';
-import { AppMessageService } from '../app-message-service';
-import { OwnerListService } from './owner-list-service';
 import { OwnerRemoveService } from './owner-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
-import { Observable } from 'rxjs';
-import { loadBeans } from '../bean/bean-list-service';
+import { OwnerListService } from './owner-list-service';
 
 @Component({
   selector: 'app-owner-list',
   imports: [
-    AsyncPipe,
     CommonModule,
     TableModule,
     TooltipModule,
@@ -30,7 +25,7 @@ import { loadBeans } from '../bean/bean-list-service';
   template: `
     <app-bean-list-panel [routerName]="routerName">
       <p-table
-        [value]="(beansList$ | async)!"
+        [value]="beansList()"
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
@@ -56,10 +51,10 @@ import { loadBeans } from '../bean/bean-list-service';
             <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
             <td>
               <app-remove-button
+                [beansList]="beansList"
                 [item]="item"
                 [beanRemoveService]="beanRemoveService"
                 [beanName]="beanName"
-                (removed)="removed()"
               />
             </td>
           </tr>
@@ -69,18 +64,9 @@ import { loadBeans } from '../bean/bean-list-service';
   `,
 })
 export class OwnerListComponent {
-  beansList$: Observable<Owner[]>;
   beanName = 'Owner';
   routerName = 'owners';
-  beanListService = inject(OwnerListService);
   beanRemoveService = inject(OwnerRemoveService);
-  appMessageService = inject(AppMessageService);
 
-  constructor() {
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
-  }
-
-  removed() {
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
-  }
+  beansList = inject(OwnerListService).findAll();
 }

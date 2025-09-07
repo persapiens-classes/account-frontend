@@ -1,41 +1,16 @@
-import { HttpClient, HttpErrorResponse, httpResource, HttpResourceRef } from '@angular/common/http';
-import { catchError, map, Observable, of } from 'rxjs';
+import { HttpErrorResponse, httpResource, HttpResourceRef } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Bean, defaultJsonToBean, toBean } from './bean';
 import { AppMessageService } from '../app-message-service';
+import { effect, WritableSignal } from '@angular/core';
 
 export interface BeanListService<T extends Bean> {
-  findAll(): Observable<T[]>;
-}
-
-export function findAllBeans<T extends Bean>(
-  http: HttpClient,
-  routerName: string,
-  beanCreateFunction: () => T,
-  jsonToBeanFunction: (t: T) => T = defaultJsonToBean,
-): Observable<T[]> {
-  const apiUrl = environment.apiUrl + '/' + routerName;
-  return http
-    .get<T[]>(apiUrl)
-    .pipe(map((data) => data.map((bean) => toBean(bean, beanCreateFunction, jsonToBeanFunction))));
-}
-
-export function loadBeans<T extends Bean>(
-  beanListService: BeanListService<T>,
-  appMessageService: AppMessageService,
-  beanName: string,
-): Observable<T[]> {
-  return beanListService.findAll().pipe(
-    catchError((error) => {
-      appMessageService.addErrorMessage(error, `${beanName} not listed`);
-      return of();
-    }),
-  );
+  findAll(): WritableSignal<T[]>;
 }
 
 export type BeanArrayResource<T extends Bean> = HttpResourceRef<T[]>;
 
-export function findAllBeansWithHttpResource<T extends Bean>(
+export function findAllBeans<T extends Bean>(
   routerName: string,
   beanCreateFunction: () => T,
   jsonToBeanFunction: (t: T) => T = defaultJsonToBean,
@@ -53,17 +28,22 @@ export function findAllBeansWithHttpResource<T extends Bean>(
   }) as unknown as BeanArrayResource<T>;
 }
 
-export async function loadBeansWithHttpResource<T extends Bean>(
-  beansResource: ReturnType<typeof findAllBeansWithHttpResource<T>>,
+export function loadBeans<T extends Bean>(
   appMessageService: AppMessageService,
   beanName: string,
-): Promise<T[]> {
-  try {
-    return beansResource.value();
-  } catch (error) {
-    handleHttpResourceError(error, appMessageService, beanName);
-    return [];
-  }
+  routerName: string,
+  beanCreateFunction: () => T,
+  jsonToBeanFunction: (t: T) => T = defaultJsonToBean,
+): WritableSignal<T[]> {
+  const beansResource = findAllBeans(routerName, beanCreateFunction, jsonToBeanFunction);
+
+  effect(() => {
+    if (beansResource.error()) {
+      handleHttpResourceError(beansResource.error(), appMessageService, beanName);
+    }
+  });
+
+  return beansResource.value;
 }
 
 export function handleHttpResourceError(

@@ -1,9 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EntryInsertUpdate } from './entry';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
@@ -15,6 +14,7 @@ import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 import { EntryInsertService } from './entry-insert-service';
 import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-entry-insert',
@@ -41,7 +41,7 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
         label="In Owner"
         placeholder="Select in owner"
         optionLabel="name"
-        [options]="(owners$ | async)!"
+        [options]="owners()"
         formControlName="selectInOwner"
       />
 
@@ -49,7 +49,7 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
         label="In Account"
         placeholder="Select in account"
         optionLabel="description"
-        [options]="(inAccounts$ | async)!"
+        [options]="inAccounts()"
         formControlName="selectInAccount"
       />
 
@@ -57,7 +57,7 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
         label="Out Owner"
         placeholder="Select out owner"
         optionLabel="name"
-        [options]="(owners$ | async)!"
+        [options]="owners()"
         formControlName="selectOutOwner"
       />
 
@@ -65,7 +65,7 @@ import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
         label="Out Account"
         placeholder="Select out account"
         optionLabel="description"
-        [options]="(outAccounts$ | async)!"
+        [options]="outAccounts()"
         formControlName="selectOutAccount"
       />
 
@@ -81,9 +81,9 @@ export class EntryInsertComponent {
   beanName: string;
   beanInsertService: EntryInsertService;
 
-  inAccounts$: Observable<Account[]>;
-  outAccounts$: Observable<Account[]>;
-  owners$: Observable<Owner[]>;
+  inAccounts: WritableSignal<Account[]>;
+  outAccounts: WritableSignal<Account[]>;
+  owners: WritableSignal<Owner[]>;
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
@@ -103,15 +103,15 @@ export class EntryInsertComponent {
     const http = inject(HttpClient);
     this.beanInsertService = new EntryInsertService(http, type);
 
-    this.inAccounts$ = new AccountListService(
-      http,
+    this.inAccounts = new AccountListService(
+      inject(AppMessageService),
       activatedRoute.snapshot.data['inAccountType'],
     ).findAll();
-    this.outAccounts$ = new AccountListService(
-      http,
+    this.outAccounts = new AccountListService(
+      inject(AppMessageService),
       activatedRoute.snapshot.data['outAccountType'],
     ).findAll();
-    this.owners$ = inject(OwnerListService).findAll();
+    this.owners = inject(OwnerListService).findAll();
   }
 
   createBean(): EntryInsertUpdate {

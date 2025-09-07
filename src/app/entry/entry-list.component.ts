@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Entry } from './entry';
@@ -13,13 +13,10 @@ import { AppMessageService } from '../app-message-service';
 import { EntryListService } from './entry-list-service';
 import { EntryRemoveService } from './entry-remove-service';
 import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
-import { Observable } from 'rxjs';
-import { loadBeans } from '../bean/bean-list-service';
 
 @Component({
   selector: 'app-entry-list',
   imports: [
-    AsyncPipe,
     CommonModule,
     TableModule,
     TooltipModule,
@@ -32,7 +29,7 @@ import { loadBeans } from '../bean/bean-list-service';
   template: `
     <app-bean-list-panel [routerName]="routerName">
       <p-table
-        [value]="(beansList$ | async)!"
+        [value]="beansList()"
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
@@ -104,10 +101,10 @@ import { loadBeans } from '../bean/bean-list-service';
             <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
             <td>
               <app-remove-button
+                [beansList]="beansList"
                 [item]="item"
                 [beanRemoveService]="beanRemoveService"
                 [beanName]="beanName"
-                (removed)="removed()"
               />
             </td>
           </tr>
@@ -117,12 +114,11 @@ import { loadBeans } from '../bean/bean-list-service';
   `,
 })
 export class EntryListComponent {
-  beansList$: Observable<Entry[]>;
   beanName: string;
   routerName: string;
-  beanListService: EntryListService;
   beanRemoveService: EntryRemoveService;
-  appMessageService = inject(AppMessageService);
+
+  beansList: WritableSignal<Entry[]>;
 
   constructor() {
     const http = inject(HttpClient);
@@ -131,15 +127,8 @@ export class EntryListComponent {
     this.beanName = `${type} Entry`;
     this.routerName = `${type.toLowerCase()}Entries`;
 
-    this.beanListService = new EntryListService(http, type);
     this.beanRemoveService = new EntryRemoveService(http, type);
 
-    /* jscpd:ignore-start */
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
+    this.beansList = new EntryListService(inject(AppMessageService), type).findAll();
   }
-
-  removed() {
-    this.beansList$ = loadBeans(this.beanListService, this.appMessageService, this.beanName);
-  }
-  /* jscpd:ignore-end */
 }
