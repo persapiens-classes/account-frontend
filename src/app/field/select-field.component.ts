@@ -13,7 +13,6 @@ import { Bean } from '../bean/bean';
       <p-select
         [id]="id"
         [name]="name"
-        placeholder="{{ placeholder }}"
         [autofocus]="autoFocus"
         [options]="options"
         optionLabel="{{ optionLabel }}"
@@ -21,6 +20,7 @@ import { Bean } from '../bean/bean';
         [(ngModel)]="value"
         (onChange)="onSelect($event.value)"
         (onBlur)="onTouched()"
+        class="min-w-[200px] max-w-[300px] w-full"
       />
       <label [for]="id">{{ label }}</label>
     </p-float-label>

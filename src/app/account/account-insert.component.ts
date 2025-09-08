@@ -33,7 +33,6 @@ import { AppMessageService } from '../app-message-service';
 
       <app-select-field
         label="Category"
-        placeholder="Select one category"
         optionLabel="description"
         [options]="categories()"
         formControlName="selectCategory"

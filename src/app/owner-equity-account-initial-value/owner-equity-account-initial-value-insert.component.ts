@@ -31,7 +31,6 @@ import { AppMessageService } from '../app-message-service';
     >
       <app-select-field
         label="Owner"
-        placeholder="Select owner"
         [autoFocus]="true"
         optionLabel="name"
         [options]="owners()"
@@ -40,7 +39,6 @@ import { AppMessageService } from '../app-message-service';
 
       <app-select-field
         label="Equity Account"
-        placeholder="Select equity account"
         optionLabel="description"
         [options]="equityAccounts()"
         formControlName="selectEquityAccount"
