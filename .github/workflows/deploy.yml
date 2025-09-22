@@ -40,7 +40,7 @@ jobs:
         run: npm run lint
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5.3.1
+        uses: SonarSource/sonarqube-scan-action@v6.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         if: github.actor != 'dependabot[bot]'
