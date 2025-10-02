@@ -90,8 +90,8 @@ export class NumberFieldComponent implements ControlValueAccessor {
   }
 
   onValueChange(value: string | number | null): void {
-    const parsedValue = typeof value === 'string' ? parseFloat(value) : value;
-    this.value = isNaN(parsedValue as number) ? null : parsedValue;
+    const parsedValue = typeof value === 'string' ? Number.parseFloat(value) : value;
+    this.value = isNaN(Number(parsedValue)) ? null : parsedValue;
     this.onChange(this.value);
   }
 }

@@ -1,0 +1,18 @@
+{
+  "threshold": 0.1,
+  "reporters": ["console", "json", "html"],
+  "absolute": true,
+  "gitignore": true,
+  "ignore": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.angular/**",
+    "**/coverage/**",
+    "test-setup.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "output": "./report/jscpd/production",
+  "min-lines": 5,
+  "min-tokens": 50
+}

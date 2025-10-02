@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "typescript:S2004": {
+      "level": "off"
+    }
+  }
+}
