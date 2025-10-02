@@ -68,11 +68,11 @@ export class FieldTestUtils {
     expect(component).toBeInstanceOf(componentType);
 
     // Test default values
-    Object.entries(expectedDefaults).forEach(([key, value]) => {
+    for (const [key, value] of Object.entries(expectedDefaults)) {
       const componentRecord = component as Record<string, unknown>;
-      expect(Object.prototype.hasOwnProperty.call(componentRecord, key)).toBe(true);
+      expect(Object.hasOwn(componentRecord, key)).toBe(true);
       expect(componentRecord[key as keyof typeof componentRecord]).toBe(value);
-    });
+    }
   }
 
   /**
@@ -119,11 +119,11 @@ export class FieldTestUtils {
     fixture: ComponentFixture<T>,
     properties: TestProperty<T>[],
   ): void {
-    properties.forEach(({ key, testValue }) => {
+    for (const { key, testValue } of properties) {
       (component as Record<string, unknown>)[key as string] = testValue;
       fixture.detectChanges();
       expect((component as Record<string, unknown>)[key as string]).toBe(testValue);
-    });
+    }
   }
 
   /**
