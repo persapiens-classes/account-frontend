@@ -19,22 +19,26 @@ describe('DateFieldComponent', () => {
 
   describe('Component Initialization', () => {
     it('should create and initialize with default values', () => {
-      FieldTestUtils.testBasicInitialization(component, {
-        id: 'id',
-        name: 'name', 
-        label: '',
-        autoFocus: false,
-        showIcon: true,
-        value: null,
-        isDisabled: false
-      }, DateFieldComponent);
+      FieldTestUtils.testBasicInitialization(
+        component,
+        {
+          id: 'id',
+          name: 'name',
+          label: '',
+          autoFocus: false,
+          showIcon: true,
+          value: null,
+          isDisabled: false,
+        },
+        DateFieldComponent,
+      );
     });
 
     it('should have onChange and onTouched functions', () => {
       expect(typeof component.onChange).toBe('function');
       // onTouched is initially undefined but will be set by registerOnTouched
       expect(component.onTouched).toBeUndefined();
-      
+
       // Test that it can be set
       const mockOnTouched = vi.fn();
       component.registerOnTouched(mockOnTouched);
@@ -48,7 +52,7 @@ describe('DateFieldComponent', () => {
         { key: 'id', testValue: 'test-date-field' },
         { key: 'name', testValue: 'testDateField' },
         { key: 'autoFocus', testValue: true },
-        { key: 'showIcon', testValue: false }
+        { key: 'showIcon', testValue: false },
       ]);
     });
 
@@ -84,7 +88,7 @@ describe('DateFieldComponent', () => {
     it('should handle onDateSelect event', () => {
       const mockOnChange = vi.fn();
       component.registerOnChange(mockOnChange);
-      
+
       const testDate = new Date('2023-12-25');
       component.onDateSelect(testDate);
 
@@ -121,7 +125,7 @@ describe('DateFieldComponent', () => {
     it('should handle date selection with invalid date', () => {
       const mockOnChange = vi.fn();
       component.registerOnChange(mockOnChange);
-      
+
       const invalidDate = new Date('invalid');
       component.onDateSelect(invalidDate);
 

@@ -19,14 +19,18 @@ describe('InputFieldComponent', () => {
 
   describe('Component Initialization', () => {
     it('should create and initialize with default values', () => {
-      FieldTestUtils.testBasicInitialization(component, {
-        id: 'id',
-        name: 'name',
-        label: '',
-        autoFocus: false,
-        value: '',
-        isDisabled: false
-      }, InputFieldComponent);
+      FieldTestUtils.testBasicInitialization(
+        component,
+        {
+          id: 'id',
+          name: 'name',
+          label: '',
+          autoFocus: false,
+          value: '',
+          isDisabled: false,
+        },
+        InputFieldComponent,
+      );
     });
 
     it('should have onChange and onTouched functions', () => {
@@ -40,7 +44,7 @@ describe('InputFieldComponent', () => {
       FieldTestUtils.testBasicInputProperties(component, fixture, [
         { key: 'id', testValue: 'test-input-field' },
         { key: 'name', testValue: 'testInputField' },
-        { key: 'autoFocus', testValue: true }
+        { key: 'autoFocus', testValue: true },
       ]);
     });
 
@@ -52,7 +56,7 @@ describe('InputFieldComponent', () => {
       const testId = 'test-input-field';
       component.id = testId;
       fixture.detectChanges();
-      
+
       const inputElement = fixture.nativeElement.querySelector('input');
       expect(inputElement.id).toBe(testId);
     });
@@ -108,7 +112,7 @@ describe('InputFieldComponent', () => {
 
       const inputElement = fixture.debugElement.query(By.css('input'));
       const newValue = 'Updated Value';
-      
+
       inputElement.triggerEventHandler('ngModelChange', newValue);
 
       expect(mockOnChange).toHaveBeenCalledWith(newValue);
@@ -127,10 +131,10 @@ describe('InputFieldComponent', () => {
 
     it('should update component value when user types', () => {
       fixture.detectChanges();
-      
+
       const inputElement = fixture.nativeElement.querySelector('input') as HTMLInputElement;
       const newValue = 'User Input';
-      
+
       inputElement.value = newValue;
       inputElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
@@ -210,9 +214,9 @@ describe('InputFieldComponent', () => {
       component.name = 'custom-name';
       component.label = 'Custom Label';
       component.autoFocus = true;
-      
+
       fixture.detectChanges();
-      
+
       expect(component.id).toBe('custom-id');
       expect(component.name).toBe('custom-name');
       expect(component.label).toBe('Custom Label');
@@ -232,7 +236,7 @@ describe('InputFieldComponent', () => {
 
       const label = fixture.nativeElement.querySelector('label');
       const input = fixture.nativeElement.querySelector('input');
-      
+
       expect(label.getAttribute('for')).toBe('user-name');
       expect(input.id).toBe('user-name');
     });
@@ -245,7 +249,13 @@ describe('InputFieldComponent', () => {
 
   describe('Form Integration', () => {
     it('should work with reactive forms pattern', () => {
-      FieldTestUtils.testFormIntegration(component, 'Form Value', mockNgControl, 'Required Field', fixture);
+      FieldTestUtils.testFormIntegration(
+        component,
+        'Form Value',
+        mockNgControl,
+        'Required Field',
+        fixture,
+      );
     });
   });
 });

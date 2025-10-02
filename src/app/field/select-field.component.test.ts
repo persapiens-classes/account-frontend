@@ -8,8 +8,11 @@ import { FieldTestUtils, createMockNgControl } from './field-test-utils';
 
 // Mock Bean implementation for testing
 class MockBean implements Bean {
-  constructor(private id: string, public name: string) {}
-  
+  constructor(
+    private id: string,
+    public name: string,
+  ) {}
+
   getId(): string {
     return this.id;
   }
@@ -37,16 +40,20 @@ describe('SelectFieldComponent', () => {
 
   describe('Component Initialization', () => {
     it('should create and initialize with default values', () => {
-      FieldTestUtils.testBasicInitialization(component, {
-        id: 'id',
-        name: 'name',
-        label: '',
-        placeholder: '',
-        autoFocus: false,
-        optionLabel: '',
-        value: null,
-        isDisabled: false
-      }, SelectFieldComponent);
+      FieldTestUtils.testBasicInitialization(
+        component,
+        {
+          id: 'id',
+          name: 'name',
+          label: '',
+          placeholder: '',
+          autoFocus: false,
+          optionLabel: '',
+          value: null,
+          isDisabled: false,
+        },
+        SelectFieldComponent,
+      );
     });
 
     it('should have onChange and onTouched functions', () => {
@@ -66,7 +73,7 @@ describe('SelectFieldComponent', () => {
         { key: 'name', testValue: 'testSelectField' },
         { key: 'placeholder', testValue: 'Select an option...' },
         { key: 'autoFocus', testValue: true },
-        { key: 'optionLabel', testValue: 'name' }
+        { key: 'optionLabel', testValue: 'name' },
       ]);
     });
 
@@ -133,7 +140,7 @@ describe('SelectFieldComponent', () => {
     it('should handle onSelect event', () => {
       const mockOnChange = vi.fn();
       component.registerOnChange(mockOnChange);
-      
+
       const selectedBean = mockBeans[1];
       component.onSelect(selectedBean);
 
@@ -148,7 +155,7 @@ describe('SelectFieldComponent', () => {
 
       const selectElement = fixture.debugElement.query(By.css('p-select'));
       const selectedBean = mockBeans[2];
-      
+
       selectElement.triggerEventHandler('onChange', { value: selectedBean });
 
       expect(component.value).toBe(selectedBean);
@@ -195,7 +202,7 @@ describe('SelectFieldComponent', () => {
       fixture.detectChanges();
 
       expect(component.options.length).toBe(4);
-      expect(component.options.map(o => o.getId())).toEqual(['1', '2', '3', '4']);
+      expect(component.options.map((o) => o.getId())).toEqual(['1', '2', '3', '4']);
     });
 
     it('should handle options with optionLabel', () => {
@@ -204,7 +211,7 @@ describe('SelectFieldComponent', () => {
       fixture.detectChanges();
 
       expect(component.optionLabel).toBe('name');
-      expect(component.options.every(option => (option as any).name)).toBe(true);
+      expect(component.options.every((option) => (option as any).name)).toBe(true);
     });
   });
 
@@ -225,13 +232,18 @@ describe('SelectFieldComponent', () => {
 
     it('should handle selection of different Bean implementations', () => {
       class AnotherBean implements Bean {
-        constructor(private id: string, public description: string) {}
-        getId(): string { return this.id; }
+        constructor(
+          private id: string,
+          public description: string,
+        ) {}
+        getId(): string {
+          return this.id;
+        }
       }
 
       const anotherBean = new AnotherBean('another', 'Another Bean');
       const mixedOptions = [...mockBeans, anotherBean];
-      
+
       component.options = mixedOptions;
       component.onSelect(anotherBean);
 
@@ -303,9 +315,9 @@ describe('SelectFieldComponent', () => {
       component.placeholder = 'Choose...';
       component.autoFocus = true;
       component.optionLabel = 'displayName';
-      
+
       fixture.detectChanges();
-      
+
       expect(component.id).toBe('custom-select');
       expect(component.name).toBe('customSelect');
       expect(component.label).toBe('Custom Select');
@@ -328,13 +340,19 @@ describe('SelectFieldComponent', () => {
 
   describe('Form Integration', () => {
     it('should work with reactive forms pattern', () => {
-      FieldTestUtils.testFormIntegration(component, mockBeans[0], mockNgControl, 'Required Select Field', fixture);
+      FieldTestUtils.testFormIntegration(
+        component,
+        mockBeans[0],
+        mockNgControl,
+        'Required Select Field',
+        fixture,
+      );
     });
 
     it('should handle specific selection operations', () => {
       const mockOnChange = vi.fn();
       component.registerOnChange(mockOnChange);
-      
+
       component.onSelect(mockBeans[1]);
       expect(mockOnChange).toHaveBeenCalledWith(mockBeans[1]);
     });
@@ -343,11 +361,11 @@ describe('SelectFieldComponent', () => {
       // Set initial value
       component.writeValue(mockBeans[0]);
       expect(component.value).toBe(mockBeans[0]);
-      
+
       // Simulate form reset
       component.writeValue(null);
       expect(component.value).toBe(null);
-      
+
       // Ensure component still works after reset
       component.onSelect(mockBeans[2]);
       expect(component.value).toBe(mockBeans[2]);
@@ -356,15 +374,16 @@ describe('SelectFieldComponent', () => {
 
   describe('Performance and Memory', () => {
     it('should handle large option sets efficiently', () => {
-      const largeOptionSet = Array.from({ length: 1000 }, (_, i) => 
-        new MockBean(`id-${i}`, `Option ${i}`)
+      const largeOptionSet = Array.from(
+        { length: 1000 },
+        (_, i) => new MockBean(`id-${i}`, `Option ${i}`),
       );
-      
+
       component.options = largeOptionSet;
       fixture.detectChanges();
-      
+
       expect(component.options.length).toBe(1000);
-      
+
       // Test selection with large dataset
       const selectedOption = largeOptionSet[500];
       component.onSelect(selectedOption);
@@ -374,12 +393,12 @@ describe('SelectFieldComponent', () => {
     it('should handle rapid selection changes', () => {
       const mockOnChange = vi.fn();
       component.registerOnChange(mockOnChange);
-      
+
       // Rapidly change selections
       for (let i = 0; i < mockBeans.length; i++) {
         component.onSelect(mockBeans[i]);
       }
-      
+
       expect(mockOnChange).toHaveBeenCalledTimes(mockBeans.length);
       expect(component.value).toBe(mockBeans[mockBeans.length - 1]);
     });
