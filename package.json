@@ -18,7 +18,11 @@
     "coverage:check": "echo 'Checking coverage files...' && ls -la coverage/ && if [ -f 'coverage/lcov.info' ]; then echo '✅ LCOV file exists'; echo '📊 LCOV file size:' $(wc -l < coverage/lcov.info) 'lines'; else echo '❌ LCOV file missing'; exit 1; fi",
     "test:watch": "vitest --watch",
     "lint": "ng lint",
-    "check-duplication": "jscpd ./src --min-lines 5 --threshold 0.001 --reporters console,json,html"
+    "check-duplication": "npm run check-duplication:production && npm run check-duplication:tests",
+    "check-duplication:verbose": "jscpd --config .jscpdrc.json ./src --verbose",
+    "check-duplication:production": "jscpd --config .jscpdrc.json ./src",
+    "check-duplication:tests": "jscpd --config .jscpdrc.test.json ./src",
+    "check-duplication:all": "npm run check-duplication:production && echo '\\n=== Testing duplication in test files ===' && npm run check-duplication:tests"
   },
   "private": true,
   "dependencies": {

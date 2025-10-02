@@ -25,16 +25,18 @@ jobs:
       - name: Prettier run
         run: npx prettier . --check
 
-      - name: Jscpd run
-        run: npm run check-duplication
+      - name: Jscpd run (Production Code)
+        run: npm run check-duplication:production
+
+      - name: Jscpd run (Test Files)
+        run: npm run check-duplication:tests
 
       - name: Jscpd upload artifacts
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: jscpd
+          name: jscpd-reports
           path: |
-            report/jscpd-report.json
-            report/html
+            report/jscpd/
 
       - name: ESLint run
         run: npm run lint
