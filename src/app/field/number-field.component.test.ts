@@ -1,14 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ComponentFixture } from '@angular/core/testing';
 import { NumberFieldComponent } from './number-field.component';
-import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FieldTestUtils, createMockNgControl } from './field-test-utils';
 
 describe('NumberFieldComponent', () => {
   let component: NumberFieldComponent;
   let fixture: ComponentFixture<NumberFieldComponent>;
-  let mockNgControl: any;
+  let mockNgControl: ReturnType<typeof createMockNgControl>;
 
   beforeEach(async () => {
     mockNgControl = createMockNgControl();

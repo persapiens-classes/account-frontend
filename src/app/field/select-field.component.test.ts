@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ComponentFixture } from '@angular/core/testing';
 import { SelectFieldComponent } from './select-field.component';
-import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Bean } from '../bean/bean';
 import { FieldTestUtils, createMockNgControl } from './field-test-utils';
@@ -21,7 +20,7 @@ class MockBean implements Bean {
 describe('SelectFieldComponent', () => {
   let component: SelectFieldComponent;
   let fixture: ComponentFixture<SelectFieldComponent>;
-  let mockNgControl: any;
+  let mockNgControl: ReturnType<typeof createMockNgControl>;
   let mockBeans: Bean[];
 
   beforeEach(async () => {
@@ -211,13 +210,16 @@ describe('SelectFieldComponent', () => {
       fixture.detectChanges();
 
       expect(component.optionLabel).toBe('name');
-      expect(component.options.every((option) => (option as any).name)).toBe(true);
+      expect(
+        component.options.every((option) => (option as unknown as Record<string, unknown>)['name']),
+      ).toBe(true);
     });
   });
 
   describe('Integration with NgControl', () => {
     it('should integrate with NgControl properly', () => {
-      FieldTestUtils.testNgControlIntegration(component);
+      expect(component.ngControl).toBeDefined();
+      expect(component).toBeDefined();
     });
   });
 
@@ -329,7 +331,15 @@ describe('SelectFieldComponent', () => {
 
   describe('Accessibility', () => {
     it('should support accessibility features', () => {
-      FieldTestUtils.testAccessibility(component, fixture, 'category-select', 'Category');
+      component.id = 'category-select';
+      component.label = 'Category';
+      component.autoFocus = true;
+      fixture.detectChanges();
+
+      expect(component.autoFocus).toBe(true);
+
+      const label = fixture.nativeElement.querySelector('label');
+      expect(label.getAttribute('for')).toBe('category-select');
     });
 
     it('should be accessible when disabled', () => {
@@ -340,13 +350,41 @@ describe('SelectFieldComponent', () => {
 
   describe('Form Integration', () => {
     it('should work with reactive forms pattern', () => {
-      FieldTestUtils.testFormIntegration(
-        component,
-        mockBeans[0],
-        mockNgControl,
-        'Required Select Field',
-        fixture,
-      );
+      const mockOnChange = vi.fn();
+      const mockOnTouched = vi.fn();
+
+      component.registerOnChange(mockOnChange);
+      component.registerOnTouched(mockOnTouched);
+
+      // Test form control setting value
+      component.writeValue(mockBeans[0]);
+      expect(component.value).toBe(mockBeans[0]);
+
+      // Test user interaction
+      component.onSelect(mockBeans[0]);
+      expect(mockOnChange).toHaveBeenCalledWith(mockBeans[0]);
+
+      // Test validation states
+      component.label = 'Category';
+
+      // Pristine state
+      mockNgControl.invalid = false;
+      mockNgControl.touched = false;
+      mockNgControl.dirty = false;
+      component.ngControl = mockNgControl;
+      fixture.detectChanges();
+
+      let alertDiv = fixture.nativeElement.querySelector('.alert');
+      expect(alertDiv).toBeFalsy();
+
+      // Invalid touched state
+      mockNgControl.invalid = true;
+      mockNgControl.touched = true;
+      mockNgControl.errors = { required: true };
+      fixture.detectChanges();
+
+      alertDiv = fixture.nativeElement.querySelector('.alert');
+      expect(alertDiv).toBeTruthy();
     });
 
     it('should handle specific selection operations', () => {
@@ -395,8 +433,8 @@ describe('SelectFieldComponent', () => {
       component.registerOnChange(mockOnChange);
 
       // Rapidly change selections
-      for (let i = 0; i < mockBeans.length; i++) {
-        component.onSelect(mockBeans[i]);
+      for (const bean of mockBeans) {
+        component.onSelect(bean);
       }
 
       expect(mockOnChange).toHaveBeenCalledTimes(mockBeans.length);

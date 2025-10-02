@@ -1,14 +1,14 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ComponentFixture } from '@angular/core/testing';
+import { ControlValueAccessor } from '@angular/forms';
 import { InputFieldComponent } from './input-field.component';
-import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FieldTestUtils, createMockNgControl } from './field-test-utils';
 
 describe('InputFieldComponent', () => {
   let component: InputFieldComponent;
   let fixture: ComponentFixture<InputFieldComponent>;
-  let mockNgControl: any;
+  let mockNgControl: ReturnType<typeof createMockNgControl>;
 
   beforeEach(async () => {
     mockNgControl = createMockNgControl();
@@ -96,10 +96,11 @@ describe('InputFieldComponent', () => {
     });
 
     it('should handle null and undefined values', () => {
-      component.writeValue(null as any);
+      // Test via the ControlValueAccessor interface which accepts any
+      (component as ControlValueAccessor).writeValue(null);
       expect(component.value).toBe('');
 
-      component.writeValue(undefined as any);
+      (component as ControlValueAccessor).writeValue(undefined);
       expect(component.value).toBe('');
     });
   });
@@ -138,6 +139,8 @@ describe('InputFieldComponent', () => {
       inputElement.value = newValue;
       inputElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
+
+      expect(component.value).toBe(newValue);
 
       // Note: The actual value update depends on ngModel binding
       // In a real scenario, this would be tested with reactive forms or template-driven forms

@@ -1,10 +1,38 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Type } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlValueAccessor } from '@angular/forms';
-import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { expect, vi } from 'vitest';
+
+// Type definitions for field components
+interface FieldComponent extends ControlValueAccessor {
+  value: unknown;
+  onChange: (value: unknown) => void;
+  onTouched: () => void;
+  isDisabled?: boolean;
+  label?: string;
+  id?: string;
+  autoFocus?: boolean;
+  ngControl?: MockNgControl;
+  setDisabledState?: (isDisabled: boolean) => void;
+}
+
+interface MockNgControl {
+  invalid: boolean;
+  dirty: boolean;
+  touched: boolean;
+  errors: Record<string, boolean> | null;
+  control: {
+    markAsTouched: () => void;
+  };
+}
+
+interface TestProperty<T> {
+  key: keyof T;
+  testValue: unknown;
+}
+
+type MockCallback = ReturnType<typeof vi.fn>;
 
 /**
  * Utilities for testing field components to reduce code duplication
@@ -16,7 +44,7 @@ export class FieldTestUtils {
    */
   static async setupTestBed<T>(componentType: Type<T>): Promise<void> {
     await TestBed.configureTestingModule({
-      imports: [componentType, NoopAnimationsModule],
+      imports: [componentType],
       providers: [],
     }).compileComponents();
   }
@@ -41,43 +69,45 @@ export class FieldTestUtils {
 
     // Test default values
     Object.entries(expectedDefaults).forEach(([key, value]) => {
-      expect((component as any)[key]).toBe(value);
+      const componentRecord = component as Record<string, unknown>;
+      expect(Object.prototype.hasOwnProperty.call(componentRecord, key)).toBe(true);
+      expect(componentRecord[key as keyof typeof componentRecord]).toBe(value);
     });
   }
 
   /**
    * Tests ControlValueAccessor interface implementation
    */
-  static testControlValueAccessor<T extends ControlValueAccessor>(
+  static testControlValueAccessor<T extends FieldComponent>(
     component: T,
-    testValue: any,
+    testValue: unknown,
   ): void {
     // Test writeValue
     component.writeValue(testValue);
-    expect((component as any).value).toBe(testValue);
+    expect(component.value).toBe(testValue);
 
     // Test writeValue with null
     component.writeValue(null);
     const expectedNull = typeof testValue === 'string' ? '' : null;
-    expect((component as any).value).toBe(expectedNull);
+    expect(component.value).toBe(expectedNull);
 
     // Test registerOnChange
     const mockOnChange = vi.fn();
     component.registerOnChange(mockOnChange);
-    expect((component as any).onChange).toBe(mockOnChange);
+    expect(component.onChange).toBe(mockOnChange);
 
     // Test registerOnTouched
     const mockOnTouched = vi.fn();
     component.registerOnTouched(mockOnTouched);
-    expect((component as any).onTouched).toBe(mockOnTouched);
+    expect(component.onTouched).toBe(mockOnTouched);
 
     // Test setDisabledState
     if (component.setDisabledState) {
       component.setDisabledState(true);
-      expect((component as any).isDisabled).toBe(true);
+      expect(component.isDisabled).toBe(true);
 
       component.setDisabledState(false);
-      expect((component as any).isDisabled).toBe(false);
+      expect(component.isDisabled).toBe(false);
     }
   }
 
@@ -87,26 +117,26 @@ export class FieldTestUtils {
   static testBasicInputProperties<T>(
     component: T,
     fixture: ComponentFixture<T>,
-    properties: Array<{ key: keyof T; testValue: any }>,
+    properties: TestProperty<T>[],
   ): void {
     properties.forEach(({ key, testValue }) => {
-      (component as any)[key] = testValue;
+      (component as Record<string, unknown>)[key as string] = testValue;
       fixture.detectChanges();
-      expect((component as any)[key]).toBe(testValue);
+      expect((component as Record<string, unknown>)[key as string]).toBe(testValue);
     });
   }
 
   /**
    * Tests label rendering and association
    */
-  static testLabelRendering<T>(
+  static testLabelRendering<T extends FieldComponent>(
     component: T,
     fixture: ComponentFixture<T>,
     labelText: string,
     inputId: string,
   ): void {
-    (component as any).label = labelText;
-    (component as any).id = inputId;
+    component.label = labelText;
+    component.id = inputId;
     fixture.detectChanges();
 
     const label = fixture.nativeElement.querySelector('label');
@@ -118,7 +148,7 @@ export class FieldTestUtils {
   /**
    * Tests p-float-label component presence
    */
-  static testFloatLabelPresence(fixture: ComponentFixture<any>): void {
+  static testFloatLabelPresence<T>(fixture: ComponentFixture<T>): void {
     fixture.detectChanges();
 
     const floatLabel = fixture.nativeElement.querySelector('p-float-label');
@@ -129,17 +159,17 @@ export class FieldTestUtils {
   /**
    * Tests validation error display
    */
-  static testValidationErrors<T>(
+  static testValidationErrors<T extends FieldComponent>(
     component: T,
     fixture: ComponentFixture<T>,
     labelText: string,
-    mockNgControl: any,
+    mockNgControl: MockNgControl,
   ): void {
-    (component as any).label = labelText;
+    component.label = labelText;
 
     // Test no errors when valid
     mockNgControl.invalid = false;
-    (component as any).ngControl = mockNgControl;
+    component.ngControl = mockNgControl;
     fixture.detectChanges();
 
     let alertDiv = fixture.nativeElement.querySelector('.alert');
@@ -161,7 +191,7 @@ export class FieldTestUtils {
     fixture.detectChanges();
 
     alertDiv = fixture.nativeElement.querySelector('.alert');
-    if (alertDiv && alertDiv.textContent.includes('must be at least')) {
+    if (alertDiv?.textContent?.includes('must be at least')) {
       expect(alertDiv.textContent).toContain(`${labelText} must be at least 3 characters long.`);
     }
   }
@@ -169,54 +199,56 @@ export class FieldTestUtils {
   /**
    * Tests NgControl integration in component context
    */
-  static testNgControlIntegration<T>(component: T): void {
-    expect((component as any).ngControl).toBeDefined();
+  static testNgControlIntegration<T extends FieldComponent>(component: T): void {
+    expect(component.ngControl).toBeDefined();
     expect(component).toBeDefined();
   }
 
   /**
    * Tests component state management
    */
-  static testStateManagement<T>(component: T, testValue: any, secondValue: any): void {
-    const comp = component as any;
-
+  static testStateManagement<T extends FieldComponent>(
+    component: T,
+    testValue: unknown,
+    secondValue: unknown,
+  ): void {
     // Test disabled state
-    expect(comp.isDisabled).toBe(false);
-    comp.setDisabledState(true);
-    expect(comp.isDisabled).toBe(true);
-    comp.setDisabledState(false);
-    expect(comp.isDisabled).toBe(false);
+    expect(component.isDisabled).toBe(false);
+    component.setDisabledState?.(true);
+    expect(component.isDisabled).toBe(true);
+    component.setDisabledState?.(false);
+    expect(component.isDisabled).toBe(false);
 
     // Test value state
     const initialValue = typeof testValue === 'string' ? '' : null;
-    expect(comp.value).toBe(initialValue);
+    expect(component.value).toBe(initialValue);
 
-    comp.writeValue(testValue);
-    expect(comp.value).toBe(testValue);
+    component.writeValue(testValue);
+    expect(component.value).toBe(testValue);
 
-    comp.writeValue(secondValue);
-    expect(comp.value).toBe(secondValue);
+    component.writeValue(secondValue);
+    expect(component.value).toBe(secondValue);
 
-    comp.writeValue(null);
+    component.writeValue(null);
     const expectedNull = typeof testValue === 'string' ? '' : null;
-    expect(comp.value).toBe(expectedNull);
+    expect(component.value).toBe(expectedNull);
   }
 
   /**
    * Tests accessibility features
    */
-  static testAccessibility<T>(
+  static testAccessibility<T extends FieldComponent>(
     component: T,
     fixture: ComponentFixture<T>,
     testId: string,
     testLabel: string,
   ): void {
-    (component as any).id = testId;
-    (component as any).label = testLabel;
-    (component as any).autoFocus = true;
+    component.id = testId;
+    component.label = testLabel;
+    component.autoFocus = true;
     fixture.detectChanges();
 
-    expect((component as any).autoFocus).toBe(true);
+    expect(component.autoFocus).toBe(true);
 
     const label = fixture.nativeElement.querySelector('label');
     expect(label.getAttribute('for')).toBe(testId);
@@ -225,10 +257,10 @@ export class FieldTestUtils {
   /**
    * Tests form integration patterns
    */
-  static testFormIntegration<T extends ControlValueAccessor>(
+  static testFormIntegration<T extends FieldComponent>(
     component: T,
-    testValue: any,
-    mockNgControl: any,
+    testValue: unknown,
+    mockNgControl: MockNgControl,
     labelText: string,
     fixture: ComponentFixture<T>,
   ): void {
@@ -240,24 +272,24 @@ export class FieldTestUtils {
 
     // Test form control setting value
     component.writeValue(testValue);
-    expect((component as any).value).toBe(testValue);
+    expect(component.value).toBe(testValue);
 
     // Test user interaction
-    (component as any).onChange(testValue);
+    component.onChange(testValue);
     expect(mockOnChange).toHaveBeenCalledWith(testValue);
 
     // Test blur event
-    (component as any).onTouched();
+    component.onTouched();
     expect(mockOnTouched).toHaveBeenCalled();
 
     // Test validation states
-    (component as any).label = labelText;
+    component.label = labelText;
 
     // Pristine state
     mockNgControl.invalid = false;
     mockNgControl.touched = false;
     mockNgControl.dirty = false;
-    (component as any).ngControl = mockNgControl;
+    component.ngControl = mockNgControl;
     fixture.detectChanges();
 
     let alertDiv = fixture.nativeElement.querySelector('.alert');
@@ -280,8 +312,8 @@ export class FieldTestUtils {
     fixture: ComponentFixture<T>,
     selector: string,
     eventName: string,
-    eventData: any,
-    mockCallback: any,
+    eventData: unknown,
+    mockCallback: MockCallback,
   ): void {
     fixture.detectChanges();
 
@@ -294,18 +326,18 @@ export class FieldTestUtils {
   /**
    * Tests multiple validation errors
    */
-  static testMultipleValidationErrors<T>(
+  static testMultipleValidationErrors<T extends FieldComponent>(
     component: T,
     fixture: ComponentFixture<T>,
     labelText: string,
-    mockNgControl: any,
+    mockNgControl: MockNgControl,
   ): void {
-    (component as any).label = labelText;
+    component.label = labelText;
     mockNgControl.invalid = true;
     mockNgControl.touched = true;
     mockNgControl.dirty = true;
     mockNgControl.errors = { required: true, minlength: true };
-    (component as any).ngControl = mockNgControl;
+    component.ngControl = mockNgControl;
     fixture.detectChanges();
 
     const alertDiv = fixture.nativeElement.querySelector('.alert');
@@ -315,7 +347,7 @@ export class FieldTestUtils {
     expect(alertText).toContain(`${labelText} is required.`);
 
     // Check for minlength only if it's actually shown
-    if (alertText.includes('must be at least')) {
+    if (alertText?.includes('must be at least')) {
       expect(alertText).toContain(`${labelText} must be at least 3 characters long.`);
     }
   }
@@ -324,7 +356,7 @@ export class FieldTestUtils {
 /**
  * Mock NgControl for testing
  */
-export function createMockNgControl(): any {
+export function createMockNgControl(): MockNgControl {
   return {
     invalid: false,
     dirty: false,
