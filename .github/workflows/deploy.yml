@@ -60,13 +60,15 @@ jobs:
           if [ -f "coverage/lcov.info" ]; then
             echo "✅ LCOV file exists"
             echo "📊 LCOV file size: $(wc -l < coverage/lcov.info) lines"
+            echo "📄 LCOV file preview:"
+            head -20 coverage/lcov.info
           else
             echo "❌ LCOV file missing"
             exit 1
           fi
         if: github.actor != 'dependabot[bot]'
 
-      - name: SonarQube Scan
+      - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v6.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
