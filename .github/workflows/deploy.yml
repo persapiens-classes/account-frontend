@@ -41,7 +41,7 @@ jobs:
       - name: ESLint run
         run: npm run lint
 
-      - name: Unit Tests run
+      - name: Tests (Unit and Integration) run
         run: npm run test:coverage
 
       - name: Coverage upload artifacts
@@ -49,9 +49,7 @@ jobs:
         with:
           name: coverage
           path: |
-            coverage/coverage-final.json
-            coverage/lcov.info
-            coverage/index.html
+            coverage/
 
       - name: Verify coverage files
         run: |
