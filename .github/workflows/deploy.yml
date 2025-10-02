@@ -39,6 +39,31 @@ jobs:
       - name: ESLint run
         run: npm run lint
 
+      - name: Unit Tests run
+        run: npm run test:coverage
+
+      - name: Coverage upload artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: coverage
+          path: |
+            coverage/coverage-final.json
+            coverage/lcov.info
+            coverage/index.html
+
+      - name: Verify coverage files
+        run: |
+          echo "Checking coverage files..."
+          ls -la coverage/
+          if [ -f "coverage/lcov.info" ]; then
+            echo "✅ LCOV file exists"
+            echo "📊 LCOV file size: $(wc -l < coverage/lcov.info) lines"
+          else
+            echo "❌ LCOV file missing"
+            exit 1
+          fi
+        if: github.actor != 'dependabot[bot]'
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6.0.0
         env:

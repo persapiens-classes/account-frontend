@@ -20,5 +20,13 @@
   "sonarlint.connectedMode.project": {
     "connectionId": "persapiens-classes",
     "projectKey": "persapiens-classes_account-frontend"
+  },
+  "sonarlint.rules": {
+    "typescript:S2004": "off"
+  },
+  "sonarlint.testFilePattern": "**/*{test,spec}.{js,ts,jsx,tsx}",
+  "sonarlint.disableTelemetry": true,
+  "sonarlint.analyzerProperties": {
+    "sonar.typescript.file.suffixes": ".ts,.tsx"
   }
 }
