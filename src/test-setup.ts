@@ -15,7 +15,7 @@ interface GlobalThis {
 (globalThis as GlobalThis).ngDevMode = false;
 
 // Mock para matchMedia (necessário para alguns componentes PrimeNG)
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(globalThis, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
     matches: false,
@@ -30,14 +30,14 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock para ResizeObserver (usado por alguns componentes)
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
+globalThis.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }));
 
 // Mock para IntersectionObserver
-global.IntersectionObserver = vi.fn().mockImplementation(() => ({
+globalThis.IntersectionObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
@@ -55,11 +55,11 @@ const localStorageMock = {
   removeItem: vi.fn(),
   clear: vi.fn(),
 };
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(globalThis, 'localStorage', {
   value: localStorageMock,
 });
 
 // Mock para sessionStorage
-Object.defineProperty(window, 'sessionStorage', {
+Object.defineProperty(globalThis, 'sessionStorage', {
   value: localStorageMock,
 });

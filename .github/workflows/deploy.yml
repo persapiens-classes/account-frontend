@@ -66,6 +66,18 @@ jobs:
           fi
         if: github.actor != 'dependabot[bot]'
 
+      - name: Debug SonarCloud Analysis
+        run: |
+          echo "📁 TypeScript files in project:"
+          find src -name "*.ts" -not -path "*/node_modules/*" | head -10
+          echo ""
+          echo "📊 Files with coverage in LCOV:"
+          grep "^SF:" coverage/lcov.info | sed 's/SF://' | head -10
+          echo ""
+          echo "📈 Sample coverage data:"
+          grep -A 3 -B 1 "LF:" coverage/lcov.info | head -10
+        if: github.actor != 'dependabot[bot]'
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v6.0.0
         env:
