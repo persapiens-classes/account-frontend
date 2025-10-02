@@ -2,9 +2,7 @@ import { Routes } from '@angular/router';
 import { OwnerInsertComponent } from './owner/owner-insert.component';
 import { OwnerListComponent } from './owner/owner-list.component';
 import { LoginPageComponent } from './auth/login-page.component';
-import { authGuard } from './auth/auth.guard';
 import { OwnerUpdateComponent } from './owner/owner-update.component';
-import { LayoutComponent } from './layout/layout.component';
 import { CategoryListComponent } from './category/category-list.component';
 import { CategoryInsertComponent } from './category/category-insert.component';
 import { CategoryUpdateComponent } from './category/category-update.component';
@@ -22,406 +20,127 @@ import { BalanceDetailComponent } from './owner-equity-account-initial-value/bal
 import { OwnerEquityAccountInitialValueUpdateComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-update.component';
 import { OwnerEquityAccountInitialValueInsertComponent } from './owner-equity-account-initial-value/owner-equity-account-initial-value-insert.component';
 import { OwnerDetailComponent } from './owner/owner-detail.component';
+import { createCrudRoutes } from './route-config';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
-  {
+  createCrudRoutes({
     path: 'balances',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Balances', titleClass: 'blue' },
-    children: [
-      {
-        path: 'list',
-        component: BalanceListComponent,
-      },
-      {
-        path: 'new',
-        component: OwnerEquityAccountInitialValueInsertComponent,
-      },
-      {
-        path: 'edit',
-        component: OwnerEquityAccountInitialValueUpdateComponent,
-      },
-      {
-        path: 'detail',
-        component: BalanceDetailComponent,
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Balances',
+    titleClass: 'blue',
+    listComponent: BalanceListComponent,
+    insertComponent: OwnerEquityAccountInitialValueInsertComponent,
+    updateComponent: OwnerEquityAccountInitialValueUpdateComponent,
+    detailComponent: BalanceDetailComponent,
+  }),
+  createCrudRoutes({
     path: 'creditEntries',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Credit Entries', titleClass: 'green' },
-    children: [
-      {
-        path: 'list',
-        component: EntryListComponent,
-        data: { type: 'Credit' },
-      },
-      {
-        path: 'new',
-        component: EntryInsertComponent,
-        data: {
-          type: 'Credit',
-          inAccountType: 'Equity',
-          outAccountType: 'Credit',
-        },
-      },
-      {
-        path: 'edit',
-        component: EntryUpdateComponent,
-        data: {
-          type: 'Credit',
-          inAccountType: 'Equity',
-          outAccountType: 'Credit',
-        },
-      },
-      {
-        path: 'detail',
-        component: EntryDetailComponent,
-        data: {
-          type: 'Credit',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Credit Entries',
+    titleClass: 'green',
+    listComponent: EntryListComponent,
+    insertComponent: EntryInsertComponent,
+    updateComponent: EntryUpdateComponent,
+    detailComponent: EntryDetailComponent,
+    type: 'Credit',
+    inAccountType: 'Equity',
+    outAccountType: 'Credit',
+  }),
+  createCrudRoutes({
     path: 'debitEntries',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Debit Entries', titleClass: 'red' },
-    children: [
-      {
-        path: 'list',
-        component: EntryListComponent,
-        data: { type: 'Debit' },
-      },
-      {
-        path: 'new',
-        component: EntryInsertComponent,
-        data: {
-          type: 'Debit',
-          inAccountType: 'Debit',
-          outAccountType: 'Equity',
-        },
-      },
-      {
-        path: 'edit',
-        component: EntryUpdateComponent,
-        data: {
-          type: 'Debit',
-          inAccountType: 'Debit',
-          outAccountType: 'Equity',
-        },
-      },
-      {
-        path: 'detail',
-        component: EntryDetailComponent,
-        data: {
-          type: 'Debit',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Debit Entries',
+    titleClass: 'red',
+    listComponent: EntryListComponent,
+    insertComponent: EntryInsertComponent,
+    updateComponent: EntryUpdateComponent,
+    detailComponent: EntryDetailComponent,
+    type: 'Debit',
+    inAccountType: 'Debit',
+    outAccountType: 'Equity',
+  }),
+  createCrudRoutes({
     path: 'transferEntries',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Transfer Entries', titleClass: 'blue' },
-    children: [
-      {
-        path: 'list',
-        component: EntryListComponent,
-        data: {
-          type: 'Transfer',
-        },
-      },
-      {
-        path: 'new',
-        component: EntryInsertComponent,
-        data: {
-          type: 'Transfer',
-          inAccountType: 'Equity',
-          outAccountType: 'Equity',
-        },
-      },
-      {
-        path: 'edit',
-        component: EntryUpdateComponent,
-        data: {
-          type: 'Transfer',
-          inAccountType: 'Equity',
-          outAccountType: 'Equity',
-        },
-      },
-      {
-        path: 'detail',
-        component: EntryDetailComponent,
-        data: {
-          type: 'Transfer',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Transfer Entries',
+    titleClass: 'blue',
+    listComponent: EntryListComponent,
+    insertComponent: EntryInsertComponent,
+    updateComponent: EntryUpdateComponent,
+    detailComponent: EntryDetailComponent,
+    type: 'Transfer',
+    inAccountType: 'Equity',
+    outAccountType: 'Equity',
+  }),
+  createCrudRoutes({
     path: 'creditAccounts',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Credit Accounts', titleClass: 'green' },
-    children: [
-      {
-        path: 'list',
-        component: AccountListComponent,
-        data: {
-          type: 'Credit',
-        },
-      },
-      {
-        path: 'new',
-        component: AccountInsertComponent,
-        data: {
-          type: 'Credit',
-          categoryType: 'Credit',
-        },
-      },
-      {
-        path: 'edit',
-        component: AccountUpdateComponent,
-        data: {
-          type: 'Credit',
-          categoryType: 'Credit',
-        },
-      },
-      {
-        path: 'detail',
-        component: AccountDetailComponent,
-        data: {
-          type: 'Credit',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Credit Accounts',
+    titleClass: 'green',
+    listComponent: AccountListComponent,
+    insertComponent: AccountInsertComponent,
+    updateComponent: AccountUpdateComponent,
+    detailComponent: AccountDetailComponent,
+    type: 'Credit',
+    categoryType: 'Credit',
+  }),
+  createCrudRoutes({
     path: 'debitAccounts',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Debit Accounts', titleClass: 'red' },
-    children: [
-      {
-        path: 'list',
-        component: AccountListComponent,
-        data: {
-          type: 'Debit',
-        },
-      },
-      {
-        path: 'new',
-        component: AccountInsertComponent,
-        data: {
-          type: 'Debit',
-          categoryType: 'Debit',
-        },
-      },
-      {
-        path: 'edit',
-        component: AccountUpdateComponent,
-        data: {
-          type: 'Debit',
-          categoryType: 'Debit',
-        },
-      },
-      {
-        path: 'detail',
-        component: AccountDetailComponent,
-        data: {
-          type: 'Debit',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Debit Accounts',
+    titleClass: 'red',
+    listComponent: AccountListComponent,
+    insertComponent: AccountInsertComponent,
+    updateComponent: AccountUpdateComponent,
+    detailComponent: AccountDetailComponent,
+    type: 'Debit',
+    categoryType: 'Debit',
+  }),
+  createCrudRoutes({
     path: 'equityAccounts',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Equity Accounts', titleClass: 'blue' },
-    children: [
-      {
-        path: 'list',
-        component: AccountListComponent,
-        data: {
-          type: 'Equity',
-        },
-      },
-      {
-        path: 'new',
-        component: AccountInsertComponent,
-        data: {
-          type: 'Equity',
-          categoryType: 'Equity',
-        },
-      },
-      {
-        path: 'edit',
-        component: AccountUpdateComponent,
-        data: {
-          type: 'Equity',
-          categoryType: 'Equity',
-        },
-      },
-      {
-        path: 'detail',
-        component: AccountDetailComponent,
-        data: {
-          type: 'Equity',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Equity Accounts',
+    titleClass: 'blue',
+    listComponent: AccountListComponent,
+    insertComponent: AccountInsertComponent,
+    updateComponent: AccountUpdateComponent,
+    detailComponent: AccountDetailComponent,
+    type: 'Equity',
+    categoryType: 'Equity',
+  }),
+  createCrudRoutes({
     path: 'creditCategories',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Credit Categories', titleClass: 'green' },
-    children: [
-      {
-        path: 'list',
-        component: CategoryListComponent,
-        data: {
-          type: 'Credit',
-        },
-      },
-      {
-        path: 'new',
-        component: CategoryInsertComponent,
-        data: {
-          type: 'Credit',
-        },
-      },
-      {
-        path: 'edit',
-        component: CategoryUpdateComponent,
-        data: {
-          type: 'Credit',
-        },
-      },
-      {
-        path: 'detail',
-        component: CategoryDetailComponent,
-        data: {
-          type: 'Credit',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Credit Categories',
+    titleClass: 'green',
+    listComponent: CategoryListComponent,
+    insertComponent: CategoryInsertComponent,
+    updateComponent: CategoryUpdateComponent,
+    detailComponent: CategoryDetailComponent,
+    type: 'Credit',
+  }),
+  createCrudRoutes({
     path: 'debitCategories',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Debit Categories', titleClass: 'red' },
-    children: [
-      {
-        path: 'list',
-        component: CategoryListComponent,
-        data: {
-          type: 'Debit',
-        },
-      },
-      {
-        path: 'new',
-        component: CategoryInsertComponent,
-        data: {
-          type: 'Debit',
-        },
-      },
-      {
-        path: 'edit',
-        component: CategoryUpdateComponent,
-        data: {
-          type: 'Debit',
-        },
-      },
-      {
-        path: 'detail',
-        component: CategoryDetailComponent,
-        data: {
-          type: 'Debit',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Debit Categories',
+    titleClass: 'red',
+    listComponent: CategoryListComponent,
+    insertComponent: CategoryInsertComponent,
+    updateComponent: CategoryUpdateComponent,
+    detailComponent: CategoryDetailComponent,
+    type: 'Debit',
+  }),
+  createCrudRoutes({
     path: 'equityCategories',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Equity Categories', titleClass: 'blue' },
-    children: [
-      {
-        path: 'list',
-        component: CategoryListComponent,
-        data: {
-          type: 'Equity',
-        },
-      },
-      {
-        path: 'new',
-        component: CategoryInsertComponent,
-        data: {
-          type: 'Equity',
-        },
-      },
-      {
-        path: 'edit',
-        component: CategoryUpdateComponent,
-        data: {
-          type: 'Equity',
-        },
-      },
-      {
-        path: 'detail',
-        component: CategoryDetailComponent,
-        data: {
-          type: 'Equity',
-        },
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
-  {
+    title: 'Equity Categories',
+    titleClass: 'blue',
+    listComponent: CategoryListComponent,
+    insertComponent: CategoryInsertComponent,
+    updateComponent: CategoryUpdateComponent,
+    detailComponent: CategoryDetailComponent,
+    type: 'Equity',
+  }),
+  createCrudRoutes({
     path: 'owners',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    data: { title: 'Owners', titleClass: 'blue' },
-    children: [
-      {
-        path: 'list',
-        component: OwnerListComponent,
-      },
-      {
-        path: 'new',
-        component: OwnerInsertComponent,
-      },
-      {
-        path: 'edit',
-        component: OwnerUpdateComponent,
-      },
-      {
-        path: 'detail',
-        component: OwnerDetailComponent,
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-    ],
-  },
+    title: 'Owners',
+    titleClass: 'blue',
+    listComponent: OwnerListComponent,
+    insertComponent: OwnerInsertComponent,
+    updateComponent: OwnerUpdateComponent,
+    detailComponent: OwnerDetailComponent,
+  }),
   {
     path: 'ownerEquityAccountInitialValues/detail',
     redirectTo: 'balances/detail',
