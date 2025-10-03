@@ -3,7 +3,7 @@ import { ComponentFixture } from '@angular/core/testing';
 import { ControlValueAccessor } from '@angular/forms';
 import { InputFieldComponent } from './input-field.component';
 import { By } from '@angular/platform-browser';
-import { FieldTestUtils, createMockNgControl } from './field-test-utils';
+import { FieldTestUtils, createMockNgControl } from '../shared/test-utils';
 
 describe('InputFieldComponent', () => {
   let component: InputFieldComponent;

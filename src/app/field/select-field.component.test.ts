@@ -3,7 +3,7 @@ import { ComponentFixture } from '@angular/core/testing';
 import { SelectFieldComponent } from './select-field.component';
 import { By } from '@angular/platform-browser';
 import { Bean } from '../bean/bean';
-import { FieldTestUtils, createMockNgControl } from './field-test-utils';
+import { FieldTestUtils, createMockNgControl } from '../shared/test-utils';
 
 // Mock Bean implementation for testing
 class MockBean implements Bean {

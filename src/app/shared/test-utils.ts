@@ -3,7 +3,7 @@ import { Type } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NgControl } from '@angular/forms';
 import { expect, vi } from 'vitest';
-import { FieldComponent, SelectFieldComponent } from './field-component';
+import { FieldComponent, SelectFieldComponent } from '../field/field-component';
 import { Bean } from '../bean/bean';
 
 // Using production FieldComponent interface
