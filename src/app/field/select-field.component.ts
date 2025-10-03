@@ -67,14 +67,17 @@ export class SelectFieldComponent implements ISelectFieldComponent<Bean> {
   }
 
   registerOnChange(fn: (value: Bean | null) => void): void {
+    // Registers callback for selection changes
     this.onChange = fn;
   }
 
   registerOnTouched(fn: () => void): void {
+    // Registers callback for select field touch events
     this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
+    // Sets disabled state for select dropdown
     this.isDisabled = isDisabled;
   }
 

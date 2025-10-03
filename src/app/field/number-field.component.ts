@@ -79,14 +79,17 @@ export class NumberFieldComponent implements INumberFieldComponent {
   }
 
   registerOnChange(fn: (value: number | null) => void): void {
+    // Registers callback for number value changes
     this.onChange = fn;
   }
 
   registerOnTouched(fn: () => void): void {
+    // Registers callback for number field touch events
     this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
+    // Sets disabled state for number input
     this.isDisabled = isDisabled;
   }
 
