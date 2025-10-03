@@ -7,7 +7,7 @@ import { TestUtils } from './shared/test-utils';
 
 describe('AppMessageService', () => {
   let service: AppMessageService;
-  let mockMessageService: any;
+  let mockMessageService: Pick<MessageService, 'add'>;
 
   beforeEach(async () => {
     mockMessageService = {

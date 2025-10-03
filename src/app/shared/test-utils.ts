@@ -390,8 +390,10 @@ export class TestUtils {
    */
   static testServiceMethods<T>(service: T, expectedMethods: string[]): void {
     for (const methodName of expectedMethods) {
-      expect((service as Record<string, unknown>)[methodName]).toBeDefined();
-      expect(typeof (service as Record<string, unknown>)[methodName]).toBe('function');
+      expect(Reflect.has(service as object, methodName)).toBe(true);
+      const method = Reflect.get(service as object, methodName);
+      expect(method).toBeDefined();
+      expect(typeof method).toBe('function');
     }
   }
 
@@ -401,8 +403,8 @@ export class TestUtils {
   static testServiceStructure<T>(service: T, serviceType: Type<T>): void {
     expect(service).toBeDefined();
     expect(service).toBeInstanceOf(serviceType);
-    expect((service as Record<string, unknown>).constructor).toBeDefined();
-    expect((service as Record<string, unknown>).constructor.name).toBe(serviceType.name);
+    expect(Object.getPrototypeOf(service).constructor).toBeDefined();
+    expect(Object.getPrototypeOf(service).constructor.name).toBe(serviceType.name);
   }
 
   /**
@@ -413,12 +415,10 @@ export class TestUtils {
     methodSignatures: { methodName: string; parameterCount: number }[],
   ): void {
     for (const { methodName, parameterCount } of methodSignatures) {
-      const method = (service as Record<string, unknown>)[methodName] as (
-        ...args: unknown[]
-      ) => unknown;
+      const method = Reflect.get(service as object, methodName) as (...args: unknown[]) => unknown;
       expect(method).toBeDefined();
       expect(typeof method).toBe('function');
-      expect(method.length).toBe(parameterCount);
+      expect(method?.length).toBe(parameterCount);
     }
   }
 }
