@@ -147,14 +147,11 @@ describe('StartDetailButtonComponent', () => {
       }
 
       const customBean = new CustomBeanImpl('custom-123', 'custom-value');
-      const customComponent = new StartDetailButtonComponent<CustomBeanImpl>();
-      customComponent.item = customBean;
-      customComponent.routerName = 'custom-beans';
+      // Use the existing component instead of creating a new one
+      component.item = customBean as unknown as TestBean;
+      component.routerName = 'custom-beans';
 
-      // Inject router manually since this is a standalone instance
-      (customComponent as unknown as { router: Router }).router = mockRouter;
-
-      customComponent.startDetail(customBean);
+      component.startDetail(customBean as unknown as TestBean);
 
       expect(mockRouter.navigate).toHaveBeenCalledWith(['custom-beans/detail'], {
         state: { bean: customBean },
@@ -181,9 +178,11 @@ describe('StartDetailButtonComponent', () => {
 
     it('should call startDetail with correct item when button is clicked', () => {
       const mockStartDetail = vi.spyOn(component, 'startDetail');
-      const button = fixture.nativeElement.querySelector('p-button');
+      const button = fixture.nativeElement.querySelector('p-button button');
+      expect(button).toBeTruthy();
 
       button.click();
+      fixture.detectChanges();
 
       expect(mockStartDetail).toHaveBeenCalledWith(testBean);
     });
@@ -209,13 +208,14 @@ describe('StartDetailButtonComponent', () => {
       }
 
       const accountBean = new AccountBeanImpl('acc-123', 'ACC-001', 1500);
-      const accountComponent = new StartDetailButtonComponent<AccountBeanImpl>();
-      accountComponent.item = accountBean;
-      accountComponent.routerName = 'accounts';
+      // Test the bean properties directly since we can't create new components in tests
+      expect(accountBean.accountNumber).toBe('ACC-001');
+      expect(accountBean.balance).toBe(1500);
+      expect(accountBean.getId()).toBe('acc-123');
 
-      expect(accountComponent.item.accountNumber).toBe('ACC-001');
-      expect(accountComponent.item.balance).toBe(1500);
-      expect(accountComponent.item.getId()).toBe('acc-123');
+      // Test that our existing component can work with different bean types
+      component.item = accountBean as unknown as TestBean;
+      expect(component.item.getId()).toBe('acc-123');
     });
 
     it('should handle beans with complex properties', () => {
@@ -237,17 +237,20 @@ describe('StartDetailButtonComponent', () => {
         }
       }
 
+      const testDate = new Date('2023-01-01');
       const complexBean = new ComplexBeanImpl('complex-456', {
-        createdAt: new Date('2023-01-01'),
+        createdAt: testDate,
         tags: ['important', 'urgent'],
       });
 
-      const complexComponent = new StartDetailButtonComponent<ComplexBeanImpl>();
-      complexComponent.item = complexBean;
-      complexComponent.routerName = 'complex-entities';
+      // Test the bean properties directly
+      expect(complexBean.metadata.tags).toEqual(['important', 'urgent']);
+      expect(complexBean.metadata.createdAt).toBe(testDate);
+      expect(complexBean.getId()).toBe('complex-456');
 
-      expect(complexComponent.item.metadata.tags).toEqual(['important', 'urgent']);
-      expect(complexComponent.item.getId()).toBe('complex-456');
+      // Test that our existing component can handle the complex bean
+      component.item = complexBean as unknown as TestBean;
+      expect(component.item.getId()).toBe('complex-456');
     });
   });
 

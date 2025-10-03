@@ -161,15 +161,11 @@ describe('StartUpdateButtonComponent', () => {
       }
 
       const customBean = new CustomBeanImpl('custom-123', 'custom-value');
-      const customComponent = new StartUpdateButtonComponent<CustomBeanImpl>();
-      customComponent.item = customBean;
-      customComponent.routerName = 'custom-beans';
-      customComponent.removed = vi.fn();
+      // Use the existing component instead of creating a new one
+      component.item = customBean as unknown as TestBean;
+      component.routerName = 'custom-beans';
 
-      // Inject router manually since this is a standalone instance
-      (customComponent as unknown as { router: Router }).router = mockRouter;
-
-      customComponent.startUpdate(customBean);
+      component.startUpdate(customBean as unknown as TestBean);
 
       expect(mockRouter.navigate).toHaveBeenCalledWith(['custom-beans/edit'], {
         state: { bean: customBean },
@@ -196,9 +192,11 @@ describe('StartUpdateButtonComponent', () => {
 
     it('should call startUpdate with correct item when button is clicked', () => {
       const mockStartUpdate = vi.spyOn(component, 'startUpdate');
-      const button = fixture.nativeElement.querySelector('p-button');
+      const button = fixture.nativeElement.querySelector('p-button button');
+      expect(button).toBeTruthy();
 
       button.click();
+      fixture.detectChanges();
 
       expect(mockStartUpdate).toHaveBeenCalledWith(testBean);
     });
@@ -254,14 +252,14 @@ describe('StartUpdateButtonComponent', () => {
       }
 
       const accountBean = new AccountBeanImpl('acc-123', 'ACC-001', 2500);
-      const accountComponent = new StartUpdateButtonComponent<AccountBeanImpl>();
-      accountComponent.item = accountBean;
-      accountComponent.routerName = 'accounts';
-      accountComponent.removed = vi.fn();
+      // Test the bean properties directly since we can't create new components in tests
+      expect(accountBean.accountNumber).toBe('ACC-001');
+      expect(accountBean.balance).toBe(2500);
+      expect(accountBean.getId()).toBe('acc-123');
 
-      expect(accountComponent.item.accountNumber).toBe('ACC-001');
-      expect(accountComponent.item.balance).toBe(2500);
-      expect(accountComponent.item.getId()).toBe('acc-123');
+      // Test that our existing component can work with different bean types
+      component.item = accountBean as unknown as TestBean;
+      expect(component.item.getId()).toBe('acc-123');
     });
 
     it('should handle beans with complex properties', () => {
@@ -283,18 +281,20 @@ describe('StartUpdateButtonComponent', () => {
         }
       }
 
+      const testDate = new Date('2023-06-01');
       const complexBean = new ComplexBeanImpl('complex-456', {
-        lastModified: new Date('2023-06-01'),
+        lastModified: testDate,
         permissions: ['read', 'write', 'update'],
       });
 
-      const complexComponent = new StartUpdateButtonComponent<ComplexBeanImpl>();
-      complexComponent.item = complexBean;
-      complexComponent.routerName = 'complex-entities';
-      complexComponent.removed = vi.fn();
+      // Test the bean properties directly
+      expect(complexBean.metadata.permissions).toEqual(['read', 'write', 'update']);
+      expect(complexBean.metadata.lastModified).toBe(testDate);
+      expect(complexBean.getId()).toBe('complex-456');
 
-      expect(complexComponent.item.metadata.permissions).toEqual(['read', 'write', 'update']);
-      expect(complexComponent.item.getId()).toBe('complex-456');
+      // Test that our existing component can handle the complex bean
+      component.item = complexBean as unknown as TestBean;
+      expect(component.item.getId()).toBe('complex-456');
     });
   });
 

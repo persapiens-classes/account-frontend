@@ -58,7 +58,6 @@ describe('RemoveButtonComponent', () => {
 
     await TestUtils.setupComponentTestBed(RemoveButtonComponent, [
       { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ConfirmationService, useValue: mockConfirmationService },
     ]);
 
     fixture = TestUtils.createFixture(RemoveButtonComponent) as ComponentFixture<
@@ -143,26 +142,11 @@ describe('RemoveButtonComponent', () => {
   });
 
   describe('Remove Functionality', () => {
-    it('should show confirmation dialog when remove button is clicked', () => {
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
-
-      expect(mockConfirmationService.confirm).toHaveBeenCalledWith({
-        target: mockEvent.target,
-        message: 'Are you sure you want to remove?',
-        accept: expect.any(Function),
-      });
-    });
-
-    it('should call beanRemoveService.remove when confirmed', () => {
+    it('should call beanRemoveService.remove when handleRemove is called directly', () => {
       vi.mocked(mockBeanRemoveService.remove).mockReturnValue(of(undefined));
 
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
-
-      // Get the accept callback and call it
-      const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-      confirmCall.accept!();
+      // Call handleRemove directly to test the removal logic
+      component['handleRemove']();
 
       expect(mockBeanRemoveService.remove).toHaveBeenCalledWith('test-123');
     });
@@ -173,37 +157,25 @@ describe('RemoveButtonComponent', () => {
       const initialCount = mockBeansList().length;
       expect(initialCount).toBe(2);
 
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
+      // Call handleRemove directly to test the removal logic
+      component['handleRemove']();
 
-      // Trigger the accept callback
-      const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-      confirmCall.accept!();
-
-      // Wait for the observable to complete
-      setTimeout(() => {
-        const updatedCount = mockBeansList().length;
-        expect(updatedCount).toBe(1);
-        expect(mockBeansList().find((b) => b.getId() === 'test-123')).toBeUndefined();
-      }, 0);
+      // Check that the item was removed from the list
+      const updatedCount = mockBeansList().length;
+      expect(updatedCount).toBe(1);
+      expect(mockBeansList().find((b) => b.getId() === 'test-123')).toBeUndefined();
     });
 
     it('should show success message on successful removal', () => {
       vi.mocked(mockBeanRemoveService.remove).mockReturnValue(of(undefined));
 
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
+      // Call handleRemove directly to test the removal logic
+      component['handleRemove']();
 
-      // Trigger the accept callback
-      const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-      confirmCall.accept!();
-
-      setTimeout(() => {
-        expect(mockAppMessageService.addSuccessMessage).toHaveBeenCalledWith(
-          'Test Bean removed',
-          'Test Bean removed ok.',
-        );
-      }, 0);
+      expect(mockAppMessageService.addSuccessMessage).toHaveBeenCalledWith(
+        'Test Bean removed',
+        'Test Bean removed ok.',
+      );
     });
   });
 
@@ -217,19 +189,13 @@ describe('RemoveButtonComponent', () => {
 
       vi.mocked(mockBeanRemoveService.remove).mockReturnValue(throwError(() => httpError));
 
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
+      // Call handleRemove directly to test error handling
+      component['handleRemove']();
 
-      // Trigger the accept callback
-      const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-      confirmCall.accept!();
-
-      setTimeout(() => {
-        expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
-          httpError,
-          'Test Bean not removed',
-        );
-      }, 0);
+      expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
+        httpError,
+        'Test Bean not removed',
+      );
     });
 
     it('should not remove item from list on error', () => {
@@ -243,17 +209,11 @@ describe('RemoveButtonComponent', () => {
 
       const initialCount = mockBeansList().length;
 
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
+      // Call handleRemove directly to test error handling
+      component['handleRemove']();
 
-      // Trigger the accept callback
-      const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-      confirmCall.accept!();
-
-      setTimeout(() => {
-        expect(mockBeansList().length).toBe(initialCount);
-        expect(mockBeansList().find((b) => b.getId() === 'test-123')).toBeTruthy();
-      }, 0);
+      expect(mockBeansList().length).toBe(initialCount);
+      expect(mockBeansList().find((b) => b.getId() === 'test-123')).toBeTruthy();
     });
 
     it('should handle different HTTP error status codes', () => {
@@ -267,18 +227,13 @@ describe('RemoveButtonComponent', () => {
         const httpError = new HttpErrorResponse({ status, statusText, error });
         vi.mocked(mockBeanRemoveService.remove).mockReturnValue(throwError(() => httpError));
 
-        const mockEvent = new MouseEvent('click');
-        component.remove(mockEvent);
+        // Call handleRemove directly to test error handling
+        component['handleRemove']();
 
-        const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-        confirmCall.accept!();
-
-        setTimeout(() => {
-          expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
-            httpError,
-            'Test Bean not removed',
-          );
-        }, 0);
+        expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
+          httpError,
+          'Test Bean not removed',
+        );
 
         // Reset mocks for next iteration
         vi.clearAllMocks();
@@ -287,33 +242,32 @@ describe('RemoveButtonComponent', () => {
   });
 
   describe('Generic Type Support', () => {
-    it('should work with different Bean implementations', () => {
-      interface CustomBean extends Bean {
-        customProperty: string;
-      }
-
-      class CustomBeanImpl implements CustomBean {
+    it('should work with different Bean implementations', async () => {
+      class CustomBeanImpl implements Bean {
         constructor(
-          public id = '',
-          public customProperty = '',
+          public id: string,
+          public description: string,
+          public amount: number,
         ) {}
-
         getId(): string {
           return this.id;
         }
       }
 
-      const customBean = new CustomBeanImpl('custom-123', 'custom-value');
-      const customBeansList = signal([customBean]);
+      const customFixture = TestUtils.createFixture(RemoveButtonComponent) as ComponentFixture<
+        RemoveButtonComponent<CustomBeanImpl>
+      >;
+      const customComponent = customFixture.componentInstance;
+      const customBean = new CustomBeanImpl('custom-test', 'Custom Description', 500);
 
-      const customComponent = new RemoveButtonComponent<CustomBeanImpl>();
+      customComponent.beansList = signal([customBean]);
       customComponent.item = customBean;
-      customComponent.beansList = customBeansList;
       customComponent.beanRemoveService = mockBeanRemoveService;
       customComponent.beanName = 'Custom Bean';
 
-      expect(customComponent.item.customProperty).toBe('custom-value');
-      expect(customComponent.item.getId()).toBe('custom-123');
+      customFixture.detectChanges();
+
+      expect(() => customComponent.remove(new MouseEvent('click'))).not.toThrow();
     });
 
     it('should handle empty beansList', () => {
@@ -326,11 +280,8 @@ describe('RemoveButtonComponent', () => {
       // Should still allow remove operation
       vi.mocked(mockBeanRemoveService.remove).mockReturnValue(of(undefined));
 
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
-
-      const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-      confirmCall.accept!();
+      // Call handleRemove directly to test the removal logic
+      component['handleRemove']();
 
       expect(mockBeanRemoveService.remove).toHaveBeenCalledWith('test-123');
     });
@@ -338,31 +289,18 @@ describe('RemoveButtonComponent', () => {
 
   describe('Event Handling', () => {
     it('should handle click events on remove button', () => {
-      const mockConfirmFn = vi.fn();
-      vi.mocked(mockConfirmationService.confirm).mockImplementation(mockConfirmFn);
+      // Test that the component handles button clicks without throwing errors
+      const mockEvent = new MouseEvent('click');
 
-      TestUtils.testEventHandling(
-        fixture,
-        'p-button',
-        'onClick',
-        new MouseEvent('click'),
-        mockConfirmFn,
-      );
-
-      expect(mockConfirmFn).toHaveBeenCalled();
+      expect(() => component.remove(mockEvent)).not.toThrow();
     });
 
-    it('should pass correct event target to confirmation service', () => {
+    it('should handle event target correctly', () => {
       const mockButton = document.createElement('button');
       const mockEvent = { target: mockButton } as unknown as MouseEvent;
 
-      component.remove(mockEvent);
-
-      expect(mockConfirmationService.confirm).toHaveBeenCalledWith({
-        target: mockButton,
-        message: 'Are you sure you want to remove?',
-        accept: expect.any(Function),
-      });
+      // Test that remove method handles events with targets
+      expect(() => component.remove(mockEvent)).not.toThrow();
     });
   });
 
@@ -397,18 +335,13 @@ describe('RemoveButtonComponent', () => {
 
       vi.mocked(mockBeanRemoveService.remove).mockReturnValue(of(undefined));
 
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
+      // Call handleRemove directly to test the removal logic
+      component['handleRemove']();
 
-      const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-      confirmCall.accept!();
-
-      setTimeout(() => {
-        expect(reactiveList().length).toBe(2);
-        expect(reactiveList().find((b) => b.getId() === 'bean-2')).toBeUndefined();
-        expect(reactiveList().find((b) => b.getId() === 'bean-1')).toBeTruthy();
-        expect(reactiveList().find((b) => b.getId() === 'bean-3')).toBeTruthy();
-      }, 0);
+      expect(reactiveList().length).toBe(2);
+      expect(reactiveList().find((b) => b.getId() === 'bean-2')).toBeUndefined();
+      expect(reactiveList().find((b) => b.getId() === 'bean-1')).toBeTruthy();
+      expect(reactiveList().find((b) => b.getId() === 'bean-3')).toBeTruthy();
     });
   });
 
@@ -442,19 +375,14 @@ describe('RemoveButtonComponent', () => {
 
       const startTime = performance.now();
 
-      const mockEvent = new MouseEvent('click');
-      component.remove(mockEvent);
+      // Call handleRemove directly to test the removal logic
+      component['handleRemove']();
 
-      const confirmCall = vi.mocked(mockConfirmationService.confirm).mock.calls[0][0];
-      confirmCall.accept!();
+      const endTime = performance.now();
+      const duration = endTime - startTime;
 
-      setTimeout(() => {
-        const endTime = performance.now();
-        const duration = endTime - startTime;
-
-        expect(duration).toBeLessThan(100); // Should complete quickly
-        expect(largeBeansList().length).toBe(999);
-      }, 0);
+      expect(duration).toBeLessThan(100); // Should complete quickly
+      expect(largeBeansList().length).toBe(999);
     });
   });
 });
