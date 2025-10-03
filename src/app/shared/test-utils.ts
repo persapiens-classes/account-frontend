@@ -73,6 +73,19 @@ export class TestUtils {
   }
 
   /**
+   * Sets up TestBed configuration for components with custom providers
+   */
+  static async setupComponentTestBed<T>(
+    componentType: Type<T>,
+    providers?: unknown[],
+  ): Promise<void> {
+    await TestBed.configureTestingModule({
+      imports: [componentType],
+      providers: providers || [],
+    }).compileComponents();
+  }
+
+  /**
    * Creates component fixture with basic setup
    */
   static createFixture<T>(componentType: Type<T>): ComponentFixture<T> {
