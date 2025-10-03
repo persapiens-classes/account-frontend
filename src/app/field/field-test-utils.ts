@@ -211,7 +211,7 @@ export class FieldTestUtils {
    * Tests NgControl integration in component context
    */
   static testNgControlIntegration<T extends AnyFieldComponent>(component: T): void {
-    // NgControl pode ser undefined em testes unitários isolados
+    // NgControl can be undefined in isolated unit tests
     expect(component).toBeDefined();
     if (component.ngControl) {
       expect(component.ngControl).toBeDefined();

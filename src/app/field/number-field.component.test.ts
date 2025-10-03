@@ -185,7 +185,7 @@ describe('NumberFieldComponent', () => {
     });
 
     it('should handle onTouched when ngControl is null', () => {
-      // Simular cenário onde ngControl é undefined
+      // Simulate scenario where ngControl is undefined
       expect(() => component.onTouched()).not.toThrow();
     });
   });

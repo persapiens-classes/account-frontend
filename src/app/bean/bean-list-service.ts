@@ -54,7 +54,7 @@ export function handleHttpResourceError(
   if (error instanceof HttpErrorResponse) {
     appMessageService.addErrorMessage(error, `${beanName} not listed`);
   } else if (error instanceof Error) {
-    // erro genérico do JS
+    // generic JS error
     appMessageService.addErrorMessage(
       new HttpErrorResponse({ error, status: 0, statusText: error.message }),
       `${beanName} not listed`,
