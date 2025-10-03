@@ -68,10 +68,10 @@ export class FieldTestUtils {
     expect(component).toBeInstanceOf(componentType);
 
     // Test default values
-    for (const [key, value] of Object.entries(expectedDefaults)) {
-      const componentRecord = component as Record<string, unknown>;
-      expect(Object.hasOwn(componentRecord, key)).toBe(true);
-      expect(componentRecord[key as keyof typeof componentRecord]).toBe(value);
+    for (const key in expectedDefaults) {
+      if (Object.hasOwn(expectedDefaults, key)) {
+        expect(component[key as keyof T]).toBe(expectedDefaults[key as keyof T]);
+      }
     }
   }
 
