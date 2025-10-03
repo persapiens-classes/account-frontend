@@ -1,31 +1,23 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 import { DetailFieldComponent } from './detail-field.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { TestUtils } from '../shared/test-utils';
 
 describe('DetailFieldComponent', () => {
   let component: DetailFieldComponent;
   let fixture: ComponentFixture<DetailFieldComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DetailFieldComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(DetailFieldComponent);
+    await TestUtils.setupTestBed(DetailFieldComponent);
+    fixture = TestUtils.createFixture(DetailFieldComponent);
     component = fixture.componentInstance;
   });
 
   describe('Component Initialization', () => {
     it('should create the component', () => {
-      expect(component).toBeTruthy();
-      expect(component).toBeInstanceOf(DetailFieldComponent);
-    });
-
-    it('should initialize with default empty values', () => {
-      expect(component.strong).toBe('');
-      expect(component.value).toBe('');
+      TestUtils.testBasicInitialization(component, { strong: '', value: '' }, DetailFieldComponent);
     });
   });
 
@@ -73,7 +65,20 @@ describe('DetailFieldComponent', () => {
   });
 
   describe('Input Properties', () => {
-    it('should accept strong input property', () => {
+    it('should accept input properties', () => {
+      TestUtils.testBasicInputProperties(component, fixture, [
+        { key: 'strong', testValue: 'Test Label' },
+        { key: 'value', testValue: 'Test Value' },
+      ]);
+
+      // Additional assertions for DOM rendering
+      const strongElement = fixture.nativeElement.querySelector('strong');
+      const spanElement = fixture.nativeElement.querySelector('span');
+      expect(strongElement.textContent.trim()).toBe('Test Label');
+      expect(spanElement.textContent.trim()).toBe('Test Value');
+    });
+
+    it('should accept strong input property individually', () => {
       // Arrange
       const testValue = 'Test Label';
 
@@ -88,7 +93,7 @@ describe('DetailFieldComponent', () => {
       expect(strongElement.textContent.trim()).toBe(testValue);
     });
 
-    it('should accept value input property', () => {
+    it('should accept value input property individually', () => {
       // Arrange
       const testValue = 'Test Value';
 
@@ -220,7 +225,7 @@ describe('DetailFieldComponent', () => {
       component.value = 'Debug Value';
       fixture.detectChanges();
 
-      // Act
+      // Act - Using direct DOM query approach since TestUtils.testEventHandling is for events
       const strongDebugElement: DebugElement = fixture.debugElement.query(By.css('strong'));
       const spanDebugElement: DebugElement = fixture.debugElement.query(By.css('span'));
 

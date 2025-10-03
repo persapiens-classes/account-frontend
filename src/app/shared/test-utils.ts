@@ -3,7 +3,7 @@ import { Type } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NgControl } from '@angular/forms';
 import { expect, vi } from 'vitest';
-import { FieldComponent, SelectFieldComponent } from './field-component';
+import { FieldComponent, SelectFieldComponent } from '../field/field-component';
 import { Bean } from '../bean/bean';
 
 // Using production FieldComponent interface
@@ -34,10 +34,10 @@ interface TestProperty<T> {
 type MockCallback = ReturnType<typeof vi.fn>;
 
 /**
- * Utilities for testing field components to reduce code duplication
+ * Utilities for testing components to reduce code duplication
  * while maintaining readability for component-specific logic
  */
-export class FieldTestUtils {
+export class TestUtils {
   /**
    * Sets up TestBed configuration for field components
    */
@@ -58,6 +58,30 @@ export class FieldTestUtils {
     await TestBed.configureTestingModule({
       imports: [componentType],
       providers: [{ provide: NgControl, useValue: ngControlMock }],
+    }).compileComponents();
+  }
+
+  /**
+   * Sets up TestBed configuration for services
+   */
+  static async setupServiceTestBed<T>(serviceType: Type<T>, providers?: unknown[]): Promise<void> {
+    const testProviders = [serviceType, ...(providers || [])];
+
+    await TestBed.configureTestingModule({
+      providers: testProviders,
+    }).compileComponents();
+  }
+
+  /**
+   * Sets up TestBed configuration for components with custom providers
+   */
+  static async setupComponentTestBed<T>(
+    componentType: Type<T>,
+    providers?: unknown[],
+  ): Promise<void> {
+    await TestBed.configureTestingModule({
+      imports: [componentType],
+      providers: providers || [],
     }).compileComponents();
   }
 
@@ -361,6 +385,53 @@ export class FieldTestUtils {
     // Check for minlength only if it's actually shown
     if (alertText?.includes('must be at least')) {
       expect(alertText).toContain(`${labelText} must be at least 3 characters long.`);
+    }
+  }
+
+  /**
+   * Tests that a service is a singleton (same instance when injected multiple times)
+   */
+  static testServiceSingleton<T>(serviceType: Type<T>): void {
+    const service1 = TestBed.inject(serviceType);
+    const service2 = TestBed.inject(serviceType);
+
+    expect(service1).toBe(service2);
+  }
+
+  /**
+   * Tests that a service has all expected methods
+   */
+  static testServiceMethods<T>(service: T, expectedMethods: string[]): void {
+    for (const methodName of expectedMethods) {
+      expect(Reflect.has(service as object, methodName)).toBe(true);
+      const method = Reflect.get(service as object, methodName);
+      expect(method).toBeDefined();
+      expect(typeof method).toBe('function');
+    }
+  }
+
+  /**
+   * Tests service constructor properties
+   */
+  static testServiceStructure<T>(service: T, serviceType: Type<T>): void {
+    expect(service).toBeDefined();
+    expect(service).toBeInstanceOf(serviceType);
+    expect(Object.getPrototypeOf(service).constructor).toBeDefined();
+    expect(Object.getPrototypeOf(service).constructor.name).toBe(serviceType.name);
+  }
+
+  /**
+   * Tests service method signatures (parameter count)
+   */
+  static testServiceMethodSignatures<T>(
+    service: T,
+    methodSignatures: { methodName: string; parameterCount: number }[],
+  ): void {
+    for (const { methodName, parameterCount } of methodSignatures) {
+      const method = Reflect.get(service as object, methodName) as (...args: unknown[]) => unknown;
+      expect(method).toBeDefined();
+      expect(typeof method).toBe('function');
+      expect(method?.length).toBe(parameterCount);
     }
   }
 }

@@ -3,7 +3,7 @@ import { ComponentFixture } from '@angular/core/testing';
 import { ControlValueAccessor } from '@angular/forms';
 import { InputFieldComponent } from './input-field.component';
 import { By } from '@angular/platform-browser';
-import { FieldTestUtils, createMockNgControl } from './field-test-utils';
+import { TestUtils, createMockNgControl } from '../shared/test-utils';
 
 describe('InputFieldComponent', () => {
   let component: InputFieldComponent;
@@ -12,14 +12,14 @@ describe('InputFieldComponent', () => {
 
   beforeEach(async () => {
     mockNgControl = createMockNgControl();
-    await FieldTestUtils.setupTestBed(InputFieldComponent, mockNgControl);
-    fixture = FieldTestUtils.createFixture(InputFieldComponent);
+    await TestUtils.setupTestBed(InputFieldComponent, mockNgControl);
+    fixture = TestUtils.createFixture(InputFieldComponent);
     component = fixture.componentInstance;
   });
 
   describe('Component Initialization', () => {
     it('should create and initialize with default values', () => {
-      FieldTestUtils.testBasicInitialization(
+      TestUtils.testBasicInitialization(
         component,
         {
           id: 'id',
@@ -41,7 +41,7 @@ describe('InputFieldComponent', () => {
 
   describe('Input Properties', () => {
     it('should accept basic input properties', () => {
-      FieldTestUtils.testBasicInputProperties(component, fixture, [
+      TestUtils.testBasicInputProperties(component, fixture, [
         { key: 'id', testValue: 'test-input-field' },
         { key: 'name', testValue: 'testInputField' },
         { key: 'autoFocus', testValue: true },
@@ -49,7 +49,7 @@ describe('InputFieldComponent', () => {
     });
 
     it('should accept label and render correctly', () => {
-      FieldTestUtils.testLabelRendering(component, fixture, 'Full Name', 'full-name-field');
+      TestUtils.testLabelRendering(component, fixture, 'Full Name', 'full-name-field');
     });
 
     it('should bind id to input element', () => {
@@ -64,7 +64,7 @@ describe('InputFieldComponent', () => {
 
   describe('Template Rendering', () => {
     it('should render p-float-label component', () => {
-      FieldTestUtils.testFloatLabelPresence(fixture);
+      TestUtils.testFloatLabelPresence(fixture);
     });
 
     it('should render the input element with pInputText directive', () => {
@@ -80,7 +80,7 @@ describe('InputFieldComponent', () => {
     });
 
     it('should handle validation errors', () => {
-      FieldTestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
+      TestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
     });
 
     it('should manage disabled state', () => {
@@ -92,7 +92,7 @@ describe('InputFieldComponent', () => {
 
   describe('ControlValueAccessor Implementation', () => {
     it('should implement ControlValueAccessor interface', () => {
-      FieldTestUtils.testControlValueAccessor(component, 'Test Input Value');
+      TestUtils.testControlValueAccessor(component, 'Test Input Value');
     });
 
     it('should handle null and undefined values', () => {
@@ -149,7 +149,7 @@ describe('InputFieldComponent', () => {
 
   describe('Integration with NgControl', () => {
     it('should integrate with NgControl properly', () => {
-      FieldTestUtils.testNgControlIntegration(component);
+      TestUtils.testNgControlIntegration(component);
     });
   });
 
@@ -208,7 +208,7 @@ describe('InputFieldComponent', () => {
 
   describe('Component State Management', () => {
     it('should manage component state correctly', () => {
-      FieldTestUtils.testStateManagement(component, 'First Value', 'Second Value');
+      TestUtils.testStateManagement(component, 'First Value', 'Second Value');
     });
 
     it('should preserve input properties after changes', () => {
@@ -228,7 +228,7 @@ describe('InputFieldComponent', () => {
 
   describe('Accessibility', () => {
     it('should support accessibility features', () => {
-      FieldTestUtils.testAccessibility(component, fixture, 'user-name', 'User Name');
+      TestUtils.testAccessibility(component, fixture, 'user-name', 'User Name');
     });
 
     it('should handle label-input association', () => {
@@ -251,7 +251,7 @@ describe('InputFieldComponent', () => {
 
   describe('Form Integration', () => {
     it('should work with reactive forms pattern', () => {
-      FieldTestUtils.testFormIntegration(
+      TestUtils.testFormIntegration(
         component,
         'Form Value',
         mockNgControl,
