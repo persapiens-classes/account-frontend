@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { ControlValueAccessor, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { StringFieldComponent } from './field-component';
 
 @Component({
   selector: 'app-input-field',
@@ -42,7 +43,7 @@ import { InputTextModule } from 'primeng/inputtext';
     }
   `,
 })
-export class InputFieldComponent implements ControlValueAccessor {
+export class InputFieldComponent implements StringFieldComponent {
   @Input() id = 'id';
   @Input() name = 'name';
   @Input() label = '';
@@ -60,7 +61,7 @@ export class InputFieldComponent implements ControlValueAccessor {
     // This can be left as a no-op if not needed, but should not be empty
   };
 
-  ngControl = inject(NgControl, { self: true, optional: true });
+  ngControl = inject(NgControl, { optional: true }) || undefined;
 
   constructor() {
     if (this.ngControl) {

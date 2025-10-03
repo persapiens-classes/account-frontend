@@ -2,9 +2,10 @@ import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { ControlValueAccessor, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { NumberFieldComponent as INumberFieldComponent } from './field-component';
 
 @Component({
   selector: 'app-number-field',
@@ -45,7 +46,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     }
   `,
 })
-export class NumberFieldComponent implements ControlValueAccessor {
+export class NumberFieldComponent implements INumberFieldComponent {
   @Input() id = 'id';
   @Input() name = 'name';
   @Input() label = '';
@@ -65,7 +66,7 @@ export class NumberFieldComponent implements ControlValueAccessor {
     this.ngControl?.control?.markAsTouched();
   };
 
-  ngControl = inject(NgControl, { self: true, optional: true });
+  ngControl = inject(NgControl, { optional: true }) || undefined;
 
   constructor() {
     if (this.ngControl) {

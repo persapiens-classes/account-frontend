@@ -1,9 +1,10 @@
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { ControlValueAccessor, NgControl, FormsModule } from '@angular/forms';
+import { NgControl, FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { Bean } from '../bean/bean';
+import { SelectFieldComponent as ISelectFieldComponent } from './field-component';
 
 @Component({
   selector: 'app-select-field',
@@ -33,7 +34,7 @@ import { Bean } from '../bean/bean';
     }
   `,
 })
-export class SelectFieldComponent implements ControlValueAccessor {
+export class SelectFieldComponent implements ISelectFieldComponent<Bean> {
   @Input() id = 'id';
   @Input() name = 'name';
   @Input() label = '';
@@ -46,14 +47,14 @@ export class SelectFieldComponent implements ControlValueAccessor {
   isDisabled = false;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (_: Bean) => {
+  onChange = (_: Bean | null) => {
     // Intentionally left blank; will be overwritten by registerOnChange
   };
   onTouched = () => {
     // no-op by default, will be overwritten by registerOnTouched
   };
 
-  ngControl = inject(NgControl, { self: true, optional: true });
+  ngControl = inject(NgControl, { optional: true }) || undefined;
 
   constructor() {
     if (this.ngControl) {
@@ -65,7 +66,7 @@ export class SelectFieldComponent implements ControlValueAccessor {
     this.value = obj;
   }
 
-  registerOnChange(fn: (value: unknown) => void): void {
+  registerOnChange(fn: (value: Bean | null) => void): void {
     this.onChange = fn;
   }
 

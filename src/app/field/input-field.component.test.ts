@@ -12,7 +12,7 @@ describe('InputFieldComponent', () => {
 
   beforeEach(async () => {
     mockNgControl = createMockNgControl();
-    await FieldTestUtils.setupTestBed(InputFieldComponent);
+    await FieldTestUtils.setupTestBed(InputFieldComponent, mockNgControl);
     fixture = FieldTestUtils.createFixture(InputFieldComponent);
     component = fixture.componentInstance;
   });
@@ -185,7 +185,6 @@ describe('InputFieldComponent', () => {
       mockNgControl.touched = true;
       mockNgControl.dirty = true;
       mockNgControl.errors = { required: true, minlength: true };
-      component.ngControl = mockNgControl;
       fixture.detectChanges();
 
       const alertDiv = fixture.nativeElement.querySelector('.alert');
