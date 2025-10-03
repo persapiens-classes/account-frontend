@@ -50,16 +50,16 @@ module.exports = tseslint.config(
       ],
       '@typescript-eslint/no-deprecated': 'error',
       ...securityPluginRecommended.rules,
-      // Configuração geral: máximo 4 níveis de aninhamento
+      // General configuration: maximum 4 nesting levels
       'max-depth': ['error', 4],
     },
   },
   {
-    // Configuração específica para arquivos de teste: máximo 5 níveis
+    // Specific configuration for test files: maximum 5 levels
     files: ['**/*.test.ts', '**/*.spec.ts'],
     rules: {
       'max-depth': ['error', 5],
-      // Permitir mais aninhamento de funções em testes (describe/it/etc)
+      // Allow more function nesting in tests (describe/it/etc)
       'sonarjs/no-nested-functions': 'off',
     },
   },
