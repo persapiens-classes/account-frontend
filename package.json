@@ -36,7 +36,7 @@
     "@angular/forms": "^20.3.3",
     "@angular/platform-browser": "^20.3.3",
     "@angular/router": "^20.3.3",
-    "@primeuix/themes": "^1.2.3",
+    "@primeuix/themes": "^1.2.5",
     "@tailwindcss/postcss": "^4.1.13",
     "account": "file:",
     "jwt-decode": "^4.0.0",
