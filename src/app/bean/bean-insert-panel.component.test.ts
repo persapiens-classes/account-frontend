@@ -1,13 +1,11 @@
 import { BeanInsertPanelComponent } from './bean-insert-panel.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
-import { CommonModule } from '@angular/common';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppMessageService } from '../app-message-service';
 import { vi } from 'vitest';
+import { TestUtils } from '../shared/test-utils';
 
 // Mock Bean and Insert DTO for testing
 class MockBean {
@@ -24,24 +22,16 @@ describe('BeanInsertPanelComponent', () => {
   let component: BeanInsertPanelComponent<MockBean, MockInsertDto>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        BeanInsertPanelComponent,
-        ReactiveFormsModule,
-        ButtonModule,
-        PanelModule,
-        CommonModule,
-      ],
-      providers: [
-        { provide: Router, useValue: { navigate: vi.fn() } },
-        {
-          provide: AppMessageService,
-          useValue: { addErrorMessage: vi.fn(), addSuccessMessage: vi.fn() },
-        },
-      ],
-    }).compileComponents();
+    const providers = [
+      { provide: Router, useValue: { navigate: vi.fn() } },
+      {
+        provide: AppMessageService,
+        useValue: { addErrorMessage: vi.fn(), addSuccessMessage: vi.fn() },
+      },
+    ];
 
-    fixture = TestBed.createComponent(BeanInsertPanelComponent) as ComponentFixture<
+    await TestUtils.setupComponentTestBed(BeanInsertPanelComponent, providers);
+    fixture = TestUtils.createFixture(BeanInsertPanelComponent) as ComponentFixture<
       BeanInsertPanelComponent<MockBean, MockInsertDto>
     >;
     component = fixture.componentInstance;
@@ -59,13 +49,31 @@ describe('BeanInsertPanelComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const expectedDefaults = {
+      beanName: 'Bean',
+      routerName: 'bean',
+    };
+    TestUtils.testBasicInitialization(component, expectedDefaults, BeanInsertPanelComponent);
   });
 
   it('should render panel header as "New"', () => {
     fixture.detectChanges();
     const header = fixture.nativeElement.querySelector('p-panel .p-panel-title');
     expect(header?.textContent).toContain('New');
+  });
+
+  it('should accept basic input properties', () => {
+    const testProperties = [
+      {
+        key: 'beanName' as keyof BeanInsertPanelComponent<MockBean, MockInsertDto>,
+        testValue: 'TestBean',
+      },
+      {
+        key: 'routerName' as keyof BeanInsertPanelComponent<MockBean, MockInsertDto>,
+        testValue: 'test-route',
+      },
+    ];
+    TestUtils.testBasicInputProperties(component, fixture, testProperties);
   });
 
   it('should disable insert button when form is invalid', () => {
@@ -114,5 +122,40 @@ describe('BeanInsertPanelComponent', () => {
     fixture.detectChanges();
     component.cancelInsert();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['bean']);
+  });
+
+  it('should have required methods', () => {
+    const expectedMethods = ['insert', 'cancelInsert'];
+    TestUtils.testServiceMethods(component, expectedMethods);
+  });
+
+  it('should have correct component structure', () => {
+    TestUtils.testServiceStructure(component, BeanInsertPanelComponent);
+  });
+
+  it('should have correct method signatures', () => {
+    const methodSignatures = [
+      { methodName: 'insert', parameterCount: 0 },
+      { methodName: 'cancelInsert', parameterCount: 0 },
+    ];
+    TestUtils.testServiceMethodSignatures(component, methodSignatures);
+  });
+
+  it('should handle state management correctly', () => {
+    const testFormGroup1 = new FormGroup({
+      name: new FormControl('value1', Validators.required),
+    });
+    const testFormGroup2 = new FormGroup({
+      name: new FormControl('value2', Validators.required),
+    });
+
+    // Test formGroup state changes
+    expect(component.formGroup).toBeDefined();
+
+    component.formGroup = testFormGroup1;
+    expect(component.formGroup).toBe(testFormGroup1);
+
+    component.formGroup = testFormGroup2;
+    expect(component.formGroup).toBe(testFormGroup2);
   });
 });
