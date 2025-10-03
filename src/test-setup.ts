@@ -7,14 +7,14 @@ import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-
 // Initialize TestBed for Angular components
 TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
 
-// Configuração global para testes Angular com Vitest
+// Global configuration for Angular tests with Vitest
 interface GlobalThis {
   ngDevMode?: boolean;
 }
 
 (globalThis as GlobalThis).ngDevMode = false;
 
-// Mock para matchMedia (necessário para alguns componentes PrimeNG)
+// Mock for matchMedia (required for some PrimeNG components)
 Object.defineProperty(globalThis, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
@@ -29,26 +29,26 @@ Object.defineProperty(globalThis, 'matchMedia', {
   })),
 });
 
-// Mock para ResizeObserver (usado por alguns componentes)
+// Mock for ResizeObserver (used by some components)
 globalThis.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }));
 
-// Mock para IntersectionObserver
+// Mock for IntersectionObserver
 globalThis.IntersectionObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }));
 
-// Configuração para fetch (se necessário)
+// Configuration for fetch (if needed)
 if (!globalThis.fetch) {
   globalThis.fetch = vi.fn();
 }
 
-// Mock básico para localStorage se necessário
+// Basic mock for localStorage if needed
 const localStorageMock = {
   getItem: vi.fn(),
   setItem: vi.fn(),
@@ -59,7 +59,7 @@ Object.defineProperty(globalThis, 'localStorage', {
   value: localStorageMock,
 });
 
-// Mock para sessionStorage
+// Mock for sessionStorage
 Object.defineProperty(globalThis, 'sessionStorage', {
   value: localStorageMock,
 });

@@ -11,7 +11,7 @@ describe('DateFieldComponent', () => {
 
   beforeEach(async () => {
     mockNgControl = createMockNgControl();
-    await FieldTestUtils.setupTestBed(DateFieldComponent);
+    await FieldTestUtils.setupTestBed(DateFieldComponent, mockNgControl);
     fixture = FieldTestUtils.createFixture(DateFieldComponent);
     component = fixture.componentInstance;
   });

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { signal } from '@angular/core';
 
-// Exemplo de teste simples para uma função utilitária
+// Simple test example for a utility function
 describe('Signals Utilities', () => {
   it('should create a signal with initial value', () => {
     const count = signal(0);
@@ -48,7 +48,7 @@ describe('Mock Examples', () => {
   });
 });
 
-// Exemplo de teste assíncrono
+// Async test example
 describe('Async Tests', () => {
   it('should handle async operations', async () => {
     const asyncFunction = async () => {

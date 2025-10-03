@@ -31,7 +31,7 @@ describe('SelectFieldComponent', () => {
       new MockBean('3', 'Option 3'),
     ];
 
-    await FieldTestUtils.setupTestBed(SelectFieldComponent);
+    await FieldTestUtils.setupTestBed(SelectFieldComponent, mockNgControl);
     fixture = FieldTestUtils.createFixture(SelectFieldComponent);
     component = fixture.componentInstance;
     component.options = mockBeans;
@@ -119,7 +119,6 @@ describe('SelectFieldComponent', () => {
       mockNgControl.invalid = true;
       mockNgControl.dirty = true;
       mockNgControl.errors = { minlength: true };
-      component.ngControl = mockNgControl;
       fixture.detectChanges();
 
       const alertDiv = fixture.nativeElement.querySelector('.alert');
@@ -371,7 +370,6 @@ describe('SelectFieldComponent', () => {
       mockNgControl.invalid = false;
       mockNgControl.touched = false;
       mockNgControl.dirty = false;
-      component.ngControl = mockNgControl;
       fixture.detectChanges();
 
       let alertDiv = fixture.nativeElement.querySelector('.alert');

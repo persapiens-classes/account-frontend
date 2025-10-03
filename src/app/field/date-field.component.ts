@@ -1,5 +1,6 @@
-import { ControlValueAccessor, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { Component, inject, Input } from '@angular/core';
+import { DateFieldComponent as IDateFieldComponent } from './field-component';
 import { CommonModule } from '@angular/common';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
@@ -43,7 +44,7 @@ import { DatePickerModule } from 'primeng/datepicker';
     }
   `,
 })
-export class DateFieldComponent implements ControlValueAccessor {
+export class DateFieldComponent implements IDateFieldComponent {
   @Input() id = 'id';
   @Input() name = 'name';
   @Input() label = '';
@@ -59,7 +60,7 @@ export class DateFieldComponent implements ControlValueAccessor {
   };
   onTouched!: () => void;
 
-  ngControl = inject(NgControl, { self: true, optional: true });
+  ngControl = inject(NgControl, { optional: true }) || undefined;
 
   constructor() {
     if (this.ngControl) {
