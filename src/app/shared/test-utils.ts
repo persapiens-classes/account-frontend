@@ -62,6 +62,17 @@ export class TestUtils {
   }
 
   /**
+   * Sets up TestBed configuration for services
+   */
+  static async setupServiceTestBed<T>(serviceType: Type<T>, providers?: unknown[]): Promise<void> {
+    const testProviders = [serviceType, ...(providers || [])];
+
+    await TestBed.configureTestingModule({
+      providers: testProviders,
+    }).compileComponents();
+  }
+
+  /**
    * Creates component fixture with basic setup
    */
   static createFixture<T>(componentType: Type<T>): ComponentFixture<T> {
@@ -361,6 +372,53 @@ export class TestUtils {
     // Check for minlength only if it's actually shown
     if (alertText?.includes('must be at least')) {
       expect(alertText).toContain(`${labelText} must be at least 3 characters long.`);
+    }
+  }
+
+  /**
+   * Tests that a service is a singleton (same instance when injected multiple times)
+   */
+  static testServiceSingleton<T>(serviceType: Type<T>): void {
+    const service1 = TestBed.inject(serviceType);
+    const service2 = TestBed.inject(serviceType);
+
+    expect(service1).toBe(service2);
+  }
+
+  /**
+   * Tests that a service has all expected methods
+   */
+  static testServiceMethods<T>(service: T, expectedMethods: string[]): void {
+    for (const methodName of expectedMethods) {
+      expect((service as Record<string, unknown>)[methodName]).toBeDefined();
+      expect(typeof (service as Record<string, unknown>)[methodName]).toBe('function');
+    }
+  }
+
+  /**
+   * Tests service constructor properties
+   */
+  static testServiceStructure<T>(service: T, serviceType: Type<T>): void {
+    expect(service).toBeDefined();
+    expect(service).toBeInstanceOf(serviceType);
+    expect((service as Record<string, unknown>).constructor).toBeDefined();
+    expect((service as Record<string, unknown>).constructor.name).toBe(serviceType.name);
+  }
+
+  /**
+   * Tests service method signatures (parameter count)
+   */
+  static testServiceMethodSignatures<T>(
+    service: T,
+    methodSignatures: { methodName: string; parameterCount: number }[],
+  ): void {
+    for (const { methodName, parameterCount } of methodSignatures) {
+      const method = (service as Record<string, unknown>)[methodName] as (
+        ...args: unknown[]
+      ) => unknown;
+      expect(method).toBeDefined();
+      expect(typeof method).toBe('function');
+      expect(method.length).toBe(parameterCount);
     }
   }
 }
