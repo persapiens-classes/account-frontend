@@ -1,21 +1,21 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { FieldTestUtils } from './shared/test-utils';
+import { TestUtils } from './shared/test-utils';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async () => {
-    await FieldTestUtils.setupTestBed(AppComponent);
-    fixture = FieldTestUtils.createFixture(AppComponent);
+    await TestUtils.setupTestBed(AppComponent);
+    fixture = TestUtils.createFixture(AppComponent);
     component = fixture.componentInstance;
   });
 
   describe('Component Creation', () => {
     it('should create', () => {
-      FieldTestUtils.testBasicInitialization(component, {}, AppComponent);
+      TestUtils.testBasicInitialization(component, {}, AppComponent);
       expect(component).toBeTruthy();
     });
 

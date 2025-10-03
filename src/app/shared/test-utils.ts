@@ -34,10 +34,10 @@ interface TestProperty<T> {
 type MockCallback = ReturnType<typeof vi.fn>;
 
 /**
- * Utilities for testing field components to reduce code duplication
+ * Utilities for testing components to reduce code duplication
  * while maintaining readability for component-specific logic
  */
-export class FieldTestUtils {
+export class TestUtils {
   /**
    * Sets up TestBed configuration for field components
    */

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ComponentFixture } from '@angular/core/testing';
 import { NumberFieldComponent } from './number-field.component';
 import { By } from '@angular/platform-browser';
-import { FieldTestUtils, createMockNgControl } from '../shared/test-utils';
+import { TestUtils, createMockNgControl } from '../shared/test-utils';
 
 describe('NumberFieldComponent', () => {
   let component: NumberFieldComponent;
@@ -11,14 +11,14 @@ describe('NumberFieldComponent', () => {
 
   beforeEach(async () => {
     mockNgControl = createMockNgControl();
-    await FieldTestUtils.setupTestBed(NumberFieldComponent, mockNgControl);
-    fixture = FieldTestUtils.createFixture(NumberFieldComponent);
+    await TestUtils.setupTestBed(NumberFieldComponent, mockNgControl);
+    fixture = TestUtils.createFixture(NumberFieldComponent);
     component = fixture.componentInstance;
   });
 
   describe('Component Initialization', () => {
     it('should create and initialize with default values', () => {
-      FieldTestUtils.testBasicInitialization(
+      TestUtils.testBasicInitialization(
         component,
         {
           id: 'id',
@@ -43,7 +43,7 @@ describe('NumberFieldComponent', () => {
 
   describe('Input Properties', () => {
     it('should accept basic input properties', () => {
-      FieldTestUtils.testBasicInputProperties(component, fixture, [
+      TestUtils.testBasicInputProperties(component, fixture, [
         { key: 'id', testValue: 'test-number-field' },
         { key: 'name', testValue: 'testNumberField' },
         { key: 'autoFocus', testValue: true },
@@ -54,13 +54,13 @@ describe('NumberFieldComponent', () => {
     });
 
     it('should accept label and render correctly', () => {
-      FieldTestUtils.testLabelRendering(component, fixture, 'Price', 'price-field');
+      TestUtils.testLabelRendering(component, fixture, 'Price', 'price-field');
     });
   });
 
   describe('Template Rendering', () => {
     it('should render p-float-label component', () => {
-      FieldTestUtils.testFloatLabelPresence(fixture);
+      TestUtils.testFloatLabelPresence(fixture);
     });
 
     it('should render the p-inputnumber component', () => {
@@ -70,13 +70,13 @@ describe('NumberFieldComponent', () => {
     });
 
     it('should handle validation errors', () => {
-      FieldTestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
+      TestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
     });
   });
 
   describe('ControlValueAccessor Implementation', () => {
     it('should implement ControlValueAccessor interface', () => {
-      FieldTestUtils.testControlValueAccessor(component, 123.45);
+      TestUtils.testControlValueAccessor(component, 123.45);
     });
   });
 
@@ -192,7 +192,7 @@ describe('NumberFieldComponent', () => {
 
   describe('Integration with NgControl', () => {
     it('should integrate with NgControl properly', () => {
-      FieldTestUtils.testNgControlIntegration(component);
+      TestUtils.testNgControlIntegration(component);
     });
   });
 
@@ -289,7 +289,7 @@ describe('NumberFieldComponent', () => {
     });
 
     it('should handle multiple validation errors', () => {
-      FieldTestUtils.testMultipleValidationErrors(component, fixture, 'Test Field', mockNgControl);
+      TestUtils.testMultipleValidationErrors(component, fixture, 'Test Field', mockNgControl);
     });
 
     it('should handle very large numbers', () => {
@@ -307,7 +307,7 @@ describe('NumberFieldComponent', () => {
 
   describe('Component State Management', () => {
     it('should manage component state correctly', () => {
-      FieldTestUtils.testStateManagement(component, 100, 200);
+      TestUtils.testStateManagement(component, 100, 200);
     });
 
     it('should handle value changes properly', () => {
@@ -338,7 +338,7 @@ describe('NumberFieldComponent', () => {
 
   describe('Accessibility', () => {
     it('should support accessibility features', () => {
-      FieldTestUtils.testAccessibility(component, fixture, 'price-field', 'Price');
+      TestUtils.testAccessibility(component, fixture, 'price-field', 'Price');
     });
 
     it('should be accessible when disabled', () => {
@@ -349,7 +349,7 @@ describe('NumberFieldComponent', () => {
 
   describe('Form Integration', () => {
     it('should work with reactive forms pattern', () => {
-      FieldTestUtils.testFormIntegration(
+      TestUtils.testFormIntegration(
         component,
         500,
         mockNgControl,

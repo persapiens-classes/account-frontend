@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ComponentFixture } from '@angular/core/testing';
 import { DateFieldComponent } from './date-field.component';
 import { By } from '@angular/platform-browser';
-import { FieldTestUtils, createMockNgControl } from '../shared/test-utils';
+import { TestUtils, createMockNgControl } from '../shared/test-utils';
 
 describe('DateFieldComponent', () => {
   let component: DateFieldComponent;
@@ -11,14 +11,14 @@ describe('DateFieldComponent', () => {
 
   beforeEach(async () => {
     mockNgControl = createMockNgControl();
-    await FieldTestUtils.setupTestBed(DateFieldComponent, mockNgControl);
-    fixture = FieldTestUtils.createFixture(DateFieldComponent);
+    await TestUtils.setupTestBed(DateFieldComponent, mockNgControl);
+    fixture = TestUtils.createFixture(DateFieldComponent);
     component = fixture.componentInstance;
   });
 
   describe('Component Initialization', () => {
     it('should create and initialize with default values', () => {
-      FieldTestUtils.testBasicInitialization(
+      TestUtils.testBasicInitialization(
         component,
         {
           id: 'id',
@@ -47,7 +47,7 @@ describe('DateFieldComponent', () => {
 
   describe('Input Properties', () => {
     it('should accept basic input properties', () => {
-      FieldTestUtils.testBasicInputProperties(component, fixture, [
+      TestUtils.testBasicInputProperties(component, fixture, [
         { key: 'id', testValue: 'test-date-field' },
         { key: 'name', testValue: 'testDateField' },
         { key: 'autoFocus', testValue: true },
@@ -56,13 +56,13 @@ describe('DateFieldComponent', () => {
     });
 
     it('should accept label and render correctly', () => {
-      FieldTestUtils.testLabelRendering(component, fixture, 'Birth Date', 'birth-date-field');
+      TestUtils.testLabelRendering(component, fixture, 'Birth Date', 'birth-date-field');
     });
   });
 
   describe('Template Rendering', () => {
     it('should render p-float-label component', () => {
-      FieldTestUtils.testFloatLabelPresence(fixture);
+      TestUtils.testFloatLabelPresence(fixture);
     });
 
     it('should render the p-date-picker component', () => {
@@ -72,14 +72,14 @@ describe('DateFieldComponent', () => {
     });
 
     it('should handle validation errors', () => {
-      FieldTestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
+      TestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
     });
   });
 
   describe('ControlValueAccessor Implementation', () => {
     it('should implement ControlValueAccessor interface', () => {
       const testDate = new Date('2023-12-25');
-      FieldTestUtils.testControlValueAccessor(component, testDate);
+      TestUtils.testControlValueAccessor(component, testDate);
     });
   });
 
@@ -109,7 +109,7 @@ describe('DateFieldComponent', () => {
 
   describe('Integration with NgControl', () => {
     it('should integrate with NgControl properly', () => {
-      FieldTestUtils.testNgControlIntegration(component);
+      TestUtils.testNgControlIntegration(component);
     });
   });
 
@@ -141,7 +141,7 @@ describe('DateFieldComponent', () => {
     });
 
     it('should handle multiple validation errors', () => {
-      FieldTestUtils.testMultipleValidationErrors(component, fixture, 'Test Field', mockNgControl);
+      TestUtils.testMultipleValidationErrors(component, fixture, 'Test Field', mockNgControl);
     });
   });
 
@@ -149,7 +149,7 @@ describe('DateFieldComponent', () => {
     it('should manage component state correctly', () => {
       const date1 = new Date('2023-01-01');
       const date2 = new Date('2023-12-31');
-      FieldTestUtils.testStateManagement(component, date1, date2);
+      TestUtils.testStateManagement(component, date1, date2);
     });
 
     it('should handle date selection properly', () => {
@@ -161,7 +161,7 @@ describe('DateFieldComponent', () => {
 
   describe('Accessibility', () => {
     it('should support accessibility features', () => {
-      FieldTestUtils.testAccessibility(component, fixture, 'birth-date', 'Birth Date');
+      TestUtils.testAccessibility(component, fixture, 'birth-date', 'Birth Date');
     });
   });
 });

@@ -3,7 +3,7 @@ import { ComponentFixture } from '@angular/core/testing';
 import { SelectFieldComponent } from './select-field.component';
 import { By } from '@angular/platform-browser';
 import { Bean } from '../bean/bean';
-import { FieldTestUtils, createMockNgControl } from '../shared/test-utils';
+import { TestUtils, createMockNgControl } from '../shared/test-utils';
 
 // Mock Bean implementation for testing
 class MockBean implements Bean {
@@ -31,15 +31,15 @@ describe('SelectFieldComponent', () => {
       new MockBean('3', 'Option 3'),
     ];
 
-    await FieldTestUtils.setupTestBed(SelectFieldComponent, mockNgControl);
-    fixture = FieldTestUtils.createFixture(SelectFieldComponent);
+    await TestUtils.setupTestBed(SelectFieldComponent, mockNgControl);
+    fixture = TestUtils.createFixture(SelectFieldComponent);
     component = fixture.componentInstance;
     component.options = mockBeans;
   });
 
   describe('Component Initialization', () => {
     it('should create and initialize with default values', () => {
-      FieldTestUtils.testBasicInitialization(
+      TestUtils.testBasicInitialization(
         component,
         {
           id: 'id',
@@ -67,7 +67,7 @@ describe('SelectFieldComponent', () => {
 
   describe('Input Properties', () => {
     it('should accept basic input properties', () => {
-      FieldTestUtils.testBasicInputProperties(component, fixture, [
+      TestUtils.testBasicInputProperties(component, fixture, [
         { key: 'id', testValue: 'test-select-field' },
         { key: 'name', testValue: 'testSelectField' },
         { key: 'placeholder', testValue: 'Select an option...' },
@@ -77,7 +77,7 @@ describe('SelectFieldComponent', () => {
     });
 
     it('should accept label and render correctly', () => {
-      FieldTestUtils.testLabelRendering(component, fixture, 'Choose Option', 'choose-option-field');
+      TestUtils.testLabelRendering(component, fixture, 'Choose Option', 'choose-option-field');
     });
 
     it('should accept options input property', () => {
@@ -92,7 +92,7 @@ describe('SelectFieldComponent', () => {
 
   describe('Template Rendering', () => {
     it('should render p-float-label component', () => {
-      FieldTestUtils.testFloatLabelPresence(fixture);
+      TestUtils.testFloatLabelPresence(fixture);
     });
 
     it('should render the p-select component', () => {
@@ -111,7 +111,7 @@ describe('SelectFieldComponent', () => {
 
     it('should handle validation errors (select-specific)', () => {
       // Test basic validation
-      FieldTestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
+      TestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
     });
 
     it('should show alert div but not minlength error message for select', () => {
@@ -130,7 +130,7 @@ describe('SelectFieldComponent', () => {
   describe('ControlValueAccessor Implementation', () => {
     it('should implement ControlValueAccessor interface', () => {
       const testBean = mockBeans[0];
-      FieldTestUtils.testControlValueAccessor(component, testBean);
+      TestUtils.testControlValueAccessor(component, testBean);
     });
   });
 
@@ -301,7 +301,7 @@ describe('SelectFieldComponent', () => {
 
   describe('Component State Management', () => {
     it('should manage component state correctly', () => {
-      FieldTestUtils.testStateManagement(component, mockBeans[0], mockBeans[1]);
+      TestUtils.testStateManagement(component, mockBeans[0], mockBeans[1]);
     });
 
     it('should handle selection properly', () => {

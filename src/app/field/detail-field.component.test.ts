@@ -3,25 +3,21 @@ import { ComponentFixture } from '@angular/core/testing';
 import { DetailFieldComponent } from './detail-field.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { FieldTestUtils } from '../shared/test-utils';
+import { TestUtils } from '../shared/test-utils';
 
 describe('DetailFieldComponent', () => {
   let component: DetailFieldComponent;
   let fixture: ComponentFixture<DetailFieldComponent>;
 
   beforeEach(async () => {
-    await FieldTestUtils.setupTestBed(DetailFieldComponent);
-    fixture = FieldTestUtils.createFixture(DetailFieldComponent);
+    await TestUtils.setupTestBed(DetailFieldComponent);
+    fixture = TestUtils.createFixture(DetailFieldComponent);
     component = fixture.componentInstance;
   });
 
   describe('Component Initialization', () => {
     it('should create the component', () => {
-      FieldTestUtils.testBasicInitialization(
-        component,
-        { strong: '', value: '' },
-        DetailFieldComponent,
-      );
+      TestUtils.testBasicInitialization(component, { strong: '', value: '' }, DetailFieldComponent);
     });
   });
 
@@ -70,7 +66,7 @@ describe('DetailFieldComponent', () => {
 
   describe('Input Properties', () => {
     it('should accept input properties', () => {
-      FieldTestUtils.testBasicInputProperties(component, fixture, [
+      TestUtils.testBasicInputProperties(component, fixture, [
         { key: 'strong', testValue: 'Test Label' },
         { key: 'value', testValue: 'Test Value' },
       ]);
@@ -229,7 +225,7 @@ describe('DetailFieldComponent', () => {
       component.value = 'Debug Value';
       fixture.detectChanges();
 
-      // Act - Using direct DOM query approach since FieldTestUtils.testEventHandling is for events
+      // Act - Using direct DOM query approach since TestUtils.testEventHandling is for events
       const strongDebugElement: DebugElement = fixture.debugElement.query(By.css('strong'));
       const spanDebugElement: DebugElement = fixture.debugElement.query(By.css('span'));
 

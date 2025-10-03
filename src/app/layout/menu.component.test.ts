@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { MenuComponent } from './menu.component';
 import { MenuItem } from 'primeng/api';
-import { FieldTestUtils } from '../shared/test-utils';
+import { TestUtils } from '../shared/test-utils';
 
 // Mock component for router testing
 import { Component } from '@angular/core';
@@ -39,7 +39,7 @@ describe('MenuComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = FieldTestUtils.createFixture(MenuComponent);
+    fixture = TestUtils.createFixture(MenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
