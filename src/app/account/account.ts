@@ -14,3 +14,9 @@ export class Account implements Bean {
 export function createAccount(): Account {
   return new Account('', '');
 }
+
+export enum AccountType {
+  CREDIT = 'Credit',
+  DEBIT = 'Debit',
+  EQUITY = 'Equity',
+}

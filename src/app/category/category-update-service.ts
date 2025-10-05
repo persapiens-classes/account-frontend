@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { BeanUpdateService, updateBean } from '../bean/bean-update-service';
-import { Category, createCategory } from './category';
+import { Category, CategoryType, createCategory } from './category';
 import { Observable } from 'rxjs';
 
 export class CategoryUpdateService implements BeanUpdateService<Category, Category> {
   constructor(
     private readonly http: HttpClient,
-    private readonly type: string,
+    private readonly type: CategoryType,
   ) {}
 
   update(id: string, category: Category): Observable<Category> {

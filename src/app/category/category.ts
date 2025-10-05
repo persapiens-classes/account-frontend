@@ -11,3 +11,9 @@ export class Category implements Bean {
 export function createCategory(): Category {
   return new Category('');
 }
+
+export enum CategoryType {
+  CREDIT = 'Credit',
+  DEBIT = 'Debit',
+  EQUITY = 'Equity',
+}

@@ -1,20 +1,23 @@
 import { Route } from '@angular/router';
-import { LayoutComponent } from './layout/layout.component';
+import { LayoutComponent, TitleColor } from './layout/layout.component';
 import { authGuard } from './auth/auth.guard';
 import { Type } from '@angular/core';
+import { CategoryType } from './category/category';
+import { AccountType } from './account/account';
+import { EntryType } from './entry/entry';
 
 export interface RouteConfig {
   path: string;
   title: string;
-  titleClass: string;
+  titleColor: TitleColor;
   listComponent: Type<unknown>;
   insertComponent: Type<unknown>;
   updateComponent: Type<unknown>;
   detailComponent: Type<unknown>;
-  type?: string;
-  categoryType?: string;
-  inAccountType?: string;
-  outAccountType?: string;
+  type?: CategoryType | AccountType | EntryType;
+  categoryType?: CategoryType;
+  inAccountType?: AccountType;
+  outAccountType?: AccountType;
 }
 
 function createChildData(config: RouteConfig) {
@@ -35,7 +38,7 @@ export function createCrudRoutes(config: RouteConfig): Route {
     path: config.path,
     component: LayoutComponent,
     canActivate: [authGuard],
-    data: { title: config.title, titleClass: config.titleClass },
+    data: { title: config.title, titleColor: config.titleColor },
     children: [
       {
         path: 'list',

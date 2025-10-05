@@ -38,3 +38,9 @@ export function jsonToEntry(result: Entry): Entry {
   result.date = new Date(result.date);
   return result;
 }
+
+export enum EntryType {
+  CREDIT = 'Credit',
+  DEBIT = 'Debit',
+  TRANSFER = 'Transfer',
+}

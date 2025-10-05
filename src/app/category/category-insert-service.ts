@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { BeanInsertService, insertBean } from '../bean/bean-insert-service';
-import { Category, createCategory } from './category';
+import { Category, CategoryType, createCategory } from './category';
 import { Observable } from 'rxjs';
 
 export class CategoryInsertService implements BeanInsertService<Category, Category> {
   constructor(
     private readonly http: HttpClient,
-    private readonly type: string,
+    private readonly type: CategoryType,
   ) {}
 
   insert(category: Category): Observable<Category> {

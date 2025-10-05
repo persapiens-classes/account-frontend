@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
 import { Owner } from '../owner/owner';
-import { Account } from '../account/account';
+import { Account, AccountType } from '../account/account';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
 import { OwnerListService } from '../owner/owner-list-service';
@@ -62,7 +62,10 @@ export class OwnerEquityAccountInitialValueInsertComponent {
       inputInitialValue: ['', [Validators.required]],
     });
 
-    this.equityAccounts = new AccountListService(inject(AppMessageService), 'Equity').findAll();
+    this.equityAccounts = new AccountListService(
+      inject(AppMessageService),
+      AccountType.EQUITY,
+    ).findAll();
     this.owners = inject(OwnerListService).findAll();
   }
 
