@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-detail-field',
   imports: [CommonModule],
   template: `
-    <div class="flex items-center mb-2.5">
+    <div class="mb-2.5 flex items-center">
       <strong class="inline-block w-[130px] font-bold">{{ strong }}</strong>
       <span>{{ value }}</span>
     </div>

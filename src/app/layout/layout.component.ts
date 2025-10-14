@@ -22,7 +22,7 @@ export enum TitleColor {
 
     <app-menu />
 
-    <h2 class="mb-4 mt-4 text-2xl" [ngClass]="titleColor">{{ title }}</h2>
+    <h2 class="mt-4 mb-4 text-2xl" [ngClass]="titleColor">{{ title }}</h2>
 
     <router-outlet></router-outlet>
   `,
