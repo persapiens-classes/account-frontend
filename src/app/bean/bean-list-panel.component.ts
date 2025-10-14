@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
   template: `
     <p-panel header="List">
       <ng-template pTemplate="header">
-        <div class="flex justify-between items-center w-full ml-2.5">
+        <div class="ml-2.5 flex w-full items-center justify-between">
           <p-button
             icon="pi pi-plus"
             (onClick)="startInsert()"

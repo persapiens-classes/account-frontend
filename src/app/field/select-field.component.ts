@@ -21,7 +21,7 @@ import { SelectFieldComponent as ISelectFieldComponent } from './field-component
         [(ngModel)]="value"
         (onChange)="onSelect($event.value)"
         (onBlur)="onTouched()"
-        class="min-w-[200px] max-w-[300px] w-full"
+        class="w-full max-w-[300px] min-w-[200px]"
       />
       <label [for]="id">{{ label }}</label>
     </p-float-label>
