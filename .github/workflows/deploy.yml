@@ -14,11 +14,24 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Node and pnpm install and configure cache
-        uses: actions/setup-node@v5.0.0
+      - name: Node install
+        uses: actions/setup-node@v6.0.0
         with:
           node-version: '24'
-          cache: 'pnpm'
+
+      - name: Pnpm install
+        uses: pnpm/action-setup@v4.2.0
+        with:
+          version: '10.18.3'
+          run_install: false
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4.3.0
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
 
       - name: Dependencies install
         run: pnpm install
