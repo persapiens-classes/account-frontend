@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 /* stylelint-disable at-rule-no-unknown */
-@plugin "tailwindcss-primeui";
+@plugin 'tailwindcss-primeui';
 /* stylelint-enable at-rule-no-unknown */
 @import 'primeicons/primeicons.css';
 
