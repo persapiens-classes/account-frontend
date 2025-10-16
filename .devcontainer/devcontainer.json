@@ -17,14 +17,23 @@
         "Angular.ng-template",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
-        "SonarSource.sonarlint-vscode"
+        "SonarSource.sonarlint-vscode",
+        "bradlc.vscode-tailwindcss"
       ]
     }
   },
 
-  // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "npm install -g @angular/cli@20"
+  "mounts": [
+    // pnpm store persistence to speed up rebuilds
+    "source=pnpm-store,target=/workspaces/.pnpm-store,type=volume"
+  ],
 
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": [
+    "corepack enable",
+    "corepack prepare pnpm@10.18.3 --activate",
+    "pnpm install"
+  ]
   // Configure tool-specific properties.
   // "customizations": {},
 

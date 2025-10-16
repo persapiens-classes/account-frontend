@@ -1,6 +1,7 @@
 {
   "name": "account",
   "version": "0.0.0",
+  "packageManager": "pnpm@10.18.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,21 +13,23 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:coverage:html": "vitest run --coverage && echo 'HTML coverage report generated at: coverage/index.html'",
-    "test:coverage:open": "npm run test:coverage && npm run coverage:show",
-    "test:coverage:verify": "npm run test:coverage && npm run coverage:check",
+    "test:coverage:open": "pnpm run test:coverage && pnpm run coverage:show",
+    "test:coverage:verify": "pnpm run test:coverage && pnpm run coverage:check",
     "coverage:show": "echo 'Coverage report generated at: file://'$(pwd)'/coverage/index.html' && if [ -n \"$BROWSER\" ]; then \"$BROWSER\" coverage/index.html; elif command -v xdg-open > /dev/null; then xdg-open coverage/index.html; elif command -v open > /dev/null; then open coverage/index.html; else echo 'Please open coverage/index.html in your browser'; fi",
     "coverage:check": "echo 'Checking coverage files...' && ls -la coverage/ && if [ -f 'coverage/lcov.info' ]; then echo '✅ LCOV file exists'; echo '📊 LCOV file size:' $(wc -l < coverage/lcov.info) 'lines'; else echo '❌ LCOV file missing'; exit 1; fi",
     "test:watch": "vitest --watch",
+    "format:check": "prettier . --check",
+    "format:fix": "prettier . --write .",
     "lint": "ng lint",
     "lint:sonar": "echo '📊 SonarQube analysis: Check VS Code Problems panel for issues'",
-    "lint:all": "npm run lint && npm run lint:sonar",
-    "quality": "npm run lint && npm run test:coverage && npm run check-duplication && npm run lint:sonar",
-    "quality:full": "npm run quality && echo '✅ Full quality check complete - Review VS Code Problems panel for SonarQube issues'",
-    "check-duplication": "npm run check-duplication:production && npm run check-duplication:tests",
+    "lint:all": "pnpm run lint && pnpm run lint:sonar",
+    "check-duplication": "pnpm run check-duplication:production && pnpm run check-duplication:tests",
     "check-duplication:verbose": "jscpd --config .jscpdrc.json ./src --verbose",
     "check-duplication:production": "jscpd --config .jscpdrc.json ./src",
     "check-duplication:tests": "jscpd --config .jscpdrc.test.json ./src",
-    "check-duplication:all": "npm run check-duplication:production && echo '\\n=== Testing duplication in test files ===' && npm run check-duplication:tests"
+    "check-duplication:all": "pnpm run check-duplication:production && echo '\\n=== Testing duplication in test files ===' && pnpm run check-duplication:tests",
+    "quality": "prettier . --check && pnpm run lint && pnpm run test:coverage && pnpm run check-duplication && pnpm run lint:sonar",
+    "quality:full": "pnpm run quality && echo '✅ Full quality check complete - Review VS Code Problems panel for SonarQube issues'"
   },
   "private": true,
   "dependencies": {
@@ -51,7 +54,7 @@
   },
   "devDependencies": {
     "@angular/build": "^20.3.4",
-    "@angular/cli": "^20.3.4",
+    "@angular/cli": "^20.3.6",
     "@angular/compiler-cli": "^20.3.3",
     "@angular/platform-browser-dynamic": "^20.3.3",
     "@types/jsdom": "^27.0.0",
