@@ -25,13 +25,19 @@ jobs:
           version: '10.18.3'
           run_install: false
 
+      - name: Pnpm determine store path
+        id: pnpm-store
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+          echo "Store path is $STORE_PATH"
+
       - name: Cache pnpm store
         uses: actions/cache@v4.3.0
         with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-
+            ${{ runner.os }}-pnpm-store-
 
       - name: Dependencies install
         run: pnpm install
