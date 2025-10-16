@@ -27,9 +27,11 @@ jobs:
 
       - name: Pnpm determine store path
         id: pnpm-store
+        shell: bash
         run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
-          echo "Store path is $STORE_PATH"
+          STORE_PATH=$(pnpm store path)
+          echo "PNPM store path: $STORE_PATH"
+          echo "STORE_PATH=$STORE_PATH" >> $GITHUB_ENV
 
       - name: Cache pnpm store
         uses: actions/cache@v4.3.0
