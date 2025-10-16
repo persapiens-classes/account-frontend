@@ -105,7 +105,7 @@ jobs:
         if: github.actor != 'dependabot[bot]'
 
       - name: Build project
-        run: pnpm run build -- --configuration=production --base-href=/account-frontend/
+        run: pnpm run build:prod
 
       - name: Deploy on GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.7.3
