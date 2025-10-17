@@ -10,258 +10,157 @@ import { TestUtils } from '../shared/test-utils';
 import { CategoryType, Category } from './category';
 import { AppMessageService } from '../app-message-service';
 
-describe('CategoryInsertComponent for DEBIT', () => {
-  let fixture: ComponentFixture<CategoryInsertComponent>;
-  let component: CategoryInsertComponent;
-  let mockCategoryInsertService: {
-    insert: ReturnType<typeof vi.fn>;
-    http: unknown;
+const typeNameMap: Record<CategoryType, string> = {
+  [CategoryType.DEBIT]: 'DEBIT',
+  [CategoryType.CREDIT]: 'CREDIT',
+  [CategoryType.EQUITY]: 'EQUITY',
+};
+
+const routerNameMap: Record<CategoryType, string> = {
+  [CategoryType.DEBIT]: 'debitCategories',
+  [CategoryType.CREDIT]: 'creditCategories',
+  [CategoryType.EQUITY]: 'equityCategories',
+};
+
+function createTestBed(type: CategoryType) {
+  const mockCategoryInsertService = {
+    insert: vi.fn().mockReturnValue(of(new Category('Test Category'))),
+    http: vi.fn(),
   };
-  let mockRouter: {
-    navigate: ReturnType<typeof vi.fn>;
-  };
-  let mockAppMessageService: {
-    addErrorMessage: ReturnType<typeof vi.fn>;
-    addSuccessMessage: ReturnType<typeof vi.fn>;
+
+  const mockRouter = {
+    navigate: vi.fn().mockResolvedValue(true),
   };
 
-  beforeEach(async () => {
-    mockCategoryInsertService = {
-      insert: vi.fn().mockReturnValue(of(new Category('Test Category'))),
-      http: vi.fn(),
-    };
+  const mockAppMessageService = {
+    addErrorMessage: vi.fn(),
+    addSuccessMessage: vi.fn(),
+  };
 
-    mockRouter = {
-      navigate: vi.fn().mockResolvedValue(true),
-    };
+  const activatedRoute = {
+    snapshot: {
+      data: { type },
+    },
+  };
 
-    mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
+  const mockHttpClient = {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+  };
 
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.DEBIT },
-      },
-    };
+  return TestUtils.setupComponentTestBed(CategoryInsertComponent, [
+    { provide: CategoryInsertService, useValue: mockCategoryInsertService },
+    { provide: Router, useValue: mockRouter },
+    { provide: AppMessageService, useValue: mockAppMessageService },
+    { provide: ActivatedRoute, useValue: activatedRoute },
+    { provide: HttpClient, useValue: mockHttpClient },
+    FormBuilder,
+  ]);
+}
 
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
+function describeInsertComponentTests(type: CategoryType) {
+  const typeName = typeNameMap[type];
+  const expectedRouterName = routerNameMap[type];
 
-    await TestUtils.setupComponentTestBed(CategoryInsertComponent, [
-      { provide: CategoryInsertService, useValue: mockCategoryInsertService },
-      { provide: Router, useValue: mockRouter },
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-      FormBuilder,
-    ]);
+  describe(`CategoryInsertComponent for ${typeName}`, () => {
+    let fixture: ComponentFixture<CategoryInsertComponent>;
+    let component: CategoryInsertComponent;
 
-    fixture = TestUtils.createFixture(CategoryInsertComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should set routerName to "debitCategories"', () => {
-    expect(component.routerName).toBe('debitCategories');
-  });
-
-  it('should initialize formGroup', () => {
-    expect(component.formGroup).toBeDefined();
-  });
-
-  it('should have inputDescription control', () => {
-    const control = component.formGroup.get('inputDescription');
-    expect(control).toBeDefined();
-  });
-
-  it('should initialize inputDescription as empty string', () => {
-    const value = component.formGroup.get('inputDescription')?.value;
-    expect(value).toBe('');
-  });
-
-  it('should have required validator on inputDescription', () => {
-    const control = component.formGroup.get('inputDescription');
-    control?.setValue('');
-    expect(control?.hasError('required')).toBe(true);
-  });
-
-  it('should have minlength validator on inputDescription', () => {
-    const control = component.formGroup.get('inputDescription');
-    control?.setValue('ab');
-    expect(control?.hasError('minlength')).toBe(true);
-  });
-
-  it('should be valid when description has at least 3 characters', () => {
-    const control = component.formGroup.get('inputDescription');
-    control?.setValue('abc');
-    expect(control?.valid).toBe(true);
-  });
-
-  it('should set beanInsertService to CategoryInsertService', () => {
-    expect(component.beanInsertService).toBeDefined();
-  });
-
-  it('should create bean with description from form', () => {
-    component.formGroup.get('inputDescription')?.setValue('Test Category');
-    const bean = component.createBean();
-    expect(bean.description).toBe('Test Category');
-  });
-
-  it('should create bean with empty description when form is empty', () => {
-    component.formGroup.get('inputDescription')?.setValue('');
-    const bean = component.createBean();
-    expect(bean.description).toBe('');
-  });
-
-  it('should handle special characters in description', () => {
-    component.formGroup.get('inputDescription')?.setValue('Test & Category #1');
-    const bean = component.createBean();
-    expect(bean.description).toBe('Test & Category #1');
-  });
-
-  it('should handle Unicode characters in description', () => {
-    component.formGroup.get('inputDescription')?.setValue('Catégorie Tëst 中文');
-    const bean = component.createBean();
-    expect(bean.description).toBe('Catégorie Tëst 中文');
-  });
-
-  it('should handle very long description', () => {
-    const longDescription = 'a'.repeat(1000);
-    component.formGroup.get('inputDescription')?.setValue(longDescription);
-    const bean = component.createBean();
-    expect(bean.description).toBe(longDescription);
-  });
-
-  describe.skip('Template rendering', () => {
-    it('should render component', () => {
-      fixture.detectChanges();
-      const element = fixture.nativeElement;
-      expect(element).toBeTruthy();
+    beforeEach(async () => {
+      await createTestBed(type);
+      fixture = TestUtils.createFixture(CategoryInsertComponent);
+      component = fixture.componentInstance;
     });
+
+    it('should create component', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it(`should set routerName to "${expectedRouterName}"`, () => {
+      expect(component.routerName).toBe(expectedRouterName);
+    });
+
+    it('should set beanInsertService to CategoryInsertService', () => {
+      expect(component.beanInsertService).toBeDefined();
+    });
+
+    if (type === CategoryType.DEBIT) {
+      it('should initialize formGroup', () => {
+        expect(component.formGroup).toBeDefined();
+      });
+
+      it('should have inputDescription control', () => {
+        const control = component.formGroup.get('inputDescription');
+        expect(control).toBeDefined();
+      });
+
+      it('should initialize inputDescription as empty string', () => {
+        const value = component.formGroup.get('inputDescription')?.value;
+        expect(value).toBe('');
+      });
+
+      it('should have required validator on inputDescription', () => {
+        const control = component.formGroup.get('inputDescription');
+        control?.setValue('');
+        expect(control?.hasError('required')).toBe(true);
+      });
+
+      it('should have minlength validator on inputDescription', () => {
+        const control = component.formGroup.get('inputDescription');
+        control?.setValue('ab');
+        expect(control?.hasError('minlength')).toBe(true);
+      });
+
+      it('should be valid when description has at least 3 characters', () => {
+        const control = component.formGroup.get('inputDescription');
+        control?.setValue('abc');
+        expect(control?.valid).toBe(true);
+      });
+
+      it('should create bean with description from form', () => {
+        component.formGroup.get('inputDescription')?.setValue('Test Category');
+        const bean = component.createBean();
+        expect(bean.description).toBe('Test Category');
+      });
+
+      it('should create bean with empty description when form is empty', () => {
+        component.formGroup.get('inputDescription')?.setValue('');
+        const bean = component.createBean();
+        expect(bean.description).toBe('');
+      });
+
+      it('should handle special characters in description', () => {
+        component.formGroup.get('inputDescription')?.setValue('Test & Category #1');
+        const bean = component.createBean();
+        expect(bean.description).toBe('Test & Category #1');
+      });
+
+      it('should handle Unicode characters in description', () => {
+        component.formGroup.get('inputDescription')?.setValue('Catégorie Tëst 中文');
+        const bean = component.createBean();
+        expect(bean.description).toBe('Catégorie Tëst 中文');
+      });
+
+      it('should handle very long description', () => {
+        const longDescription = 'a'.repeat(1000);
+        component.formGroup.get('inputDescription')?.setValue(longDescription);
+        const bean = component.createBean();
+        expect(bean.description).toBe(longDescription);
+      });
+
+      describe.skip('Template rendering', () => {
+        it('should render component', () => {
+          fixture.detectChanges();
+          const element = fixture.nativeElement;
+          expect(element).toBeTruthy();
+        });
+      });
+    }
   });
-});
+}
 
-describe('CategoryInsertComponent for CREDIT', () => {
-  let fixture: ComponentFixture<CategoryInsertComponent>;
-  let component: CategoryInsertComponent;
-
-  beforeEach(async () => {
-    const mockCategoryInsertService = {
-      insert: vi.fn().mockReturnValue(of(new Category('Test Category'))),
-      http: vi.fn(),
-    };
-
-    const mockRouter = {
-      navigate: vi.fn().mockResolvedValue(true),
-    };
-
-    const mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
-
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.CREDIT },
-      },
-    };
-
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
-
-    await TestUtils.setupComponentTestBed(CategoryInsertComponent, [
-      { provide: CategoryInsertService, useValue: mockCategoryInsertService },
-      { provide: Router, useValue: mockRouter },
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-      FormBuilder,
-    ]);
-
-    fixture = TestUtils.createFixture(CategoryInsertComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should set routerName to "creditCategories"', () => {
-    expect(component.routerName).toBe('creditCategories');
-  });
-
-  it('should set beanInsertService to CategoryInsertService', () => {
-    expect(component.beanInsertService).toBeDefined();
-  });
-});
-
-describe('CategoryInsertComponent for EQUITY', () => {
-  let fixture: ComponentFixture<CategoryInsertComponent>;
-  let component: CategoryInsertComponent;
-
-  beforeEach(async () => {
-    const mockCategoryInsertService = {
-      insert: vi.fn().mockReturnValue(of(new Category('Test Category'))),
-      http: vi.fn(),
-    };
-
-    const mockRouter = {
-      navigate: vi.fn().mockResolvedValue(true),
-    };
-
-    const mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
-
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.EQUITY },
-      },
-    };
-
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
-
-    await TestUtils.setupComponentTestBed(CategoryInsertComponent, [
-      { provide: CategoryInsertService, useValue: mockCategoryInsertService },
-      { provide: Router, useValue: mockRouter },
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-      FormBuilder,
-    ]);
-
-    fixture = TestUtils.createFixture(CategoryInsertComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should set routerName to "equityCategories"', () => {
-    expect(component.routerName).toBe('equityCategories');
-  });
-
-  it('should set beanInsertService to CategoryInsertService', () => {
-    expect(component.beanInsertService).toBeDefined();
-  });
-});
+describeInsertComponentTests(CategoryType.DEBIT);
+describeInsertComponentTests(CategoryType.CREDIT);
+describeInsertComponentTests(CategoryType.EQUITY);

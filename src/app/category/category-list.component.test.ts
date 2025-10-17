@@ -7,152 +7,86 @@ import { TestUtils } from '../shared/test-utils';
 import { CategoryType } from './category';
 import { AppMessageService } from '../app-message-service';
 
-describe('CategoryListComponent for DEBIT', () => {
-  let fixture: ComponentFixture<CategoryListComponent>;
-  let component: CategoryListComponent;
+const typeNameMap: Record<CategoryType, string> = {
+  [CategoryType.DEBIT]: 'DEBIT',
+  [CategoryType.CREDIT]: 'CREDIT',
+  [CategoryType.EQUITY]: 'EQUITY',
+};
 
-  beforeEach(async () => {
-    const mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
+const routerNameMap: Record<CategoryType, string> = {
+  [CategoryType.DEBIT]: 'debitCategories',
+  [CategoryType.CREDIT]: 'creditCategories',
+  [CategoryType.EQUITY]: 'equityCategories',
+};
 
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.DEBIT },
-      },
-    };
+function createTestBed(type: CategoryType) {
+  const mockAppMessageService = {
+    addErrorMessage: vi.fn(),
+    addSuccessMessage: vi.fn(),
+  };
 
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
+  const activatedRoute = {
+    snapshot: {
+      data: { type },
+    },
+  };
 
-    await TestUtils.setupComponentTestBed(CategoryListComponent, [
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-    ]);
+  const mockHttpClient = {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+  };
 
-    fixture = TestUtils.createFixture(CategoryListComponent);
-    component = fixture.componentInstance;
-  });
+  return TestUtils.setupComponentTestBed(CategoryListComponent, [
+    { provide: AppMessageService, useValue: mockAppMessageService },
+    { provide: ActivatedRoute, useValue: activatedRoute },
+    { provide: HttpClient, useValue: mockHttpClient },
+  ]);
+}
 
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
+function describeListComponentTests(type: CategoryType) {
+  const typeName = typeNameMap[type];
+  const expectedRouterName = routerNameMap[type];
 
-  it('should set routerName to "debitCategories"', () => {
-    expect(component.routerName).toBe('debitCategories');
-  });
+  describe(`CategoryListComponent for ${typeName}`, () => {
+    let fixture: ComponentFixture<CategoryListComponent>;
+    let component: CategoryListComponent;
 
-  it('should initialize beansList signal', () => {
-    expect(component.beansList).toBeDefined();
-  });
-
-  it('should set beanRemoveService', () => {
-    expect(component.beanRemoveService).toBeDefined();
-  });
-
-  describe.skip('Template rendering', () => {
-    it('should render component', () => {
-      fixture.detectChanges();
-      const element = fixture.nativeElement;
-      expect(element).toBeTruthy();
+    beforeEach(async () => {
+      await createTestBed(type);
+      fixture = TestUtils.createFixture(CategoryListComponent);
+      component = fixture.componentInstance;
     });
+
+    it('should create component', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it(`should set routerName to "${expectedRouterName}"`, () => {
+      expect(component.routerName).toBe(expectedRouterName);
+    });
+
+    it('should initialize beansList signal', () => {
+      expect(component.beansList).toBeDefined();
+    });
+
+    if (type === CategoryType.DEBIT) {
+      it('should set beanRemoveService', () => {
+        expect(component.beanRemoveService).toBeDefined();
+      });
+
+      describe.skip('Template rendering', () => {
+        it('should render component', () => {
+          fixture.detectChanges();
+          const element = fixture.nativeElement;
+          expect(element).toBeTruthy();
+        });
+      });
+    }
   });
-});
+}
 
-describe('CategoryListComponent for CREDIT', () => {
-  let fixture: ComponentFixture<CategoryListComponent>;
-  let component: CategoryListComponent;
-
-  beforeEach(async () => {
-    const mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
-
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.CREDIT },
-      },
-    };
-
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
-
-    await TestUtils.setupComponentTestBed(CategoryListComponent, [
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-    ]);
-
-    fixture = TestUtils.createFixture(CategoryListComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should set routerName to "creditCategories"', () => {
-    expect(component.routerName).toBe('creditCategories');
-  });
-
-  it('should initialize beansList signal', () => {
-    expect(component.beansList).toBeDefined();
-  });
-});
-
-describe('CategoryListComponent for EQUITY', () => {
-  let fixture: ComponentFixture<CategoryListComponent>;
-  let component: CategoryListComponent;
-
-  beforeEach(async () => {
-    const mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
-
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.EQUITY },
-      },
-    };
-
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
-
-    await TestUtils.setupComponentTestBed(CategoryListComponent, [
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-    ]);
-
-    fixture = TestUtils.createFixture(CategoryListComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should set routerName to "equityCategories"', () => {
-    expect(component.routerName).toBe('equityCategories');
-  });
-
-  it('should initialize beansList signal', () => {
-    expect(component.beansList).toBeDefined();
-  });
-});
+describeListComponentTests(CategoryType.DEBIT);
+describeListComponentTests(CategoryType.CREDIT);
+describeListComponentTests(CategoryType.EQUITY);

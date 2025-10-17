@@ -10,196 +10,106 @@ import { TestUtils } from '../shared/test-utils';
 import { CategoryType, Category } from './category';
 import { AppMessageService } from '../app-message-service';
 
-describe('CategoryUpdateComponent for DEBIT', () => {
-  let fixture: ComponentFixture<CategoryUpdateComponent>;
-  let component: CategoryUpdateComponent;
+const typeNameMap: Record<CategoryType, string> = {
+  [CategoryType.DEBIT]: 'DEBIT',
+  [CategoryType.CREDIT]: 'CREDIT',
+  [CategoryType.EQUITY]: 'EQUITY',
+};
 
-  beforeEach(async () => {
-    const mockCategoryUpdateService = {
-      update: vi.fn().mockReturnValue(of(new Category('Updated Category'))),
-      http: vi.fn(),
-    };
+const routerNameMap: Record<CategoryType, string> = {
+  [CategoryType.DEBIT]: 'debitCategories',
+  [CategoryType.CREDIT]: 'creditCategories',
+  [CategoryType.EQUITY]: 'equityCategories',
+};
 
-    const mockRouter = {
-      navigate: vi.fn().mockResolvedValue(true),
-    };
+function createTestBed(type: CategoryType, testId: number) {
+  const mockCategoryUpdateService = {
+    update: vi.fn().mockReturnValue(of(new Category('Updated Category'))),
+    http: vi.fn(),
+  };
 
-    const mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
+  const mockRouter = {
+    navigate: vi.fn().mockResolvedValue(true),
+  };
 
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.DEBIT },
-      },
-    };
+  const mockAppMessageService = {
+    addErrorMessage: vi.fn(),
+    addSuccessMessage: vi.fn(),
+  };
 
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
+  const activatedRoute = {
+    snapshot: {
+      data: { type },
+    },
+  };
 
-    // Mock history.state with a category
-    window.history.replaceState({ id: 1, description: 'Test Category' }, '', window.location.href);
+  const mockHttpClient = {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+  };
 
-    await TestUtils.setupComponentTestBed(CategoryUpdateComponent, [
-      { provide: CategoryUpdateService, useValue: mockCategoryUpdateService },
-      { provide: Router, useValue: mockRouter },
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-      FormBuilder,
-    ]);
+  // Mock history.state with a category
+  window.history.replaceState(
+    { id: testId, description: `Test ${typeNameMap[type]} Category` },
+    '',
+    window.location.href,
+  );
 
-    fixture = TestUtils.createFixture(CategoryUpdateComponent);
-    component = fixture.componentInstance;
-  });
+  return TestUtils.setupComponentTestBed(CategoryUpdateComponent, [
+    { provide: CategoryUpdateService, useValue: mockCategoryUpdateService },
+    { provide: Router, useValue: mockRouter },
+    { provide: AppMessageService, useValue: mockAppMessageService },
+    { provide: ActivatedRoute, useValue: activatedRoute },
+    { provide: HttpClient, useValue: mockHttpClient },
+    FormBuilder,
+  ]);
+}
 
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
+function describeUpdateComponentTests(type: CategoryType, testId: number) {
+  const typeName = typeNameMap[type];
+  const expectedRouterName = routerNameMap[type];
 
-  it('should set routerName to "debitCategories"', () => {
-    expect(component.routerName).toBe('debitCategories');
-  });
+  describe(`CategoryUpdateComponent for ${typeName}`, () => {
+    let fixture: ComponentFixture<CategoryUpdateComponent>;
+    let component: CategoryUpdateComponent;
 
-  it('should initialize formGroup', () => {
-    expect(component.formGroup).toBeDefined();
-  });
-
-  it('should have inputDescription control', () => {
-    const control = component.formGroup.get('inputDescription');
-    expect(control).toBeDefined();
-  });
-
-  describe.skip('Template rendering', () => {
-    it('should render component', () => {
-      fixture.detectChanges();
-      const element = fixture.nativeElement;
-      expect(element).toBeTruthy();
+    beforeEach(async () => {
+      await createTestBed(type, testId);
+      fixture = TestUtils.createFixture(CategoryUpdateComponent);
+      component = fixture.componentInstance;
     });
+
+    it('should create component', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it(`should set routerName to "${expectedRouterName}"`, () => {
+      expect(component.routerName).toBe(expectedRouterName);
+    });
+
+    if (type === CategoryType.DEBIT) {
+      it('should initialize formGroup', () => {
+        expect(component.formGroup).toBeDefined();
+      });
+
+      it('should have inputDescription control', () => {
+        const control = component.formGroup.get('inputDescription');
+        expect(control).toBeDefined();
+      });
+
+      describe.skip('Template rendering', () => {
+        it('should render component', () => {
+          fixture.detectChanges();
+          const element = fixture.nativeElement;
+          expect(element).toBeTruthy();
+        });
+      });
+    }
   });
-});
+}
 
-describe('CategoryUpdateComponent for CREDIT', () => {
-  let fixture: ComponentFixture<CategoryUpdateComponent>;
-  let component: CategoryUpdateComponent;
-
-  beforeEach(async () => {
-    const mockCategoryUpdateService = {
-      update: vi.fn().mockReturnValue(of(new Category('Updated Category'))),
-      http: vi.fn(),
-    };
-
-    const mockRouter = {
-      navigate: vi.fn().mockResolvedValue(true),
-    };
-
-    const mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
-
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.CREDIT },
-      },
-    };
-
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
-
-    window.history.replaceState(
-      { id: 2, description: 'Credit Category' },
-      '',
-      window.location.href,
-    );
-
-    await TestUtils.setupComponentTestBed(CategoryUpdateComponent, [
-      { provide: CategoryUpdateService, useValue: mockCategoryUpdateService },
-      { provide: Router, useValue: mockRouter },
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-      FormBuilder,
-    ]);
-
-    fixture = TestUtils.createFixture(CategoryUpdateComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should set routerName to "creditCategories"', () => {
-    expect(component.routerName).toBe('creditCategories');
-  });
-});
-
-describe('CategoryUpdateComponent for EQUITY', () => {
-  let fixture: ComponentFixture<CategoryUpdateComponent>;
-  let component: CategoryUpdateComponent;
-
-  beforeEach(async () => {
-    const mockCategoryUpdateService = {
-      update: vi.fn().mockReturnValue(of(new Category('Updated Category'))),
-      http: vi.fn(),
-    };
-
-    const mockRouter = {
-      navigate: vi.fn().mockResolvedValue(true),
-    };
-
-    const mockAppMessageService = {
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn(),
-    };
-
-    const activatedRoute = {
-      snapshot: {
-        data: { type: CategoryType.EQUITY },
-      },
-    };
-
-    const mockHttpClient = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
-
-    window.history.replaceState(
-      { id: 3, description: 'Equity Category' },
-      '',
-      window.location.href,
-    );
-
-    await TestUtils.setupComponentTestBed(CategoryUpdateComponent, [
-      { provide: CategoryUpdateService, useValue: mockCategoryUpdateService },
-      { provide: Router, useValue: mockRouter },
-      { provide: AppMessageService, useValue: mockAppMessageService },
-      { provide: ActivatedRoute, useValue: activatedRoute },
-      { provide: HttpClient, useValue: mockHttpClient },
-      FormBuilder,
-    ]);
-
-    fixture = TestUtils.createFixture(CategoryUpdateComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should set routerName to "equityCategories"', () => {
-    expect(component.routerName).toBe('equityCategories');
-  });
-});
+describeUpdateComponentTests(CategoryType.DEBIT, 1);
+describeUpdateComponentTests(CategoryType.CREDIT, 2);
+describeUpdateComponentTests(CategoryType.EQUITY, 3);
