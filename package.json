@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:prod": "ng serve --configuration production",
+    "start:code": "ng serve --configuration codespace",
     "build": "ng build",
     "build:prod": "ng build --configuration=production --base-href=/account-frontend/",
     "watch": "ng build --watch --configuration development",
