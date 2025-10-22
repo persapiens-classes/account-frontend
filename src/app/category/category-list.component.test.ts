@@ -46,7 +46,9 @@ function createTestBed(type: CategoryType) {
 }
 
 function describeListComponentTests(type: CategoryType) {
+  // eslint-disable-next-line security/detect-object-injection
   const typeName = typeNameMap[type];
+  // eslint-disable-next-line security/detect-object-injection
   const expectedRouterName = routerNameMap[type];
 
   describe(`CategoryListComponent for ${typeName}`, () => {

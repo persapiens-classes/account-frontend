@@ -52,6 +52,7 @@ function createTestBed(type: CategoryType, testId: number) {
 
   // Mock history.state with a category
   window.history.replaceState(
+    // eslint-disable-next-line security/detect-object-injection
     { id: testId, description: `Test ${typeNameMap[type]} Category` },
     '',
     window.location.href,
@@ -68,7 +69,9 @@ function createTestBed(type: CategoryType, testId: number) {
 }
 
 function describeUpdateComponentTests(type: CategoryType, testId: number) {
+  // eslint-disable-next-line security/detect-object-injection
   const typeName = typeNameMap[type];
+  // eslint-disable-next-line security/detect-object-injection
   const expectedRouterName = routerNameMap[type];
 
   describe(`CategoryUpdateComponent for ${typeName}`, () => {
