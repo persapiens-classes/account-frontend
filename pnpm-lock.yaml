@@ -45,8 +45,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       primeng:
-        specifier: ^20.2.0
-        version: 20.2.0(500c5ad84993d6371ac9431c737272f9)
+        specifier: ^20.3.0
+        version: 20.3.0(500c5ad84993d6371ac9431c737272f9)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -1451,8 +1451,8 @@ packages:
   '@primeuix/themes@1.2.5':
     resolution: {integrity: sha512-n3YkwJrHQaEESc/D/A/iD815sxp8cKnmzscA6a8Tm8YvMtYU32eCahwLLe6h5rywghVwxASWuG36XBgISYOIjQ==}
 
-  '@primeuix/utils@0.6.1':
-    resolution: {integrity: sha512-tQL/ZOPgCdD+NTimlUmhyD0ey8J1XmpZE4hDHM+/fnuBicVVmlKOd5HpS748LcOVRUKbWjmEPdHX4hi5XZoC1Q==}
+  '@primeuix/utils@0.6.2':
+    resolution: {integrity: sha512-l+li4z6UAwamqbu4xodN3lqr1G4S37DKEJ7Y/nE3MjEx7zJ+KIBkb5voF26Nuly1UCmIcRWQJokhLRF7+sRhyg==}
     engines: {node: '>=12.11.0'}
 
   '@rollup/rollup-android-arm-eabi@4.52.3':
@@ -3615,8 +3615,8 @@ packages:
   primeicons@7.0.0:
     resolution: {integrity: sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==}
 
-  primeng@20.2.0:
-    resolution: {integrity: sha512-SXdL5dY+YWaCt1jRFqf4EUVhyVlhYV0MjLeke/UeLx/Od0+06Ru33MLQe2Ul7o/vAmItbh+OvRTu7jEk5LMjqQ==}
+  primeng@20.3.0:
+    resolution: {integrity: sha512-ljRRundjAfhR6PC75T3uDpg+v3IpBdbAyAlM0kMCHP5H0gtWUang68dd0ibO67/6CAKEcXVxwUnbqy2D6et4jA==}
     peerDependencies:
       '@angular/animations': ^20.0.4
       '@angular/cdk': ^20.0.3
@@ -5670,7 +5670,7 @@ snapshots:
 
   '@primeuix/styled@0.7.4':
     dependencies:
-      '@primeuix/utils': 0.6.1
+      '@primeuix/utils': 0.6.2
 
   '@primeuix/styles@1.2.5':
     dependencies:
@@ -5680,7 +5680,7 @@ snapshots:
     dependencies:
       '@primeuix/styled': 0.7.4
 
-  '@primeuix/utils@0.6.1': {}
+  '@primeuix/utils@0.6.2': {}
 
   '@rollup/rollup-android-arm-eabi@4.52.3':
     optional: true
@@ -6151,7 +6151,7 @@ snapshots:
       jwt-decode: 4.0.0
       postcss: 8.5.6
       primeicons: 7.0.0
-      primeng: 20.2.0(500c5ad84993d6371ac9431c737272f9)
+      primeng: 20.3.0(500c5ad84993d6371ac9431c737272f9)
       rxjs: 7.8.2
       tailwindcss: 4.1.16
       tailwindcss-primeui: 0.6.1(tailwindcss@4.1.16)
@@ -7936,7 +7936,7 @@ snapshots:
 
   primeicons@7.0.0: {}
 
-  primeng@20.2.0(500c5ad84993d6371ac9431c737272f9):
+  primeng@20.3.0(500c5ad84993d6371ac9431c737272f9):
     dependencies:
       '@angular/animations': 20.3.5(@angular/core@20.3.5(@angular/compiler@20.3.5)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/cdk': 20.2.9(@angular/common@20.3.5(@angular/core@20.3.5(@angular/compiler@20.3.5)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.5(@angular/compiler@20.3.5)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
@@ -7947,7 +7947,7 @@ snapshots:
       '@angular/router': 20.3.5(@angular/common@20.3.5(@angular/core@20.3.5(@angular/compiler@20.3.5)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.5(@angular/compiler@20.3.5)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.5(@angular/animations@20.3.5(@angular/core@20.3.5(@angular/compiler@20.3.5)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.5(@angular/core@20.3.5(@angular/compiler@20.3.5)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.5(@angular/compiler@20.3.5)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
       '@primeuix/styled': 0.7.4
       '@primeuix/styles': 1.2.5
-      '@primeuix/utils': 0.6.1
+      '@primeuix/utils': 0.6.2
       rxjs: 7.8.2
       tslib: 2.8.1
 
