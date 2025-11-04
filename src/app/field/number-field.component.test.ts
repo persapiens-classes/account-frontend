@@ -70,7 +70,7 @@ describe('NumberFieldComponent', () => {
     });
 
     it('should handle validation errors', async () => {
-      await TestUtils.testValidationErrorsAsync(component, fixture, 'Number Field', mockNgControl);
+      await TestUtils.testValidationErrorsAsync(component, mockNgControl, 'Number Field', fixture);
     });
   });
 

@@ -80,7 +80,7 @@ describe('InputFieldComponent', () => {
     });
 
     it('should handle validation errors', async () => {
-      await TestUtils.testValidationErrorsAsync(component, fixture, 'Test Field', mockNgControl);
+      await TestUtils.testValidationErrorsAsync(component, mockNgControl, 'Test Field', fixture);
     });
 
     it('should manage disabled state', () => {

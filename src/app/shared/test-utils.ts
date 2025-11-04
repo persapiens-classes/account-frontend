@@ -220,33 +220,12 @@ export class TestUtils {
     mockNgControl: MockNgControl,
   ): void {
     component.label = labelText;
-
-    // Test no errors when valid
     mockNgControl.invalid = false;
     fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.alert')).toBeFalsy();
 
-    let alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeFalsy();
-
-    // Test required error
-    mockNgControl.invalid = true;
-    mockNgControl.touched = true;
-    mockNgControl.errors = { required: true };
-    fixture.detectChanges();
-
-    alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeTruthy();
-    expect(alertDiv.textContent).toContain(`${labelText} is required.`);
-
-    // Test minlength error
-    mockNgControl.dirty = true;
-    mockNgControl.errors = { minlength: true };
-    fixture.detectChanges();
-
-    alertDiv = fixture.nativeElement.querySelector('.alert');
-    if (alertDiv?.textContent?.includes('must be at least')) {
-      expect(alertDiv.textContent).toContain(`${labelText} must be at least 3 characters long.`);
-    }
+    this.assertRequiredError(fixture, mockNgControl, labelText);
+    this.assertMinlengthError(fixture, mockNgControl, labelText);
   }
 
   /**
@@ -254,35 +233,70 @@ export class TestUtils {
    */
   static async testValidationErrorsAsync<T extends AnyFieldComponent>(
     component: T,
-    fixture: ComponentFixture<T>,
-    labelText: string,
     mockNgControl: MockNgControl,
+    labelText: string,
+    fixture: ComponentFixture<T>,
   ): Promise<void> {
     component.label = labelText;
-
-    // Test no errors when valid
     mockNgControl.invalid = false;
     await TestUtils.stabilize(fixture);
+    expect(fixture.nativeElement.querySelector('.alert')).toBeFalsy();
 
-    let alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeFalsy();
+    await this.assertRequiredErrorAsync(fixture, mockNgControl, labelText);
+    await this.assertMinlengthErrorAsync(fixture, mockNgControl, labelText);
+  }
 
-    // Test required error
+  private static assertRequiredError<T>(
+    fixture: ComponentFixture<T>,
+    mockNgControl: MockNgControl,
+    labelText: string,
+  ): void {
+    mockNgControl.invalid = true;
+    mockNgControl.touched = true;
+    mockNgControl.errors = { required: true };
+    fixture.detectChanges();
+    const alertDiv = fixture.nativeElement.querySelector('.alert');
+    expect(alertDiv).toBeTruthy();
+    expect(alertDiv.textContent).toContain(`${labelText} is required.`);
+  }
+
+  private static async assertRequiredErrorAsync<T>(
+    fixture: ComponentFixture<T>,
+    mockNgControl: MockNgControl,
+    labelText: string,
+  ): Promise<void> {
     mockNgControl.invalid = true;
     mockNgControl.touched = true;
     mockNgControl.errors = { required: true };
     await TestUtils.stabilize(fixture);
-
-    alertDiv = fixture.nativeElement.querySelector('.alert');
+    const alertDiv = fixture.nativeElement.querySelector('.alert');
     expect(alertDiv).toBeTruthy();
     expect(alertDiv.textContent).toContain(`${labelText} is required.`);
+  }
 
-    // Test minlength error
+  private static assertMinlengthError<T>(
+    fixture: ComponentFixture<T>,
+    mockNgControl: MockNgControl,
+    labelText: string,
+  ): void {
+    mockNgControl.dirty = true;
+    mockNgControl.errors = { minlength: true };
+    fixture.detectChanges();
+    const alertDiv = fixture.nativeElement.querySelector('.alert');
+    if (alertDiv?.textContent?.includes('must be at least')) {
+      expect(alertDiv.textContent).toContain(`${labelText} must be at least 3 characters long.`);
+    }
+  }
+
+  private static async assertMinlengthErrorAsync<T>(
+    fixture: ComponentFixture<T>,
+    mockNgControl: MockNgControl,
+    labelText: string,
+  ): Promise<void> {
     mockNgControl.dirty = true;
     mockNgControl.errors = { minlength: true };
     await TestUtils.stabilize(fixture);
-
-    alertDiv = fixture.nativeElement.querySelector('.alert');
+    const alertDiv = fixture.nativeElement.querySelector('.alert');
     if (alertDiv?.textContent?.includes('must be at least')) {
       expect(alertDiv.textContent).toContain(`${labelText} must be at least 3 characters long.`);
     }
@@ -362,41 +376,9 @@ export class TestUtils {
     const mockOnChange = vi.fn();
     const mockOnTouched = vi.fn();
 
-    component.registerOnChange(mockOnChange);
-    component.registerOnTouched(mockOnTouched);
-
-    // Test form control setting value
-    component.writeValue(testValue);
-    expect(component.value).toBe(testValue);
-
-    // Test user interaction
-    (component.onChange as (value: unknown) => void)(testValue);
-    expect(mockOnChange).toHaveBeenCalledWith(testValue);
-
-    // Test blur event
-    component.onTouched();
-    expect(mockOnTouched).toHaveBeenCalled();
-
-    // Test validation states
-    component.label = labelText;
-
-    // Pristine state
-    mockNgControl.invalid = false;
-    mockNgControl.touched = false;
-    mockNgControl.dirty = false;
-    fixture.detectChanges();
-
-    let alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeFalsy();
-
-    // Invalid touched state
-    mockNgControl.invalid = true;
-    mockNgControl.touched = true;
-    mockNgControl.errors = { required: true };
-    fixture.detectChanges();
-
-    alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeTruthy();
+    this.registerCallbacksAndTestWriteValue(component, mockOnChange, mockOnTouched, testValue);
+    this.testUserInteraction(component, mockOnChange, mockOnTouched, testValue);
+    this.testValidationStates(component, mockNgControl, labelText, fixture);
   }
 
   /**
@@ -412,47 +394,79 @@ export class TestUtils {
     const mockOnChange = vi.fn();
     const mockOnTouched = vi.fn();
 
+    this.registerCallbacksAndTestWriteValue(component, mockOnChange, mockOnTouched, testValue);
+    this.testUserInteraction(component, mockOnChange, mockOnTouched, testValue);
+    await this.testValidationStatesAsync(component, mockNgControl, labelText, fixture);
+  }
+
+  private static registerCallbacksAndTestWriteValue<T extends AnyFieldComponent>(
+    component: T,
+    mockOnChange: ReturnType<typeof vi.fn>,
+    mockOnTouched: ReturnType<typeof vi.fn>,
+    testValue: unknown,
+  ): void {
     component.registerOnChange(mockOnChange);
     component.registerOnTouched(mockOnTouched);
-
-    // Test form control setting value
     component.writeValue(testValue);
     expect(component.value).toBe(testValue);
+  }
 
-    // Test user interaction
+  private static testUserInteraction<T extends AnyFieldComponent>(
+    component: T,
+    mockOnChange: ReturnType<typeof vi.fn>,
+    mockOnTouched: ReturnType<typeof vi.fn>,
+    testValue: unknown,
+  ): void {
     (component.onChange as (value: unknown) => void)(testValue);
     expect(mockOnChange).toHaveBeenCalledWith(testValue);
-
-    // Test blur event
     component.onTouched();
     expect(mockOnTouched).toHaveBeenCalled();
+  }
 
-    // Test validation states
+  private static testValidationStates<T extends AnyFieldComponent>(
+    component: T,
+    mockNgControl: MockNgControl,
+    labelText: string,
+    fixture: ComponentFixture<T>,
+  ): void {
     component.label = labelText;
+    mockNgControl.invalid = false;
+    mockNgControl.touched = false;
+    mockNgControl.dirty = false;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.alert')).toBeFalsy();
 
-    // Pristine state
+    mockNgControl.invalid = true;
+    mockNgControl.touched = true;
+    mockNgControl.errors = { required: true };
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
+  }
+
+  private static async testValidationStatesAsync<T extends AnyFieldComponent>(
+    component: T,
+    mockNgControl: MockNgControl,
+    labelText: string,
+    fixture: ComponentFixture<T>,
+  ): Promise<void> {
+    component.label = labelText;
     mockNgControl.invalid = false;
     mockNgControl.touched = false;
     mockNgControl.dirty = false;
     await TestUtils.stabilize(fixture);
+    expect(fixture.nativeElement.querySelector('.alert')).toBeFalsy();
 
-    let alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeFalsy();
-
-    // Invalid touched state
     mockNgControl.invalid = true;
     mockNgControl.touched = true;
     mockNgControl.errors = { required: true };
     await TestUtils.stabilize(fixture);
-
-    alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
   }
 
   /**
    * Stabilize change detection for zoneless tests: runs detectChanges + whenStable cycle
    */
-  static async stabilize(fixture: ComponentFixture<any>): Promise<void> {
+  static async stabilize<T>(fixture: ComponentFixture<T>): Promise<void> {
     try {
       const changeDetector = fixture.debugElement.injector.get(ChangeDetectorRef);
       changeDetector.markForCheck?.();

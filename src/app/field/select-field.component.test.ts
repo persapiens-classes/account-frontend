@@ -111,7 +111,7 @@ describe('SelectFieldComponent', () => {
 
     it('should handle validation errors (select-specific)', async () => {
       // Test basic validation
-      await TestUtils.testValidationErrorsAsync(component, fixture, 'Test Field', mockNgControl);
+      await TestUtils.testValidationErrorsAsync(component, mockNgControl, 'Test Field', fixture);
     });
 
     it('should show alert div but not minlength error message for select', () => {

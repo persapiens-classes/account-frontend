@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture } from '@angular/core/testing';
 import { DetailFieldComponent } from './detail-field.component';
-import { DebugElement, ChangeDetectorRef } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TestUtils } from '../shared/test-utils';
 

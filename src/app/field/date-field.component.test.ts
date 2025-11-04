@@ -72,7 +72,7 @@ describe('DateFieldComponent', () => {
     });
 
     it('should handle validation errors', async () => {
-      await TestUtils.testValidationErrorsAsync(component, fixture, 'Date Field', mockNgControl);
+      await TestUtils.testValidationErrorsAsync(component, mockNgControl, 'Date Field', fixture);
     });
   });
 
