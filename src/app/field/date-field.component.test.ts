@@ -71,8 +71,8 @@ describe('DateFieldComponent', () => {
       expect(datePicker).toBeTruthy();
     });
 
-    it('should handle validation errors', () => {
-      TestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
+    it('should handle validation errors', async () => {
+      await TestUtils.testValidationErrorsAsync(component, mockNgControl, 'Date Field', fixture);
     });
   });
 

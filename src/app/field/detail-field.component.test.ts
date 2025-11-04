@@ -65,8 +65,8 @@ describe('DetailFieldComponent', () => {
   });
 
   describe('Input Properties', () => {
-    it('should accept input properties', () => {
-      TestUtils.testBasicInputProperties(component, fixture, [
+    it('should accept input properties', async () => {
+      await TestUtils.testBasicInputPropertiesAsync(component, fixture, [
         { key: 'strong', testValue: 'Test Label' },
         { key: 'value', testValue: 'Test Value' },
       ]);
@@ -236,16 +236,16 @@ describe('DetailFieldComponent', () => {
       expect(spanDebugElement.nativeElement.textContent.trim()).toBe('Debug Value');
     });
 
-    it('should support change detection', () => {
+    it('should support change detection', async () => {
       // Arrange
       component.strong = 'Initial';
       component.value = 'Initial Value';
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       // Act - Change values
       component.strong = 'Updated';
       component.value = 'Updated Value';
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       // Assert
       const compiled = fixture.nativeElement as HTMLElement;

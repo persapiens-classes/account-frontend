@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { MenuComponent } from './menu.component';
 import { MenuItem } from 'primeng/api';
 import { TestUtils } from '../shared/test-utils';
@@ -23,6 +24,7 @@ describe('MenuComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MenuComponent],
       providers: [
+        provideZonelessChangeDetection(),
         provideRouter([
           { path: 'balances', component: MockComponent },
           { path: 'creditEntries', component: MockComponent },
@@ -42,6 +44,7 @@ describe('MenuComponent', () => {
     fixture = TestUtils.createFixture(MenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    await TestUtils.stabilize(fixture);
   });
 
   describe('Component Creation', () => {

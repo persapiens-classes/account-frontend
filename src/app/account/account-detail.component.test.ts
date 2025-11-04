@@ -147,10 +147,10 @@ describe('AccountDetailComponent', () => {
       expect(detailFieldsInPanel[1].componentInstance.value).toBe(component.bean.category);
     });
 
-    it('should update DetailFields when bean properties change', () => {
+    it('should update DetailFields when bean properties change', async () => {
       // Change bean properties
       component.bean = new Account('Updated Account', 'Updated Category');
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       const detailFields = fixture.debugElement.queryAll(By.css('app-detail-field'));
       expect(detailFields[0].componentInstance.value).toBe('Updated Account');
@@ -187,10 +187,10 @@ describe('AccountDetailComponent', () => {
       expect(beanDetailPanel.componentInstance.routerName).toBe('debitAccounts');
     });
 
-    it('should pass bean instance to BeanDetailPanelComponent', () => {
+    it('should pass bean instance to BeanDetailPanelComponent', async () => {
       const testAccount = new Account('Bean Passing Test', 'Test Category');
       component.bean = testAccount;
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       const beanDetailPanel = fixture.debugElement.query(By.css('app-bean-detail-panel'));
 
@@ -248,10 +248,10 @@ describe('AccountDetailComponent', () => {
       expect(mockRouter.navigate).toHaveBeenCalledWith(['debitAccounts']);
     });
 
-    it('should enable edit navigation through BeanDetailPanelComponent', () => {
+    it('should enable edit navigation through BeanDetailPanelComponent', async () => {
       const testAccount = new Account('Edit Navigation Test', 'Edit Category');
       component.bean = testAccount;
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       TestUtils.testEventHandling(
         fixture,
@@ -341,10 +341,10 @@ describe('AccountDetailComponent', () => {
       expect(projectedDetailFields[1].componentInstance.strong).toBe('Category');
     });
 
-    it('should maintain proper binding between component and projected content', () => {
+    it('should maintain proper binding between component and projected content', async () => {
       const testAccount = new Account('Binding Test Account', 'Binding Category');
       component.bean = testAccount;
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       const detailFields = fixture.debugElement.queryAll(By.css('app-detail-field'));
 

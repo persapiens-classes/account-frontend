@@ -109,9 +109,9 @@ describe('SelectFieldComponent', () => {
       expect(selectElement.classList.contains('w-full')).toBe(true);
     });
 
-    it('should handle validation errors (select-specific)', () => {
+    it('should handle validation errors (select-specific)', async () => {
       // Test basic validation
-      TestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
+      await TestUtils.testValidationErrorsAsync(component, mockNgControl, 'Test Field', fixture);
     });
 
     it('should show alert div but not minlength error message for select', () => {
@@ -348,41 +348,14 @@ describe('SelectFieldComponent', () => {
   });
 
   describe('Form Integration', () => {
-    it('should work with reactive forms pattern', () => {
-      const mockOnChange = vi.fn();
-      const mockOnTouched = vi.fn();
-
-      component.registerOnChange(mockOnChange);
-      component.registerOnTouched(mockOnTouched);
-
-      // Test form control setting value
-      component.writeValue(mockBeans[0]);
-      expect(component.value).toBe(mockBeans[0]);
-
-      // Test user interaction
-      component.onSelect(mockBeans[0]);
-      expect(mockOnChange).toHaveBeenCalledWith(mockBeans[0]);
-
-      // Test validation states
-      component.label = 'Category';
-
-      // Pristine state
-      mockNgControl.invalid = false;
-      mockNgControl.touched = false;
-      mockNgControl.dirty = false;
-      fixture.detectChanges();
-
-      let alertDiv = fixture.nativeElement.querySelector('.alert');
-      expect(alertDiv).toBeFalsy();
-
-      // Invalid touched state
-      mockNgControl.invalid = true;
-      mockNgControl.touched = true;
-      mockNgControl.errors = { required: true };
-      fixture.detectChanges();
-
-      alertDiv = fixture.nativeElement.querySelector('.alert');
-      expect(alertDiv).toBeTruthy();
+    it('should work with reactive forms pattern', async () => {
+      await TestUtils.testFormIntegrationAsync(
+        component,
+        mockBeans[0],
+        mockNgControl,
+        'Category',
+        fixture,
+      );
     });
 
     it('should handle specific selection operations', () => {
