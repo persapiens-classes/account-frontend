@@ -79,8 +79,8 @@ describe('InputFieldComponent', () => {
       expect(component.value).toBe('Test Value');
     });
 
-    it('should handle validation errors', () => {
-      TestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
+    it('should handle validation errors', async () => {
+      await TestUtils.testValidationErrorsAsync(component, fixture, 'Test Field', mockNgControl);
     });
 
     it('should manage disabled state', () => {
@@ -250,8 +250,8 @@ describe('InputFieldComponent', () => {
   });
 
   describe('Form Integration', () => {
-    it('should work with reactive forms pattern', () => {
-      TestUtils.testFormIntegration(
+    it('should work with reactive forms pattern', async () => {
+      await TestUtils.testFormIntegrationAsync(
         component,
         'Form Value',
         mockNgControl,

@@ -102,10 +102,10 @@ describe('OwnerDetailComponent', () => {
       expect(detailFieldInPanel.componentInstance.value).toBe(component.bean.name);
     });
 
-    it('should update DetailField when bean name changes', () => {
+    it('should update DetailField when bean name changes', async () => {
       // Change bean name
       component.bean = new Owner('Updated Owner Name');
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       const detailField = fixture.debugElement.query(By.css('app-detail-field'));
       expect(detailField.componentInstance.value).toBe('Updated Owner Name');
@@ -141,10 +141,10 @@ describe('OwnerDetailComponent', () => {
       expect(beanDetailPanel.componentInstance.routerName).toBe('owners');
     });
 
-    it('should pass bean instance to BeanDetailPanelComponent', () => {
+    it('should pass bean instance to BeanDetailPanelComponent', async () => {
       const testOwner = new Owner('Bean Passing Test');
       component.bean = testOwner;
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       const beanDetailPanel = fixture.debugElement.query(By.css('app-bean-detail-panel'));
 
@@ -195,10 +195,13 @@ describe('OwnerDetailComponent', () => {
       expect(mockRouter.navigate).toHaveBeenCalledWith(['owners']);
     });
 
-    it('should enable edit navigation through BeanDetailPanelComponent', () => {
+    it('should enable edit navigation through BeanDetailPanelComponent', async () => {
       const testOwner = new Owner('Edit Navigation Test');
       component.bean = testOwner;
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
+
+      // Clear previous router calls to ensure this test validates the correct navigation call
+      mockRouter.navigate.mockClear();
 
       TestUtils.testEventHandling(
         fixture,
@@ -262,10 +265,10 @@ describe('OwnerDetailComponent', () => {
       expect(projectedDetailField.componentInstance.strong).toBe('Name');
     });
 
-    it('should maintain proper binding between component and projected content', () => {
+    it('should maintain proper binding between component and projected content', async () => {
       const testOwner = new Owner('Binding Test Owner');
       component.bean = testOwner;
-      fixture.detectChanges();
+      await TestUtils.stabilize(fixture);
 
       const detailField = fixture.debugElement.query(By.css('app-detail-field'));
 

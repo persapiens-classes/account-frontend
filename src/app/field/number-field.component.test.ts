@@ -69,8 +69,8 @@ describe('NumberFieldComponent', () => {
       expect(inputNumber).toBeTruthy();
     });
 
-    it('should handle validation errors', () => {
-      TestUtils.testValidationErrors(component, fixture, 'Test Field', mockNgControl);
+    it('should handle validation errors', async () => {
+      await TestUtils.testValidationErrorsAsync(component, fixture, 'Number Field', mockNgControl);
     });
   });
 
@@ -348,8 +348,8 @@ describe('NumberFieldComponent', () => {
   });
 
   describe('Form Integration', () => {
-    it('should work with reactive forms pattern', () => {
-      TestUtils.testFormIntegration(
+    it('should work with reactive forms pattern', async () => {
+      await TestUtils.testFormIntegrationAsync(
         component,
         500,
         mockNgControl,

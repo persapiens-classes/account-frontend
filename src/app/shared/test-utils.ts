@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Type } from '@angular/core';
+import { Type, provideZonelessChangeDetection, ChangeDetectorRef } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NgControl } from '@angular/forms';
 import { expect, vi } from 'vitest';
@@ -57,7 +57,10 @@ export class TestUtils {
 
     await TestBed.configureTestingModule({
       imports: [componentType],
-      providers: [{ provide: NgControl, useValue: ngControlMock }],
+      providers: [
+        provideZonelessChangeDetection(),
+        { provide: NgControl, useValue: ngControlMock },
+      ],
     }).compileComponents();
   }
 
@@ -65,7 +68,7 @@ export class TestUtils {
    * Sets up TestBed configuration for services
    */
   static async setupServiceTestBed<T>(serviceType: Type<T>, providers?: unknown[]): Promise<void> {
-    const testProviders = [serviceType, ...(providers || [])];
+    const testProviders = [provideZonelessChangeDetection(), serviceType, ...(providers || [])];
 
     await TestBed.configureTestingModule({
       providers: testProviders,
@@ -81,7 +84,7 @@ export class TestUtils {
   ): Promise<void> {
     await TestBed.configureTestingModule({
       imports: [componentType],
-      providers: providers || [],
+      providers: [provideZonelessChangeDetection(), ...(providers || [])],
     }).compileComponents();
   }
 
@@ -163,6 +166,21 @@ export class TestUtils {
   }
 
   /**
+   * Tests basic input properties (async version for zoneless)
+   */
+  static async testBasicInputPropertiesAsync<T>(
+    component: T,
+    fixture: ComponentFixture<T>,
+    properties: TestProperty<T>[],
+  ): Promise<void> {
+    for (const { key, testValue } of properties) {
+      (component as Record<string, unknown>)[key as string] = testValue;
+      await TestUtils.stabilize(fixture);
+      expect((component as Record<string, unknown>)[key as string]).toBe(testValue);
+    }
+  }
+
+  /**
    * Tests label rendering and association
    */
   static testLabelRendering<T extends AnyFieldComponent>(
@@ -224,6 +242,45 @@ export class TestUtils {
     mockNgControl.dirty = true;
     mockNgControl.errors = { minlength: true };
     fixture.detectChanges();
+
+    alertDiv = fixture.nativeElement.querySelector('.alert');
+    if (alertDiv?.textContent?.includes('must be at least')) {
+      expect(alertDiv.textContent).toContain(`${labelText} must be at least 3 characters long.`);
+    }
+  }
+
+  /**
+   * Tests validation error display (async version for zoneless)
+   */
+  static async testValidationErrorsAsync<T extends AnyFieldComponent>(
+    component: T,
+    fixture: ComponentFixture<T>,
+    labelText: string,
+    mockNgControl: MockNgControl,
+  ): Promise<void> {
+    component.label = labelText;
+
+    // Test no errors when valid
+    mockNgControl.invalid = false;
+    await TestUtils.stabilize(fixture);
+
+    let alertDiv = fixture.nativeElement.querySelector('.alert');
+    expect(alertDiv).toBeFalsy();
+
+    // Test required error
+    mockNgControl.invalid = true;
+    mockNgControl.touched = true;
+    mockNgControl.errors = { required: true };
+    await TestUtils.stabilize(fixture);
+
+    alertDiv = fixture.nativeElement.querySelector('.alert');
+    expect(alertDiv).toBeTruthy();
+    expect(alertDiv.textContent).toContain(`${labelText} is required.`);
+
+    // Test minlength error
+    mockNgControl.dirty = true;
+    mockNgControl.errors = { minlength: true };
+    await TestUtils.stabilize(fixture);
 
     alertDiv = fixture.nativeElement.querySelector('.alert');
     if (alertDiv?.textContent?.includes('must be at least')) {
@@ -340,6 +397,70 @@ export class TestUtils {
 
     alertDiv = fixture.nativeElement.querySelector('.alert');
     expect(alertDiv).toBeTruthy();
+  }
+
+  /**
+   * Tests form integration patterns (async version for zoneless)
+   */
+  static async testFormIntegrationAsync<T extends AnyFieldComponent>(
+    component: T,
+    testValue: unknown,
+    mockNgControl: MockNgControl,
+    labelText: string,
+    fixture: ComponentFixture<T>,
+  ): Promise<void> {
+    const mockOnChange = vi.fn();
+    const mockOnTouched = vi.fn();
+
+    component.registerOnChange(mockOnChange);
+    component.registerOnTouched(mockOnTouched);
+
+    // Test form control setting value
+    component.writeValue(testValue);
+    expect(component.value).toBe(testValue);
+
+    // Test user interaction
+    (component.onChange as (value: unknown) => void)(testValue);
+    expect(mockOnChange).toHaveBeenCalledWith(testValue);
+
+    // Test blur event
+    component.onTouched();
+    expect(mockOnTouched).toHaveBeenCalled();
+
+    // Test validation states
+    component.label = labelText;
+
+    // Pristine state
+    mockNgControl.invalid = false;
+    mockNgControl.touched = false;
+    mockNgControl.dirty = false;
+    await TestUtils.stabilize(fixture);
+
+    let alertDiv = fixture.nativeElement.querySelector('.alert');
+    expect(alertDiv).toBeFalsy();
+
+    // Invalid touched state
+    mockNgControl.invalid = true;
+    mockNgControl.touched = true;
+    mockNgControl.errors = { required: true };
+    await TestUtils.stabilize(fixture);
+
+    alertDiv = fixture.nativeElement.querySelector('.alert');
+    expect(alertDiv).toBeTruthy();
+  }
+
+  /**
+   * Stabilize change detection for zoneless tests: runs detectChanges + whenStable cycle
+   */
+  static async stabilize(fixture: ComponentFixture<any>): Promise<void> {
+    try {
+      const changeDetector = fixture.debugElement.injector.get(ChangeDetectorRef);
+      changeDetector.markForCheck?.();
+    } catch {
+      // ignore if ChangeDetectorRef isn't available
+    }
+    fixture.detectChanges();
+    await fixture.whenStable();
   }
 
   /**
