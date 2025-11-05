@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@angular/build": "^20.3.8",
-    "@angular/cli": "^20.3.8",
+    "@angular/cli": "^20.3.9",
     "@angular/compiler-cli": "^20.3.8",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^24.10.0",
