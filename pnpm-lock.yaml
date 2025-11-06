@@ -72,6 +72,9 @@ importers:
       '@angular/compiler-cli':
         specifier: ^21.0.0-rc.1
         version: 21.0.0-rc.1(@angular/compiler@21.0.0-rc.1)(typescript@5.9.3)
+      '@eslint/js':
+        specifier: ^9.39.1
+        version: 9.39.1
       '@types/jsdom':
         specifier: ^27.0.0
         version: 27.0.0
