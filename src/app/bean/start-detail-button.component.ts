@@ -1,13 +1,12 @@
 import { Bean } from './bean';
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-start-detail-button',
-  imports: [CommonModule, ButtonModule, ReactiveFormsModule],
+  imports: [CommonModule, ButtonModule],
   template: `
     <p-button
       icon="pi pi-search"

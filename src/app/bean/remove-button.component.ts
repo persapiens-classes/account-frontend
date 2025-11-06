@@ -1,6 +1,5 @@
 import { Component, inject, Input, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Bean } from './bean';
 import { catchError, of, tap } from 'rxjs';
@@ -12,7 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-remove-button',
-  imports: [CommonModule, ButtonModule, ReactiveFormsModule, ConfirmDialogModule],
+  imports: [CommonModule, ButtonModule, ConfirmDialogModule],
   providers: [ConfirmationService],
   template: `
     <p-confirmdialog

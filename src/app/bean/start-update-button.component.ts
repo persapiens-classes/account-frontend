@@ -1,13 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Bean } from './bean';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-start-update-button',
-  imports: [CommonModule, ButtonModule, ReactiveFormsModule],
+  imports: [CommonModule, ButtonModule],
   template: `
     <p-button
       icon="pi pi-pencil"
