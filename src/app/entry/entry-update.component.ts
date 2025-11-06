@@ -86,8 +86,8 @@ export class EntryUpdateComponent {
   beanFromHistory = toBeanFromHistory(createEntry, jsonToEntry);
   form = form(signal(entryModelToForm(this.beanFromHistory)), (f) => {
     required(f.date);
-    required(f.inOwner);
     required(f.inAccount);
+    required(f.inOwner);
     required(f.outOwner);
     required(f.outAccount);
     required(f.value);

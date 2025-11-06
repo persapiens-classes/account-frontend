@@ -79,9 +79,10 @@ export class EntryInsertComponent {
     required(f.outAccount);
     required(f.value);
   });
+
+  beanInsertService: EntryInsertService;
   routerName: string;
   beanName: string;
-  beanInsertService: EntryInsertService;
 
   inAccounts: WritableSignal<Account[]>;
   outAccounts: WritableSignal<Account[]>;

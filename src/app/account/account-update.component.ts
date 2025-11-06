@@ -1,3 +1,4 @@
+import { form, minLength, required } from '@angular/forms/signals';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,7 +14,6 @@ import { AccountUpdateService } from './account-update-service';
 import { toBeanFromHistory } from '../bean/bean';
 import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 import { AppMessageService } from '../app-message-service';
-import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-account-update',
