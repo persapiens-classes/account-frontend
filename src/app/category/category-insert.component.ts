@@ -1,39 +1,38 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Category } from './category';
-import { InputFieldComponent } from '../field/input-field.component';
+import { Category, createCategory } from './category';
+import { InputFieldSComponent } from '../field/input-fields.component';
 import { CategoryInsertService } from './category-insert-service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { BeanInsertPanelsComponent } from '../bean/bean-insert-panels.component';
+import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-category-insert',
-  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent, BeanInsertPanelComponent],
+  imports: [CommonModule, InputFieldSComponent, BeanInsertPanelsComponent],
   template: `
-    <app-bean-insert-panel
-      [formGroup]="formGroup"
+    <app-bean-insert-panels
+      [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-input-field label="Description" [autoFocus]="true" formControlName="inputDescription" />
-    </app-bean-insert-panel>
+      <app-input-fields label="Description" [autoFocus]="true" [field]="form.description" />
+    </app-bean-insert-panels>
   `,
 })
 export class CategoryInsertComponent {
-  formGroup: FormGroup;
+  form = form(signal(createCategory()), (f) => {
+    required(f.description);
+    minLength(f.description, 3);
+  });
   routerName: string;
   beanName: string;
   beanInsertService: CategoryInsertService;
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      inputDescription: ['', [Validators.required, Validators.minLength(3)]],
-    });
-
     const activatedRoute = inject(ActivatedRoute);
     const http = inject(HttpClient);
     const type = activatedRoute.snapshot.data['type'];
@@ -43,6 +42,6 @@ export class CategoryInsertComponent {
   }
 
   createBean(): Category {
-    return new Category(this.formGroup.value.inputDescription);
+    return new Category(this.form().value().description);
   }
 }

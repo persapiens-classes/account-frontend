@@ -38,12 +38,12 @@ describe('BeanUpdatePanelComponent', () => {
     component = fixture.componentInstance;
 
     // Set required inputs
-    component.formGroup = new FormGroup({
+    component.form = new FormGroup({
       name: new FormControl('test', Validators.required),
     });
     component.beanFromHistory = new MockBean();
     component.beanUpdateService = { update: () => of(new MockBean()) };
-    component.createBean = () => ({ name: component.formGroup.get('name')?.value || 'test' });
+    component.createBean = () => ({ name: component.form.get('name')?.value || 'test' });
     component.beanName = 'Bean';
     component.routerName = 'bean';
 
@@ -61,7 +61,7 @@ describe('BeanUpdatePanelComponent', () => {
   });
 
   it('should accept basic input properties', () => {
-    expect(component.formGroup).toBeDefined();
+    expect(component.form).toBeDefined();
     expect(component.beanFromHistory).toBeDefined();
     expect(component.beanUpdateService).toBeDefined();
     expect(component.createBean).toBeDefined();
@@ -70,7 +70,7 @@ describe('BeanUpdatePanelComponent', () => {
   });
 
   it('should disable update button when form is invalid', () => {
-    component.formGroup.get('name')?.setValue('');
+    component.form.get('name')?.setValue('');
     fixture.detectChanges();
     const updateButton = fixture.nativeElement.querySelector('button[data-pc-name="button"]');
     expect(updateButton?.disabled).toBe(true);
@@ -88,7 +88,7 @@ describe('BeanUpdatePanelComponent', () => {
   it('should call beanUpdateService.update when update is clicked and form is valid', () => {
     const mockService = { update: vi.fn().mockReturnValue(of(new MockBean())) };
     component.beanUpdateService = mockService;
-    component.formGroup.get('name')?.setValue('updated-test');
+    component.form.get('name')?.setValue('updated-test');
 
     component.update();
 
@@ -175,7 +175,7 @@ describe('BeanUpdatePanelComponent', () => {
 
   it('should have correct component structure', () => {
     TestUtils.testServiceStructure(component, BeanUpdatePanelComponent);
-    expect(component.formGroup).toBeDefined();
+    expect(component.form).toBeDefined();
     expect(component.beanFromHistory).toBeDefined();
     expect(component.beanUpdateService).toBeDefined();
     expect(component.createBean).toBeDefined();
@@ -191,10 +191,10 @@ describe('BeanUpdatePanelComponent', () => {
 
   it('should handle state management correctly', () => {
     // Test that component maintains its state properly
-    const initialName = component.formGroup.get('name')?.value;
-    component.formGroup.get('name')?.setValue('changed');
-    expect(component.formGroup.get('name')?.value).toBe('changed');
-    expect(component.formGroup.get('name')?.value).not.toBe(initialName);
+    const initialName = component.form.get('name')?.value;
+    component.form.get('name')?.setValue('changed');
+    expect(component.form.get('name')?.value).toBe('changed');
+    expect(component.form.get('name')?.value).not.toBe(initialName);
   });
 
   it('should handle update service calls with bean ID from history', () => {
@@ -202,7 +202,7 @@ describe('BeanUpdatePanelComponent', () => {
     component.beanUpdateService = mockService;
 
     // Set form value to match what createBean returns
-    component.formGroup.get('name')?.setValue('test');
+    component.form.get('name')?.setValue('test');
 
     component.update();
 

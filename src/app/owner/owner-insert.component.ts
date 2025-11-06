@@ -1,37 +1,35 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Owner } from './owner';
-import { InputFieldComponent } from '../field/input-field.component';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { InputFieldSComponent } from '../field/input-fields.component';
+import { BeanInsertPanelsComponent } from '../bean/bean-insert-panels.component';
 import { OwnerInsertService } from './owner-insert-service';
+import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-owner-insert',
-  imports: [ReactiveFormsModule, CommonModule, InputFieldComponent, BeanInsertPanelComponent],
+  imports: [CommonModule, InputFieldSComponent, BeanInsertPanelsComponent],
   template: `
-    <app-bean-insert-panel
-      [formGroup]="formGroup"
+    <app-bean-insert-panels
+      [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
       [beanName]="'Owner'"
       [routerName]="'owners'"
     >
-      <app-input-field label="Name" [autoFocus]="true" formControlName="inputName" />
-    </app-bean-insert-panel>
+      <app-input-fields label="Name" [autoFocus]="true" [field]="form.name" />
+    </app-bean-insert-panels>
   `,
 })
 export class OwnerInsertComponent {
-  formGroup: FormGroup;
+  form = form(signal(new Owner('')), (f) => {
+    required(f.name);
+    minLength(f.name, 3);
+  });
+
   beanInsertService = inject(OwnerInsertService);
 
-  constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      inputName: ['', [Validators.required, Validators.minLength(3)]],
-    });
-  }
-
   createBean(): Owner {
-    return new Owner(this.formGroup.value.inputName);
+    return new Owner(this.form().value().name);
   }
 }

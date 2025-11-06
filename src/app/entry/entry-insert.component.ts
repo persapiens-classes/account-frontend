@@ -1,78 +1,86 @@
-import { Component, inject, WritableSignal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { EntryInsertUpdate } from './entry';
+import { createEntry, entryFormToModel, EntryInsertUpdate, entryModelToForm } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { DateFieldComponent } from '../field/date-field.component';
-import { SelectFieldComponent } from '../field/select-field.component';
-import { NumberFieldComponent } from '../field/number-field.component';
-import { InputFieldComponent } from '../field/input-field.component';
+import { DateFieldSComponent } from '../field/date-fields.component';
+import { SelectFieldSComponent } from '../field/select-fields.component';
+import { NumberFieldSComponent } from '../field/number-fields.component';
+import { InputFieldSComponent } from '../field/input-fields.component';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 import { EntryInsertService } from './entry-insert-service';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { BeanInsertPanelsComponent } from '../bean/bean-insert-panels.component';
 import { AppMessageService } from '../app-message-service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-entry-insert',
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    DateFieldComponent,
-    SelectFieldComponent,
-    NumberFieldComponent,
-    InputFieldComponent,
-    BeanInsertPanelComponent,
+    DateFieldSComponent,
+    SelectFieldSComponent,
+    NumberFieldSComponent,
+    InputFieldSComponent,
+    BeanInsertPanelsComponent,
   ],
   template: `
-    <app-bean-insert-panel
-      [formGroup]="formGroup"
+    <app-bean-insert-panels
+      [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-date-field label="Date" [autoFocus]="true" formControlName="inputDate" />
+      <app-date-fields label="Date" [autoFocus]="true" [field]="form.date" />
 
-      <app-select-field
+      <app-select-fields
         label="In Owner"
         optionLabel="name"
         [options]="owners()"
-        formControlName="selectInOwner"
+        [field]="form.inOwner"
       />
 
-      <app-select-field
+      <app-select-fields
         label="In Account"
         optionLabel="description"
         [options]="inAccounts()"
-        formControlName="selectInAccount"
+        [field]="form.inAccount"
       />
 
-      <app-select-field
+      <app-select-fields
         label="Out Owner"
         optionLabel="name"
         [options]="owners()"
-        formControlName="selectOutOwner"
+        [field]="form.outOwner"
       />
 
-      <app-select-field
+      <app-select-fields
         label="Out Account"
         optionLabel="description"
         [options]="outAccounts()"
-        formControlName="selectOutAccount"
+        [field]="form.outAccount"
       />
 
-      <app-number-field label="Value" formControlName="inputValue" />
+      <app-number-fields label="Value" [field]="form.value" />
 
-      <app-input-field label="Note" formControlName="inputNote" />
-    </app-bean-insert-panel>
+      <app-input-fields label="Note" [field]="form.note" />
+    </app-bean-insert-panels>
   `,
 })
 export class EntryInsertComponent {
-  formGroup: FormGroup;
+  form = form(signal(entryModelToForm(createEntry())), (f) => {
+    required(f.date);
+    required(f.inOwner);
+    required(f.inAccount);
+    required(f.outOwner);
+    required(f.outAccount);
+    required(f.value);
+  });
   routerName: string;
   beanName: string;
   beanInsertService: EntryInsertService;
@@ -82,16 +90,6 @@ export class EntryInsertComponent {
   owners: WritableSignal<Owner[]>;
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      inputDate: ['', [Validators.required]],
-      selectInOwner: ['', [Validators.required]],
-      selectInAccount: ['', [Validators.required]],
-      selectOutOwner: ['', [Validators.required]],
-      selectOutAccount: ['', [Validators.required]],
-      inputValue: ['', [Validators.required]],
-      inputNote: ['', []],
-    });
-
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Entries`;
@@ -111,14 +109,6 @@ export class EntryInsertComponent {
   }
 
   createBean(): EntryInsertUpdate {
-    return new EntryInsertUpdate(
-      this.formGroup.value.selectInOwner.name,
-      this.formGroup.value.selectOutOwner.name,
-      this.formGroup.value.inputDate,
-      this.formGroup.value.selectInAccount.description,
-      this.formGroup.value.selectOutAccount.description,
-      this.formGroup.value.inputValue,
-      this.formGroup.value.inputNote,
-    );
+    return entryFormToModel(this.form().value());
   }
 }

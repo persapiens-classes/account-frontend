@@ -1,32 +1,28 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import {
-  createOwnerEquityAccountInitialValue,
-  OwnerEquityAccountInitialValue,
-} from './owner-equity-account-initial-value';
+import { createOwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { NumberFieldComponent } from '../field/number-field.component';
+import { NumberFieldSComponent } from '../field/number-fields.component';
 import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 import { OwnerEquityAccountInitialValueUpdateService } from './owner-equity-account-initial-value-update-service';
 import { toBeanFromHistory } from '../bean/bean';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-update',
   imports: [
-    ReactiveFormsModule,
     ButtonModule,
     PanelModule,
     CommonModule,
-    NumberFieldComponent,
+    NumberFieldSComponent,
     DetailFieldComponent,
     BeanUpdatePanelComponent,
   ],
   template: `
     <app-bean-update-panel
-      [formGroup]="formGroup"
+      [form]="form"
       [beanFromHistory]="beanFromHistory"
       [createBean]="createBean.bind(this)"
       [beanUpdateService]="beanUpdateService"
@@ -42,27 +38,19 @@ import { toBeanFromHistory } from '../bean/bean';
         }}"
       />
 
-      <app-number-field
-        label="Initial Value"
-        [autoFocus]="true"
-        formControlName="inputInitialValue"
-      />
+      <app-number-fields label="Initial Value" [autoFocus]="true" [field]="form.initialValue" />
     </app-bean-update-panel>
   `,
 })
 export class OwnerEquityAccountInitialValueUpdateComponent {
-  formGroup: FormGroup;
-  beanFromHistory: OwnerEquityAccountInitialValue;
+  beanFromHistory = toBeanFromHistory(createOwnerEquityAccountInitialValue);
+  form = form(signal(this.beanFromHistory), (f) => {
+    required(f.initialValue);
+  });
+
   beanUpdateService = inject(OwnerEquityAccountInitialValueUpdateService);
 
-  constructor() {
-    this.beanFromHistory = toBeanFromHistory(createOwnerEquityAccountInitialValue);
-    this.formGroup = inject(FormBuilder).group({
-      inputInitialValue: [this.beanFromHistory.initialValue, [Validators.required]],
-    });
-  }
-
   createBean(): number {
-    return this.formGroup.value.inputInitialValue;
+    return this.form().value().initialValue;
   }
 }

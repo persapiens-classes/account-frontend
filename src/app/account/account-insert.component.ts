@@ -1,47 +1,45 @@
-import { Component, inject, WritableSignal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Account } from './account';
+import { Account, accountFormToModel, accountModelToForm, createAccount } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
-import { InputFieldComponent } from '../field/input-field.component';
-import { SelectFieldComponent } from '../field/select-field.component';
+import { InputFieldSComponent } from '../field/input-fields.component';
+import { SelectFieldSComponent } from '../field/select-fields.component';
 import { CategoryListService } from '../category/category-list-service';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { BeanInsertPanelsComponent } from '../bean/bean-insert-panels.component';
 import { AccountInsertService } from './account-insert-service';
 import { AppMessageService } from '../app-message-service';
+import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-account-insert',
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-    InputFieldComponent,
-    SelectFieldComponent,
-    BeanInsertPanelComponent,
-  ],
+  imports: [CommonModule, InputFieldSComponent, SelectFieldSComponent, BeanInsertPanelsComponent],
   template: `
-    <app-bean-insert-panel
-      [formGroup]="formGroup"
+    <app-bean-insert-panels
+      [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-input-field label="Description" [autoFocus]="true" formControlName="inputDescription" />
+      <app-input-fields label="Description" [autoFocus]="true" [field]="form.description" />
 
-      <app-select-field
+      <app-select-fields
         label="Category"
         optionLabel="description"
         [options]="categories()"
-        formControlName="selectCategory"
+        [field]="form.category"
       />
-    </app-bean-insert-panel>
+    </app-bean-insert-panels>
   `,
 })
 export class AccountInsertComponent {
-  formGroup: FormGroup;
+  form = form(signal(accountModelToForm(createAccount())), (f) => {
+    required(f.description);
+    minLength(f.description, 3);
+    required(f.category);
+  });
   routerName: string;
   beanName: string;
   beanInsertService: AccountInsertService;
@@ -49,11 +47,6 @@ export class AccountInsertComponent {
   categories: WritableSignal<Category[]>;
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      selectCategory: ['', [Validators.required]],
-      inputDescription: ['', [Validators.required, Validators.minLength(3)]],
-    });
-
     const activatedRoute = inject(ActivatedRoute);
     const http = inject(HttpClient);
 
@@ -69,9 +62,6 @@ export class AccountInsertComponent {
   }
 
   createBean(): Account {
-    return new Account(
-      this.formGroup.value.inputDescription,
-      this.formGroup.value.selectCategory.description,
-    );
+    return accountFormToModel(this.form().value());
   }
 }
