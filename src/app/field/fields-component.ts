@@ -1,4 +1,3 @@
-import { NgControl } from '@angular/forms';
 import { InputSignal } from '@angular/core';
 
 /**
@@ -9,7 +8,6 @@ export interface FieldComponent {
   label?: InputSignal<string>;
   id?: InputSignal<string>;
   autoFocus?: InputSignal<boolean>;
-  ngControl?: NgControl;
   setDisabledState?: (isDisabled: boolean) => void;
 }
 

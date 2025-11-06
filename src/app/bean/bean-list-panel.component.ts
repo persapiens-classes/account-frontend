@@ -1,12 +1,11 @@
 import { Router } from '@angular/router';
 import { Component, inject, Input } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
-import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-bean-list-panel',
-  imports: [FormsModule, PanelModule, ButtonModule],
+  imports: [PanelModule, ButtonModule],
   template: `
     <p-panel header="List">
       <ng-template pTemplate="header">
