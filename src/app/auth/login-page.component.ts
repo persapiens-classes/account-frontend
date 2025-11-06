@@ -11,7 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AppMessageService } from '../app-message-service';
-import { InputFieldSComponent } from '../field/input-fields.component';
+import { InputFieldComponent } from '../field/input-field.component';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +26,7 @@ import { InputFieldSComponent } from '../field/input-fields.component';
     AutoFocusModule,
     ToastModule,
     Field,
-    InputFieldSComponent,
+    InputFieldComponent,
   ],
   template: `
     <p-panel class="mx-auto w-[400px]">

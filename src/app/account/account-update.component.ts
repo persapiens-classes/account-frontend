@@ -6,8 +6,8 @@ import { PanelModule } from 'primeng/panel';
 import { Account, accountFormToModel, accountModelToForm, createAccount } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
-import { InputFieldSComponent } from '../field/input-fields.component';
-import { SelectFieldSComponent } from '../field/select-fields.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
 import { CategoryListService } from '../category/category-list-service';
 import { AccountUpdateService } from './account-update-service';
 import { toBeanFromHistory } from '../bean/bean';
@@ -21,8 +21,8 @@ import { form, minLength, required } from '@angular/forms/signals';
     ButtonModule,
     PanelModule,
     CommonModule,
-    InputFieldSComponent,
-    SelectFieldSComponent,
+    InputFieldComponent,
+    SelectFieldComponent,
     BeanUpdatePanelComponent,
   ],
   template: `

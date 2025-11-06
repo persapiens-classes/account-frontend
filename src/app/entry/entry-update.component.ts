@@ -13,13 +13,12 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { InputFieldSComponent } from '../field/input-fields.component';
-import { NumberFieldSComponent } from '../field/number-fields.component';
-import { SelectFieldSComponent } from '../field/select-fields.component';
-import { DateFieldSComponent } from '../field/date-fields.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
+import { DateFieldComponent } from '../field/date-field.component';
 import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
-import { EntryInsertComponent } from './entry-insert.component';
 import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 import { EntryUpdateService } from './entry-update-service';
 import { toBeanFromHistory } from '../bean/bean';
@@ -32,10 +31,10 @@ import { form, required } from '@angular/forms/signals';
     ButtonModule,
     PanelModule,
     CommonModule,
-    DateFieldSComponent,
-    SelectFieldSComponent,
-    NumberFieldSComponent,
-    InputFieldSComponent,
+    DateFieldComponent,
+    SelectFieldComponent,
+    NumberFieldComponent,
+    InputFieldComponent,
     BeanUpdatePanelComponent,
   ],
   template: `

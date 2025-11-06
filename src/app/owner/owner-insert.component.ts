@@ -1,16 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Owner } from './owner';
-import { InputFieldSComponent } from '../field/input-fields.component';
-import { BeanInsertPanelsComponent } from '../bean/bean-insert-panels.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { OwnerInsertService } from './owner-insert-service';
 import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-owner-insert',
-  imports: [CommonModule, InputFieldSComponent, BeanInsertPanelsComponent],
+  imports: [CommonModule, InputFieldComponent, BeanInsertPanelComponent],
   template: `
-    <app-bean-insert-panels
+    <app-bean-insert-panel
       [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
@@ -18,7 +18,7 @@ import { form, minLength, required } from '@angular/forms/signals';
       [routerName]="'owners'"
     >
       <app-input-fields label="Name" [autoFocus]="true" [field]="form.name" />
-    </app-bean-insert-panels>
+    </app-bean-insert-panel>
   `,
 })
 export class OwnerInsertComponent {

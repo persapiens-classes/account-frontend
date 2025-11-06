@@ -7,11 +7,11 @@ import {
 } from './owner-equity-account-initial-value';
 import { Owner } from '../owner/owner';
 import { Account, AccountType } from '../account/account';
-import { SelectFieldSComponent } from '../field/select-fields.component';
-import { NumberFieldSComponent } from '../field/number-fields.component';
+import { SelectFieldComponent } from '../field/select-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
-import { BeanInsertPanelsComponent } from '../bean/bean-insert-panels.component';
+import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-account-initial-value-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { form, required } from '@angular/forms/signals';
@@ -44,9 +44,9 @@ export function ownerEquityAccountInitialValueModelToForm(
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-insert',
-  imports: [CommonModule, NumberFieldSComponent, SelectFieldSComponent, BeanInsertPanelsComponent],
+  imports: [CommonModule, NumberFieldComponent, SelectFieldComponent, BeanInsertPanelComponent],
   template: `
-    <app-bean-insert-panels
+    <app-bean-insert-panel
       [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
@@ -69,7 +69,7 @@ export function ownerEquityAccountInitialValueModelToForm(
       />
 
       <app-number-fields label="Initial Value" [field]="form.initialValue" />
-    </app-bean-insert-panels>
+    </app-bean-insert-panel>
   `,
 })
 export class OwnerEquityAccountInitialValueInsertComponent {

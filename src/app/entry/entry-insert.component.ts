@@ -1,35 +1,33 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { createEntry, entryFormToModel, EntryInsertUpdate, entryModelToForm } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
-import { DateFieldSComponent } from '../field/date-fields.component';
-import { SelectFieldSComponent } from '../field/select-fields.component';
-import { NumberFieldSComponent } from '../field/number-fields.component';
-import { InputFieldSComponent } from '../field/input-fields.component';
+import { DateFieldComponent } from '../field/date-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
+import { NumberFieldComponent } from '../field/number-field.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 import { EntryInsertService } from './entry-insert-service';
-import { BeanInsertPanelsComponent } from '../bean/bean-insert-panels.component';
+import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { AppMessageService } from '../app-message-service';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-entry-insert',
   imports: [
-    ReactiveFormsModule,
     CommonModule,
-    DateFieldSComponent,
-    SelectFieldSComponent,
-    NumberFieldSComponent,
-    InputFieldSComponent,
-    BeanInsertPanelsComponent,
+    DateFieldComponent,
+    SelectFieldComponent,
+    NumberFieldComponent,
+    InputFieldComponent,
+    BeanInsertPanelComponent,
   ],
   template: `
-    <app-bean-insert-panels
+    <app-bean-insert-panel
       [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
@@ -69,7 +67,7 @@ import { form, required } from '@angular/forms/signals';
       <app-number-fields label="Value" [field]="form.value" />
 
       <app-input-fields label="Note" [field]="form.note" />
-    </app-bean-insert-panels>
+    </app-bean-insert-panel>
   `,
 })
 export class EntryInsertComponent {

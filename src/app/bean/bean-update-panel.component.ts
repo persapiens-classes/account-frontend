@@ -13,7 +13,7 @@ import { FieldTree } from '@angular/forms/signals';
   selector: 'app-bean-update-panel',
   imports: [ButtonModule, PanelModule, CommonModule],
   template: `
-    <form>
+    <form (submit)="onSubmit($event)">
       <p-panel header="Edit">
         <ng-content></ng-content>
 
@@ -58,7 +58,7 @@ export class BeanUpdatePanelComponent<F, T extends Bean, U> {
         .pipe(
           tap((bean) => {
             this.appMessageService.addSuccessMessage(
-              `${this.beanName} edited`,
+              `${this.beanName()} edited`,
               `${this.beanName()} ${this.beanFromHistory().getId()} edited ok.`,
             );
             this.router.navigate([`${this.routerName()}/detail`], {
@@ -82,5 +82,10 @@ export class BeanUpdatePanelComponent<F, T extends Bean, U> {
     this.router.navigate([`${this.routerName()}/detail`], {
       state: { bean: this.beanFromHistory() },
     });
+  }
+
+  onSubmit(event: Event) {
+    event.preventDefault();
+    this.update();
   }
 }

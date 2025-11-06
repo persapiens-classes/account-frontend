@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { Category, createCategory } from './category';
-import { InputFieldSComponent } from '../field/input-fields.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { toBeanFromHistory } from '../bean/bean';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -13,13 +13,7 @@ import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-category-update',
-  imports: [
-    ButtonModule,
-    PanelModule,
-    CommonModule,
-    InputFieldSComponent,
-    BeanUpdatePanelComponent,
-  ],
+  imports: [ButtonModule, PanelModule, CommonModule, InputFieldComponent, BeanUpdatePanelComponent],
   template: `
     <app-bean-update-panel
       [form]="form"

@@ -4,19 +4,19 @@ import { CommonModule } from '@angular/common';
 import { Account, accountFormToModel, accountModelToForm, createAccount } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
-import { InputFieldSComponent } from '../field/input-fields.component';
-import { SelectFieldSComponent } from '../field/select-fields.component';
+import { InputFieldComponent } from '../field/input-field.component';
+import { SelectFieldComponent } from '../field/select-field.component';
 import { CategoryListService } from '../category/category-list-service';
-import { BeanInsertPanelsComponent } from '../bean/bean-insert-panels.component';
+import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { AccountInsertService } from './account-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-account-insert',
-  imports: [CommonModule, InputFieldSComponent, SelectFieldSComponent, BeanInsertPanelsComponent],
+  imports: [CommonModule, InputFieldComponent, SelectFieldComponent, BeanInsertPanelComponent],
   template: `
-    <app-bean-insert-panels
+    <app-bean-insert-panel
       [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
@@ -31,7 +31,7 @@ import { form, minLength, required } from '@angular/forms/signals';
         [options]="categories()"
         [field]="form.category"
       />
-    </app-bean-insert-panels>
+    </app-bean-insert-panel>
   `,
 })
 export class AccountInsertComponent {

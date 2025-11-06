@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { createOwner, Owner } from './owner';
-import { InputFieldSComponent } from '../field/input-fields.component';
+import { InputFieldComponent } from '../field/input-field.component';
 import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 import { OwnerUpdateService } from './owner-update-service';
 import { toBeanFromHistory } from '../bean/bean';
@@ -11,13 +11,7 @@ import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-owner-update',
-  imports: [
-    ButtonModule,
-    PanelModule,
-    CommonModule,
-    InputFieldSComponent,
-    BeanUpdatePanelComponent,
-  ],
+  imports: [ButtonModule, PanelModule, CommonModule, InputFieldComponent, BeanUpdatePanelComponent],
   template: `
     <app-bean-update-panel
       [form]="form"

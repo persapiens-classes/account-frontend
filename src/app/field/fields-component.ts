@@ -4,7 +4,7 @@ import { InputSignal } from '@angular/core';
 /**
  * Base interface for all field components
  */
-export interface FieldSComponent<T = unknown> {
+export interface FieldComponent<T = unknown> {
   isDisabled?: boolean;
   label?: InputSignal<string>;
   id?: InputSignal<string>;
@@ -16,24 +16,24 @@ export interface FieldSComponent<T = unknown> {
 /**
  * Interface for date field components
  */
-export interface DateFieldSComponent extends FieldSComponent<Date | null> {
+export interface DateFieldComponent extends FieldComponent<Date | null> {
   showIcon?: InputSignal<boolean>;
 }
 
 /**
  * Type for string/text input field components
  */
-export type StringFieldSComponent = FieldSComponent<string>;
+export type StringFieldComponent = FieldComponent<string>;
 
 /**
  * Type for number input field components
  */
-export type NumberFieldSComponent = FieldSComponent<number | null>;
+export type NumberFieldComponent = FieldComponent<number | null>;
 
 /**
  * Interface for select field components
  */
-export interface SelectFieldSComponent<T = unknown> extends FieldSComponent<T | null> {
+export interface SelectFieldComponent<T = unknown> extends FieldComponent<T | null> {
   options: InputSignal<T[]>;
   optionLabel: InputSignal<string>;
   optionValue: InputSignal<string>;

@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { createOwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { NumberFieldSComponent } from '../field/number-fields.component';
+import { NumberFieldComponent } from '../field/number-field.component';
 import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 import { OwnerEquityAccountInitialValueUpdateService } from './owner-equity-account-initial-value-update-service';
 import { toBeanFromHistory } from '../bean/bean';
@@ -16,7 +16,7 @@ import { form, required } from '@angular/forms/signals';
     ButtonModule,
     PanelModule,
     CommonModule,
-    NumberFieldSComponent,
+    NumberFieldComponent,
     DetailFieldComponent,
     BeanUpdatePanelComponent,
   ],

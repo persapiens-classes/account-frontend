@@ -59,7 +59,6 @@ export interface EntryForm {
 
 export function entryFormToModel(entryForm: EntryForm): EntryInsertUpdate {
   return new EntryInsertUpdate(
-    entryForm.id,
     entryForm.inOwner ? entryForm.inOwner.name : '',
     entryForm.outOwner ? entryForm.outOwner.name : '',
     entryForm.date,
