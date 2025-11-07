@@ -115,42 +115,6 @@ export class TestUtils {
   }
 
   /**
-   * Tests ControlValueAccessor interface implementation
-   */
-  static testControlValueAccessor<T extends AnyFieldComponent>(
-    component: T,
-    testValue: unknown,
-  ): void {
-    // Test writeValue
-    component.writeValue(testValue);
-    expect(component.value).toBe(testValue);
-
-    // Test writeValue with null
-    component.writeValue(null);
-    const expectedNull = typeof testValue === 'string' ? '' : null;
-    expect(component.value).toBe(expectedNull);
-
-    // Test registerOnChange
-    const mockOnChange = vi.fn();
-    component.registerOnChange(mockOnChange);
-    expect(component.onChange).toBe(mockOnChange);
-
-    // Test registerOnTouched
-    const mockOnTouched = vi.fn();
-    component.registerOnTouched(mockOnTouched);
-    expect(component.onTouched).toBe(mockOnTouched);
-
-    // Test setDisabledState
-    if (component.setDisabledState) {
-      component.setDisabledState(true);
-      expect(component.isDisabled).toBe(true);
-
-      component.setDisabledState(false);
-      expect(component.isDisabled).toBe(false);
-    }
-  }
-
-  /**
    * Tests basic input properties
    */
   static testBasicInputProperties<T>(
@@ -181,25 +145,6 @@ export class TestUtils {
   }
 
   /**
-   * Tests label rendering and association
-   */
-  static testLabelRendering<T extends AnyFieldComponent>(
-    component: T,
-    fixture: ComponentFixture<T>,
-    labelText: string,
-    inputId: string,
-  ): void {
-    component.label = labelText;
-    component.id = inputId;
-    fixture.detectChanges();
-
-    const label = fixture.nativeElement.querySelector('label');
-    expect(label).toBeTruthy();
-    expect(label.textContent.trim()).toBe(labelText);
-    expect(label.getAttribute('for')).toBe(inputId);
-  }
-
-  /**
    * Tests p-float-label component presence
    */
   static testFloatLabelPresence<T>(fixture: ComponentFixture<T>): void {
@@ -208,42 +153,6 @@ export class TestUtils {
     const floatLabel = fixture.nativeElement.querySelector('p-float-label');
     expect(floatLabel).toBeTruthy();
     expect(floatLabel.classList.contains('mb-2.5')).toBe(true);
-  }
-
-  /**
-   * Tests validation error display
-   */
-  static testValidationErrors<T extends AnyFieldComponent>(
-    component: T,
-    fixture: ComponentFixture<T>,
-    labelText: string,
-    mockNgControl: MockNgControl,
-  ): void {
-    component.label = labelText;
-    mockNgControl.invalid = false;
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.alert')).toBeFalsy();
-
-    this.assertRequiredError(fixture, mockNgControl, labelText);
-    this.assertMinlengthError(fixture, mockNgControl, labelText);
-  }
-
-  /**
-   * Tests validation error display (async version for zoneless)
-   */
-  static async testValidationErrorsAsync<T extends AnyFieldComponent>(
-    component: T,
-    mockNgControl: MockNgControl,
-    labelText: string,
-    fixture: ComponentFixture<T>,
-  ): Promise<void> {
-    component.label = labelText;
-    mockNgControl.invalid = false;
-    await TestUtils.stabilize(fixture);
-    expect(fixture.nativeElement.querySelector('.alert')).toBeFalsy();
-
-    await this.assertRequiredErrorAsync(fixture, mockNgControl, labelText);
-    await this.assertMinlengthErrorAsync(fixture, mockNgControl, labelText);
   }
 
   private static assertRequiredError<T>(
@@ -303,167 +212,6 @@ export class TestUtils {
   }
 
   /**
-   * Tests NgControl integration in component context
-   */
-  static testNgControlIntegration<T extends AnyFieldComponent>(component: T): void {
-    // NgControl can be undefined in isolated unit tests
-    expect(component).toBeDefined();
-    if (component.ngControl) {
-      expect(component.ngControl).toBeDefined();
-    }
-  }
-
-  /**
-   * Tests component state management
-   */
-  static testStateManagement<T extends AnyFieldComponent>(
-    component: T,
-    testValue: unknown,
-    secondValue: unknown,
-  ): void {
-    // Test disabled state
-    expect(component.isDisabled).toBe(false);
-    component.setDisabledState?.(true);
-    expect(component.isDisabled).toBe(true);
-    component.setDisabledState?.(false);
-    expect(component.isDisabled).toBe(false);
-
-    // Test value state
-    const initialValue = typeof testValue === 'string' ? '' : null;
-    expect(component.value).toBe(initialValue);
-
-    component.writeValue(testValue);
-    expect(component.value).toBe(testValue);
-
-    component.writeValue(secondValue);
-    expect(component.value).toBe(secondValue);
-
-    component.writeValue(null);
-    const expectedNull = typeof testValue === 'string' ? '' : null;
-    expect(component.value).toBe(expectedNull);
-  }
-
-  /**
-   * Tests accessibility features
-   */
-  static testAccessibility<T extends AnyFieldComponent>(
-    component: T,
-    fixture: ComponentFixture<T>,
-    testId: string,
-    testLabel: string,
-  ): void {
-    component.id = testId;
-    component.label = testLabel;
-    component.autoFocus = true;
-    fixture.detectChanges();
-
-    expect(component.autoFocus).toBe(true);
-
-    const label = fixture.nativeElement.querySelector('label');
-    expect(label.getAttribute('for')).toBe(testId);
-  }
-
-  /**
-   * Tests form integration patterns
-   */
-  static testFormIntegration<T extends AnyFieldComponent>(
-    component: T,
-    testValue: unknown,
-    mockNgControl: MockNgControl,
-    labelText: string,
-    fixture: ComponentFixture<T>,
-  ): void {
-    const mockOnChange = vi.fn();
-    const mockOnTouched = vi.fn();
-
-    this.registerCallbacksAndTestWriteValue(component, mockOnChange, mockOnTouched, testValue);
-    this.testUserInteraction(component, mockOnChange, mockOnTouched, testValue);
-    this.testValidationStates(component, mockNgControl, labelText, fixture);
-  }
-
-  /**
-   * Tests form integration patterns (async version for zoneless)
-   */
-  static async testFormIntegrationAsync<T extends AnyFieldComponent>(
-    component: T,
-    testValue: unknown,
-    mockNgControl: MockNgControl,
-    labelText: string,
-    fixture: ComponentFixture<T>,
-  ): Promise<void> {
-    const mockOnChange = vi.fn();
-    const mockOnTouched = vi.fn();
-
-    this.registerCallbacksAndTestWriteValue(component, mockOnChange, mockOnTouched, testValue);
-    this.testUserInteraction(component, mockOnChange, mockOnTouched, testValue);
-    await this.testValidationStatesAsync(component, mockNgControl, labelText, fixture);
-  }
-
-  private static registerCallbacksAndTestWriteValue<T extends AnyFieldComponent>(
-    component: T,
-    mockOnChange: ReturnType<typeof vi.fn>,
-    mockOnTouched: ReturnType<typeof vi.fn>,
-    testValue: unknown,
-  ): void {
-    component.registerOnChange(mockOnChange);
-    component.registerOnTouched(mockOnTouched);
-    component.writeValue(testValue);
-    expect(component.value).toBe(testValue);
-  }
-
-  private static testUserInteraction<T extends AnyFieldComponent>(
-    component: T,
-    mockOnChange: ReturnType<typeof vi.fn>,
-    mockOnTouched: ReturnType<typeof vi.fn>,
-    testValue: unknown,
-  ): void {
-    (component.onChange as (value: unknown) => void)(testValue);
-    expect(mockOnChange).toHaveBeenCalledWith(testValue);
-    component.onTouched();
-    expect(mockOnTouched).toHaveBeenCalled();
-  }
-
-  private static testValidationStates<T extends AnyFieldComponent>(
-    component: T,
-    mockNgControl: MockNgControl,
-    labelText: string,
-    fixture: ComponentFixture<T>,
-  ): void {
-    component.label = labelText;
-    mockNgControl.invalid = false;
-    mockNgControl.touched = false;
-    mockNgControl.dirty = false;
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.alert')).toBeFalsy();
-
-    mockNgControl.invalid = true;
-    mockNgControl.touched = true;
-    mockNgControl.errors = { required: true };
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
-  }
-
-  private static async testValidationStatesAsync<T extends AnyFieldComponent>(
-    component: T,
-    mockNgControl: MockNgControl,
-    labelText: string,
-    fixture: ComponentFixture<T>,
-  ): Promise<void> {
-    component.label = labelText;
-    mockNgControl.invalid = false;
-    mockNgControl.touched = false;
-    mockNgControl.dirty = false;
-    await TestUtils.stabilize(fixture);
-    expect(fixture.nativeElement.querySelector('.alert')).toBeFalsy();
-
-    mockNgControl.invalid = true;
-    mockNgControl.touched = true;
-    mockNgControl.errors = { required: true };
-    await TestUtils.stabilize(fixture);
-    expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
-  }
-
-  /**
    * Stabilize change detection for zoneless tests: runs detectChanges + whenStable cycle
    */
   static async stabilize<T>(fixture: ComponentFixture<T>): Promise<void> {
@@ -493,34 +241,6 @@ export class TestUtils {
     element.triggerEventHandler(eventName, eventData);
 
     expect(mockCallback).toHaveBeenCalled();
-  }
-
-  /**
-   * Tests multiple validation errors
-   */
-  static testMultipleValidationErrors<T extends AnyFieldComponent>(
-    component: T,
-    fixture: ComponentFixture<T>,
-    labelText: string,
-    mockNgControl: MockNgControl,
-  ): void {
-    component.label = labelText;
-    mockNgControl.invalid = true;
-    mockNgControl.touched = true;
-    mockNgControl.dirty = true;
-    mockNgControl.errors = { required: true, minlength: true };
-    fixture.detectChanges();
-
-    const alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeTruthy();
-
-    const alertText = alertDiv.textContent;
-    expect(alertText).toContain(`${labelText} is required.`);
-
-    // Check for minlength only if it's actually shown
-    if (alertText?.includes('must be at least')) {
-      expect(alertText).toContain(`${labelText} must be at least 3 characters long.`);
-    }
   }
 
   /**
