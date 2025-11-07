@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 
@@ -24,12 +24,11 @@ import { ButtonModule } from 'primeng/button';
   `,
 })
 export class BeanListPanelComponent {
-  @Input()
-  routerName!: string;
+  routerName = input.required<string>();
 
   private readonly router = inject(Router);
 
   startInsert(): void {
-    this.router.navigate([`${this.routerName}/new`]);
+    this.router.navigate([`${this.routerName()}/new`]);
   }
 }

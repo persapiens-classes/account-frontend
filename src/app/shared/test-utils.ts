@@ -3,18 +3,8 @@ import { Type, provideZonelessChangeDetection, ChangeDetectorRef } from '@angula
 import { By } from '@angular/platform-browser';
 import { NgControl } from '@angular/forms';
 import { expect, vi } from 'vitest';
-import { FieldComponent, SelectFieldComponent } from '../field/field-component';
-import { Bean } from '../bean/bean';
 
 // Using production FieldComponent interface
-
-type AnyFieldComponent =
-  | FieldComponent<unknown>
-  | FieldComponent<string>
-  | FieldComponent<number | null>
-  | FieldComponent<Date | null>
-  | FieldComponent<Bean | null>
-  | SelectFieldComponent<Bean>;
 
 interface MockNgControl {
   invalid: boolean;

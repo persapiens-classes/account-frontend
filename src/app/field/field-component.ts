@@ -31,9 +31,9 @@ export type NumberFieldComponent = FieldComponent<number | null>;
 /**
  * Interface for select field components
  */
-export interface SelectFieldComponent<T = unknown> extends FieldComponent <T | null>{
+export interface SelectFieldComponent<T = unknown> extends FieldComponent<T | null> {
   options: InputSignal<T[]>;
   optionLabel: InputSignal<string>;
-  optionValue: InputSignal<string>; 
+  optionValue: InputSignal<string>;
   placeholder: InputSignal<string>;
 }
