@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
-import { SelectFieldComponent as ISelectFieldComponent } from './fields-component';
+import { SelectFieldComponent as ISelectFieldComponent } from './field-component';
 import { Field, FieldTree } from '@angular/forms/signals';
 
 @Component({

@@ -3,7 +3,7 @@ import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { InputTextModule } from 'primeng/inputtext';
-import { StringFieldComponent } from './fields-component';
+import { StringFieldComponent } from './field-component';
 import { FieldTree, Field } from '@angular/forms/signals';
 
 @Component({

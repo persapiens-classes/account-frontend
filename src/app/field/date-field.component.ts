@@ -3,7 +3,7 @@ import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { DatePickerModule } from 'primeng/datepicker';
-import { DateFieldComponent as IDateFieldComponent } from './fields-component';
+import { DateFieldComponent as IDateFieldComponent } from './field-component';
 import { Field, FieldTree } from '@angular/forms/signals';
 
 @Component({
