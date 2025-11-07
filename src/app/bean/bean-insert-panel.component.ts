@@ -1,70 +1,63 @@
 import { Router } from '@angular/router';
 import { Bean } from './bean';
 import { catchError, of, tap } from 'rxjs';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FieldTree } from '@angular/forms/signals';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { BeanInsertService } from './bean-insert-service';
 import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-bean-insert-panel',
-  imports: [ReactiveFormsModule, ButtonModule, PanelModule, CommonModule],
+  imports: [ButtonModule, PanelModule, CommonModule],
   template: `
-    <form [formGroup]="formGroup">
-      @if (formGroup) {
-        <p-panel header="New">
-          <ng-content></ng-content>
+    <form (submit)="onSubmit($event)">
+      <p-panel header="New">
+        <ng-content></ng-content>
 
-          <p-button
-            icon="pi pi-check"
-            (onClick)="insert()"
-            class="mr-3"
-            [disabled]="formGroup.invalid"
-            pTooltip="Save"
-          />
-          <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list" />
-        </p-panel>
-      }
+        <p-button
+          icon="pi pi-check"
+          (onClick)="insert()"
+          class="mr-3"
+          [disabled]="!form()().valid()"
+          pTooltip="Save"
+        />
+        <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list" />
+      </p-panel>
     </form>
   `,
 })
-export class BeanInsertPanelComponent<T extends Bean, I> {
-  @Input()
-  formGroup!: FormGroup;
+export class BeanInsertPanelComponent<F, T extends Bean, I> {
+  form = input.required<FieldTree<F>>();
 
-  @Input()
-  createBean!: () => I;
+  createBean = input.required<() => I>();
 
-  @Input()
-  beanInsertService!: BeanInsertService<T, I>;
+  beanInsertService = input.required<BeanInsertService<T, I>>();
 
-  @Input()
-  beanName!: string;
+  beanName = input.required<string>();
 
-  @Input()
-  routerName!: string;
+  routerName = input.required<string>();
 
   private readonly router = inject(Router);
   private readonly appMessageService = inject(AppMessageService);
 
   insert() {
-    if (this.formGroup.valid) {
-      this.beanInsertService
-        .insert(this.createBean())
+    if (this.form()().valid()) {
+      this.beanInsertService()
+        .insert(this.createBean()())
         .pipe(
           catchError((error) => {
-            this.appMessageService.addErrorMessage(error, `${this.beanName} not inserted`);
+            this.appMessageService.addErrorMessage(error, `${this.beanName()} not inserted`);
             return of();
           }),
           tap((bean) => {
             this.appMessageService.addSuccessMessage(
-              `${this.beanName} inserted`,
-              `${this.beanName} ${bean.getId()} inserted ok.`,
+              `${this.beanName()} inserted`,
+              `${this.beanName()} ${bean.getId()} inserted ok.`,
             );
-            this.router.navigate([`${this.routerName}/detail`], {
+            this.router.navigate([`${this.routerName()}/detail`], {
               state: { bean: bean },
             });
           }),
@@ -74,6 +67,11 @@ export class BeanInsertPanelComponent<T extends Bean, I> {
   }
 
   cancelInsert() {
-    this.router.navigate([`${this.routerName}`]);
+    this.router.navigate([`${this.routerName()}`]);
+  }
+
+  onSubmit(event: Event) {
+    event.preventDefault();
+    this.insert();
   }
 }

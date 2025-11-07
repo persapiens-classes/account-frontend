@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MenuComponent } from './menu.component';
@@ -14,7 +13,7 @@ export enum TitleColor {
 
 @Component({
   selector: 'app-layout-component',
-  imports: [FormsModule, RouterOutlet, HeaderComponent, MenuComponent, ToastModule, CommonModule],
+  imports: [RouterOutlet, HeaderComponent, MenuComponent, ToastModule, CommonModule],
   template: `
     <p-toast></p-toast>
 

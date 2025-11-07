@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { form, Field, required, minLength } from '@angular/forms/signals';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
@@ -10,8 +10,8 @@ import { AuthService } from './auth.service';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputFieldComponent } from '../field/input-field.component';
 import { AppMessageService } from '../app-message-service';
+import { InputFieldComponent } from '../field/input-field.component';
 
 @Component({
   selector: 'app-login',
@@ -22,10 +22,10 @@ import { AppMessageService } from '../app-message-service';
     ButtonModule,
     InputTextModule,
     PasswordModule,
-    ReactiveFormsModule,
     RouterModule,
     AutoFocusModule,
     ToastModule,
+    Field,
     InputFieldComponent,
   ],
   template: `
@@ -38,20 +38,20 @@ import { AppMessageService } from '../app-message-service';
         />
         <h1 class="mb-4 text-[1.5em] font-bold">Welcome to Account</h1>
 
-        <form [formGroup]="form">
-          <app-input-field label="Username" [autoFocus]="true" formControlName="inputUsername" />
+        <form>
+          <app-input-fields label="Username" [autoFocus]="true" [field]="form.username" />
 
           <p-float-label variant="in" class="mb-2.5">
             <p-password
               id="password"
               [toggleMask]="true"
               [feedback]="false"
-              formControlName="inputPassword"
+              [field]="form.password"
             />
             <label for="password">Password</label>
           </p-float-label>
 
-          <p-button label="Sign In" (onClick)="signin()" [disabled]="form.invalid"></p-button>
+          <p-button label="Sign In" (onClick)="signin()" [disabled]="!form().valid()"></p-button>
         </form>
 
         <p-toast></p-toast>
@@ -60,23 +60,21 @@ import { AppMessageService } from '../app-message-service';
   `,
 })
 export class LoginPageComponent {
-  form: FormGroup;
+  form = form(signal({ username: '', password: '' }), (f) => {
+    required(f.username);
+    required(f.password);
+    minLength(f.username, 1);
+    minLength(f.password, 3);
+  });
 
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly appMessageService = inject(AppMessageService);
 
-  constructor() {
-    this.form = inject(FormBuilder).group({
-      inputUsername: ['', [Validators.required, Validators.minLength(1)]],
-      inputPassword: ['', [Validators.required, Validators.minLength(1)]],
-    });
-  }
-
   signin() {
-    if (this.form.valid) {
+    if (this.form().valid()) {
       this.authService
-        .signin(this.form.value.inputUsername, this.form.value.inputPassword)
+        .signin(this.form().value().username, this.form().value().password)
         .pipe(
           tap(() => {
             this.router.navigate(['balances/list']);

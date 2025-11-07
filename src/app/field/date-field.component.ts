@@ -1,91 +1,49 @@
-import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { Component, inject, Input } from '@angular/core';
-import { DateFieldComponent as IDateFieldComponent } from './field-component';
 import { CommonModule } from '@angular/common';
+import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
+import { DateFieldComponent as IDateFieldComponent } from './field-component';
+import { Field, FieldTree } from '@angular/forms/signals';
 
 @Component({
-  selector: 'app-date-field',
-  imports: [
-    CommonModule,
-    FloatLabelModule,
-    DatePickerModule,
-    AutoFocusModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    FormsModule,
-  ],
+  selector: 'app-date-fields',
+  imports: [CommonModule, FloatLabelModule, AutoFocusModule, DatePickerModule, Field],
   template: `
     <p-float-label variant="in" class="mb-2.5">
       <p-date-picker
-        [id]="id"
-        [name]="name"
-        [pAutoFocus]="autoFocus"
-        [showIcon]="showIcon"
-        [disabled]="isDisabled"
-        [(ngModel)]="value"
-        (onSelect)="onDateSelect($event)"
-        (onBlur)="onTouched()"
+        [id]="id()"
+        [pAutoFocus]="autoFocus()"
+        [showIcon]="showIcon()"
+        [field]="field()"
       />
-      <label [for]="id">{{ label }}</label>
+      <label [for]="id()">{{ label() }}</label>
     </p-float-label>
-    @if (ngControl?.invalid && (ngControl?.dirty || ngControl?.touched)) {
+    @if (state.invalid() && (state.dirty() || state.touched())) {
       <div class="alert mb-2.5">
-        @if (ngControl?.errors?.['required']) {
-          <div>{{ label }} is required.</div>
-        }
-        @if (ngControl?.errors?.['minlength']) {
-          <div>{{ label }} must be at least 3 characters long.</div>
+        @for (error of state.errors(); track $index) {
+          @if (error.kind === 'required') {
+            <div>{{ label() }} is required.</div>
+          }
+          @if (error.kind === 'min') {
+            <div>{{ label() }} must be on or after the minimum date.</div>
+          }
+          @if (error.kind === 'max') {
+            <div>{{ label() }} must be on or before the maximum date.</div>
+          }
         }
       </div>
     }
   `,
 })
 export class DateFieldComponent implements IDateFieldComponent {
-  @Input() id = 'id';
-  @Input() name = 'name';
-  @Input() label = '';
-  @Input() autoFocus = false;
-  @Input() showIcon = true;
+  id = input<string>('id');
+  label = input.required<string>();
+  autoFocus = input<boolean>(false);
+  showIcon = input<boolean>(true);
+  field = input.required<FieldTree<Date | null>>();
 
-  value: Date | null = null;
-  isDisabled = false;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (_: Date | null): void => {
-    // No-op default implementation
-  };
-  onTouched!: () => void;
-
-  ngControl = inject(NgControl, { optional: true }) || undefined;
-
-  constructor() {
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
-    }
-  }
-
-  writeValue(value: Date | null): void {
-    this.value = value;
-  }
-
-  registerOnChange(fn: (value: Date | null) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.isDisabled = disabled;
-  }
-
-  onDateSelect(value: Date): void {
-    this.value = value;
-    this.onChange(value);
+  get state() {
+    return this.field()();
   }
 }

@@ -1,35 +1,30 @@
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { InputSignal } from '@angular/core';
+import { FieldTree } from '@angular/forms/signals';
 
 /**
  * Base interface for all field components
- * Extends ControlValueAccessor to ensure Angular Forms compatibility
  */
-export interface FieldComponent<T = unknown> extends ControlValueAccessor {
-  value: T;
-  onChange: (value: T) => void;
-  onTouched: () => void;
-  isDisabled?: boolean;
-  label?: string;
-  id?: string;
-  autoFocus?: boolean;
-  ngControl?: NgControl;
-  setDisabledState?: (isDisabled: boolean) => void;
+export interface FieldComponent<T = unknown> {
+  label?: InputSignal<string>;
+  id?: InputSignal<string>;
+  autoFocus?: InputSignal<boolean>;
+  field: InputSignal<FieldTree<T>>;
 }
 
 /**
  * Interface for date field components
  */
 export interface DateFieldComponent extends FieldComponent<Date | null> {
-  showIcon?: boolean;
+  showIcon?: InputSignal<boolean>;
 }
 
 /**
- * Type alias for string/text input field components
+ * Type for string/text input field components
  */
 export type StringFieldComponent = FieldComponent<string>;
 
 /**
- * Type alias for number input field components
+ * Type for number input field components
  */
 export type NumberFieldComponent = FieldComponent<number | null>;
 
@@ -37,8 +32,8 @@ export type NumberFieldComponent = FieldComponent<number | null>;
  * Interface for select field components
  */
 export interface SelectFieldComponent<T = unknown> extends FieldComponent<T | null> {
-  options: T[];
-  optionLabel?: string;
-  optionValue?: string;
-  placeholder?: string;
+  options: InputSignal<T[]>;
+  optionLabel: InputSignal<string>;
+  optionValue: InputSignal<string>;
+  placeholder: InputSignal<string>;
 }

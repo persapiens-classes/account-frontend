@@ -1,10 +1,10 @@
-import { Component, inject, WritableSignal } from '@angular/core';
+import { form, minLength, required } from '@angular/forms/signals';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { Account, createAccount } from './account';
+import { Account, accountFormToModel, accountModelToForm, createAccount } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
@@ -18,7 +18,6 @@ import { AppMessageService } from '../app-message-service';
 @Component({
   selector: 'app-account-update',
   imports: [
-    ReactiveFormsModule,
     ButtonModule,
     PanelModule,
     CommonModule,
@@ -28,27 +27,32 @@ import { AppMessageService } from '../app-message-service';
   ],
   template: `
     <app-bean-update-panel
-      [formGroup]="formGroup"
+      [form]="form"
       [beanFromHistory]="beanFromHistory"
       [createBean]="createBean.bind(this)"
       [beanUpdateService]="beanUpdateService"
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-input-field label="Description" [autoFocus]="true" formControlName="inputDescription" />
+      <app-input-fields label="Description" [autoFocus]="true" [field]="form.description" />
 
-      <app-select-field
+      <app-select-fields
         label="Category"
         optionLabel="description"
         [options]="categories()"
-        formControlName="selectCategory"
+        [field]="form.category"
       />
     </app-bean-update-panel>
   `,
 })
 export class AccountUpdateComponent {
-  formGroup: FormGroup;
-  beanFromHistory: Account;
+  beanFromHistory = toBeanFromHistory(createAccount);
+  form = form(signal(accountModelToForm(this.beanFromHistory)), (f) => {
+    required(f.description);
+    minLength(f.description, 3);
+    required(f.category);
+  });
+
   routerName: string;
   beanName: string;
   beanUpdateService: AccountUpdateService;
@@ -56,15 +60,6 @@ export class AccountUpdateComponent {
   categories: WritableSignal<Category[]>;
 
   constructor() {
-    this.beanFromHistory = toBeanFromHistory(createAccount);
-    this.formGroup = inject(FormBuilder).group({
-      inputDescription: [
-        this.beanFromHistory.description,
-        [Validators.required, Validators.minLength(3)],
-      ],
-      selectCategory: [new Category(this.beanFromHistory.category), [Validators.required]],
-    });
-
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
     this.beanName = `${type} Account`;
@@ -79,9 +74,6 @@ export class AccountUpdateComponent {
   }
 
   createBean(): Account {
-    return new Account(
-      this.formGroup.value.inputDescription,
-      this.formGroup.value.selectCategory.description,
-    );
+    return accountFormToModel(this.form().value());
   }
 }
