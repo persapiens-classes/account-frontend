@@ -24,8 +24,8 @@ importers:
         specifier: ^21.0.0-rc.2
         version: 21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))
       '@angular/router':
-        specifier: ^21.0.0-rc.2
-        version: 21.0.0-rc.2(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(rxjs@7.8.2)
+        specifier: ^21.0.0
+        version: 21.0.0(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(rxjs@7.8.2)
       '@primeuix/themes':
         specifier: ^1.2.5
         version: 1.2.5
@@ -46,7 +46,7 @@ importers:
         version: 7.0.0
       primeng:
         specifier: ^20.3.0
-        version: 20.3.0(70e46ee8d19a273792b4affc9903a718)
+        version: 20.3.0(8508d72a1b4503acb470ebd6f5f39b98)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -413,13 +413,13 @@ packages:
       '@angular/animations':
         optional: true
 
-  '@angular/router@21.0.0-rc.2':
-    resolution: {integrity: sha512-C/tWcfqU/Zx0uLEAfho3nWA9f1mfcDUZxRCLnf9zDksoJl5yJbgIFeNytU5aheHAWKqA3Laj5tnbfUNeU/Vtfg==}
+  '@angular/router@21.0.0':
+    resolution: {integrity: sha512-ARx1R2CmTgAezlMkUpV40V4T/IbXhL7dm4SuMVKbuEOsCKZC0TLOSSTsGYY7HKem45JHlJaByv819cJnabFgBg==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
     peerDependencies:
-      '@angular/common': 21.0.0-rc.2
-      '@angular/core': 21.0.0-rc.2
-      '@angular/platform-browser': 21.0.0-rc.2
+      '@angular/common': 21.0.0
+      '@angular/core': 21.0.0
+      '@angular/platform-browser': 21.0.0
       rxjs: ^6.5.3 || ^7.4.0
 
   '@asamuzakjp/css-color@4.0.5':
@@ -4746,7 +4746,7 @@ snapshots:
     optionalDependencies:
       '@angular/animations': 21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))
 
-  '@angular/router@21.0.0-rc.2(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(rxjs@7.8.2)':
+  '@angular/router@21.0.0(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(rxjs@7.8.2)':
     dependencies:
       '@angular/common': 21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)
@@ -6146,13 +6146,13 @@ snapshots:
       '@angular/compiler': 21.0.0-rc.2
       '@angular/forms': 21.0.0-rc.2(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@standard-schema/spec@1.0.0)(rxjs@7.8.2)
       '@angular/platform-browser': 21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))
-      '@angular/router': 21.0.0-rc.2(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@angular/router': 21.0.0(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(rxjs@7.8.2)
       '@primeuix/themes': 1.2.5
       '@tailwindcss/postcss': 4.1.17
       jwt-decode: 4.0.0
       postcss: 8.5.6
       primeicons: 7.0.0
-      primeng: 20.3.0(70e46ee8d19a273792b4affc9903a718)
+      primeng: 20.3.0(8508d72a1b4503acb470ebd6f5f39b98)
       rxjs: 7.8.2
       tailwindcss: 4.1.17
       tailwindcss-primeui: 0.6.1(tailwindcss@4.1.17)
@@ -7951,14 +7951,14 @@ snapshots:
 
   primeicons@7.0.0: {}
 
-  primeng@20.3.0(70e46ee8d19a273792b4affc9903a718):
+  primeng@20.3.0(8508d72a1b4503acb470ebd6f5f39b98):
     dependencies:
       '@angular/animations': 21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))
       '@angular/common': 21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)
       '@angular/forms': 21.0.0-rc.2(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@standard-schema/spec@1.0.0)(rxjs@7.8.2)
       '@angular/platform-browser': 21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))
-      '@angular/router': 21.0.0-rc.2(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@angular/router': 21.0.0(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(@angular/platform-browser@21.0.0-rc.2(@angular/animations@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(@angular/common@21.0.0-rc.2(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.0-rc.2(@angular/compiler@21.0.0-rc.2)(rxjs@7.8.2)))(rxjs@7.8.2)
       '@primeuix/styled': 0.7.4
       '@primeuix/styles': 1.2.5
       '@primeuix/utils': 0.6.2
