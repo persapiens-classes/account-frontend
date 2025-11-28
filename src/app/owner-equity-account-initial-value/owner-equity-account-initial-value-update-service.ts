@@ -10,9 +10,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class OwnerEquityAccountInitialValueUpdateService
-  implements BeanUpdateService<OwnerEquityAccountInitialValue, number>
-{
+export class OwnerEquityAccountInitialValueUpdateService implements BeanUpdateService<
+  OwnerEquityAccountInitialValue,
+  number
+> {
   private readonly http = inject(HttpClient);
 
   update(id: string, numberToUpdate: number): Observable<OwnerEquityAccountInitialValue> {
