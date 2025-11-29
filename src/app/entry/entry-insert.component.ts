@@ -41,7 +41,9 @@ import { AppMessageService } from '../app-message-service';
         label="In Owner"
         optionLabel="name"
         [options]="owners()"
+        appendTo="body"
         formControlName="selectInOwner"
+        dataCy="select-in-owner"
       />
 
       <app-select-field
@@ -49,6 +51,8 @@ import { AppMessageService } from '../app-message-service';
         optionLabel="description"
         [options]="inAccounts()"
         formControlName="selectInAccount"
+        appendTo="body"
+        dataCy="select-in-account"
       />
 
       <app-select-field
@@ -56,6 +60,8 @@ import { AppMessageService } from '../app-message-service';
         optionLabel="name"
         [options]="owners()"
         formControlName="selectOutOwner"
+        appendTo="body"
+        dataCy="select-out-owner"
       />
 
       <app-select-field
@@ -63,6 +69,8 @@ import { AppMessageService } from '../app-message-service';
         optionLabel="description"
         [options]="outAccounts()"
         formControlName="selectOutAccount"
+        appendTo="body"
+        dataCy="select-out-account"
       />
 
       <app-number-field label="Value" formControlName="inputValue" />

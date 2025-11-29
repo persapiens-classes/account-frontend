@@ -25,6 +25,7 @@ import { StringFieldComponent } from './field-component';
         [pAutoFocus]="autoFocus"
         [value]="value"
         [disabled]="isDisabled"
+        [attr.data-cy]="dataCy"
         [(ngModel)]="value"
         (ngModelChange)="onChange($event)"
         (blur)="onTouched()"
@@ -48,6 +49,7 @@ export class InputFieldComponent implements StringFieldComponent {
   @Input() name = 'name';
   @Input() label = '';
   @Input() autoFocus = false;
+  @Input() dataCy = '';
 
   value = '';
   isDisabled = false;

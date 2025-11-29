@@ -21,6 +21,7 @@ import { SelectFieldComponent as ISelectFieldComponent } from './field-component
         [(ngModel)]="value"
         (onChange)="onSelect($event.value)"
         (onBlur)="onTouched()"
+        [attr.data-cy]="dataCy"
         class="w-full max-w-[300px] min-w-[200px]"
       />
       <label [for]="id">{{ label }}</label>
@@ -42,6 +43,7 @@ export class SelectFieldComponent implements ISelectFieldComponent<Bean> {
   @Input() autoFocus = false;
   @Input() optionLabel = '';
   @Input() options!: Bean[];
+  @Input() dataCy = ''; // Adicionado para testes Cypress
 
   value: Bean | null = null;
   isDisabled = false;

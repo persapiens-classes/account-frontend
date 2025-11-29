@@ -14,7 +14,6 @@ import { SelectFieldComponent } from '../field/select-field.component';
 import { DateFieldComponent } from '../field/date-field.component';
 import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
-import { EntryInsertComponent } from './entry-insert.component';
 import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 import { EntryUpdateService } from './entry-update-service';
 import { toBeanFromHistory } from '../bean/bean';
@@ -133,6 +132,14 @@ export class EntryUpdateComponent {
   }
 
   createBean(): EntryInsertUpdate {
-    return new EntryInsertComponent().createBean();
+    return new EntryInsertUpdate(
+      this.formGroup.value.selectInOwner.name,
+      this.formGroup.value.selectOutOwner.name,
+      this.formGroup.value.inputDate,
+      this.formGroup.value.selectInAccount.description,
+      this.formGroup.value.selectOutAccount.description,
+      this.formGroup.value.inputValue,
+      this.formGroup.value.inputNote,
+    );
   }
 }

@@ -31,7 +31,9 @@
     "check-duplication:tests": "jscpd --config .jscpdrc.test.json ./src",
     "check-duplication:all": "pnpm run check-duplication:production && echo '\\n=== Testing duplication in test files ===' && pnpm run check-duplication:tests",
     "quality": "prettier . --check && pnpm run lint && pnpm run test:coverage && pnpm run check-duplication && pnpm run lint:sonar",
-    "quality:full": "pnpm run quality && echo '✅ Full quality check complete - Review VS Code Problems panel for SonarQube issues'"
+    "quality:full": "pnpm run quality && echo '✅ Full quality check complete - Review VS Code Problems panel for SonarQube issues'",
+    "test:cypress": "cypress open",
+    "test:cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -64,6 +66,7 @@
     "@vitest/ui": "^3.2.4",
     "angular-cli-ghpages": "^2.0.3",
     "angular-eslint": "20.5.0",
+    "cypress": "^15.6.0",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",

@@ -39,7 +39,12 @@ import { AppMessageService } from '../app-message-service';
         <h1 class="mb-4 text-[1.5em] font-bold">Welcome to Account</h1>
 
         <form [formGroup]="form">
-          <app-input-field label="Username" [autoFocus]="true" formControlName="inputUsername" />
+          <app-input-field
+            label="Username"
+            [autoFocus]="true"
+            formControlName="inputUsername"
+            dataCy="login-username"
+          />
 
           <p-float-label variant="in" class="mb-2.5">
             <p-password
@@ -47,11 +52,17 @@ import { AppMessageService } from '../app-message-service';
               [toggleMask]="true"
               [feedback]="false"
               formControlName="inputPassword"
+              data-cy="login-password"
             />
             <label for="password">Password</label>
           </p-float-label>
 
-          <p-button label="Sign In" (onClick)="signin()" [disabled]="form.invalid"></p-button>
+          <p-button
+            label="Sign In"
+            (onClick)="signin()"
+            [disabled]="form.invalid"
+            data-cy="login-button"
+          ></p-button>
         </form>
 
         <p-toast></p-toast>

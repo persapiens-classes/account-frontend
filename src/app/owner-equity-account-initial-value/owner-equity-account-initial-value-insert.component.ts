@@ -35,6 +35,7 @@ import { AppMessageService } from '../app-message-service';
         optionLabel="name"
         [options]="owners()"
         formControlName="selectOwner"
+        dataCy="select-owner"
       />
 
       <app-select-field
@@ -42,6 +43,7 @@ import { AppMessageService } from '../app-message-service';
         optionLabel="description"
         [options]="equityAccounts()"
         formControlName="selectEquityAccount"
+        dataCy="select-equity-account"
       />
 
       <app-number-field label="Initial Value" formControlName="inputInitialValue" />

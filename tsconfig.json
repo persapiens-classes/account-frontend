@@ -18,7 +18,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["vitest/globals", "jsdom", "node"]
+    "types": ["vitest/globals", "jsdom", "node", "cypress"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
