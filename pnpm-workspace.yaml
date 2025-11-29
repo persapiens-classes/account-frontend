@@ -1,2 +1,5 @@
 onlyBuiltDependencies:
   - cypress
+ignoredBuiltDependencies:
+  - esbuild
+  - lmdb

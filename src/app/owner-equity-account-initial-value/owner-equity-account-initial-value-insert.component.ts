@@ -1,7 +1,10 @@
-import { Component, inject, WritableSignal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OwnerEquityAccountInitialValueInsert } from './owner-equity-account-initial-value';
+import {
+  createOwnerEquityAccountInitialValue,
+  OwnerEquityAccountInitialValue,
+  OwnerEquityAccountInitialValueInsert,
+} from './owner-equity-account-initial-value';
 import { Owner } from '../owner/owner';
 import { Account, AccountType } from '../account/account';
 import { SelectFieldComponent } from '../field/select-field.component';
@@ -11,59 +14,82 @@ import { AccountListService } from '../account/account-list-service';
 import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-account-initial-value-insert-service';
 import { AppMessageService } from '../app-message-service';
+import { form, required } from '@angular/forms/signals';
+
+export interface OwnerEquityAccountInitialValueForm {
+  owner: Owner;
+  equityAccount: Account;
+  initialValue: number;
+}
+
+export function ownerEquityAccountInitialValueFormToModel(
+  ownerEquityAccountInitialValueForm: OwnerEquityAccountInitialValueForm,
+): OwnerEquityAccountInitialValueInsert {
+  return new OwnerEquityAccountInitialValueInsert(
+    ownerEquityAccountInitialValueForm.owner.name,
+    ownerEquityAccountInitialValueForm.equityAccount.description,
+    ownerEquityAccountInitialValueForm.initialValue,
+  );
+}
+
+export function ownerEquityAccountInitialValueModelToForm(
+  ownerEquityAccountInitialValue: OwnerEquityAccountInitialValue,
+): OwnerEquityAccountInitialValueForm {
+  return {
+    owner: new Owner(ownerEquityAccountInitialValue.owner),
+    equityAccount: ownerEquityAccountInitialValue.equityAccount,
+    initialValue: ownerEquityAccountInitialValue.initialValue,
+  };
+}
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-insert',
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-    NumberFieldComponent,
-    SelectFieldComponent,
-    BeanInsertPanelComponent,
-  ],
+  imports: [CommonModule, NumberFieldComponent, SelectFieldComponent, BeanInsertPanelComponent],
   template: `
     <app-bean-insert-panel
-      [formGroup]="formGroup"
+      [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
       [beanName]="'Balances'"
       [routerName]="'ownerEquityAccountInitialValues'"
     >
-      <app-select-field
+      <app-select-fields
         label="Owner"
         [autoFocus]="true"
         optionLabel="name"
         [options]="owners()"
-        formControlName="selectOwner"
+        [field]="form.owner"
         dataCy="select-owner"
       />
 
-      <app-select-field
+      <app-select-fields
         label="Equity Account"
         optionLabel="description"
         [options]="equityAccounts()"
-        formControlName="selectEquityAccount"
+        [field]="form.equityAccount"
         dataCy="select-equity-account"
       />
 
-      <app-number-field label="Initial Value" formControlName="inputInitialValue" />
+      <app-number-fields label="Initial Value" [field]="form.initialValue" />
     </app-bean-insert-panel>
   `,
 })
 export class OwnerEquityAccountInitialValueInsertComponent {
-  formGroup: FormGroup;
+  form = form(
+    signal(ownerEquityAccountInitialValueModelToForm(createOwnerEquityAccountInitialValue())),
+    (f) => {
+      required(f.owner);
+      required(f.equityAccount);
+      required(f.initialValue);
+    },
+  );
+
   beanInsertService = inject(OwnerEquityAccountInitialValueInsertService);
 
   equityAccounts: WritableSignal<Account[]>;
   owners: WritableSignal<Owner[]>;
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      selectOwner: ['', [Validators.required]],
-      selectEquityAccount: ['', [Validators.required]],
-      inputInitialValue: ['', [Validators.required]],
-    });
-
     this.equityAccounts = new AccountListService(
       inject(AppMessageService),
       AccountType.EQUITY,
@@ -72,10 +98,6 @@ export class OwnerEquityAccountInitialValueInsertComponent {
   }
 
   createBean(): OwnerEquityAccountInitialValueInsert {
-    return new OwnerEquityAccountInitialValueInsert(
-      this.formGroup.value.selectOwner.name,
-      this.formGroup.value.selectEquityAccount.description,
-      this.formGroup.value.inputInitialValue,
-    );
+    return ownerEquityAccountInitialValueFormToModel(this.form().value());
   }
 }

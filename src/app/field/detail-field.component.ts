@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,12 +6,12 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="mb-2.5 flex items-center">
-      <strong class="inline-block w-[130px] font-bold">{{ strong }}</strong>
-      <span>{{ value }}</span>
+      <strong class="inline-block w-[130px] font-bold">{{ strong() }}</strong>
+      <span>{{ value() }}</span>
     </div>
   `,
 })
 export class DetailFieldComponent {
-  @Input() strong = '';
-  @Input() value = '';
+  strong = input.required<string>();
+  value = input.required<string>();
 }

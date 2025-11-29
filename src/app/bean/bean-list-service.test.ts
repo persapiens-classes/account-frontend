@@ -79,7 +79,6 @@ describe('BeanListService', () => {
     it('should handle HttpErrorResponse correctly', () => {
       const httpError = new HttpErrorResponse({
         status: 404,
-        statusText: 'Not Found',
         error: 'Resource not found',
       });
 
@@ -104,7 +103,6 @@ describe('BeanListService', () => {
       const capturedCall = vi.mocked(mockAppMessageService.addErrorMessage).mock.calls[0];
       const wrappedError = capturedCall[0] as HttpErrorResponse;
       expect(wrappedError.status).toBe(0);
-      expect(wrappedError.statusText).toBe('Network connection failed');
     });
 
     it('should handle unknown error types correctly', () => {
@@ -120,7 +118,6 @@ describe('BeanListService', () => {
       const capturedCall = vi.mocked(mockAppMessageService.addErrorMessage).mock.calls[0];
       const wrappedError = capturedCall[0] as HttpErrorResponse;
       expect(wrappedError.status).toBe(0);
-      expect(wrappedError.statusText).toBe('Unknown error');
       expect(wrappedError.error).toBe('String error message');
     });
 

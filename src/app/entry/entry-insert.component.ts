@@ -1,8 +1,7 @@
-import { Component, inject, WritableSignal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { EntryInsertUpdate } from './entry';
+import { createEntry, entryFormToModel, EntryInsertUpdate, entryModelToForm } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
@@ -15,11 +14,11 @@ import { AccountListService } from '../account/account-list-service';
 import { EntryInsertService } from './entry-insert-service';
 import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { AppMessageService } from '../app-message-service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-entry-insert',
   imports: [
-    ReactiveFormsModule,
     CommonModule,
     DateFieldComponent,
     SelectFieldComponent,
@@ -29,77 +28,71 @@ import { AppMessageService } from '../app-message-service';
   ],
   template: `
     <app-bean-insert-panel
-      [formGroup]="formGroup"
+      [form]="form"
       [createBean]="createBean.bind(this)"
       [beanInsertService]="beanInsertService"
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-date-field label="Date" [autoFocus]="true" formControlName="inputDate" />
+      <app-date-fields label="Date" [autoFocus]="true" [field]="form.date" />
 
-      <app-select-field
+      <app-select-fields
         label="In Owner"
         optionLabel="name"
         [options]="owners()"
-        appendTo="body"
-        formControlName="selectInOwner"
+        [field]="form.inOwner"
         dataCy="select-in-owner"
       />
 
-      <app-select-field
+      <app-select-fields
         label="In Account"
         optionLabel="description"
         [options]="inAccounts()"
-        formControlName="selectInAccount"
-        appendTo="body"
+        [field]="form.inAccount"
         dataCy="select-in-account"
       />
 
-      <app-select-field
+      <app-select-fields
         label="Out Owner"
         optionLabel="name"
         [options]="owners()"
-        formControlName="selectOutOwner"
-        appendTo="body"
+        [field]="form.outOwner"
         dataCy="select-out-owner"
       />
 
-      <app-select-field
+      <app-select-fields
         label="Out Account"
         optionLabel="description"
         [options]="outAccounts()"
-        formControlName="selectOutAccount"
-        appendTo="body"
+        [field]="form.outAccount"
         dataCy="select-out-account"
       />
 
-      <app-number-field label="Value" formControlName="inputValue" />
+      <app-number-fields label="Value" [field]="form.value" />
 
-      <app-input-field label="Note" formControlName="inputNote" />
+      <app-input-fields label="Note" [field]="form.note" dataCy="input-note" />
     </app-bean-insert-panel>
   `,
 })
 export class EntryInsertComponent {
-  formGroup: FormGroup;
+  form = form(signal(entryModelToForm(createEntry())), (f) => {
+    required(f.date);
+    required(f.inOwner);
+    required(f.inAccount);
+    required(f.outOwner);
+    required(f.outAccount);
+    required(f.value);
+  });
+
+  beanInsertService: EntryInsertService;
   routerName: string;
   beanName: string;
-  beanInsertService: EntryInsertService;
 
   inAccounts: WritableSignal<Account[]>;
   outAccounts: WritableSignal<Account[]>;
   owners: WritableSignal<Owner[]>;
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      inputDate: ['', [Validators.required]],
-      selectInOwner: ['', [Validators.required]],
-      selectInAccount: ['', [Validators.required]],
-      selectOutOwner: ['', [Validators.required]],
-      selectOutAccount: ['', [Validators.required]],
-      inputValue: ['', [Validators.required]],
-      inputNote: ['', []],
-    });
-
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Entries`;
@@ -119,14 +112,6 @@ export class EntryInsertComponent {
   }
 
   createBean(): EntryInsertUpdate {
-    return new EntryInsertUpdate(
-      this.formGroup.value.selectInOwner.name,
-      this.formGroup.value.selectOutOwner.name,
-      this.formGroup.value.inputDate,
-      this.formGroup.value.selectInAccount.description,
-      this.formGroup.value.selectOutAccount.description,
-      this.formGroup.value.inputValue,
-      this.formGroup.value.inputNote,
-    );
+    return entryFormToModel(this.form().value());
   }
 }

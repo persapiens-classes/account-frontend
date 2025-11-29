@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Source code checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.0
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -22,7 +22,7 @@ jobs:
       - name: Pnpm install
         uses: pnpm/action-setup@v4.2.0
         with:
-          version: '10.18.3'
+          version: '10.20.0'
           run_install: false
 
       - name: Pnpm determine store path
@@ -116,7 +116,7 @@ jobs:
         run: pnpm run build:prod
 
       - name: Deploy on GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.7.3
+        uses: JamesIves/github-pages-deploy-action@v4.7.4
         with:
           branch: gh-pages
           folder: dist/browser

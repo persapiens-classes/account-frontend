@@ -1,13 +1,15 @@
-import 'zone.js';
-import 'zone.js/testing';
 import { vi } from 'vitest';
-import { TestBed } from '@angular/core/testing';
+import { getTestBed } from '@angular/core/testing';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 
 // Initialize TestBed for Angular components
-TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
-
-// Global configuration for Angular tests with Vitest
+// Note: Even with zoneless change detection, we still need to initialize the test environment
+// Initialize TestBed for Angular components
+// Note: Even with zoneless change detection, we still need to initialize the test environment
+// The zoneless provider will be added in each test's configureTestingModule call
+getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
+  teardown: { destroyAfterEach: true },
+});
 interface GlobalThis {
   ngDevMode?: boolean;
 }

@@ -1,12 +1,11 @@
 import { Router } from '@angular/router';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
-import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-bean-list-panel',
-  imports: [FormsModule, PanelModule, ButtonModule],
+  imports: [PanelModule, ButtonModule],
   template: `
     <p-panel header="List">
       <ng-template pTemplate="header">
@@ -25,12 +24,11 @@ import { ButtonModule } from 'primeng/button';
   `,
 })
 export class BeanListPanelComponent {
-  @Input()
-  routerName!: string;
+  routerName = input.required<string>();
 
   private readonly router = inject(Router);
 
   startInsert(): void {
-    this.router.navigate([`${this.routerName}/new`]);
+    this.router.navigate([`${this.routerName()}/new`]);
   }
 }

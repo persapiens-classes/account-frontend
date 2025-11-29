@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { StringFieldComponent } from './field-component';
+import { Field, FieldTree } from '@angular/forms/signals';
 
 @Component({
-  selector: 'app-input-field',
+  selector: 'app-input-fields',
   imports: [
     CommonModule,
     FloatLabelModule,
@@ -15,75 +15,41 @@ import { StringFieldComponent } from './field-component';
     InputTextModule,
     ReactiveFormsModule,
     FormsModule,
+    Field,
   ],
   template: `
     <p-float-label variant="in" class="mb-2.5">
       <input
-        [id]="id"
-        [name]="name"
+        [id]="id()"
         pInputText
-        [pAutoFocus]="autoFocus"
-        [value]="value"
-        [disabled]="isDisabled"
-        [attr.data-cy]="dataCy"
-        [(ngModel)]="value"
-        (ngModelChange)="onChange($event)"
-        (blur)="onTouched()"
+        [pAutoFocus]="autoFocus()"
+        [field]="field()"
+        [attr.data-cy]="dataCy()"
       />
-      <label [for]="id">{{ label }}</label>
+      <label [for]="id()">{{ label() }}</label>
     </p-float-label>
-    @if (ngControl?.invalid && (ngControl?.dirty || ngControl?.touched)) {
+    @if (state.invalid() && (state.dirty() || state.touched())) {
       <div class="alert mb-2.5">
-        @if (ngControl?.errors?.['required']) {
-          <div>{{ label }} is required.</div>
-        }
-        @if (ngControl?.errors?.['minlength']) {
-          <div>{{ label }} must be at least 3 characters long.</div>
+        @for (error of state.errors(); track $index) {
+          @if (error.kind === 'required') {
+            <div>{{ label() }} is required.</div>
+          }
+          @if (error.kind === 'minlength') {
+            <div>{{ label() }} must be at least 3 characters long.</div>
+          }
         }
       </div>
     }
   `,
 })
-export class InputFieldComponent implements StringFieldComponent {
-  @Input() id = 'id';
-  @Input() name = 'name';
-  @Input() label = '';
-  @Input() autoFocus = false;
-  @Input() dataCy = '';
+export class InputFieldComponent {
+  id = input<string>('id');
+  label = input.required<string>();
+  autoFocus = input<boolean>(false);
+  field = input.required<FieldTree<string>>();
+  dataCy = input<string>('');
 
-  value = '';
-  isDisabled = false;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (_: string) => {
-    // No-op default implementation to satisfy linter
-  };
-  onTouched = () => {
-    // Mark as touched or perform any necessary action
-    // This can be left as a no-op if not needed, but should not be empty
-  };
-
-  ngControl = inject(NgControl, { optional: true }) || undefined;
-
-  constructor() {
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
-    }
-  }
-
-  writeValue(value: string): void {
-    this.value = value ?? '';
-  }
-
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.isDisabled = disabled;
+  get state() {
+    return this.field()();
   }
 }

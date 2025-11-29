@@ -39,9 +39,9 @@ export default defineConfig({
       },
     },
     // Para melhor compatibilidade com Angular
-    testTransformMode: {
-      web: ['**/*.ts', '**/*.tsx'],
-    },
+    // testTransformMode: {
+    //  web: ['**/*.ts', '**/*.tsx'],
+    // },
   },
   resolve: {
     alias: {
