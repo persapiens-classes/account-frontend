@@ -23,13 +23,13 @@ describe('Credit Category Insert Page', () => {
   });
 
   it('permitir voltar para a lista', () => {
-    cy.get('app-input-field input', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy="input-description"]', { timeout: 10000 }).should('be.visible');
     cy.get('p-button[icon="pi pi-list"]').should('be.visible').click();
     cy.url().should('include', '/creditCategories/list');
   });
 
   it('deve criar uma nova Credit Category com sucesso', () => {
-    cy.get('app-input-field input').type(validCreditCategoryName);
+    cy.get('[data-cy="input-description"]').type(validCreditCategoryName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
     cy.contains('Credit Category inserted', { timeout: 10000 }).should('exist');
     cy.url({ timeout: 10000 }).should('include', '/creditCategories/detail');

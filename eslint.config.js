@@ -10,6 +10,9 @@ const sonarjs = require('eslint-plugin-sonarjs');
 
 module.exports = tseslint.config(
   {
+    ignores: ['cypress/**/*', 'node_modules/**/*'],
+  },
+  {
     files: ['**/*.ts'],
     languageOptions: {
       parserOptions: {

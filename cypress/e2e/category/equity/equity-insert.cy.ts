@@ -23,13 +23,13 @@ describe('Equity Category Insert Page', () => {
   });
 
   it('permitir voltar para a lista', () => {
-    cy.get('app-input-field input', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy="input-description"]', { timeout: 10000 }).should('be.visible');
     cy.get('p-button[icon="pi pi-list"]').should('be.visible').click();
     cy.url().should('include', '/equityCategories/list');
   });
 
   it('deve criar uma nova Equity Category com sucesso', () => {
-    cy.get('app-input-field input').type(validEquityCategoryName);
+    cy.get('[data-cy="input-description"]').type(validEquityCategoryName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
     cy.contains('Equity Category inserted', { timeout: 10000 }).should('exist');
     cy.url({ timeout: 10000 }).should('include', '/equityCategories/detail');

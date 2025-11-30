@@ -16,36 +16,36 @@ describe('Credit Entry Remove Page', () => {
     cy.url().should('include', '/creditEntries/new');
 
     // Preenche a data
-    cy.get('app-date-field p-date-picker').click();
+    cy.get('[data-cy="input-date"]').click();
     cy.get('.p-datepicker-today').click();
 
     // Seleciona In Owner - penúltima opção
-    cy.get('p-select[data-cy="select-in-owner"]').click();
+    cy.get('[data-cy="select-in-owner"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').eq(-2).click();
 
     // Seleciona In Account - penúltima opção
-    cy.get('p-select[data-cy="select-in-account"]').click();
+    cy.get('[data-cy="select-in-account"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').eq(-2).click();
 
     // Seleciona Out Owner - primeira opção
-    cy.get('p-select[data-cy="select-out-owner"]').click();
+    cy.get('[data-cy="select-out-owner"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').first().click();
 
     // Seleciona Out Account - primeira opção
-    cy.get('p-select[data-cy="select-out-account"]').click();
+    cy.get('[data-cy="select-out-account"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').first().click();
 
     // Preenche o valor com número único
-    cy.get('app-number-field input')
+    cy.get('[data-cy="input-value"]').find('input')
       .clear()
       .type(Math.floor(Math.random() * 1000).toString());
 
     // Preenche a nota com identificador único
-    cy.get('app-input-field[formControlName="inputNote"] input').type(uniqueValue);
+    cy.get('[data-cy="input-note"]').type(uniqueValue);
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();

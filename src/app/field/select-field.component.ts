@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
-import { Field, FieldTree } from '@angular/forms/signals';
+import { Field } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-select-fields',
@@ -37,7 +37,7 @@ export class SelectFieldComponent {
   autoFocus = input<boolean>(false);
   optionLabel = input.required<string>();
   options = input.required<any[]>();
-  field = input.required<FieldTree<any>>();
+  field = input.required<any>();
   dataCy = input<string>(''); // Para testes Cypress
 
   get state() {

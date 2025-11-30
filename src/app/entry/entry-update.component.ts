@@ -3,13 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import {
-  createEntry,
-  entryModelToForm,
-  EntryInsertUpdate,
-  jsonToEntry,
-  entryFormToModel,
-} from './entry';
+import { createEntry, entryModelToForm, EntryInsertUpdate, jsonToEntry } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
@@ -46,7 +40,7 @@ import { form, required } from '@angular/forms/signals';
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-date-fields label="Date" [autoFocus]="true" [field]="form.date" />
+      <app-date-fields label="Date" [autoFocus]="true" [field]="form.date" dataCy="input-date" />
 
       <app-select-fields
         label="In Owner"
@@ -80,7 +74,7 @@ import { form, required } from '@angular/forms/signals';
         dataCy="select-out-account"
       />
 
-      <app-number-fields label="Value" [field]="form.value" />
+      <app-number-fields label="Value" [field]="form.value" dataCy="input-value" />
 
       <app-input-fields label="Note" [field]="form.note" dataCy="input-note" />
     </app-bean-update-panel>
@@ -130,8 +124,8 @@ export class EntryUpdateComponent {
       value.inOwner.name,
       value.outOwner.name,
       value.date,
-      value.inAccount.description,
-      value.outAccount.description,
+      value.inAccount,
+      value.outAccount,
       value.value,
       value.note,
     );

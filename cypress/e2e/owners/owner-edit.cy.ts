@@ -72,7 +72,7 @@ describe('Owner Edit Page', () => {
 
       const newName = `${originalName}_edited`;
 
-      cy.get('app-input-field input', { timeout: 10000 })
+      cy.get('[data-cy="input-name"]', { timeout: 10000 })
         .should('be.visible')
         .clear()
         .type(newName);

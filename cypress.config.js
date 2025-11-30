@@ -5,7 +5,12 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:4200', // frontend
     specPattern: 'cypress/e2e/**/*.cy.{js,ts}',
     supportFile: 'cypress/support/e2e.{js,ts}',
-    video: true,
-    screenshotOnRunFailure: true,
+    video: false,
+    screenshotOnFailure: false,
+    experimentalMemoryManagement: true,
+    numTestsKeptInMemory: 0,
+    viewportWidth: 1280,
+    viewportHeight: 720,
+    chromeWebSecurity: false,
   },
 });

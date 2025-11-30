@@ -16,9 +16,9 @@ describe('Credit Remove Page', () => {
     cy.visit('/creditAccounts/new');
     cy.url().should('include', '/creditAccounts/new');
 
-    cy.get('app-input-field input').type(validCreditAccountName);
+    cy.get('[data-cy="input-description"]').type(validCreditAccountName);
 
-    cy.get('app-select-field[formControlName="selectCategory"] p-select').click();
+    cy.get('[data-cy="select-category"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 

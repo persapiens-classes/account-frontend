@@ -26,7 +26,7 @@ describe('Balance Remove Page', () => {
     cy.get('[role="option"]').eq(-2).click();
 
     // Preenche o valor inicial
-    cy.get('app-number-field input').clear().type('10');
+    cy.get('[data-cy="input-initial-value"]').find('input').clear().type('10');
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();

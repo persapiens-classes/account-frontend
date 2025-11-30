@@ -23,15 +23,15 @@ describe('Debit Account Insert Page', () => {
   });
 
   it('permitir voltar para a lista', () => {
-    cy.get('app-input-field input', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy="input-description"]', { timeout: 10000 }).should('be.visible');
     cy.get('p-button[icon="pi pi-list"]').should('be.visible').click();
     cy.url().should('include', '/debitAccounts/list');
   });
 
   it('deve criar uma nova Debit Account com sucesso', () => {
-    cy.get('app-input-field input').type(validDebitAccountName);
+    cy.get('[data-cy="input-description"]').type(validDebitAccountName);
 
-    cy.get('app-select-field[formControlName="selectCategory"] p-select').click();
+    cy.get('[data-cy="select-category"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 

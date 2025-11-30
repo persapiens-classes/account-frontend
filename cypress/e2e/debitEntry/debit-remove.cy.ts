@@ -16,7 +16,7 @@ describe('Debit Entry Remove Page', () => {
     cy.url().should('include', '/debitEntries/new');
 
     // Preenche a data
-    cy.get('app-date-field p-date-picker').click();
+    cy.get('[data-cy="input-date"]').click();
     cy.get('.p-datepicker-today').click();
 
     // Seleciona In Owner - penúltima opção
@@ -40,12 +40,13 @@ describe('Debit Entry Remove Page', () => {
     cy.get('[role="option"]').first().click();
 
     // Preenche o valor com número único
-    cy.get('app-number-field input')
+    cy.get('[data-cy="input-value"]')
+      .find('input')
       .clear()
       .type(Math.floor(Math.random() * 1000).toString());
 
     // Preenche a nota com identificador único
-    cy.get('app-input-field[formControlName="inputNote"] input').type(uniqueValue);
+    cy.get('[data-cy="input-note"]').find('input').type(uniqueValue);
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();

@@ -39,9 +39,9 @@ import { InputFieldComponent } from '../field/input-field.component';
         <h1 class="mb-4 text-[1.5em] font-bold">Welcome to Account</h1>
 
         <form>
-          <app-input-fields 
-            label="Username" 
-            [autoFocus]="true" 
+          <app-input-fields
+            label="Username"
+            [autoFocus]="true"
             [field]="form.username"
             dataCy="login-username"
           />
@@ -57,9 +57,9 @@ import { InputFieldComponent } from '../field/input-field.component';
             <label for="password">Password</label>
           </p-float-label>
 
-          <p-button 
-            label="Sign In" 
-            (onClick)="signin()" 
+          <p-button
+            label="Sign In"
+            (onClick)="signin()"
             [disabled]="!form().valid()"
             data-cy="login-button"
           ></p-button>

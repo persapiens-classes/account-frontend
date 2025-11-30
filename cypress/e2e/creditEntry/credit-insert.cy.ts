@@ -22,34 +22,34 @@ describe('Credit Entry Insert Page', () => {
 
   it('deve criar uma nova Credit Entry com sucesso', () => {
     // Preenche a data (usar data de hoje)
-    cy.get('app-date-field p-date-picker').click();
+    cy.get('[data-cy="input-date"]').click();
     cy.get('.p-datepicker-today').click();
 
     // Seleciona In Owner
-    cy.get('p-select[data-cy="select-in-owner"]').click();
+    cy.get('[data-cy="select-in-owner"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 
     // Seleciona In Account
-    cy.get('p-select[data-cy="select-in-account"]').click();
+    cy.get('[data-cy="select-in-account"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 
     // Seleciona Out Owner
-    cy.get('p-select[data-cy="select-out-owner"]').click();
+    cy.get('[data-cy="select-out-owner"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 
     // Seleciona Out Account
-    cy.get('p-select[data-cy="select-out-account"]').click();
+    cy.get('[data-cy="select-out-account"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 
     // Preenche o valor
-    cy.get('app-number-field input').clear().type('10');
+    cy.get('[data-cy="input-value"]').find('input').clear().type('10');
 
     // Preenche a nota
-    cy.get('app-input-field[formControlName="inputNote"] input').type('teste nota');
+    cy.get('[data-cy="input-note"]').type('teste nota');
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();

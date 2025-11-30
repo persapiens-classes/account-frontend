@@ -55,11 +55,11 @@ describe('Credit Entry Edit Page', () => {
     cy.url({ timeout: 10000 }).should('include', '/creditEntries/edit');
 
     // Preenche a nota adicionando _edited
-    cy.get('app-input-field[formControlName="inputNote"] input')
+    cy.get('[data-cy="input-note"] input')
       .invoke('val')
       .then((currentValue) => {
         const newValue = `${currentValue}_edited`;
-        cy.get('app-input-field[formControlName="inputNote"] input').clear().type(newValue);
+        cy.get('[data-cy="input-note"] input').clear().type(newValue);
       });
 
     // Submete

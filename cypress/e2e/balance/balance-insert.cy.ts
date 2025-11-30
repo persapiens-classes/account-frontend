@@ -30,7 +30,7 @@ describe('Balance Insert Page', () => {
     cy.get('[role="option"]').last().click();
 
     // Preenche o valor
-    cy.get('app-number-field input').clear().type('10');
+    cy.get('[data-cy="input-initial-value"]').find('input').clear().type('10');
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();

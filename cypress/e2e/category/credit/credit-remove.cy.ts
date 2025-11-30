@@ -16,7 +16,7 @@ describe('Credit Remove Page', () => {
     cy.visit('/creditCategories/new');
     cy.url().should('include', '/creditCategories/new');
 
-    cy.get('app-input-field input').type(validCreditCategoryName);
+    cy.get('[data-cy="input-description"]').type(validCreditCategoryName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
     cy.contains('Credit Category inserted', { timeout: 10000 }).should('exist');
     cy.url({ timeout: 10000 }).should('include', '/creditCategories/detail');

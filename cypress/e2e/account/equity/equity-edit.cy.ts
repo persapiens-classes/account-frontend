@@ -70,7 +70,7 @@ describe('Equity Account Edit Page', () => {
 
       const newName = `${originalName}_edited`;
 
-      cy.get('app-input-field input').clear().type(newName);
+      cy.get('[data-cy="input-description"]').clear().type(newName);
 
       cy.get('p-button[icon="pi pi-check"]').click();
 

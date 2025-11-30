@@ -16,9 +16,9 @@ describe('Debit Remove Page', () => {
     cy.visit('/debitAccounts/new');
     cy.url().should('include', '/debitAccounts/new');
 
-    cy.get('app-input-field input').type(validDebitAccountName);
+    cy.get('[data-cy="input-description"]').type(validDebitAccountName);
 
-    cy.get('app-select-field[formControlName="selectCategory"] p-select').click();
+    cy.get('[data-cy="select-category"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 

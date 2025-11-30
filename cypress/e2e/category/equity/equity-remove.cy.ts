@@ -16,7 +16,7 @@ describe('Equity Remove Page', () => {
     cy.visit('/equityCategories/new');
     cy.url().should('include', '/equityCategories/new');
 
-    cy.get('app-input-field input').type(validEquityCategoryName);
+    cy.get('[data-cy="input-description"]').type(validEquityCategoryName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
     cy.contains('Equity Category inserted', { timeout: 10000 }).should('exist');
     cy.url({ timeout: 10000 }).should('include', '/equityCategories/detail');

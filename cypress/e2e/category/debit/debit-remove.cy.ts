@@ -16,7 +16,7 @@ describe('Debit Remove Page', () => {
     cy.visit('/debitCategories/new');
     cy.url().should('include', '/debitCategories/new');
 
-    cy.get('app-input-field input').type(validDebitCategoryName);
+    cy.get('[data-cy="input-description"]').type(validDebitCategoryName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
     cy.contains('Debit Category inserted', { timeout: 10000 }).should('exist');
     cy.url({ timeout: 10000 }).should('include', '/debitCategories/detail');

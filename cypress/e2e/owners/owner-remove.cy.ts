@@ -16,7 +16,7 @@ describe('Owner Remove Page', () => {
     cy.visit('/owners/new');
     cy.url().should('include', '/owners/new');
 
-    cy.get('app-input-field input').type(validOwnerName);
+    cy.get('[data-cy="input-name"]').type(validOwnerName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
     cy.contains('Owner inserted', { timeout: 10000 }).should('exist');
     cy.url({ timeout: 10000 }).should('include', '/owners/detail');

@@ -70,7 +70,11 @@ export function ownerEquityAccountInitialValueModelToForm(
         dataCy="select-equity-account"
       />
 
-      <app-number-fields label="Initial Value" [field]="form.initialValue" />
+      <app-number-fields
+        label="Initial Value"
+        [field]="form.initialValue"
+        dataCy="input-initial-value"
+      />
     </app-bean-insert-panel>
   `,
 })

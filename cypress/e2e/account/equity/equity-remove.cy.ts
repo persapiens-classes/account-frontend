@@ -16,9 +16,9 @@ describe('Equity Remove Page', () => {
     cy.visit('/equityAccounts/new');
     cy.url().should('include', '/equityAccounts/new');
 
-    cy.get('app-input-field input').type(validEquityAccountName);
+    cy.get('[data-cy="input-description"]').type(validEquityAccountName);
 
-    cy.get('app-select-field[formControlName="selectCategory"] p-select').click();
+    cy.get('[data-cy="select-category"]').click();
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 
