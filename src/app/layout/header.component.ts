@@ -13,7 +13,13 @@ import { MenubarModule } from 'primeng/menubar';
       <img src="images/account.png" class="h-auto w-[70px] self-center" alt="Account logo" />
       <h1 class="font-serif text-3xl italic">Account</h1>
       <span class="ml-auto">{{ authenticatedLogin() }}</span>
-      <p-button pTooltip="Logout" icon="pi pi-sign-out" (click)="logout()" severity="danger" />
+      <p-button
+        pTooltip="Logout"
+        icon="pi pi-sign-out"
+        (click)="logout()"
+        severity="danger"
+        data-cy="logout-button"
+      />
     </div>
   `,
 })

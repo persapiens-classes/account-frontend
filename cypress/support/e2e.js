@@ -1,0 +1,2 @@
+//teste
+import './commands.ts';

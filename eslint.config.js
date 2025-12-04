@@ -10,6 +10,9 @@ const sonarjs = require('eslint-plugin-sonarjs');
 
 module.exports = tseslint.config(
   {
+    ignores: ['node_modules/**/*'],
+  },
+  {
     files: ['**/*.ts'],
     languageOptions: {
       parserOptions: {
@@ -57,11 +60,13 @@ module.exports = tseslint.config(
   },
   {
     // Specific configuration for test files: maximum 5 levels
-    files: ['**/*.test.ts', '**/*.spec.ts'],
+    files: ['**/*.test.ts', '**/*.spec.ts', 'cypress/**/*.ts'],
     rules: {
       'max-depth': ['error', 5],
       // Allow more function nesting in tests (describe/it/etc)
       'sonarjs/no-nested-functions': 'off',
+      // Allow namespaces in Cypress commands definition
+      '@typescript-eslint/no-namespace': 'off',
     },
   },
   {

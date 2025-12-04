@@ -1,0 +1,42 @@
+describe('Equity Remove Page', () => {
+  const validEquityCategoryName = `equity_${Date.now()}`; // nome único
+  const createdEquityCategoryName = validEquityCategoryName;
+
+  beforeEach(() => {
+    cy.session('login', () => {
+      cy.login();
+    });
+  });
+
+  it('deve criar um novo Equity Category para teste de remoção', () => {
+    cy.visit('/equityCategories/new');
+    cy.url().should('include', '/equityCategories/new');
+
+    cy.get('[data-cy="input-description"]').type(validEquityCategoryName);
+    cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+    cy.get('[data-cy="app-toast"]').should('be.visible');
+    cy.url({ timeout: 10000 }).should('include', '/equityCategories/detail');
+  });
+
+  it('deve remover o Equity Category recém-criado com sucesso', () => {
+    cy.visit('/equityCategories/list');
+
+    cy.get('input[aria-label="Filter Description"]')
+      .should('exist')
+      .clear()
+      .type(`${createdEquityCategoryName}{enter}`);
+
+    cy.contains('td', createdEquityCategoryName, { timeout: 10000 }).should('be.visible');
+
+    cy.contains('tr', createdEquityCategoryName).find('.pi.pi-trash').click({ force: true });
+
+    // Aguarda o dialog de confirmação
+    cy.get('.p-dialog-mask', { timeout: 10000 }).should('be.visible');
+
+    // Clica no botão YES (danger button)
+    cy.get('.p-dialog-mask button.p-button-danger').should('be.visible').click({ force: true });
+
+    // Confirma que foi removido
+    cy.contains('td', createdEquityCategoryName, { timeout: 10000 }).should('not.exist');
+  });
+});

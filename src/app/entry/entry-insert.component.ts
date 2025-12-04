@@ -14,7 +14,7 @@ import { AccountListService } from '../account/account-list-service';
 import { EntryInsertService } from './entry-insert-service';
 import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { AppMessageService } from '../app-message-service';
-import { form, required } from '@angular/forms/signals';
+import { form, Field, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-entry-insert',
@@ -25,6 +25,7 @@ import { form, required } from '@angular/forms/signals';
     NumberFieldComponent,
     InputFieldComponent,
     BeanInsertPanelComponent,
+    Field,
   ],
   template: `
     <app-bean-insert-panel
@@ -34,13 +35,14 @@ import { form, required } from '@angular/forms/signals';
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-date-fields label="Date" [autoFocus]="true" [field]="form.date" />
+      <app-date-fields label="Date" [autoFocus]="true" [field]="form.date" dataCy="input-date" />
 
       <app-select-fields
         label="In Owner"
         optionLabel="name"
         [options]="owners()"
         [field]="form.inOwner"
+        dataCy="select-in-owner"
       />
 
       <app-select-fields
@@ -48,6 +50,7 @@ import { form, required } from '@angular/forms/signals';
         optionLabel="description"
         [options]="inAccounts()"
         [field]="form.inAccount"
+        dataCy="select-in-account"
       />
 
       <app-select-fields
@@ -55,6 +58,7 @@ import { form, required } from '@angular/forms/signals';
         optionLabel="name"
         [options]="owners()"
         [field]="form.outOwner"
+        dataCy="select-out-owner"
       />
 
       <app-select-fields
@@ -62,11 +66,12 @@ import { form, required } from '@angular/forms/signals';
         optionLabel="description"
         [options]="outAccounts()"
         [field]="form.outAccount"
+        dataCy="select-out-account"
       />
 
-      <app-number-fields label="Value" [field]="form.value" />
+      <app-number-fields label="Value" [field]="form.value" dataCy="input-value" />
 
-      <app-input-fields label="Note" [field]="form.note" />
+      <app-input-fields label="Note" [field]="form.note" dataCy="input-note" />
     </app-bean-insert-panel>
   `,
 })
