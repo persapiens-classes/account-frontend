@@ -22,6 +22,7 @@ import { Field, FieldTree } from '@angular/forms/signals';
       <input
         [id]="id()"
         pInputText
+        [type]="type()"
         [pAutoFocus]="autoFocus()"
         [field]="field()"
         [attr.data-cy]="dataCy()"
@@ -46,6 +47,7 @@ export class InputFieldComponent {
   id = input<string>('id');
   label = input.required<string>();
   autoFocus = input<boolean>(false);
+  type = input<string>('text');
   field = input.required<FieldTree<string>>();
   dataCy = input<string>('');
 

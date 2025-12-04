@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { PasswordModule } from 'primeng/password';
 import { AuthService } from './auth.service';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
@@ -21,7 +20,6 @@ import { InputFieldComponent } from '../field/input-field.component';
     PanelModule,
     ButtonModule,
     InputTextModule,
-    PasswordModule,
     RouterModule,
     AutoFocusModule,
     ToastModule,
@@ -46,16 +44,12 @@ import { InputFieldComponent } from '../field/input-field.component';
             dataCy="login-username"
           />
 
-          <p-float-label variant="in" class="mb-2.5">
-            <p-password
-              id="password"
-              [toggleMask]="true"
-              [feedback]="false"
-              [field]="form.password"
-              data-cy="login-password"
-            />
-            <label for="password">Password</label>
-          </p-float-label>
+          <app-input-fields
+            label="Password"
+            type="password"
+            [field]="form.password"
+            dataCy="login-password"
+          />
 
           <p-button
             label="Sign In"
