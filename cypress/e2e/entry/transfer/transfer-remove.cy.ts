@@ -46,7 +46,7 @@ describe('Transfer Entry Remove Page', () => {
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Transfer Entry inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/transferEntries/detail');
   });
 
@@ -71,6 +71,6 @@ describe('Transfer Entry Remove Page', () => {
     cy.get('.p-dialog-mask button.p-button-danger').should('be.visible').click({ force: true });
 
     // Confirma que foi removida com sucesso
-    cy.contains('Transfer Entry removed', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
   });
 });

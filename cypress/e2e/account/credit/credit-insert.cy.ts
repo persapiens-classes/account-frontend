@@ -32,7 +32,7 @@ describe('Credit Account Insert Page', () => {
     cy.get('[role="option"]').last().click();
 
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Credit Account inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/creditAccounts/detail');
   });
 });

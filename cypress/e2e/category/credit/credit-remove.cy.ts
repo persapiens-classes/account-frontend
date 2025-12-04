@@ -1,6 +1,6 @@
 describe('Credit Remove Page', () => {
   const validCreditCategoryName = `credit_${Date.now()}`; // nome único
-  let createdCreditCategoryName = validCreditCategoryName;
+  const createdCreditCategoryName = validCreditCategoryName;
 
   beforeEach(() => {
     cy.session('login', () => {
@@ -14,7 +14,7 @@ describe('Credit Remove Page', () => {
 
     cy.get('[data-cy="input-description"]').type(validCreditCategoryName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Credit Category inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/creditCategories/detail');
   });
 

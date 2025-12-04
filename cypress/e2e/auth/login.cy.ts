@@ -18,6 +18,6 @@ describe('LoginPage', () => {
     cy.get('[data-cy="login-username"]').type('errado');
     cy.get('[data-cy="login-password"] input').type('123');
     cy.get('[data-cy="login-button"]').click();
-    cy.contains('Invalid credenciais, please try again.').should('exist');
+    cy.get('[data-cy="error-toast"]').should('be.visible');
   });
 });

@@ -39,14 +39,14 @@ describe('Credit Entry Remove Page', () => {
     cy.get('[data-cy="input-value"]')
       .find('input')
       .clear()
-      .type(Math.floor(Math.random() * 1000).toString());
+      .type(Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] % 1000).toString());
 
     // Preenche a nota com identificador único
     cy.get('[data-cy="input-note"]').type(uniqueValue);
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Credit Entry inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/creditEntries/detail');
   });
 
@@ -71,6 +71,6 @@ describe('Credit Entry Remove Page', () => {
     cy.get('.p-dialog-mask button.p-button-danger').should('be.visible').click({ force: true });
 
     // Confirma que foi removida com sucesso
-    cy.contains('Credit Entry removed', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
   });
 });

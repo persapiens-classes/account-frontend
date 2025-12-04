@@ -65,7 +65,7 @@ import { InputFieldComponent } from '../field/input-field.component';
           ></p-button>
         </form>
 
-        <p-toast></p-toast>
+        <p-toast data-cy="error-toast"></p-toast>
       </div>
     </p-panel>
   `,

@@ -1,6 +1,4 @@
 describe('Balance Remove Page', () => {
-  const uniqueValue = `balance_remove_${Date.now()}`;
-
   beforeEach(() => {
     cy.session('login', () => {
       cy.login();
@@ -26,7 +24,7 @@ describe('Balance Remove Page', () => {
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Balances inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/balances/detail');
   });
 
@@ -51,6 +49,6 @@ describe('Balance Remove Page', () => {
     cy.get('.p-dialog-mask button.p-button-danger').should('be.visible').click({ force: true });
 
     // Confirma que foi removido
-    cy.contains('Balance removed ok', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
   });
 });

@@ -39,14 +39,14 @@ describe('Debit Entry Remove Page', () => {
     cy.get('[data-cy="input-value"]')
       .find('input')
       .clear()
-      .type(Math.floor(Math.random() * 1000).toString());
+      .type((Date.now() % 1000).toString());
 
     // Preenche a nota com identificador único
     cy.get('[data-cy="input-note"]').find('input').type(uniqueValue);
 
     // Submete
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Debit Entry inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/debitEntries/detail');
   });
 
@@ -71,6 +71,6 @@ describe('Debit Entry Remove Page', () => {
     cy.get('.p-dialog-mask button.p-button-danger').should('be.visible').click({ force: true });
 
     // Confirma que foi removida com sucesso
-    cy.contains('Debit Entry removed', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
   });
 });

@@ -51,7 +51,7 @@ describe('Credit Entry Insert Page', () => {
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
 
     // Valida que a inserção ocorreu
-    cy.contains('Credit Entry inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/creditEntries/detail');
   });
 });

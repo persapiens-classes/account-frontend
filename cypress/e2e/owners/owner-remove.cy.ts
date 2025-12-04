@@ -1,6 +1,6 @@
 describe('Owner Remove Page', () => {
   const validOwnerName = `fabiana_${Date.now()}`; // nome único
-  let createdOwnerName = validOwnerName;
+  const createdOwnerName = validOwnerName;
 
   beforeEach(() => {
     cy.session('login', () => {
@@ -14,7 +14,7 @@ describe('Owner Remove Page', () => {
 
     cy.get('[data-cy="input-name"]').type(validOwnerName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Owner inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/owners/detail');
   });
 

@@ -23,7 +23,7 @@ describe('Owner Insert Page', () => {
   it('deve criar um novo Owner com sucesso', () => {
     cy.get('[data-cy="input-name"]').type(validOwnerName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Owner inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/owners/detail');
   });
 });

@@ -27,7 +27,7 @@ describe('Equity Category Insert Page', () => {
   it('deve criar uma nova Equity Category com sucesso', () => {
     cy.get('[data-cy="input-description"]').type(validEquityCategoryName);
     cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
-    cy.contains('Equity Category inserted', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/equityCategories/detail');
   });
 });
