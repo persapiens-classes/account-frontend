@@ -1,14 +1,10 @@
 describe('Equity Remove Page', () => {
   const validEquityAccountName = `equity_${Date.now()}`; // nome único
-  let createdEquityAccountName = validEquityAccountName;
+  const createdEquityAccountName = validEquityAccountName;
 
   beforeEach(() => {
     cy.session('login', () => {
-      cy.visit('/login');
-      cy.get('[data-cy="login-username"]').type('persapiens');
-      cy.get('[data-cy="login-password"]').type('account');
-      cy.get('[data-cy="login-button"]').click();
-      cy.url({ timeout: 10000 }).should('include', '/balances/list');
+      cy.login();
     });
   });
 

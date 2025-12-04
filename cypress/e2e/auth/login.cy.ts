@@ -1,6 +1,6 @@
 describe('LoginPage', () => {
-  const validUsername = 'persapiens';
-  const validPassword = 'account';
+  const validUsername = Cypress.env('validUsername');
+  const validPassword = Cypress.env('validPassword');
 
   beforeEach(() => {
     cy.visit('/login');

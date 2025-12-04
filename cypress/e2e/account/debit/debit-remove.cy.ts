@@ -1,14 +1,10 @@
 describe('Debit Remove Page', () => {
   const validDebitAccountName = `debit_${Date.now()}`; // nome único
-  let createdDebitAccountName = validDebitAccountName;
+  const createdDebitAccountName = validDebitAccountName;
 
   beforeEach(() => {
     cy.session('login', () => {
-      cy.visit('/login');
-      cy.get('[data-cy="login-username"]').type('persapiens');
-      cy.get('[data-cy="login-password"]').type('account');
-      cy.get('[data-cy="login-button"]').click();
-      cy.url({ timeout: 10000 }).should('include', '/balances/list');
+      cy.login();
     });
   });
 

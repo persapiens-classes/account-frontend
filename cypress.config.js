@@ -12,5 +12,10 @@ module.exports = defineConfig({
     viewportWidth: 1280,
     viewportHeight: 720,
     chromeWebSecurity: false,
+    env: {
+      validUsername: process.env.CYPRESS_USERNAME || 'persapiens',
+      validPassword: process.env.CYPRESS_PASSWORD || 'account',
+    },
   },
 });
+

@@ -65,6 +65,8 @@ module.exports = tseslint.config(
       'max-depth': ['error', 5],
       // Allow more function nesting in tests (describe/it/etc)
       'sonarjs/no-nested-functions': 'off',
+      // Allow namespaces in Cypress commands definition
+      '@typescript-eslint/no-namespace': 'off',
     },
   },
   {

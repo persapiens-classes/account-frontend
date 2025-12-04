@@ -2,11 +2,7 @@ describe('Transfer Entry Detail Page', () => {
   // Mantém sessão de login antes de cada teste
   beforeEach(() => {
     cy.session('login', () => {
-      cy.visit('/login');
-      cy.get('[data-cy="login-username"]').type('persapiens');
-      cy.get('[data-cy="login-password"]').type('account');
-      cy.get('[data-cy="login-button"]').click();
-      cy.url({ timeout: 10000 }).should('include', '/balances/list');
+      cy.login();
     });
     cy.visit('/balances/list');
 

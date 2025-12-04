@@ -43,3 +43,7 @@ Thumbs.db
 
 # jscpd report
 /report
+
+# Environment variables (local)
+.env.cypress.local
+.env.local
