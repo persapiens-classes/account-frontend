@@ -67,7 +67,7 @@
     "@vitest/coverage-v8": "^4.0.15",
     "@vitest/ui": "^4.0.15",
     "angular-cli-ghpages": "^2.0.3",
-    "angular-eslint": "^21.0.1",
+    "angular-eslint": "^21.1.0",
     "cypress": "^15.6.1",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.5",
