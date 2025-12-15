@@ -107,7 +107,7 @@ jobs:
         if: github.actor != 'dependabot[bot]'
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v6.0.0
+        uses: SonarSource/sonarqube-scan-action@v7.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         if: github.actor != 'dependabot[bot]'
