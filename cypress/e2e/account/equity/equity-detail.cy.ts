@@ -14,7 +14,7 @@ describe('Equity Account Detail Page', () => {
 
   function acessarEquityAccountDetail(): void {
     cy.get('table').should('exist');
-    cy.get('p-button[icon="pi pi-search"]').first().should('be.visible').click();
+    cy.get('[data-cy="detail-button"]').first().should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/equityAccounts/detail');
   }
 
@@ -24,13 +24,13 @@ describe('Equity Account Detail Page', () => {
 
   it('deve voltar para a lista ao clicar no ícone de lista', () => {
     acessarEquityAccountDetail();
-    cy.get('p-button[icon="pi pi-list"]').should('be.visible').click();
+    cy.get('[data-cy="list-button"]').should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/equityAccounts/list');
   });
 
   it('deve ir para a página de edição ao clicar no ícone de lápis', () => {
     acessarEquityAccountDetail();
-    cy.get('p-button[icon="pi pi-pencil"]').should('be.visible').click();
+    cy.get('[data-cy="edit-button"]').should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/equityAccounts/edit');
   });
 });

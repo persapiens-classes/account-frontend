@@ -5,12 +5,12 @@ describe('Balance Insert Page', () => {
     });
 
     cy.visit('/balances/list');
-    cy.get('p-button[icon="pi pi-plus"]').should('be.visible').click();
+    cy.get('[data-cy="create-button"]').should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/balances/new');
   });
 
   it('permitir voltar para a lista', () => {
-    cy.get('p-button[icon="pi pi-list"]').should('be.visible').click();
+    cy.get('[data-cy="list-button"]').should('be.visible').click();
     cy.url().should('include', '/balances/list');
   });
 
@@ -29,7 +29,7 @@ describe('Balance Insert Page', () => {
     cy.get('[data-cy="input-initial-value"]').find('input').clear().type('10');
 
     // Submete
-    cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
     // Valida que a inserção ocorreu
     cy.contains('Balances inserted', { timeout: 10000 }).should('exist');

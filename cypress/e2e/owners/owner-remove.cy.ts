@@ -13,7 +13,7 @@ describe('Owner Remove Page', () => {
     cy.url().should('include', '/owners/new');
 
     cy.get('[data-cy="input-name"]').type(validOwnerName);
-    cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/owners/detail');
   });
@@ -28,7 +28,7 @@ describe('Owner Remove Page', () => {
 
     cy.contains('td', createdOwnerName, { timeout: 10000 }).should('be.visible');
 
-    cy.contains('tr', createdOwnerName).find('.pi.pi-trash').click({ force: true });
+    cy.contains('tr', createdOwnerName).find('[data-cy="delete-button"]').click({ force: true });
 
     // Aguarda o dialog de confirmação
     cy.get('.p-dialog-mask', { timeout: 10000 }).should('be.visible');

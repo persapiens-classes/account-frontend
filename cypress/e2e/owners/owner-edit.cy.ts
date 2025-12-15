@@ -25,7 +25,7 @@ describe('Owner Edit Page', () => {
     cy.get('table tbody tr')
       .last()
       .within(() => {
-        cy.get('.pi.pi-pencil').should('be.visible').click();
+        cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 
     cy.url({ timeout: 10000 }).should('include', '/owners/edit');
@@ -35,12 +35,12 @@ describe('Owner Edit Page', () => {
     cy.get('table tbody tr')
       .last()
       .within(() => {
-        cy.get('.pi.pi-pencil').should('be.visible').click();
+        cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 
     cy.url({ timeout: 10000 }).should('include', '/owners/edit');
 
-    cy.get('p-button[icon="pi pi-list"]').should('be.visible').click();
+    cy.get('[data-cy="list-button"]').should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/owners/list');
   });
 
@@ -48,7 +48,7 @@ describe('Owner Edit Page', () => {
     cy.get('table tbody tr')
       .last()
       .within(() => {
-        cy.get('.pi.pi-search').should('be.visible').click();
+        cy.get('[data-cy="detail-button"]').should('be.visible').click();
       });
 
     cy.url({ timeout: 10000 }).should('include', '/owners/detail');
@@ -61,7 +61,7 @@ describe('Owner Edit Page', () => {
       cy.get('table tbody tr')
         .last()
         .within(() => {
-          cy.get('.pi.pi-pencil').should('be.visible').click();
+          cy.get('[data-cy="edit-button"]').should('be.visible').click();
         });
 
       cy.url({ timeout: 10000 }).should('include', '/owners/edit');
@@ -73,7 +73,7 @@ describe('Owner Edit Page', () => {
         .clear()
         .type(newName);
 
-      cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
       cy.url({ timeout: 10000 }).should('include', '/owners/detail');
       cy.contains(newName, { timeout: 10000 }).should('exist');

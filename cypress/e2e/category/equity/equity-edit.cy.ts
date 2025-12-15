@@ -25,7 +25,7 @@ describe('Equity Category Edit Page', () => {
     cy.get('table tbody tr')
       .last()
       .within(() => {
-        cy.get('.pi.pi-pencil').click();
+        cy.get('[data-cy="edit-button"]').click();
       });
 
     cy.url({ timeout: 10000 }).should('include', '/equityCategories/edit');
@@ -35,10 +35,10 @@ describe('Equity Category Edit Page', () => {
     cy.get('table tbody tr')
       .last()
       .within(() => {
-        cy.get('.pi.pi-pencil').click();
+        cy.get('[data-cy="edit-button"]').click();
       });
 
-    cy.get('p-button[icon="pi pi-list"]').click();
+    cy.get('[data-cy="list-button"]').click();
     cy.url({ timeout: 10000 }).should('include', '/equityCategories/list');
   });
 
@@ -46,7 +46,7 @@ describe('Equity Category Edit Page', () => {
     cy.get('table tbody tr')
       .last()
       .within(() => {
-        cy.get('.pi.pi-search').click();
+        cy.get('[data-cy="detail-button"]').click();
       });
 
     cy.url({ timeout: 10000 }).should('include', '/equityCategories/detail');
@@ -59,7 +59,7 @@ describe('Equity Category Edit Page', () => {
       cy.get('table tbody tr')
         .last()
         .within(() => {
-          cy.get('.pi.pi-pencil').click();
+          cy.get('[data-cy="edit-button"]').click();
         });
 
       cy.url({ timeout: 10000 }).should('include', '/equityCategories/edit');
@@ -68,7 +68,7 @@ describe('Equity Category Edit Page', () => {
 
       cy.get('[data-cy="input-description"]').clear().type(newName);
 
-      cy.get('p-button[icon="pi pi-check"]').click();
+      cy.get('[data-cy="save-button"]').click();
 
       cy.url({ timeout: 10000 }).should('include', '/equityCategories/detail');
 

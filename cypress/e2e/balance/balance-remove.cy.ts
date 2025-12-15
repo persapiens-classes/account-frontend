@@ -23,7 +23,7 @@ describe('Balance Remove Page', () => {
     cy.get('[data-cy="input-initial-value"]').find('input').clear().type('10');
 
     // Submete
-    cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/balances/detail');
   });
@@ -39,7 +39,7 @@ describe('Balance Remove Page', () => {
     cy.get('table tbody tr')
       .last()
       .then((lastRow) => {
-        cy.wrap(lastRow).find('.pi.pi-trash').click({ force: true });
+        cy.wrap(lastRow).find('[data-cy="delete-button"]').click({ force: true });
       });
 
     // Aguarda o dialog de confirmação

@@ -14,13 +14,13 @@ describe('Credit Account Insert Page', () => {
     cy.url({ timeout: 10000 }).should('include', '/creditAccounts/list');
 
     // Abre a página de criação
-    cy.get('p-button[icon="pi pi-plus"]').should('be.visible').click();
+    cy.get('[data-cy="create-button"]').should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/creditAccounts/new');
   });
 
   it('permitir voltar para a lista', () => {
     cy.get('[data-cy="input-description"]', { timeout: 10000 }).should('be.visible');
-    cy.get('p-button[icon="pi pi-list"]').should('be.visible').click();
+    cy.get('[data-cy="list-button"]').should('be.visible').click();
     cy.url().should('include', '/creditAccounts/list');
   });
 
@@ -31,7 +31,7 @@ describe('Credit Account Insert Page', () => {
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 
-    cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/creditAccounts/detail');
   });

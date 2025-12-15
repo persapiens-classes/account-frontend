@@ -13,7 +13,7 @@ describe('Equity Remove Page', () => {
     cy.url().should('include', '/equityCategories/new');
 
     cy.get('[data-cy="input-description"]').type(validEquityCategoryName);
-    cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/equityCategories/detail');
   });
@@ -28,7 +28,7 @@ describe('Equity Remove Page', () => {
 
     cy.contains('td', createdEquityCategoryName, { timeout: 10000 }).should('be.visible');
 
-    cy.contains('tr', createdEquityCategoryName).find('.pi.pi-trash').click({ force: true });
+    cy.contains('tr', createdEquityCategoryName).find('[data-cy="delete-button"]').click({ force: true });
 
     // Aguarda o dialog de confirmação
     cy.get('.p-dialog-mask', { timeout: 10000 }).should('be.visible');

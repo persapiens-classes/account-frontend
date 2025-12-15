@@ -18,7 +18,7 @@ describe('Equity Remove Page', () => {
     cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
     cy.get('[role="option"]').last().click();
 
-    cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/equityAccounts/detail');
   });
@@ -33,7 +33,7 @@ describe('Equity Remove Page', () => {
 
     cy.contains('td', createdEquityAccountName, { timeout: 10000 }).should('be.visible');
 
-    cy.contains('tr', createdEquityAccountName).find('.pi.pi-trash').click({ force: true });
+    cy.contains('tr', createdEquityAccountName).find('[data-cy="delete-button"]').click({ force: true });
 
     // Aguarda o dialog de confirmação
     cy.get('.p-dialog-mask', { timeout: 10000 }).should('be.visible');

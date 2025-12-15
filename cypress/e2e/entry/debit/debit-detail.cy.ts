@@ -13,7 +13,7 @@ describe('Debit Entry Detail Page', () => {
   // Função para acessar o detalhe do primeiro item da lista
   function acessarDebitEntryDetail(): void {
     cy.get('table').should('exist');
-    cy.get('p-button[icon="pi pi-search"]').first().should('be.visible').click();
+    cy.get('[data-cy="detail-button"]').first().should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/debitEntries/detail');
   }
 
@@ -23,13 +23,13 @@ describe('Debit Entry Detail Page', () => {
 
   it('deve voltar para a lista ao clicar no ícone de lista', () => {
     acessarDebitEntryDetail();
-    cy.get('p-button[icon="pi pi-list"]').should('be.visible').click();
+    cy.get('[data-cy="list-button"]').should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/debitEntries/list');
   });
 
   it('deve ir para a página de edição ao clicar no ícone de lápis', () => {
     acessarDebitEntryDetail();
-    cy.get('p-button[icon="pi pi-pencil"]').should('be.visible').click();
+    cy.get('[data-cy="edit-button"]').should('be.visible').click();
     cy.url({ timeout: 10000 }).should('include', '/debitEntries/edit');
   });
 });

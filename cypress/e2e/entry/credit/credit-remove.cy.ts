@@ -45,7 +45,7 @@ describe('Credit Entry Remove Page', () => {
     cy.get('[data-cy="input-note"]').type(uniqueValue);
 
     // Submete
-    cy.get('p-button[icon="pi pi-check"]').should('not.be.disabled').click();
+    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/creditEntries/detail');
   });
@@ -61,7 +61,7 @@ describe('Credit Entry Remove Page', () => {
     cy.get('table tbody tr')
       .last()
       .then((lastRow) => {
-        cy.wrap(lastRow).find('.pi.pi-trash').click({ force: true });
+        cy.wrap(lastRow).find('[data-cy="delete-button"]').click({ force: true });
       });
 
     // Aguarda o dialog de confirmação
