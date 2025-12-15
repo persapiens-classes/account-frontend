@@ -54,7 +54,7 @@ jobs:
         run: pnpm run check-duplication:tests
 
       - name: Jscpd upload artifacts
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: jscpd-reports
           path: |
@@ -67,7 +67,7 @@ jobs:
         run: pnpm run test:coverage
 
       - name: Coverage upload artifacts
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: coverage
           path: |
