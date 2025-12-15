@@ -51,8 +51,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       primeng:
-        specifier: ^21.0.1
-        version: 21.0.1(7cd2c7d3bc39d759f7d9caab7a05f3ff)
+        specifier: ^21.0.2
+        version: 21.0.2(7cd2c7d3bc39d759f7d9caab7a05f3ff)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -3821,8 +3821,8 @@ packages:
   primeicons@7.0.0:
     resolution: {integrity: sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==}
 
-  primeng@21.0.1:
-    resolution: {integrity: sha512-lCmMpr2cgL4r/HPByMnrKTPgwYJAQhMDbtu/u8VL3Otnzs8KSKY7bmSnH6cqvucsk8lr/VSKJTxbssb9gtmOVg==}
+  primeng@21.0.2:
+    resolution: {integrity: sha512-suf+xK3V3z2aG9OmQMAriqhMt79JM3jBSoRDu4XQKCiTiWDRnOvoVdCZCjByT32sE5tYqhrLBsCH0lT7RLcosg==}
     peerDependencies:
       '@angular/cdk': ^21.0.0
       '@angular/common': ^21.0.0
@@ -4242,9 +4242,6 @@ packages:
     resolution: {integrity: sha512-T69Rylcrmnt8zy9ik+qZvsLuRIrS9/k6rYJSIgZ1trnbEzGDDQSCIdmfyZknevqiHwpSJHSmQ9XT2C+S/hJY4A==}
     peerDependencies:
       tailwindcss: '>=3.1.0'
-
-  tailwindcss@4.1.17:
-    resolution: {integrity: sha512-j9Ee2YjuQqYT9bbRTfTZht9W/ytp5H+jJpZKiYdP/bpnXARAuELt9ofP0lPnmHjbga7SNQIxdTAXCmtKVYjN+Q==}
 
   tailwindcss@4.1.18:
     resolution: {integrity: sha512-4+Z+0yiYyEtUVCScyfHCxOYP06L5Ne+JiHhY2IjR2KWMIWhJOYZKLSGZaP5HkZ8+bY0cxfzwDE5uOmzFXyIwxw==}
@@ -6413,7 +6410,7 @@ snapshots:
       jwt-decode: 4.0.0
       postcss: 8.5.6
       primeicons: 7.0.0
-      primeng: 21.0.1(7cd2c7d3bc39d759f7d9caab7a05f3ff)
+      primeng: 21.0.2(7cd2c7d3bc39d759f7d9caab7a05f3ff)
       rxjs: 7.8.2
       tailwindcss: 4.1.18
       tailwindcss-primeui: 0.6.1(tailwindcss@4.1.18)
@@ -8409,7 +8406,7 @@ snapshots:
 
   primeicons@7.0.0: {}
 
-  primeng@21.0.1(7cd2c7d3bc39d759f7d9caab7a05f3ff):
+  primeng@21.0.2(7cd2c7d3bc39d759f7d9caab7a05f3ff):
     dependencies:
       '@angular/cdk': 21.0.3(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/common': 21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -8923,8 +8920,6 @@ snapshots:
   tailwindcss-primeui@0.6.1(tailwindcss@4.1.18):
     dependencies:
       tailwindcss: 4.1.18
-
-  tailwindcss@4.1.17: {}
 
   tailwindcss@4.1.18: {}
 
