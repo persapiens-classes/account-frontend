@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "angular": {
+      "command": "npx",
+      "args": ["-y", "@angular/cli", "mcp"]
+    },
+    "primeng": {
+      "command": "npx",
+      "args": ["-y", "@primeng/mcp"]
+    }
+  }
+}
