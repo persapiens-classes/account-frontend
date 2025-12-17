@@ -97,8 +97,8 @@ importers:
         specifier: ^21.1.0
         version: 21.1.0(@angular/cli@21.0.3(@types/node@24.10.4))(eslint@9.39.2(jiti@2.6.1))(typescript-eslint@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)
       cypress:
-        specifier: ^15.6.1
-        version: 15.7.1
+        specifier: ^15.8.0
+        version: 15.8.0
       eslint:
         specifier: ^9.39.2
         version: 9.39.2(jiti@2.6.1)
@@ -2417,8 +2417,8 @@ packages:
     resolution: {integrity: sha512-KyOS/kJMEq5O9GdPnaf82noigg5X5DYn0kZPJTaAsCUaBizp6Xa1y9D4Qoqf/JazEXWuruErHgVXwjN5391ZJw==}
     engines: {node: '>=20'}
 
-  cypress@15.7.1:
-    resolution: {integrity: sha512-U3sYnJ+Cnpgr6IPycxsznTg//mGVXfPGeGV+om7VQCyp5XyVkhG4oPr3X3hTq1+OB0Om0O5DxusYmt7cbvwqMQ==}
+  cypress@15.8.0:
+    resolution: {integrity: sha512-/k/KT8IIvcxarRSNb5AIhT1Yxx1pXsNIrL96Ht/c0pBOO/XcsjgjD4ZlG16V/08dRmvU/gT7PW8FBz5YV+ahsA==}
     engines: {node: ^20.1.0 || ^22.0.0 || >=24.0.0}
     hasBin: true
 
@@ -6934,7 +6934,7 @@ snapshots:
     transitivePeerDependencies:
       - postcss
 
-  cypress@15.7.1:
+  cypress@15.8.0:
     dependencies:
       '@cypress/request': 3.0.9
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
