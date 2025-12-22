@@ -13,8 +13,10 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve",
-    "types": ["vitest/globals", "jsdom", "node"]
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vitest/globals", "jsdom", "node", "cypress"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
