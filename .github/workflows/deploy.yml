@@ -17,12 +17,12 @@ jobs:
       - name: Node install
         uses: actions/setup-node@v6.1.0
         with:
-          node-version: '24'
+          node-version: "24"
 
       - name: Pnpm install
         uses: pnpm/action-setup@v4.2.0
         with:
-          version: '10.20.0'
+          version: "10.20.0"
           run_install: false
 
       - name: Pnpm determine store path
@@ -110,7 +110,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v7.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        if: github.actor != 'dependabot[bot]'
+        if: ${{ vars.SONAR_HOST_URL != '' && vars.SONAR_ORGANIZATION != '' && vars.SONAR_PROJECT_KEY != '' }}
 
       - name: Build project
         run: pnpm run build:prod
