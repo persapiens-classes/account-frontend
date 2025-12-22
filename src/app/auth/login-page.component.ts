@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { PasswordModule } from 'primeng/password';
 import { AuthService } from './auth.service';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of, tap } from 'rxjs';
@@ -21,7 +20,6 @@ import { InputFieldComponent } from '../field/input-field.component';
     PanelModule,
     ButtonModule,
     InputTextModule,
-    PasswordModule,
     RouterModule,
     AutoFocusModule,
     ToastModule,
@@ -39,22 +37,28 @@ import { InputFieldComponent } from '../field/input-field.component';
         <h1 class="mb-4 text-[1.5em] font-bold">Welcome to Account</h1>
 
         <form>
-          <app-input-fields label="Username" [autoFocus]="true" [field]="form.username" />
+          <app-input-fields
+            label="Username"
+            [autoFocus]="true"
+            [field]="form.username"
+            dataCy="login-username"
+          />
+          <app-input-fields
+            label="Password"
+            type="password"
+            [field]="form.password"
+            dataCy="login-password"
+          />
 
-          <p-float-label variant="in" class="mb-2.5">
-            <p-password
-              id="password"
-              [toggleMask]="true"
-              [feedback]="false"
-              [field]="form.password"
-            />
-            <label for="password">Password</label>
-          </p-float-label>
-
-          <p-button label="Sign In" (onClick)="signin()" [disabled]="!form().valid()"></p-button>
+          <p-button
+            label="Sign In"
+            (onClick)="signin()"
+            [disabled]="!form().valid()"
+            data-cy="login-button"
+          ></p-button>
         </form>
 
-        <p-toast></p-toast>
+        <p-toast data-cy="error-toast"></p-toast>
       </div>
     </p-panel>
   `,

@@ -15,6 +15,7 @@ import { ButtonModule } from 'primeng/button';
             (onClick)="startInsert()"
             autofocus="true"
             pTooltip="Start new owner"
+            data-cy="create-button"
           />
         </div>
       </ng-template>

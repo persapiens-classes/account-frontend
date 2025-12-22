@@ -23,8 +23,14 @@ import { AppMessageService } from '../app-message-service';
           class="mr-3"
           [disabled]="!form()().valid()"
           pTooltip="Save"
+          data-cy="save-button"
         />
-        <p-button icon="pi pi-list" (onClick)="cancelInsert()" pTooltip="Cancel to list" />
+        <p-button
+          icon="pi pi-list"
+          (onClick)="cancelInsert()"
+          pTooltip="Cancel to list"
+          data-cy="list-button"
+        />
       </p-panel>
     </form>
   `,

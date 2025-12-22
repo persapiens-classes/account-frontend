@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
       (onClick)="startUpdate(item())"
       pTooltip="Edit the account"
       class="mr-4"
+      data-cy="edit-button"
     />
   `,
 })

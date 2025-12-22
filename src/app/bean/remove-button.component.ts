@@ -24,6 +24,7 @@ import { HttpErrorResponse } from '@angular/common/http';
       (onClick)="remove($event)"
       pTooltip="Delete the account"
       class="mr-3"
+      data-cy="delete-button"
     />
   `,
 })

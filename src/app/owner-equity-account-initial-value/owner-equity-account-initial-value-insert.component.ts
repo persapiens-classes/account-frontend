@@ -59,6 +59,7 @@ export function ownerEquityAccountInitialValueModelToForm(
         optionLabel="name"
         [options]="owners()"
         [field]="form.owner"
+        dataCy="select-owner"
       />
 
       <app-select-fields
@@ -66,9 +67,14 @@ export function ownerEquityAccountInitialValueModelToForm(
         optionLabel="description"
         [options]="equityAccounts()"
         [field]="form.equityAccount"
+        dataCy="select-equity-account"
       />
 
-      <app-number-fields label="Initial Value" [field]="form.initialValue" />
+      <app-number-fields
+        label="Initial Value"
+        [field]="form.initialValue"
+        dataCy="input-initial-value"
+      />
     </app-bean-insert-panel>
   `,
 })

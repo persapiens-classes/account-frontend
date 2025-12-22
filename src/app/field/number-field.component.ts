@@ -18,6 +18,7 @@ import { Field, FieldTree } from '@angular/forms/signals';
         [locale]="locale()"
         [pAutoFocus]="autoFocus()"
         [field]="field()"
+        [attr.data-cy]="dataCy()"
       />
       <label [for]="id()">{{ label() }}</label>
     </p-float-label>
@@ -46,6 +47,7 @@ export class NumberFieldComponent implements INumberFieldComponent {
   currency = input<string>('USD');
   locale = input<string>('en-US');
   field = input.required<FieldTree<number | null>>();
+  dataCy = input<string>('');
 
   get state() {
     return this.field()();

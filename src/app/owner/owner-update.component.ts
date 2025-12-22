@@ -21,7 +21,7 @@ import { form, minLength, required } from '@angular/forms/signals';
       [beanName]="'Owner'"
       [routerName]="'owners'"
     >
-      <app-input-fields label="Name" [autoFocus]="true" [field]="form.name" />
+      <app-input-fields label="Name" [autoFocus]="true" [field]="form.name" dataCy="input-name" />
     </app-bean-update-panel>
   `,
 })

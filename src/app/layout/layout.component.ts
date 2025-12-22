@@ -15,7 +15,7 @@ export enum TitleColor {
   selector: 'app-layout-component',
   imports: [RouterOutlet, HeaderComponent, MenuComponent, ToastModule, CommonModule],
   template: `
-    <p-toast></p-toast>
+    <p-toast data-cy="app-toast"></p-toast>
 
     <app-header />
 

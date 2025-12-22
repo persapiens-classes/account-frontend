@@ -23,14 +23,21 @@ import { FieldTree } from '@angular/forms/signals';
           class="mr-3"
           [disabled]="form()().invalid()"
           pTooltip="Save the category"
+          data-cy="save-button"
         />
         <p-button
           icon="pi pi-list"
           (onClick)="cancelToList()"
           class="mr-3"
           pTooltip="Cancel to list"
+          data-cy="list-button"
         />
-        <p-button icon="pi pi-search" (onClick)="cancelToDetail()" pTooltip="Cancel to detail" />
+        <p-button
+          icon="pi pi-search"
+          (onClick)="cancelToDetail()"
+          pTooltip="Cancel to detail"
+          data-cy="detail-button"
+        />
       </p-panel>
     </form>
   `,
