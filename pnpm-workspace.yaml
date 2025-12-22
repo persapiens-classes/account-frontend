@@ -1,4 +1,6 @@
+onlyBuiltDependencies:
+  - cypress
+
 ignoredBuiltDependencies:
   - '@parcel/watcher'
-  - cypress
   - msgpackr-extract
