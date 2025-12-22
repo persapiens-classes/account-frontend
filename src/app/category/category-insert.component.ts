@@ -19,7 +19,12 @@ import { form, minLength, required } from '@angular/forms/signals';
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-input-fields label="Description" [autoFocus]="true" [field]="form.description" />
+      <app-input-fields
+        label="Description"
+        [autoFocus]="true"
+        [field]="form.description"
+        dataCy="input-description"
+      />
     </app-bean-insert-panel>
   `,
 })

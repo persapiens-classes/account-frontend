@@ -2,16 +2,31 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { StringFieldComponent } from './field-component';
 import { FieldTree, Field } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-input-fields',
-  imports: [CommonModule, FloatLabelModule, AutoFocusModule, InputTextModule, Field],
+  imports: [
+    CommonModule,
+    FloatLabelModule,
+    AutoFocusModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    FormsModule,
+    Field,
+  ],
   template: `
     <p-float-label variant="in" class="mb-2.5">
-      <input [id]="id()" pInputText [pAutoFocus]="autoFocus()" [field]="field()" />
+      <input
+        [id]="id()"
+        pInputText
+        [type]="type()"
+        [pAutoFocus]="autoFocus()"
+        [field]="field()"
+        [attr.data-cy]="dataCy()"
+      />
       <label [for]="id()">{{ label() }}</label>
     </p-float-label>
     @if (state.invalid() && (state.dirty() || state.touched())) {
@@ -28,11 +43,13 @@ import { FieldTree, Field } from '@angular/forms/signals';
     }
   `,
 })
-export class InputFieldComponent implements StringFieldComponent {
+export class InputFieldComponent {
   id = input<string>('id');
   label = input.required<string>();
   autoFocus = input<boolean>(false);
+  type = input<string>('text');
   field = input.required<FieldTree<string>>();
+  dataCy = input<string>('');
 
   get state() {
     return this.field()();
