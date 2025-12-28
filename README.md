@@ -138,15 +138,19 @@ Run All Cypress Tests (Headless Mode). Required when running inside GitHub Codes
 ```bash
 pnpm exec cypress run
 ```
+
 Run a Specific Test File
 
 ```bash
 pnpm exec cypress run --spec "cypress/e2e/path/to/file.cy.ts"
 ```
+
 Example:
+
 ```bash
 pnpm exec cypress run --spec "cypress/e2e/login/login.cy.ts"
 ```
+
 Run an Entire Folder of Tests
 
 ```bash
