@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
       (onClick)="startDetail(item())"
       pTooltip="Detail the account"
       class="mr-4"
+      data-cy="detail-button"
     />
   `,
 })

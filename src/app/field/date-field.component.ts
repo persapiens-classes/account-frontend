@@ -16,6 +16,7 @@ import { Field, FieldTree } from '@angular/forms/signals';
         [pAutoFocus]="autoFocus()"
         [showIcon]="showIcon()"
         [field]="field()"
+        [attr.data-cy]="dataCy()"
       />
       <label [for]="id()">{{ label() }}</label>
     </p-float-label>
@@ -42,6 +43,7 @@ export class DateFieldComponent implements IDateFieldComponent {
   autoFocus = input<boolean>(false);
   showIcon = input<boolean>(true);
   field = input.required<FieldTree<Date | null>>();
+  dataCy = input<string>('');
 
   get state() {
     return this.field()();

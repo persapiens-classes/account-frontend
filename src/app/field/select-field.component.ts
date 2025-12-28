@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
-import { SelectFieldComponent as ISelectFieldComponent } from './field-component';
 import { Field, FieldTree } from '@angular/forms/signals';
 
 @Component({
@@ -15,9 +14,8 @@ import { Field, FieldTree } from '@angular/forms/signals';
         [autofocus]="autoFocus()"
         [options]="options()"
         [optionLabel]="optionLabel()"
-        [optionValue]="optionValue()"
-        [placeholder]="placeholder()"
         [field]="field()"
+        [attr.data-cy]="dataCy()"
         class="w-full max-w-[300px] min-w-[200px]"
       />
       <label [for]="id()">{{ label() }}</label>
@@ -33,15 +31,14 @@ import { Field, FieldTree } from '@angular/forms/signals';
     }
   `,
 })
-export class SelectFieldComponent<T = unknown> implements ISelectFieldComponent<T> {
+export class SelectFieldComponent<T = unknown> {
   id = input<string>('id');
-  label = input<string>('');
-  placeholder = input<string>('');
+  label = input.required<string>();
   autoFocus = input<boolean>(false);
-  optionLabel = input<string>('');
-  optionValue = input<string>('');
+  optionLabel = input.required<string>();
   options = input.required<T[]>();
   field = input.required<FieldTree<T | null>>();
+  dataCy = input<string>(''); // Para testes Cypress
 
   get state() {
     return this.field()();
