@@ -128,6 +128,45 @@ This includes:
 - Copy-paste detection with JSCPD
 - SonarQube analysis
 
+### Run Cypress Tests
+
+This project uses Cypress for end-to-end testing.
+Tests can be executed in headless mode (recommended for Codespaces and CI) or in interactive mode (local development).
+
+Run All Cypress Tests (Headless Mode). Required when running inside GitHub Codespaces.
+
+```bash
+pnpm exec cypress run
+```
+
+Run a Specific Test File
+
+```bash
+pnpm exec cypress run --spec "cypress/e2e/path/to/file.cy.ts"
+```
+
+Example:
+
+```bash
+pnpm exec cypress run --spec "cypress/e2e/login/login.cy.ts"
+```
+
+Run an Entire Folder of Tests
+
+```bash
+pnpm exec cypress run --spec "cypress/e2e/category/**/*.cy.ts"
+```
+
+Video Recording Configuration
+
+```bash
+module.exports = defineConfig({
+  e2e: {
+    video: true,   // change to false to disable
+  },
+});
+```
+
 ## License
 
 This project is licensed under the [Apache License 2.0](LICENSE)
