@@ -1,2 +1,2 @@
-//teste
+//tests
 import './commands.ts';

@@ -9,8 +9,8 @@ declare global {
 }
 
 /**
- * Comando customizado para fazer login nos testes
- * Usa variáveis de ambiente do Cypress
+ * Custom command to perform login in tests
+ * Uses Cypress environment variables
  */
 Cypress.Commands.add('login', (username?: string, password?: string) => {
   const user = username || Cypress.env('validUsername');

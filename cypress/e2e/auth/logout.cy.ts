@@ -10,7 +10,7 @@ describe('Logout Page', () => {
   it('deve exibir página de login após logout', () => {
     cy.get('[data-cy="logout-button"]').click();
 
-    // Valida que está na página de login
+    // Validates that it is on the login page
     cy.url({ timeout: 10000 }).should('include', '/login');
     cy.get('[data-cy="login-username"]').should('exist');
     cy.get('[data-cy="login-password"]').should('exist');
@@ -21,10 +21,10 @@ describe('Logout Page', () => {
     cy.get('[data-cy="logout-button"]').click();
     cy.url({ timeout: 10000 }).should('include', '/login');
 
-    // Tenta acessar uma página protegida
+    // Tries to access a protected page
     cy.visit('/balances/list');
 
-    // Deve ser redirecionado para login
+    // Should be redirected to login
     cy.url({ timeout: 10000 }).should('include', '/login');
   });
 });
