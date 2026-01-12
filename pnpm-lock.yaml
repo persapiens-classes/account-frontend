@@ -12,8 +12,8 @@ importers:
         specifier: ^21.0.3
         version: 21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))
       '@angular/cdk':
-        specifier: ^21.0.3
-        version: 21.0.3(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
+        specifier: ^21.0.6
+        version: 21.0.6(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/common':
         specifier: ^21.0.3
         version: 21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -52,7 +52,7 @@ importers:
         version: 7.0.0
       primeng:
         specifier: ^21.0.2
-        version: 21.0.2(7cd2c7d3bc39d759f7d9caab7a05f3ff)
+        version: 21.0.2(2fe7ddacf3d9221e1f3a3f48527641e5)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -348,8 +348,8 @@ packages:
       vitest:
         optional: true
 
-  '@angular/cdk@21.0.3':
-    resolution: {integrity: sha512-abfckeZfFvovdpxuQHRE4gS1VLNa05Dx0ZSKLGVL9DsQsi4pgn6wWg1y9TkXMlmtpG/EhLmCBxUc6LOHfdeWQA==}
+  '@angular/cdk@21.0.6':
+    resolution: {integrity: sha512-5Gw8mXtKXvcvDMWEciPLRYB6Ja5vsikLAidZsdCEIF6Bc51GmoqT5Tk/Ke+ciCd5Hq9Aco/IcHxT1RC3470lZg==}
     peerDependencies:
       '@angular/common': ^21.0.0 || ^22.0.0
       '@angular/core': ^21.0.0 || ^22.0.0
@@ -4914,7 +4914,7 @@ snapshots:
       - tsx
       - yaml
 
-  '@angular/cdk@21.0.3(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)':
+  '@angular/cdk@21.0.6(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)':
     dependencies:
       '@angular/common': 21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2)
@@ -6418,7 +6418,7 @@ snapshots:
   account@file:(@standard-schema/spec@1.0.0):
     dependencies:
       '@angular/animations': 21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))
-      '@angular/cdk': 21.0.3(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/cdk': 21.0.6(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/common': 21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/compiler': 21.0.3
       '@angular/core': 21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2)
@@ -6430,7 +6430,7 @@ snapshots:
       jwt-decode: 4.0.0
       postcss: 8.5.6
       primeicons: 7.0.0
-      primeng: 21.0.2(7cd2c7d3bc39d759f7d9caab7a05f3ff)
+      primeng: 21.0.2(2fe7ddacf3d9221e1f3a3f48527641e5)
       rxjs: 7.8.2
       tailwindcss: 4.1.18
       tailwindcss-primeui: 0.6.1(tailwindcss@4.1.18)
@@ -8354,9 +8354,9 @@ snapshots:
 
   primeicons@7.0.0: {}
 
-  primeng@21.0.2(7cd2c7d3bc39d759f7d9caab7a05f3ff):
+  primeng@21.0.2(2fe7ddacf3d9221e1f3a3f48527641e5):
     dependencies:
-      '@angular/cdk': 21.0.3(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/cdk': 21.0.6(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/common': 21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2)
       '@angular/forms': 21.0.3(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(@angular/platform-browser@21.0.3(@angular/animations@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2)))(@angular/common@21.0.3(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.3(@angular/compiler@21.0.3)(rxjs@7.8.2)))(@standard-schema/spec@1.0.0)(rxjs@7.8.2)
