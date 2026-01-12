@@ -4,10 +4,10 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { FieldTree, Field } from '@angular/forms/signals';
+import { FormField, FieldTree } from '@angular/forms/signals';
 
 @Component({
-  selector: 'app-input-fields',
+  selector: 'app-input-field',
   imports: [
     CommonModule,
     FloatLabelModule,
@@ -15,7 +15,7 @@ import { FieldTree, Field } from '@angular/forms/signals';
     InputTextModule,
     ReactiveFormsModule,
     FormsModule,
-    Field,
+    FormField,
   ],
   template: `
     <p-float-label variant="in" class="mb-2.5">
@@ -24,7 +24,7 @@ import { FieldTree, Field } from '@angular/forms/signals';
         pInputText
         [type]="type()"
         [pAutoFocus]="autoFocus()"
-        [field]="field()"
+        [formField]="field()"
         [attr.data-cy]="dataCy()"
       />
       <label [for]="id()">{{ label() }}</label>

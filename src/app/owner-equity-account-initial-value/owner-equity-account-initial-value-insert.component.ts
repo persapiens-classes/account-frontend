@@ -53,7 +53,7 @@ export function ownerEquityAccountInitialValueModelToForm(
       [beanName]="'Balances'"
       [routerName]="'ownerEquityAccountInitialValues'"
     >
-      <app-select-fields
+      <app-select-field
         label="Owner"
         [autoFocus]="true"
         optionLabel="name"
@@ -62,7 +62,7 @@ export function ownerEquityAccountInitialValueModelToForm(
         dataCy="select-owner"
       />
 
-      <app-select-fields
+      <app-select-field
         label="Equity Account"
         optionLabel="description"
         [options]="equityAccounts()"
@@ -70,7 +70,7 @@ export function ownerEquityAccountInitialValueModelToForm(
         dataCy="select-equity-account"
       />
 
-      <app-number-fields
+      <app-number-field
         label="Initial Value"
         [field]="form.initialValue"
         dataCy="input-initial-value"

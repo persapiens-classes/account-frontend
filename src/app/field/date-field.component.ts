@@ -4,18 +4,18 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DateFieldComponent as IDateFieldComponent } from './field-component';
-import { Field, FieldTree } from '@angular/forms/signals';
+import { FormField, FieldTree } from '@angular/forms/signals';
 
 @Component({
-  selector: 'app-date-fields',
-  imports: [CommonModule, FloatLabelModule, AutoFocusModule, DatePickerModule, Field],
+  selector: 'app-date-field',
+  imports: [CommonModule, FloatLabelModule, AutoFocusModule, DatePickerModule, FormField],
   template: `
     <p-float-label variant="in" class="mb-2.5">
       <p-date-picker
         [id]="id()"
         [pAutoFocus]="autoFocus()"
         [showIcon]="showIcon()"
-        [field]="field()"
+        [formField]="field()"
         [attr.data-cy]="dataCy()"
       />
       <label [for]="id()">{{ label() }}</label>

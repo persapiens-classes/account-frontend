@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="mb-2.5 flex items-center">
-      <strong class="inline-block w-[130px] font-bold">{{ strong() }}</strong>
+      <strong class="inline-block w-32.5 font-bold">{{ strong() }}</strong>
       <span>{{ value() }}</span>
     </div>
   `,

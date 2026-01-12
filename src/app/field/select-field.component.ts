@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
-import { Field, FieldTree } from '@angular/forms/signals';
+import { FormField, FieldTree } from '@angular/forms/signals';
 
 @Component({
-  selector: 'app-select-fields',
-  imports: [CommonModule, FloatLabelModule, SelectModule, Field],
+  selector: 'app-select-field',
+  imports: [CommonModule, FloatLabelModule, SelectModule, FormField],
   template: `
     <p-float-label variant="in" class="mb-2.5">
       <p-select
@@ -14,9 +14,9 @@ import { Field, FieldTree } from '@angular/forms/signals';
         [autofocus]="autoFocus()"
         [options]="options()"
         [optionLabel]="optionLabel()"
-        [field]="field()"
+        [formField]="field()"
         [attr.data-cy]="dataCy()"
-        class="w-full max-w-[300px] min-w-[200px]"
+        class="w-full max-w-75 min-w-50"
       />
       <label [for]="id()">{{ label() }}</label>
     </p-float-label>

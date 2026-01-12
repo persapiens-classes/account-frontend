@@ -4,11 +4,11 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { NumberFieldComponent as INumberFieldComponent } from './field-component';
-import { Field, FieldTree } from '@angular/forms/signals';
+import { FormField, FieldTree } from '@angular/forms/signals';
 
 @Component({
-  selector: 'app-number-fields',
-  imports: [CommonModule, FloatLabelModule, AutoFocusModule, InputNumberModule, Field],
+  selector: 'app-number-field',
+  imports: [CommonModule, FloatLabelModule, AutoFocusModule, InputNumberModule, FormField],
   template: `
     <p-float-label variant="in" class="mb-2.5">
       <p-inputnumber
@@ -17,7 +17,7 @@ import { Field, FieldTree } from '@angular/forms/signals';
         [currency]="currency()"
         [locale]="locale()"
         [pAutoFocus]="autoFocus()"
-        [field]="field()"
+        [formField]="field()"
         [attr.data-cy]="dataCy()"
       />
       <label [for]="id()">{{ label() }}</label>

@@ -27,23 +27,23 @@ import { InputFieldComponent } from '../field/input-field.component';
     InputFieldComponent,
   ],
   template: `
-    <p-panel class="mx-auto w-[400px]">
+    <p-panel class="mx-auto w-100">
       <div class="flex flex-col items-center p-5">
         <img
           src="images/account.png"
-          class="mt-6 mb-8 h-auto w-[70px] self-center"
+          class="mt-6 mb-8 h-auto w-17.5 self-center"
           alt="Account logo"
         />
         <h1 class="mb-4 text-[1.5em] font-bold">Welcome to Account</h1>
 
         <form>
-          <app-input-fields
+          <app-input-field
             label="Username"
             [autoFocus]="true"
             [field]="form.username"
             dataCy="login-username"
           />
-          <app-input-fields
+          <app-input-field
             label="Password"
             type="password"
             [field]="form.password"
