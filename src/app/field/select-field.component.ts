@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
 import { FormField, FieldTree } from '@angular/forms/signals';
@@ -10,7 +10,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
   template: `
     <p-float-label variant="in" class="mb-2.5">
       <p-select
-        [id]="id()"
+        [id]="calculatedId()"
         [autofocus]="autoFocus()"
         [options]="options()"
         [optionLabel]="optionLabel()"
@@ -18,7 +18,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
         [attr.data-cy]="dataCy()"
         class="w-full max-w-75 min-w-50"
       />
-      <label [for]="id()">{{ label() }}</label>
+      <label [for]="calculatedId()">{{ label() }}</label>
     </p-float-label>
     @if (state.invalid() && (state.dirty() || state.touched())) {
       <div class="alert mb-2.5">
@@ -32,7 +32,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
   `,
 })
 export class SelectFieldComponent<T = unknown> {
-  id = input<string>('id');
+  id = input<string>('');
   label = input.required<string>();
   autoFocus = input<boolean>(false);
   optionLabel = input.required<string>();
@@ -43,4 +43,6 @@ export class SelectFieldComponent<T = unknown> {
   get state() {
     return this.field()();
   }
+
+  calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 }

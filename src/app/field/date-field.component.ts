@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -12,13 +12,13 @@ import { FormField, FieldTree } from '@angular/forms/signals';
   template: `
     <p-float-label variant="in" class="mb-2.5">
       <p-date-picker
-        [id]="id()"
+        [id]="calculatedId()"
         [pAutoFocus]="autoFocus()"
         [showIcon]="showIcon()"
         [formField]="field()"
         [attr.data-cy]="dataCy()"
       />
-      <label [for]="id()">{{ label() }}</label>
+      <label [for]="calculatedId()">{{ label() }}</label>
     </p-float-label>
     @if (state.invalid() && (state.dirty() || state.touched())) {
       <div class="alert mb-2.5">
@@ -38,7 +38,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
   `,
 })
 export class DateFieldComponent implements IDateFieldComponent {
-  id = input<string>('id');
+  id = input<string>('');
   label = input.required<string>();
   autoFocus = input<boolean>(false);
   showIcon = input<boolean>(true);
@@ -48,4 +48,6 @@ export class DateFieldComponent implements IDateFieldComponent {
   get state() {
     return this.field()();
   }
+
+  calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 }

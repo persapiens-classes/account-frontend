@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -12,7 +12,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
   template: `
     <p-float-label variant="in" class="mb-2.5">
       <p-inputnumber
-        [id]="id()"
+        [id]="calculatedId()"
         [mode]="mode()"
         [currency]="currency()"
         [locale]="locale()"
@@ -20,7 +20,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
         [formField]="field()"
         [attr.data-cy]="dataCy()"
       />
-      <label [for]="id()">{{ label() }}</label>
+      <label [for]="calculatedId()">{{ label() }}</label>
     </p-float-label>
     @if (state.invalid() && (state.dirty() || state.touched())) {
       <div class="alert mb-2.5">
@@ -40,7 +40,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
   `,
 })
 export class NumberFieldComponent implements INumberFieldComponent {
-  id = input<string>('id');
+  id = input<string>('');
   label = input.required<string>();
   autoFocus = input<boolean>(false);
   mode = input<'decimal' | 'currency'>('currency');
@@ -52,4 +52,6 @@ export class NumberFieldComponent implements INumberFieldComponent {
   get state() {
     return this.field()();
   }
+
+  calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 }
