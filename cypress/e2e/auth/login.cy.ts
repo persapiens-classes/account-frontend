@@ -6,7 +6,7 @@ describe('LoginPage', () => {
     cy.visit('/login');
   });
 
-  it('deve logar com usuário e senha válidos', () => {
+  it('should login with valid username and password', () => {
     cy.get('[data-cy="login-username"]').type(validUsername);
     cy.get('[data-cy="login-password"]').type(validPassword);
     cy.get('[data-cy="login-button"]').click();
@@ -14,7 +14,7 @@ describe('LoginPage', () => {
     cy.contains('Balance').should('exist');
   });
 
-  it('deve exibir erro com credenciais inválidas', () => {
+  it('should display error with invalid credentials', () => {
     cy.get('[data-cy="login-username"]').type('errado');
     cy.get('[data-cy="login-password"]').type('123');
     cy.get('[data-cy="login-button"]').click();

@@ -7,7 +7,7 @@ describe('Logout Page', () => {
     cy.visit('/balances/list');
   });
 
-  it('deve exibir página de login após logout', () => {
+  it('should display login page after logout', () => {
     cy.get('[data-cy="logout-button"]').click();
 
     // Validates that it is on the login page
@@ -17,7 +17,7 @@ describe('Logout Page', () => {
     cy.get('[data-cy="login-button"]').should('exist');
   });
 
-  it('não deve conseguir acessar páginas protegidas após logout', () => {
+  it('should not be able to access protected pages after logout', () => {
     cy.get('[data-cy="logout-button"]').click();
     cy.url({ timeout: 10000 }).should('include', '/login');
 
