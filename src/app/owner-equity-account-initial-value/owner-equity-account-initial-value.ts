@@ -12,12 +12,10 @@ export class OwnerEquityAccountInitialValue implements Bean {
   }
 }
 
-export class OwnerEquityAccountInitialValueInsert {
-  constructor(
-    public owner: string,
-    public equityAccount: string,
-    public initialValue: number,
-  ) {}
+export interface OwnerEquityAccountInitialValueInsert {
+  owner: string;
+  equityAccount: string;
+  initialValue: number;
 }
 
 export function createOwnerEquityAccountInitialValue(): OwnerEquityAccountInitialValue {

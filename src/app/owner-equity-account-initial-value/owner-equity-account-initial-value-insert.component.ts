@@ -25,11 +25,11 @@ export interface OwnerEquityAccountInitialValueForm {
 export function ownerEquityAccountInitialValueFormToModel(
   ownerEquityAccountInitialValueForm: OwnerEquityAccountInitialValueForm,
 ): OwnerEquityAccountInitialValueInsert {
-  return new OwnerEquityAccountInitialValueInsert(
-    ownerEquityAccountInitialValueForm.owner.name,
-    ownerEquityAccountInitialValueForm.equityAccount.description,
-    ownerEquityAccountInitialValueForm.initialValue,
-  );
+  return {
+    owner: ownerEquityAccountInitialValueForm.owner.name,
+    equityAccount: ownerEquityAccountInitialValueForm.equityAccount.description,
+    initialValue: ownerEquityAccountInitialValueForm.initialValue,
+  };
 }
 
 export function ownerEquityAccountInitialValueModelToForm(
