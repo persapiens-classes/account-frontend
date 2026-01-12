@@ -9,7 +9,7 @@ export class EntryUpdateService implements BeanUpdateService<Entry, EntryInsertU
     private readonly type: EntryType,
   ) {}
 
-  update(id: string, entry: Entry): Observable<Entry> {
+  update(id: string, entry: EntryInsertUpdate): Observable<Entry> {
     return updateBean(
       entry,
       this.http,

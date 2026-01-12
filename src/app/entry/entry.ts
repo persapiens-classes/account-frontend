@@ -19,16 +19,14 @@ export class Entry implements Bean {
   }
 }
 
-export class EntryInsertUpdate {
-  constructor(
-    public inOwner: string,
-    public outOwner: string,
-    public date: Date,
-    public inAccount: Account,
-    public outAccount: Account,
-    public value: number,
-    public note: string,
-  ) {}
+export interface EntryInsertUpdate {
+  inOwner: string;
+  outOwner: string;
+  date: Date;
+  inAccount: string;
+  outAccount: string;
+  value: number;
+  note: string;
 }
 
 export function createEntry(): Entry {
@@ -58,15 +56,15 @@ export interface EntryForm {
 }
 
 export function entryFormToModel(entryForm: EntryForm): EntryInsertUpdate {
-  return new EntryInsertUpdate(
-    entryForm.inOwner ? entryForm.inOwner.name : '',
-    entryForm.outOwner ? entryForm.outOwner.name : '',
-    entryForm.date,
-    entryForm.inAccount,
-    entryForm.outAccount,
-    entryForm.value,
-    entryForm.note,
-  );
+  return {
+    inOwner: entryForm.inOwner ? entryForm.inOwner.name : '',
+    outOwner: entryForm.outOwner ? entryForm.outOwner.name : '',
+    date: entryForm.date,
+    inAccount: entryForm.inAccount ? entryForm.inAccount.description : '',
+    outAccount: entryForm.outAccount ? entryForm.outAccount.description : '',
+    value: entryForm.value,
+    note: entryForm.note,
+  };
 }
 
 export function entryModelToForm(entry: Entry): EntryForm {

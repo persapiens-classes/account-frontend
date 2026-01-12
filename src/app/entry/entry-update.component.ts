@@ -3,7 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { createEntry, entryModelToForm, EntryInsertUpdate, jsonToEntry } from './entry';
+import {
+  createEntry,
+  entryModelToForm,
+  EntryInsertUpdate,
+  jsonToEntry,
+  entryFormToModel,
+} from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
@@ -117,15 +123,6 @@ export class EntryUpdateComponent {
   }
 
   createBean(): EntryInsertUpdate {
-    const value = this.form().value();
-    return new EntryInsertUpdate(
-      value.inOwner.name,
-      value.outOwner.name,
-      value.date,
-      value.inAccount,
-      value.outAccount,
-      value.value,
-      value.note,
-    );
+    return entryFormToModel(this.form().value());
   }
 }
