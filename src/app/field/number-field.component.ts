@@ -46,12 +46,12 @@ export class NumberFieldComponent implements INumberFieldComponent {
   mode = input<'decimal' | 'currency'>('currency');
   currency = input<string>('USD');
   locale = input<string>('en-US');
-  field = input.required<FieldTree<number | null>>();
   dataCy = input<string>('');
+  field = input.required<FieldTree<number | null>>();
+
+  calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 
   get state() {
     return this.field()();
   }
-
-  calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 }

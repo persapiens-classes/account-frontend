@@ -51,9 +51,9 @@ export class InputFieldComponent {
   field = input.required<FieldTree<string>>();
   dataCy = input<string>('');
 
+  calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
+
   get state() {
     return this.field()();
   }
-
-  calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 }
