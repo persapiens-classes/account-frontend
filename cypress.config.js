@@ -15,6 +15,7 @@ module.exports = defineConfig({
     env: {
       validUsername: process.env.CYPRESS_USERNAME || 'persapiens',
       validPassword: process.env.CYPRESS_PASSWORD || 'account',
+      useMock: process.env.CYPRESS_USE_MOCK === 'true',
     },
   },
 });

@@ -133,25 +133,41 @@ This includes:
 This project uses Cypress for end-to-end testing.
 Tests can be executed in headless mode (recommended for Codespaces and CI) or in interactive mode (local development).
 
-Run All Cypress Tests (Headless Mode). Required when running inside GitHub Codespaces.
+#### Run All Cypress Tests (With Real Backend Data)
 
 ```bash
-pnpm exec cypress run
+pnpm test:cypress:run
 ```
 
-Run a Specific Test File
+#### Run All Cypress Tests (With Mocked Data)
+
+Ideal for fast testing and CI/CD pipelines without backend dependency:
+
+```bash
+pnpm test:cypress:mock:run
+```
+
+#### Run a Specific Test File
+
+With real backend data:
 
 ```bash
 pnpm exec cypress run --spec "cypress/e2e/path/to/file.cy.ts"
 ```
 
+With mocked data:
+
+```bash
+CYPRESS_USE_MOCK=true pnpm exec cypress run --spec "cypress/e2e/path/to/file.cy.ts"
+```
+
 Example:
 
 ```bash
-pnpm exec cypress run --spec "cypress/e2e/login/login.cy.ts"
+CYPRESS_USE_MOCK=true pnpm exec cypress run --spec "cypress/e2e/auth/login.cy.ts"
 ```
 
-Run an Entire Folder of Tests
+#### Run an Entire Folder of Tests
 
 ```bash
 pnpm exec cypress run --spec "cypress/e2e/category/**/*.cy.ts"

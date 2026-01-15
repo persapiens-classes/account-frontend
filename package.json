@@ -33,7 +33,9 @@
     "quality": "prettier . --check && pnpm run lint && pnpm run test:coverage && pnpm run check-duplication && pnpm run lint:sonar",
     "quality:full": "pnpm run quality && echo '✅ Full quality check complete - Review VS Code Problems panel for SonarQube issues'",
     "test:cypress": "cypress open",
-    "test:cypress:run": "cypress run"
+    "test:cypress:run": "cypress run",
+    "test:cypress:mock": "CYPRESS_USE_MOCK=true cypress open",
+    "test:cypress:mock:run": "CYPRESS_USE_MOCK=true cypress run"
   },
   "private": true,
   "dependencies": {
