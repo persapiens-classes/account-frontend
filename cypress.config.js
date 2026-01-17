@@ -1,4 +1,5 @@
 const { defineConfig } = require('cypress');
+const coverageTask = require('@cypress/code-coverage/task');
 
 module.exports = defineConfig({
   e2e: {
@@ -12,6 +13,10 @@ module.exports = defineConfig({
     viewportWidth: 1280,
     viewportHeight: 720,
     chromeWebSecurity: false,
+    setupNodeEvents(on, config) {
+      coverageTask(on, config);
+      return config;
+    },
     env: {
       validUsername: process.env.CYPRESS_USERNAME || 'persapiens',
       validPassword: process.env.CYPRESS_PASSWORD || 'account',

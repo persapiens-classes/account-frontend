@@ -1,0 +1,23 @@
+{
+  "report-dir": "coverage",
+  "reporter": ["html", "lcov", "text", "json"],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.e2e-spec.ts",
+    "**/test-setup.ts",
+    "**/environments/**",
+    "**/*.config.ts",
+    "**/*.config.js",
+    "**/cypress/**",
+    "**/coverage/**",
+    "**/dist/**",
+    "**/node_modules/**"
+  ],
+  "temp-dir": ".nyc_output",
+  "all": true,
+  "include": ["src/**/*.ts"],
+  "extension": [".ts"],
+  "sourceMap": true,
+  "instrument": true
+}
