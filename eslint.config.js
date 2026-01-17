@@ -65,6 +65,14 @@ module.exports = tseslint.config(
     },
   },
   {
+    // Specific configuration for Cypress files
+    files: ['cypress/**/*.ts'],
+    rules: {
+      // Cypress requires namespace for custom command type definitions
+      '@typescript-eslint/no-namespace': 'off',
+    },
+  },
+  {
     files: ['**/*.html'],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {},

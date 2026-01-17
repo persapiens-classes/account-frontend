@@ -63,4 +63,4 @@ Cypress.Commands.add('login', (username?: string, password?: string) => {
   cy.url().should('include', '/balances/list');
 });
 
-export {};
+export {}; // NOSONAR - Required for TypeScript to treat file as module for global augmentation
