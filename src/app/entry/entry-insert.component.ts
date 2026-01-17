@@ -14,7 +14,7 @@ import { AccountListService } from '../account/account-list-service';
 import { EntryInsertService } from './entry-insert-service';
 import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { AppMessageService } from '../app-message-service';
-import { form, Field, required } from '@angular/forms/signals';
+import { form, FormField, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-entry-insert',
@@ -25,7 +25,7 @@ import { form, Field, required } from '@angular/forms/signals';
     NumberFieldComponent,
     InputFieldComponent,
     BeanInsertPanelComponent,
-    Field,
+    FormField,
   ],
   template: `
     <app-bean-insert-panel
@@ -35,12 +35,12 @@ import { form, Field, required } from '@angular/forms/signals';
       [beanName]="beanName"
       [routerName]="routerName"
     >
-      <app-date-field label="Date" [autoFocus]="true" [field]="form.date" dataCy="input-date" />
+      <app-date-field label="Date" [autoFocus]="true" [formField]="form.date" dataCy="input-date" />
       <app-select-field
         label="In Owner"
         optionLabel="name"
         [options]="owners()"
-        [field]="form.inOwner"
+        [formField]="form.inOwner"
         dataCy="select-in-owner"
       />
 
@@ -48,7 +48,7 @@ import { form, Field, required } from '@angular/forms/signals';
         label="In Account"
         optionLabel="description"
         [options]="inAccounts()"
-        [field]="form.inAccount"
+        [formField]="form.inAccount"
         dataCy="select-in-account"
       />
 
@@ -56,7 +56,7 @@ import { form, Field, required } from '@angular/forms/signals';
         label="Out Owner"
         optionLabel="name"
         [options]="owners()"
-        [field]="form.outOwner"
+        [formField]="form.outOwner"
         dataCy="select-out-owner"
       />
 
@@ -64,12 +64,12 @@ import { form, Field, required } from '@angular/forms/signals';
         label="Out Account"
         optionLabel="description"
         [options]="outAccounts()"
-        [field]="form.outAccount"
+        [formField]="form.outAccount"
         dataCy="select-out-account"
       />
 
-      <app-number-field label="Value" [field]="form.value" dataCy="input-value" />
-      <app-input-field label="Note" [field]="form.note" dataCy="input-note" />
+      <app-number-field label="Value" [formField]="form.value" dataCy="input-value" />
+      <app-input-field label="Note" [formField]="form.note" dataCy="input-note" />
     </app-bean-insert-panel>
   `,
 })

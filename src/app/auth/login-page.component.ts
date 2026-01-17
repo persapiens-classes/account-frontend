@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { form, Field, required, minLength } from '@angular/forms/signals';
+import { form, FormField, required, minLength } from '@angular/forms/signals';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
@@ -23,7 +23,7 @@ import { InputFieldComponent } from '../field/input-field.component';
     RouterModule,
     AutoFocusModule,
     ToastModule,
-    Field,
+    FormField,
     InputFieldComponent,
   ],
   template: `
@@ -40,13 +40,13 @@ import { InputFieldComponent } from '../field/input-field.component';
           <app-input-field
             label="Username"
             [autoFocus]="true"
-            [field]="form.username"
+            [formField]="form.username"
             dataCy="login-username"
           />
           <app-input-field
             label="Password"
             type="password"
-            [field]="form.password"
+            [formField]="form.password"
             dataCy="login-password"
           />
 

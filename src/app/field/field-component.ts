@@ -8,7 +8,7 @@ export interface FieldComponent<T = unknown> {
   label?: InputSignal<string>;
   id?: InputSignal<string>;
   autoFocus?: InputSignal<boolean>;
-  field: InputSignal<FieldTree<T>>;
+  formField: InputSignal<FieldTree<T>>;
 }
 
 /**

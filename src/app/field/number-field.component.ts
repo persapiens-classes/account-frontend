@@ -17,7 +17,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
         [currency]="currency()"
         [locale]="locale()"
         [pAutoFocus]="autoFocus()"
-        [formField]="field()"
+        [formField]="formField()"
         [attr.data-cy]="dataCy()"
       />
       <label [for]="calculatedId()">{{ label() }}</label>
@@ -47,11 +47,11 @@ export class NumberFieldComponent implements INumberFieldComponent {
   currency = input<string>('USD');
   locale = input<string>('en-US');
   dataCy = input<string>('');
-  field = input.required<FieldTree<number | null>>();
+  formField = input.required<FieldTree<number | null>>();
 
   calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 
   get state() {
-    return this.field()();
+    return this.formField()();
   }
 }

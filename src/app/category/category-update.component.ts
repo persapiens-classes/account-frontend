@@ -26,7 +26,7 @@ import { form, minLength, required } from '@angular/forms/signals';
       <app-input-field
         label="Description"
         [autoFocus]="true"
-        [field]="form.description"
+        [formField]="form.description"
         dataCy="input-description"
       />
     </app-bean-update-panel>

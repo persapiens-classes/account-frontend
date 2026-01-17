@@ -24,7 +24,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
         pInputText
         [type]="type()"
         [pAutoFocus]="autoFocus()"
-        [formField]="field()"
+        [formField]="formField()"
         [attr.data-cy]="dataCy()"
       />
       <label [for]="calculatedId()">{{ label() }}</label>
@@ -48,12 +48,12 @@ export class InputFieldComponent {
   label = input.required<string>();
   autoFocus = input<boolean>(false);
   type = input<string>('text');
-  field = input.required<FieldTree<string>>();
+  formField = input.required<FieldTree<string>>();
   dataCy = input<string>('');
 
   calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 
   get state() {
-    return this.field()();
+    return this.formField()();
   }
 }

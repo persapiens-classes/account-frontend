@@ -14,7 +14,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
         [autofocus]="autoFocus()"
         [options]="options()"
         [optionLabel]="optionLabel()"
-        [formField]="field()"
+        [formField]="formField()"
         [attr.data-cy]="dataCy()"
         class="w-full max-w-75 min-w-50"
       />
@@ -37,11 +37,11 @@ export class SelectFieldComponent<T = unknown> {
   autoFocus = input<boolean>(false);
   optionLabel = input.required<string>();
   options = input.required<T[]>();
-  field = input.required<FieldTree<T | null>>();
+  formField = input.required<FieldTree<T | null>>();
   dataCy = input<string>(''); // Para testes Cypress
 
   get state() {
-    return this.field()();
+    return this.formField()();
   }
 
   calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());

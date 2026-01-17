@@ -26,7 +26,7 @@ import { form, minLength, required } from '@angular/forms/signals';
       <app-input-field
         label="Description"
         [autoFocus]="true"
-        [field]="form.description"
+        [formField]="form.description"
         dataCy="input-description"
       />
 
@@ -34,7 +34,7 @@ import { form, minLength, required } from '@angular/forms/signals';
         label="Category"
         optionLabel="description"
         [options]="categories()"
-        [field]="form.category"
+        [formField]="form.category"
         dataCy="select-category"
       />
     </app-bean-insert-panel>
