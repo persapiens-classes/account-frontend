@@ -3,6 +3,14 @@
   "compilerOptions": {
     "types": ["vitest/globals", "jsdom", "node", "cypress"]
   },
-  "include": ["src/**/*.ts", "src/**/*.test.ts", "src/test-setup.ts", "cypress/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.test.ts",
+    "src/test-setup.ts",
+    "cypress/**/*.ts",
+    "vitest.config.ts",
+    "cypress.config.js",
+    "eslint.config.js"
+  ],
   "exclude": ["node_modules"]
 }

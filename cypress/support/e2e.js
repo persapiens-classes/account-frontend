@@ -1,2 +1,3 @@
 //tests
+import '@cypress/code-coverage/support';
 import './commands.ts';

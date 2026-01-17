@@ -39,7 +39,8 @@
     "test:start-server:open": "pnpm exec start-server-and-test 'pnpm start' http://localhost:4200 'pnpm test:cypress'",
     "test:start-server:run": "pnpm exec start-server-and-test 'pnpm start' http://localhost:4200 'pnpm test:cypress:run'",
     "test:start-server:mock:open": "pnpm exec start-server-and-test 'pnpm start' http://localhost:4200 'pnpm test:cypress:mock'",
-    "test:start-server:mock:run": "pnpm exec start-server-and-test 'pnpm start' http://localhost:4200 'pnpm test:cypress:mock:run'"
+    "test:start-server:mock:run": "pnpm exec start-server-and-test 'pnpm start' http://localhost:4200 'pnpm test:cypress:mock:run'",
+    "coverage:merge": "nyc merge .nyc_output coverage/coverage-final.json && nyc report --reporter=lcov --reporter=text --report-dir=coverage"
   },
   "private": true,
   "dependencies": {
@@ -67,6 +68,7 @@
     "@angular/build": "21.0.6",
     "@angular/cli": "21.0.6",
     "@angular/compiler-cli": "21.0.8",
+    "@cypress/code-coverage": "^3.14.7",
     "@eslint/js": "^9.39.2",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^24.10.9",
@@ -81,13 +83,16 @@
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-sonarjs": "^3.0.5",
+    "istanbul-lib-coverage": "^3.2.2",
     "jscpd": "^4.0.7",
     "jsdom": "^27.4.0",
+    "nyc": "^17.1.0",
     "prettier": "^3.8.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "start-server-and-test": "^2.1.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.0",
+    "vite-plugin-istanbul": "^7.2.1",
     "vitest": "^4.0.15"
   }
 }

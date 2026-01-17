@@ -52,12 +52,6 @@ jobs:
       - name: Dependencies install
         run: pnpm install
 
-      - name: Cypress install
-        run: pnpm cypress install
-
-      - name: Tests (E2E) run
-        run: pnpm test:start-server:mock:run
-
       - name: Prettier run
         run: pnpm run format:check
 
@@ -79,6 +73,9 @@ jobs:
 
       - name: Tests (Unit and Integration) run
         run: pnpm run test:coverage
+
+      - name: Tests (E2E) run
+        run: pnpm test:start-server:mock:run
 
       - name: Coverage upload artifacts
         uses: actions/upload-artifact@v6.0.0
