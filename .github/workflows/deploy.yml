@@ -17,12 +17,12 @@ jobs:
       - name: Node install
         uses: actions/setup-node@v6.1.0
         with:
-          node-version: '24'
+          node-version: "24"
 
       - name: Pnpm install
         uses: pnpm/action-setup@v4.2.0
         with:
-          version: '10.28.0'
+          version: "10.28.0"
           run_install: false
 
       - name: Pnpm determine store path
@@ -41,8 +41,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Cache Cypress binary
+        uses: actions/cache@v5.0.1
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-cache-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-cache-
+
       - name: Dependencies install
         run: pnpm install
+
+      - name: Tests (E2E) run
+        run: pnpm test:start-server:mock:run
 
       - name: Prettier run
         run: pnpm run format:check
@@ -72,9 +83,6 @@ jobs:
           name: coverage
           path: |
             coverage/
-
-      - name: Tests (E2E) run
-        run: pnpm test:start-server:mock:run
 
       - name: Verify coverage files
         run: |
