@@ -3,6 +3,8 @@ describe('LoginPage', () => {
   const validPassword = Cypress.env('validPassword');
 
   beforeEach(() => {
+    // Setup mock if configured
+    cy.maybeSetupAuthMock();
     cy.visit('/login');
   });
 
@@ -10,14 +12,21 @@ describe('LoginPage', () => {
     cy.get('[data-cy="login-username"]').type(validUsername);
     cy.get('[data-cy="login-password"]').type(validPassword);
     cy.get('[data-cy="login-button"]').click();
+
     cy.url().should('include', '/balances/list');
     cy.contains('Balance').should('exist');
   });
 
   it('should display error with invalid credentials', () => {
+    // Setup specific mock for invalid scenario if using mocks
+    if (Cypress.env('useMock')) {
+      cy.setupAuthMock('invalid');
+    }
+
     cy.get('[data-cy="login-username"]').type('errado');
     cy.get('[data-cy="login-password"]').type('123');
     cy.get('[data-cy="login-button"]').click();
+
     cy.get('[data-cy="error-toast"]').should('be.visible');
   });
 });
