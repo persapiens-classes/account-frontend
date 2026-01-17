@@ -52,6 +52,9 @@ jobs:
       - name: Dependencies install
         run: pnpm install
 
+      - name: Cypress install
+        run: pnpm cypress install
+
       - name: Prettier run
         run: pnpm run format:check
 
