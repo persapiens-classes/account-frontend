@@ -37,14 +37,14 @@ import { AppMessageService } from '../app-message-service';
       <app-input-field
         label="Description"
         [autoFocus]="true"
-        [field]="form.description"
+        [formField]="form.description"
         dataCy="input-description"
       />
       <app-select-field
         label="Category"
         optionLabel="description"
         [options]="categories()"
-        [field]="form.category"
+        [formField]="form.category"
         dataCy="select-category"
       />
     </app-bean-update-panel>

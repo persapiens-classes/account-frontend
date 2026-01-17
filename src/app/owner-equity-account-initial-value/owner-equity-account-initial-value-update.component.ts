@@ -38,7 +38,7 @@ import { form, required } from '@angular/forms/signals';
         }}"
       />
 
-      <app-number-field label="Initial Value" [autoFocus]="true" [field]="form.initialValue" />
+      <app-number-field label="Initial Value" [autoFocus]="true" [formField]="form.initialValue" />
     </app-bean-update-panel>
   `,
 })

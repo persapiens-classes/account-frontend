@@ -58,7 +58,7 @@ export function ownerEquityAccountInitialValueModelToForm(
         [autoFocus]="true"
         optionLabel="name"
         [options]="owners()"
-        [field]="form.owner"
+        [formField]="form.owner"
         dataCy="select-owner"
       />
 
@@ -66,13 +66,13 @@ export function ownerEquityAccountInitialValueModelToForm(
         label="Equity Account"
         optionLabel="description"
         [options]="equityAccounts()"
-        [field]="form.equityAccount"
+        [formField]="form.equityAccount"
         dataCy="select-equity-account"
       />
 
       <app-number-field
         label="Initial Value"
-        [field]="form.initialValue"
+        [formField]="form.initialValue"
         dataCy="input-initial-value"
       />
     </app-bean-insert-panel>
