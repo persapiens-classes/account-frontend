@@ -1,5 +1,11 @@
 const { defineConfig } = require('cypress');
-const coverageTask = require('@cypress/code-coverage/task');
+
+let coverageTask;
+try {
+  coverageTask = require('@cypress/code-coverage/task');
+} catch (e) {
+  coverageTask = null;
+}
 
 module.exports = defineConfig({
   e2e: {
@@ -13,8 +19,13 @@ module.exports = defineConfig({
     viewportWidth: 1280,
     viewportHeight: 720,
     chromeWebSecurity: false,
+    launchArgs: ['--disable-gpu', '--disable-dev-shm-usage'],
+    nodeVersion: 'bundled',
+    timeout: 30000,
     setupNodeEvents(on, config) {
-      coverageTask(on, config);
+      if (coverageTask) {
+        coverageTask(on, config);
+      }
       return config;
     },
     env: {
