@@ -23,6 +23,12 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
         statusCode: 200,
         body: authData.login.success,
       }).as('loginRequest');
+
+      // Mock the balances API endpoint
+      cy.intercept('GET', '**/balances', {
+        statusCode: 200,
+        body: authData.balances.list,
+      }).as('getBalances');
     } else {
       cy.intercept('POST', loginEndpoint, {
         statusCode: 401,
