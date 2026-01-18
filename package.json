@@ -35,7 +35,7 @@
     "test:cypress": "cypress open",
     "test:cypress:run": "cypress run",
     "test:cypress:mock": "cross-env CYPRESS_USE_MOCK=true cypress open",
-    "test:cypress:mock:run": "cross-env CYPRESS_USE_MOCK=true cypress run --spec cypress/e2e/auth/login.cy.ts",
+    "test:cypress:mock:run": "cross-env CYPRESS_USE_MOCK=true cypress run",
     "test:start-server:open": "pnpm exec start-server-and-test 'pnpm start' http://localhost:4200 'pnpm test:cypress'",
     "test:start-server:run": "pnpm exec start-server-and-test 'pnpm start' http://localhost:4200 'pnpm test:cypress:run'",
     "test:start-server:mock:open": "pnpm exec start-server-and-test 'pnpm start' http://localhost:4200 'pnpm test:cypress:mock'",

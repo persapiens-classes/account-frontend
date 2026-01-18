@@ -4,6 +4,7 @@ let coverageTask;
 try {
   coverageTask = require('@cypress/code-coverage/task');
 } catch (e) {
+  console.log('Code coverage plugin not found, skipping coverage setup', e.message);
   coverageTask = null;
 }
 
