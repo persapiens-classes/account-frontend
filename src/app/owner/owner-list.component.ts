@@ -25,6 +25,7 @@ import { OwnerListService } from './owner-list-service';
   template: `
     <app-bean-list-panel [routerName]="routerName">
       <p-table
+        data-cy="owners-table"
         [value]="beansList()"
         [rows]="5"
         [paginator]="true"
@@ -40,7 +41,13 @@ import { OwnerListService } from './owner-list-service';
           </tr>
           <tr>
             <th>
-              <p-columnFilter type="text" field="name" placeholder="name" ariaLabel="Filter Name" />
+              <p-columnFilter
+                data-cy="filter-name"
+                type="text"
+                field="name"
+                placeholder="name"
+                ariaLabel="Filter Name"
+              />
             </th>
           </tr>
         </ng-template>

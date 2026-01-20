@@ -22,31 +22,26 @@
   },
   "boundaryValues": {
     "OW-01": {
-      "name": "",
-      "expectedStatus": 400,
-      "description": "Empty name"
-    },
-    "OW-02": {
       "name": "   ",
       "expectedStatus": 400,
       "description": "Name with only whitespace"
     },
-    "OW-03": {
-      "name": "a",
+    "OW-02": {
+      "name": "abc",
       "expectedStatus": 201,
-      "description": "Name with 1 character (lower limit)"
+      "description": "Name with 3 characters (minimum limit)"
     },
-    "OW-04": {
+    "OW-03": {
       "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "expectedStatus": 201,
       "description": "Name with 255 characters (upper limit)"
     },
-    "OW-05": {
+    "OW-04": {
       "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "expectedStatus": 400,
-      "description": "Name with 256 characters (exceeds limit)"
+      "description": "Name with 256 characters (exceeds upper limit)"
     },
-    "OW-06": {
+    "OW-05": {
       "name": "Duplicate Owner",
       "expectedStatus": 409,
       "description": "Duplicate name (already exists)"

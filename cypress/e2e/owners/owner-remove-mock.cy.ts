@@ -1,19 +1,25 @@
-describe('Owner Remove Page', () => {
+describe('Owner Remove Page (Mock)', () => {
   const validOwnerName = `fabiana_${Date.now()}`; // unique name
   const createdOwnerName = validOwnerName;
 
   beforeEach(() => {
     cy.session('login', () => {
+      cy.setupAuthMock('success');
       cy.login();
     });
+
+    cy.setupOwnersMock();
+    cy.visit('/owners/new');
   });
 
   it('should create a new Owner for removal test', () => {
-    cy.visit('/owners/new');
     cy.url().should('include', '/owners/new');
 
     cy.get('[data-cy="input-name"]').type(validOwnerName);
     cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+
+    cy.wait('@createOwner').its('response.statusCode').should('eq', 201);
+
     cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url({ timeout: 10000 }).should('include', '/owners/detail');
   });
@@ -34,6 +40,8 @@ describe('Owner Remove Page', () => {
 
     // Click accept button on the dialog
     cy.get('.p-dialog .p-button-danger', { timeout: 10000 }).click();
+
+    cy.wait('@deleteOwner').its('response.statusCode').should('eq', 204);
 
     // Confirm that the success message appears
     cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');

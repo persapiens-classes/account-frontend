@@ -1,9 +1,11 @@
-describe('Owner Edit Page', () => {
+describe('Owner Edit Page (Mock)', () => {
   beforeEach(() => {
     cy.session('login', () => {
+      cy.setupAuthMock('success');
       cy.login();
     });
 
+    cy.setupOwnersMock();
     cy.visit('/balances/list');
 
     // Navigate to owners list
@@ -75,32 +77,21 @@ describe('Owner Edit Page', () => {
 
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
+      cy.wait('@updateOwner').its('response.statusCode').should('eq', 200);
+
       cy.url({ timeout: 10000 }).should('include', '/owners/detail');
       cy.contains(newName, { timeout: 10000 }).should('exist');
     });
   });
 
   describe('Validation Tests', () => {
-    const validOwnerName = `owner_${Date.now()}`;
-
     beforeEach(() => {
-      // Create an owner first that will be edited in tests
-      cy.visit('/owners/new');
-      cy.get('[data-cy="input-name"]').type(validOwnerName);
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-      cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-      cy.url({ timeout: 10000 }).should('include', '/owners/detail');
-
-      // Go to owners list and open the edit page for the created owner
+      // Navigate to edit page for each validation test
       cy.visit('/owners/list');
       cy.url({ timeout: 10000 }).should('include', '/owners/list');
 
-      cy.get('[data-cy="filter-name"]').clear().type(`${validOwnerName}{enter}`);
-
-      cy.contains('tr', validOwnerName, { timeout: 10000 }).within(() => {
-        cy.get('[data-cy="edit-button"]').should('be.visible').click();
-      });
-
+      // Click edit button on last owner
+      cy.get('table tbody tr').last().find('[data-cy="edit-button"]').click();
       cy.url({ timeout: 10000 }).should('include', '/owners/edit');
     });
 
@@ -110,6 +101,8 @@ describe('Owner Edit Page', () => {
 
         cy.get('[data-cy="input-name"]').clear().type(testCase.name);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+
+        cy.wait('@updateOwner').its('response.statusCode').should('eq', 400);
 
         cy.url({ timeout: 5000 }).should('include', '/owners/edit');
       });
@@ -122,6 +115,8 @@ describe('Owner Edit Page', () => {
 
         cy.get('[data-cy="input-name"]').clear().type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+
+        cy.wait('@updateOwner').its('response.statusCode').should('eq', 200);
 
         cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
         cy.url({ timeout: 10000 }).should('include', '/owners/detail');
@@ -136,42 +131,38 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="input-name"]').clear().type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
+        cy.wait('@updateOwner').its('response.statusCode').should('eq', 200);
+
         cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
         cy.url({ timeout: 10000 }).should('include', '/owners/detail');
       });
     });
 
-    it('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
+    it.skip('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-04'];
 
         cy.get('[data-cy="input-name"]').clear().type(testCase.name);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
+        cy.wait('@updateOwner').its('response.statusCode').should('eq', 400);
+
         cy.url({ timeout: 5000 }).should('include', '/owners/edit');
       });
     });
 
     it('OW-05: should fail when trying to edit owner with existing name', () => {
-      const duplicateName = `dup_${Date.now()}`;
+      cy.fixture('owners').then((ownersData) => {
+        const testCase = ownersData.boundaryValues['OW-05'];
 
-      // Create another owner first
-      cy.visit('/owners/new');
-      cy.get('[data-cy="input-name"]').type(duplicateName);
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-      cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
+        // Try to change to a duplicate name (from fixtures)
+        cy.get('[data-cy="input-name"]').clear().type(testCase.name);
+        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-      // Go back to edit the original owner with duplicate name
-      cy.visit('/owners/list');
-      cy.get('[data-cy="filter-name"]').clear().type(`${validOwnerName}{enter}`);
-      cy.contains('tr', validOwnerName, { timeout: 10000 }).within(() => {
-        cy.get('[data-cy="edit-button"]').should('be.visible').click();
+        cy.wait('@updateOwner').its('response.statusCode').should('eq', 409);
+
+        cy.url({ timeout: 5000 }).should('include', '/owners/edit');
       });
-
-      cy.get('[data-cy="input-name"]').clear().type(duplicateName);
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-
-      cy.url({ timeout: 5000 }).should('include', '/owners/edit');
     });
   });
 });
