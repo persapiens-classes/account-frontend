@@ -11,10 +11,7 @@ try {
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:4200', // frontend
-    specPattern:
-      process.env.CYPRESS_USE_MOCK === 'true'
-        ? 'cypress/e2e/**/*-mock.cy.{js,ts}'
-        : 'cypress/e2e/**/!(.*-mock).cy.{js,ts}',
+    specPattern: 'cypress/e2e/**/*.cy.{js,ts}',
     supportFile: 'cypress/support/e2e.{js,ts}',
     video: false,
     screenshotOnFailure: false,

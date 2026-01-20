@@ -1,9 +1,14 @@
 describe('Owner Detail Page', () => {
   beforeEach(() => {
+    // Reset created owners state for mock
+    Cypress.env('createdOwners', []);
+
     cy.session('login', () => {
+      cy.maybeSetupAuthMock();
       cy.login();
     });
 
+    cy.maybeSetupOwnersMock();
     cy.visit('/balances/list');
 
     // Navigate to owners list
