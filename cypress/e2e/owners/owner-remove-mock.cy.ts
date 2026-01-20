@@ -1,7 +1,4 @@
 describe('Owner Remove Page (Mock)', () => {
-  const validOwnerName = `fabiana_${Date.now()}`; // unique name
-  const createdOwnerName = validOwnerName;
-
   beforeEach(() => {
     cy.session('login', () => {
       cy.setupAuthMock('success');
@@ -9,22 +6,31 @@ describe('Owner Remove Page (Mock)', () => {
     });
 
     cy.setupOwnersMock();
-    cy.visit('/owners/new');
   });
 
   it('should create a new Owner for removal test', () => {
-    cy.url().should('include', '/owners/new');
+    cy.fixture('owners').then((ownersData) => {
+      const validOwnerName = ownersData.owner.create.name;
 
-    cy.get('[data-cy="input-name"]').type(validOwnerName);
-    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+      // Store the owner name for the next test
+      Cypress.env('createdOwnerName', validOwnerName);
 
-    cy.wait('@createOwner').its('response.statusCode').should('eq', 201);
+      cy.visit('/owners/new');
+      cy.url().should('include', '/owners/new');
 
-    cy.get('[data-cy="app-toast"]').should('be.visible');
-    cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+      cy.get('[data-cy="input-name"]').type(validOwnerName);
+      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+
+      cy.wait('@createOwner').its('response.statusCode').should('eq', 201);
+
+      cy.get('[data-cy="app-toast"]').should('be.visible');
+      cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+    });
   });
 
   it('should remove the recently created Owner successfully', () => {
+    const createdOwnerName = Cypress.env('createdOwnerName');
+
     cy.visit('/owners/list');
 
     cy.get('[data-cy="filter-name"]').should('exist').clear().type(`${createdOwnerName}{enter}`);
