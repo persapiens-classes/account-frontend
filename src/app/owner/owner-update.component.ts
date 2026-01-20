@@ -7,7 +7,7 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
 import { OwnerUpdateService } from './owner-update-service';
 import { toBeanFromHistory } from '../bean/bean';
-import { form, minLength, required } from '@angular/forms/signals';
+import { form, minLength, required, maxLength } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-owner-update',
@@ -34,6 +34,7 @@ export class OwnerUpdateComponent {
   form = form(signal(toBeanFromHistory(createOwner)), (f) => {
     required(f.name);
     minLength(f.name, 3);
+    maxLength(f.name, 255);
   });
 
   beanUpdateService = inject(OwnerUpdateService);

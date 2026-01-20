@@ -29,7 +29,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
       />
       <label [for]="calculatedId()">{{ label() }}</label>
     </p-float-label>
-    @if (state.invalid() && (state.dirty() || state.touched())) {
+    @if (state.invalid()) {
       <div class="alert mb-2.5">
         @for (error of state.errors(); track $index) {
           @if (error.kind === 'required') {
@@ -37,6 +37,9 @@ import { FormField, FieldTree } from '@angular/forms/signals';
           }
           @if (error.kind === 'minlength') {
             <div>{{ label() }} must be at least 3 characters long.</div>
+          }
+          @if (error.kind === 'maxlength') {
+            <div>{{ label() }} must not exceed 255 characters.</div>
           }
         }
       </div>

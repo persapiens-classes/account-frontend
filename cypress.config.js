@@ -17,10 +17,16 @@ module.exports = defineConfig({
     screenshotOnFailure: false,
     experimentalMemoryManagement: true,
     numTestsKeptInMemory: 0,
+    memoryLimit: 2048,
     viewportWidth: 1280,
     viewportHeight: 720,
     chromeWebSecurity: false,
-    launchArgs: ['--disable-gpu', '--disable-dev-shm-usage'],
+    launchArgs: [
+      '--disable-gpu',
+      '--disable-dev-shm-usage',
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+    ],
     nodeVersion: 'bundled',
     timeout: 30000,
     setupNodeEvents(on, config) {

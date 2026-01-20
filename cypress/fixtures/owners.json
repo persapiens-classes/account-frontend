@@ -1,0 +1,50 @@
+{
+  "owners": {
+    "list": [
+      {
+        "name": "Owner 1"
+      },
+      {
+        "name": "Owner 2"
+      },
+      {
+        "name": "Owner 3"
+      }
+    ]
+  },
+  "owner": {
+    "create": {
+      "name": "New Owner"
+    },
+    "update": {
+      "name": "Updated Owner"
+    }
+  },
+  "boundaryValues": {
+    "OW-01": {
+      "name": "   ",
+      "expectedStatus": 400,
+      "description": "Name with only whitespace"
+    },
+    "OW-02": {
+      "name": "abc",
+      "expectedStatus": 201,
+      "description": "Name with 3 characters (minimum limit)"
+    },
+    "OW-03": {
+      "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expectedStatus": 201,
+      "description": "Name with 255 characters (upper limit)"
+    },
+    "OW-04": {
+      "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expectedStatus": 400,
+      "description": "Name with 256 characters (exceeds upper limit)"
+    },
+    "OW-05": {
+      "name": "Duplicate Owner",
+      "expectedStatus": 409,
+      "description": "Duplicate name (already exists)"
+    }
+  }
+}

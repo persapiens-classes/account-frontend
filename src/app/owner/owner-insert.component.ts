@@ -4,7 +4,7 @@ import { Owner } from './owner';
 import { InputFieldComponent } from '../field/input-field.component';
 import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
 import { OwnerInsertService } from './owner-insert-service';
-import { form, minLength, required } from '@angular/forms/signals';
+import { form, minLength, required, maxLength } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-owner-insert',
@@ -30,6 +30,7 @@ export class OwnerInsertComponent {
   form = form(signal(new Owner('')), (f) => {
     required(f.name);
     minLength(f.name, 3);
+    maxLength(f.name, 255);
   });
 
   beanInsertService = inject(OwnerInsertService);

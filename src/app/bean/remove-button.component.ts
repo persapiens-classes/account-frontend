@@ -18,6 +18,9 @@ import { HttpErrorResponse } from '@angular/common/http';
       header="Confirm"
       acceptButtonStyleClass="p-button-danger"
       rejectButtonStyleClass="p-button-text"
+      [modal]="true"
+      [appendTo]="'body'"
+      data-cy="remove-confirm-dialog"
     />
     <p-button
       icon="pi pi-trash"
