@@ -79,7 +79,9 @@ describe('Equity Account Edit Page', () => {
         .clear()
         .type(newDescription);
 
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click({ force: true });
+      cy.get('[data-cy="save-button"]').should('not.be.disabled').click({ force: true });
+    });
+  });
 
   describe('Validation Tests', () => {
     const validEquityAccountDescription = `equity_${Date.now()}`;
