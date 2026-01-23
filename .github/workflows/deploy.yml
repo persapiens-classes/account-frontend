@@ -112,7 +112,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v7.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        if: ${{ vars.SONAR_HOST_URL != '' && vars.SONAR_ORGANIZATION != '' && vars.SONAR_PROJECT_KEY != '' }}
+        if: secrets.SONAR_TOKEN
 
       - name: Build project
         run: pnpm run build:prod
