@@ -75,10 +75,13 @@ jobs:
         run: pnpm run lint
 
       - name: Tests (Unit and Integration) run
-        run: pnpm run test:coverage
+        run: pnpm clean:unit:coverage && pnpm test:unit:coverage
 
       - name: Tests (E2E) run
-        run: pnpm test:start-server:mock:run
+        run: pnpm clean:e2e:coverage && pnpm test:e2e:coverage
+
+      - name: Merge coverage run
+        run: pnpm run merge:coverage
 
       - name: Coverage upload artifacts
         uses: actions/upload-artifact@v6.0.0
@@ -87,37 +90,22 @@ jobs:
           path: |
             coverage/
 
-      - name: Verify coverage files
-        run: |
-          echo "Checking coverage files..."
-          ls -la coverage/
-          if [ -f "coverage/lcov.info" ]; then
-            echo "✅ LCOV file exists"
-            echo "📊 LCOV file size: $(wc -l < coverage/lcov.info) lines"
-            echo "📄 LCOV file preview:"
-            head -20 coverage/lcov.info
-          else
-            echo "❌ LCOV file missing"
-            exit 1
-          fi
-        if: github.actor != 'dependabot[bot]'
-
       - name: Debug SonarCloud Analysis
         run: |
           echo "📁 TypeScript files in project:"
           find src -name "*.ts" -not -path "*/node_modules/*" | head -10
           echo ""
           echo "📊 Files with coverage in LCOV:"
-          grep "^SF:" coverage/lcov.info | sed 's/SF://' | head -10
+          grep "^SF:" coverage/merged/lcov.info | sed 's/SF://' | head -10
           echo ""
           echo "📈 Sample coverage data:"
-          grep -A 3 -B 1 "LF:" coverage/lcov.info | head -10
+          grep -A 3 -B 1 "LF:" coverage/merged/lcov.info | head -10
           echo ""
           echo "🎯 Detail field component coverage:"
-          grep -A 10 -B 2 "detail-field.component" coverage/lcov.info
+          grep -A 10 -B 2 "detail-field.component" coverage/merged/lcov.info
           echo ""
           echo "📋 Coverage summary:"
-          grep -E "^(SF|LF|LH):" coverage/lcov.info | head -15
+          grep -E "^(SF|LF|LH):" coverage/merged/lcov.info | head -15
         if: github.actor != 'dependabot[bot]'
 
       - name: SonarCloud Scan
