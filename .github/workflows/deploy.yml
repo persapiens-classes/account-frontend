@@ -109,10 +109,10 @@ jobs:
         if: github.actor != 'dependabot[bot]'
 
       - name: SonarCloud Scan
-        if: secrets.SONAR_TOKEN
         uses: SonarSource/sonarqube-scan-action@v7.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        if: ${{ github.actor != 'dependabot[bot]' && github.repository == 'persapiens-classes/account-frontend' }}
 
       - name: Build project
         run: pnpm run build:prod
