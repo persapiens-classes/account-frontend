@@ -25,7 +25,7 @@ export default defineConfig({
         '**/*.d.ts',
         'src/**/*.routes.ts',
         'src/app/app.config.ts',
-        'src/app/shared/test-utils.ts', 
+        'src/app/shared/test-utils.ts',
         'coverage/',
         'dist/',
         '.angular/',

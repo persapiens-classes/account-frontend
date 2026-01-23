@@ -12,18 +12,29 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
-        analog({
+      analog({
         ssr: false, // Force SPA mode (Client-only)
         static: false, // Ensure it does not try to pre-render static pages
-        }),
-        isCoverage ? istanbul({
-        include: 'src/*',
-        exclude: ['node_modules', 'test/', 'cypress/', 'vite.config.ts', 'cypress.config.ts', '**/*.spec.ts', 'src/main.ts', 'src/app/shared/test-utils.ts'],
-        extension: ['.js', '.ts', '.html'],
-        requireEnv: false,
-        forceBuildInstrument: true,
-        cypress: true
-        }) : [],
+      }),
+      isCoverage
+        ? istanbul({
+            include: 'src/*',
+            exclude: [
+              'node_modules',
+              'test/',
+              'cypress/',
+              'vite.config.ts',
+              'cypress.config.ts',
+              '**/*.spec.ts',
+              'src/main.ts',
+              'src/app/shared/test-utils.ts',
+            ],
+            extension: ['.js', '.ts', '.html'],
+            requireEnv: false,
+            forceBuildInstrument: true,
+            cypress: true,
+          })
+        : [],
     ],
     server: {
       port: 5173,
@@ -32,13 +43,13 @@ export default defineConfig(({ mode }) => {
           '**/node_modules/**',
           '**/dist/**',
           '**/.angular/**',
-          '**/coverage/**',   
-          '**/.nyc_output/**',          
-        ],        
+          '**/coverage/**',
+          '**/.nyc_output/**',
+        ],
       },
     },
     build: {
-        sourcemap: true
-    }
+      sourcemap: true,
+    },
   };
 });

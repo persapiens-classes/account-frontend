@@ -3,11 +3,7 @@
   "version": 1,
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "angular-eslint",
-      "@cypress/schematic",
-      "@schematics/angular"
-    ]
+    "schematicCollections": ["angular-eslint", "@cypress/schematic", "@schematics/angular"]
   },
   "newProjectRoot": "projects",
   "projects": {
