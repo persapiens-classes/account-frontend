@@ -11,7 +11,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
-      reportsDirectory: './coverage',
+      reportsDirectory: './coverage/unit',
       include: ['src/**/*.{js,ts,jsx,tsx}'],
       exclude: [
         'node_modules/',
@@ -25,6 +25,7 @@ export default defineConfig({
         '**/*.d.ts',
         'src/**/*.routes.ts',
         'src/app/app.config.ts',
+        'src/app/shared/test-utils.ts', 
         'coverage/',
         'dist/',
         '.angular/',

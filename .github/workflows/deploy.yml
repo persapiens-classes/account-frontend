@@ -75,10 +75,13 @@ jobs:
         run: pnpm run lint
 
       - name: Tests (Unit and Integration) run
-        run: pnpm run test:coverage
+        run: pnpm clean:unit:coverage && pnpm test:unit:coverage
 
       - name: Tests (E2E) run
-        run: pnpm test:start-server:mock:run
+        run: pnpm clean:e2e:coverage && pnpm test:e2e:coverage
+
+      - name: Merge coverage run
+        run: pnpm run merge:coverage
 
       - name: Coverage upload artifacts
         uses: actions/upload-artifact@v6.0.0
@@ -86,21 +89,6 @@ jobs:
           name: coverage
           path: |
             coverage/
-
-      - name: Verify coverage files
-        run: |
-          echo "Checking coverage files..."
-          ls -la coverage/
-          if [ -f "coverage/lcov.info" ]; then
-            echo "✅ LCOV file exists"
-            echo "📊 LCOV file size: $(wc -l < coverage/lcov.info) lines"
-            echo "📄 LCOV file preview:"
-            head -20 coverage/lcov.info
-          else
-            echo "❌ LCOV file missing"
-            exit 1
-          fi
-        if: github.actor != 'dependabot[bot]'
 
       - name: Debug SonarCloud Analysis
         run: |

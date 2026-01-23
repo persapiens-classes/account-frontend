@@ -10,9 +10,7 @@ try {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:4200', // frontend
-    specPattern: 'cypress/e2e/**/*.cy.{js,ts}',
-    supportFile: 'cypress/support/e2e.{js,ts}',
+    baseUrl: 'http://localhost:5173', // frontend
     video: false,
     screenshotOnFailure: false,
     experimentalMemoryManagement: true,
