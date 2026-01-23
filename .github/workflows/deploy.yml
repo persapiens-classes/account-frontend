@@ -96,16 +96,16 @@ jobs:
           find src -name "*.ts" -not -path "*/node_modules/*" | head -10
           echo ""
           echo "📊 Files with coverage in LCOV:"
-          grep "^SF:" coverage/lcov.info | sed 's/SF://' | head -10
+          grep "^SF:" coverage/merged/lcov.info | sed 's/SF://' | head -10
           echo ""
           echo "📈 Sample coverage data:"
-          grep -A 3 -B 1 "LF:" coverage/lcov.info | head -10
+          grep -A 3 -B 1 "LF:" coverage/merged/lcov.info | head -10
           echo ""
           echo "🎯 Detail field component coverage:"
-          grep -A 10 -B 2 "detail-field.component" coverage/lcov.info
+          grep -A 10 -B 2 "detail-field.component" coverage/merged/lcov.info
           echo ""
           echo "📋 Coverage summary:"
-          grep -E "^(SF|LF|LH):" coverage/lcov.info | head -15
+          grep -E "^(SF|LF|LH):" coverage/merged/lcov.info | head -15
         if: github.actor != 'dependabot[bot]'
 
       - name: SonarCloud Scan
