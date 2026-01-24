@@ -3,13 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { expect, describe, it, beforeEach, vi } from 'vitest';
 import { TestUtils } from '../shared/test-utils';
 import { AccountDetailComponent } from './account-detail.component';
-import { Account, createAccount, AccountType } from './account';
-import { toBeanFromHistory } from '../bean/bean';
-
-// Mock the toBeanFromHistory function
-vi.mock('../bean/bean', () => ({
-  toBeanFromHistory: vi.fn(),
-}));
+import { Account, AccountType } from './account';
 
 describe('AccountDetailComponent', () => {
   let component: AccountDetailComponent;
@@ -22,7 +16,6 @@ describe('AccountDetailComponent', () => {
       data: Record<string, string>;
     };
   };
-  let mockToBeanFromHistory: ReturnType<typeof vi.fn>;
 
   beforeEach(async () => {
     // Create router mock
@@ -37,9 +30,8 @@ describe('AccountDetailComponent', () => {
       },
     };
 
-    // Setup mock for toBeanFromHistory
-    mockToBeanFromHistory = vi.mocked(toBeanFromHistory);
-    mockToBeanFromHistory.mockReturnValue(new Account('Test Account', 'Test Category'));
+    // Setup history state used by toBeanFromHistory
+    history.replaceState({ bean: { description: 'Test Account', category: 'Test Category' } }, '');
 
     await TestUtils.setupComponentTestBed(AccountDetailComponent, [
       { provide: Router, useValue: mockRouter },
@@ -57,8 +49,8 @@ describe('AccountDetailComponent', () => {
     });
 
     it('should initialize bean using toBeanFromHistory', () => {
-      expect(mockToBeanFromHistory).toHaveBeenCalledWith(createAccount);
-      expect(mockToBeanFromHistory.mock.calls.length).toBeGreaterThan(0);
+      expect(component.bean.description).toBe('Test Account');
+      expect(component.bean.category).toBe('Test Category');
     });
 
     it('should have Account bean with expected structure', () => {
@@ -103,23 +95,24 @@ describe('AccountDetailComponent', () => {
 
   describe('History State Integration', () => {
     it('should call toBeanFromHistory with createAccount function', () => {
-      expect(mockToBeanFromHistory).toHaveBeenCalledWith(createAccount);
+      expect(component.bean.getId()).toBe('Test Account');
     });
 
     it('should handle different history states', () => {
-      const mockAccountFromHistory = new Account('From History', 'History Category');
-      mockToBeanFromHistory.mockReturnValue(mockAccountFromHistory);
+      history.replaceState(
+        { bean: { description: 'From History', category: 'History Category' } },
+        '',
+      );
 
       const newFixture = TestUtils.createFixture(AccountDetailComponent);
       const newComponent = newFixture.componentInstance;
 
-      expect(newComponent.bean).toBe(mockAccountFromHistory);
       expect(newComponent.bean.description).toBe('From History');
       expect(newComponent.bean.category).toBe('History Category');
     });
 
     it('should create Account with empty fields when no history state', () => {
-      mockToBeanFromHistory.mockReturnValue(createAccount());
+      history.replaceState({}, '');
 
       const newFixture = TestUtils.createFixture(AccountDetailComponent);
       const newComponent = newFixture.componentInstance;
@@ -133,7 +126,6 @@ describe('AccountDetailComponent', () => {
   describe('Component Lifecycle', () => {
     it('should initialize bean in constructor', () => {
       expect(component.bean).toBeDefined();
-      expect(mockToBeanFromHistory).toHaveBeenCalled();
     });
 
     it('should initialize routerName in constructor', () => {
