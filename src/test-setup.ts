@@ -31,6 +31,13 @@ Object.defineProperty(globalThis, 'matchMedia', {
   })),
 });
 
+if (typeof window !== 'undefined') {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: globalThis.matchMedia,
+  });
+}
+
 // Mock for ResizeObserver (used by some components)
 globalThis.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
