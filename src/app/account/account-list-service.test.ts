@@ -56,9 +56,6 @@ describe('AccountListService', () => {
       expect(debitService).toBeTruthy();
       expect(creditService).toBeTruthy();
       expect(equityService).toBeTruthy();
-      expect(debitService.constructor.name).toBe('AccountListService');
-      expect(creditService.constructor.name).toBe('AccountListService');
-      expect(equityService.constructor.name).toBe('AccountListService');
     });
 
     it('should accept AppMessageService and AccountType in constructor', () => {

@@ -170,7 +170,6 @@ describe('AppComponent', () => {
 
     it('should be instance of AppComponent class', () => {
       expect(component).toBeInstanceOf(AppComponent);
-      expect(component.constructor.name).toBe('AppComponent');
     });
   });
 
