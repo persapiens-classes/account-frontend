@@ -31,8 +31,8 @@ Object.defineProperty(globalThis, 'matchMedia', {
   })),
 });
 
-if (typeof window !== 'undefined') {
-  Object.defineProperty(window, 'matchMedia', {
+if (globalThis.window != undefined) {
+  Object.defineProperty(globalThis.window, 'matchMedia', {
     writable: true,
     value: globalThis.matchMedia,
   });
