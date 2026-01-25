@@ -80,7 +80,7 @@ jobs:
       - name: Tests (Unit and Integration with Vitest) run
         run: pnpm clean:unit:coverage && pnpm test:unit:coverage
 
-      - name: Tests (E2E) run
+      - name: Tests (E2E with Vite and Cypress) run
         run: pnpm clean:e2e:coverage && pnpm test:e2e:coverage
 
       - name: Merge coverage run
