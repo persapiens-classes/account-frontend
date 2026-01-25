@@ -74,7 +74,10 @@ jobs:
       - name: ESLint run
         run: pnpm run lint
 
-      - name: Tests (Unit and Integration) run
+      - name: Tests (Unit and Integration with Angular CLI) run
+        run: pnpm clean:unit:ng:coverage && pnpm test:unit:ng:coverage
+
+      - name: Tests (Unit and Integration with Vitest) run
         run: pnpm clean:unit:coverage && pnpm test:unit:coverage
 
       - name: Tests (E2E) run

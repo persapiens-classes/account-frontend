@@ -17,6 +17,8 @@
     "test:unit:watch": "vitest --watch -c vitest-unit.config.ts",
     "clean:unit:coverage": "rimraf coverage/unit",
     "test:unit:coverage": "vitest run --coverage -c vitest-unit.config.ts",
+    "clean:unit:ng:coverage": "rimraf coverage/account",
+    "test:unit:ng:coverage": "ng test --coverage --watch=false",
     "format:check": "prettier . --check",
     "format:fix": "prettier . --write .",
     "lint": "ng lint",
