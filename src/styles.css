@@ -5,6 +5,6 @@
 /* stylelint-disable selector-type-no-unknown */
 /* change p-columnFilter p-inputtext width */
 p-columnFilter .p-inputtext {
-  @apply w-[110px];
+  @apply w-27.5;
 }
 /* stylelint-enable selector-type-no-unknown */
