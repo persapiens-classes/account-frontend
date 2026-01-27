@@ -66,7 +66,7 @@ Cypress.Commands.add('login', (username?: string, password?: string) => {
   cy.get('[data-cy="login-username"]').type(user);
   cy.get('[data-cy="login-password"]').type(pass);
   cy.get('[data-cy="login-button"]').click();
-  cy.url().should('include', '/balances/list');
+  cy.url({ timeout: 15000 }).should('include', '/balances/list');
 });
 
 export {};

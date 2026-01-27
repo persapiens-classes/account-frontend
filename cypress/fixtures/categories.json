@@ -1,0 +1,35 @@
+{
+  "creditCategories": [
+    {
+      "description": "Category 1"
+    },
+    {
+      "description": "Category 2"
+    },
+    {
+      "description": "Category 3"
+    }
+  ],
+  "debitCategories": [
+    {
+      "description": "Category 1"
+    },
+    {
+      "description": "Category 2"
+    },
+    {
+      "description": "Category 3"
+    }
+  ],
+  "equityCategories": [
+    {
+      "description": "Category 1"
+    },
+    {
+      "description": "Category 2"
+    },
+    {
+      "description": "Category 3"
+    }
+  ]
+}
