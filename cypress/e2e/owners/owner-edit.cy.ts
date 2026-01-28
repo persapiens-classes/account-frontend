@@ -12,8 +12,8 @@ describe('Owner Edit Page', () => {
     cy.visit('/balances/list');
 
     // Navigate to owners list
-    cy.contains('Owner', { timeout: 10000 }).should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/owners/list');
+    cy.contains('Owner', ).should('be.visible').click();
+    cy.url().should('include', '/owners/list');
   });
 
   function captureLastOwner(): void {
@@ -33,7 +33,7 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 
-    cy.url({ timeout: 10000 }).should('include', '/owners/edit');
+    cy.url().should('include', '/owners/edit');
   });
 
   it('go back to list using list icon', () => {
@@ -43,10 +43,10 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 
-    cy.url({ timeout: 10000 }).should('include', '/owners/edit');
+    cy.url().should('include', '/owners/edit');
 
     cy.get('[data-cy="list-button"]').should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/owners/list');
+    cy.url().should('include', '/owners/list');
   });
 
   it('navigation: clicking magnifying glass on last owner goes to details', () => {
@@ -56,7 +56,7 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="detail-button"]').should('be.visible').click();
       });
 
-    cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+    cy.url().should('include', '/owners/detail');
   });
 
   it('edit last owner by adding _edited to the name', () => {
@@ -69,19 +69,19 @@ describe('Owner Edit Page', () => {
           cy.get('[data-cy="edit-button"]').should('be.visible').click();
         });
 
-      cy.url({ timeout: 10000 }).should('include', '/owners/edit');
+      cy.url().should('include', '/owners/edit');
 
       const newName = `${originalName}_edited`;
 
-      cy.get('[data-cy="input-name"]', { timeout: 10000 })
+      cy.get('[data-cy="input-name"]', )
         .should('be.visible')
         .clear()
         .type(newName);
 
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-      cy.url({ timeout: 10000 }).should('include', '/owners/detail');
-      cy.contains(newName, { timeout: 10000 }).should('exist');
+      cy.url().should('include', '/owners/detail');
+      cy.contains(newName, ).should('exist');
     });
   });
 
@@ -93,22 +93,22 @@ describe('Owner Edit Page', () => {
       cy.visit('/owners/new');
       cy.get('[data-cy="input-name"]').type(validOwnerName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-      cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-      cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+      cy.get('[data-cy="app-toast"]', ).should('be.visible');
+      cy.url().should('include', '/owners/detail');
 
       // Go to owners list and open the edit page for the created owner
       cy.visit('/owners/list');
-      cy.url({ timeout: 10000 }).should('include', '/owners/list');
+      cy.url().should('include', '/owners/list');
 
       cy.get('[data-cy="filter-name"] input')
         .clear({ force: true })
         .type(`${validOwnerName}{enter}`);
 
-      cy.contains('tr', validOwnerName, { timeout: 10000 }).within(() => {
+      cy.contains('tr', validOwnerName, ).within(() => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 
-      cy.url({ timeout: 10000 }).should('include', '/owners/edit');
+      cy.url().should('include', '/owners/edit');
     });
 
     it('OW-01: should fail when trying to edit owner with name containing only whitespace', () => {
@@ -118,7 +118,7 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="input-name"]').clear().type(testCase.name);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.url({ timeout: 5000 }).should('include', '/owners/edit');
+        cy.url().should('include', '/owners/edit');
       });
     });
 
@@ -130,8 +130,8 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="input-name"]').clear().type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-        cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+        cy.get('[data-cy="app-toast"]', ).should('be.visible');
+        cy.url().should('include', '/owners/detail');
       });
     });
 
@@ -143,8 +143,8 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="input-name"]').clear().type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-        cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+        cy.get('[data-cy="app-toast"]', ).should('be.visible');
+        cy.url().should('include', '/owners/detail');
       });
     });
 
@@ -155,7 +155,7 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="input-name"]').clear().type(testCase.name);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.url({ timeout: 5000 }).should('include', '/owners/edit');
+        cy.url().should('include', '/owners/edit');
       });
     });
 
@@ -166,21 +166,21 @@ describe('Owner Edit Page', () => {
       cy.visit('/owners/new');
       cy.get('[data-cy="input-name"]').type(duplicateName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-      cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
+      cy.get('[data-cy="app-toast"]', ).should('be.visible');
 
       // Go back to edit the original owner with duplicate name
       cy.visit('/owners/list');
       cy.get('[data-cy="filter-name"] input')
         .clear({ force: true })
         .type(`${validOwnerName}{enter}`);
-      cy.contains('tr', validOwnerName, { timeout: 10000 }).within(() => {
+      cy.contains('tr', validOwnerName, ).within(() => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 
       cy.get('[data-cy="input-name"]').clear().type(duplicateName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-      cy.url({ timeout: 5000 }).should('include', '/owners/edit');
+      cy.url().should('include', '/owners/edit');
     });
   });
 });
