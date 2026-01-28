@@ -1,5 +1,5 @@
 describe('Owner Remove Page', () => {
-  const validOwnerName = `fabiana_${Date.now()}`; // unique name
+  const validOwnerName = Cypress._.uniqueId('fabiana_'); // unique name
   const createdOwnerName = validOwnerName;
 
   beforeEach(() => {

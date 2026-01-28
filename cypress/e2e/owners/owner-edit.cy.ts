@@ -83,7 +83,7 @@ describe('Owner Edit Page', () => {
   });
 
   describe('Validation Tests', () => {
-    const validOwnerName = `owner_${Date.now()}`;
+    const validOwnerName = Cypress._.uniqueId('owner_');
 
     beforeEach(() => {
       // Create an owner first that will be edited in tests
@@ -122,7 +122,7 @@ describe('Owner Edit Page', () => {
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-02'];
-        const uniqueName = `${testCase.name}_${Date.now()}`;
+        const uniqueName = Cypress._.uniqueId(testCase.name + '_');
 
         cy.get('[data-cy="input-name"]').clear().type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
@@ -135,7 +135,7 @@ describe('Owner Edit Page', () => {
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-03'];
-        const uniqueName = testCase.name.substring(0, 245) + Date.now();
+        const uniqueName = Cypress._.uniqueId(testCase.name.substring(0, 245));
 
         cy.get('[data-cy="input-name"]').clear().type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
@@ -157,7 +157,7 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-05: should fail when trying to edit owner with existing name', () => {
-      const duplicateName = `dup_${Date.now()}`;
+      const duplicateName = Cypress._.uniqueId('dup_');
 
       // Create another owner first
       cy.visit('/owners/new');

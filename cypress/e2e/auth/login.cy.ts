@@ -23,7 +23,7 @@ describe('LoginPage', () => {
       cy.setupAuthMock('invalid');
     }
 
-    cy.get('[data-cy="login-username"]').type('errado');
+    cy.get('[data-cy="login-username"]').type('wronguser');
     cy.get('[data-cy="login-password"]').type('123');
     cy.get('[data-cy="login-button"]').click();
 

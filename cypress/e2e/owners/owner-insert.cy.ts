@@ -1,5 +1,5 @@
 describe('Owner Insert Page', () => {
-  const validOwnerName = `fabiana_${Date.now()}`; // dynamic name to avoid duplicates
+  const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
 
   beforeEach(() => {
     // Reset created owners state for mock
@@ -47,7 +47,7 @@ describe('Owner Insert Page', () => {
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-02'];
-        const uniqueName = `${testCase.name}_${Date.now()}`;
+        const uniqueName = Cypress._.uniqueId(testCase.name);
 
         cy.get('[data-cy="input-name"]').type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
@@ -60,7 +60,7 @@ describe('Owner Insert Page', () => {
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-03'];
-        const uniqueName = testCase.name.substring(0, 245) + Date.now();
+        const uniqueName = Cypress._.uniqueId(testCase.name.substring(0, 245));
 
         cy.get('[data-cy="input-name"]').type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
@@ -83,7 +83,7 @@ describe('Owner Insert Page', () => {
 
     it('OW-05: should fail when trying to create owner with duplicate name', () => {
       // Use a unique name for this test to avoid conflicts
-      const uniqueDuplicateName = `dup_owner_${Date.now()}`;
+      const uniqueDuplicateName = Cypress._.uniqueId('dup_owner_');
 
       // First create an owner with the unique name
       cy.get('[data-cy="input-name"]').type(uniqueDuplicateName);
