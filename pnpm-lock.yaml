@@ -51,8 +51,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       primeng:
-        specifier: ^21.0.4
-        version: 21.0.4(59b6f9fe818e7b8bcedef9206d19138e)
+        specifier: ^21.1.1
+        version: 21.1.1(59b6f9fe818e7b8bcedef9206d19138e)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -110,7 +110,7 @@ importers:
         version: 3.0.2(@angular/cli@21.1.2(@types/node@24.10.9))
       angular-eslint:
         specifier: 21.1.0
-        version: 21.1.0(@angular/cli@21.1.2(@types/node@24.10.9))(eslint@9.39.2(jiti@2.6.1))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)
+        version: 21.1.0(@angular/cli@21.1.2(@types/node@24.10.9))(eslint@9.39.2(jiti@2.6.1))(typescript-eslint@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)
       baseline-browser-mapping:
         specifier: ^2.9.18
         version: 2.9.18
@@ -1678,8 +1678,8 @@ packages:
   '@primeuix/themes@2.0.3':
     resolution: {integrity: sha512-3fS1883mtCWhgUgNf/feiaaDSOND4EBIOu9tZnzJlJ8QtYyL6eFLcA6V3ymCWqLVXQ1+lTVEZv1gl47FIdXReg==}
 
-  '@primeuix/utils@0.6.3':
-    resolution: {integrity: sha512-/SLNQSKQ73WbBIsflKVqbpVjCfFYvQO3Sf1LMheXyxh8JqxO4M63dzP56wwm9OPGuCQ6MYOd2AHgZXz+g7PZcg==}
+  '@primeuix/utils@0.6.4':
+    resolution: {integrity: sha512-pZ5f+vj7wSzRhC7KoEQRU5fvYAe+RP9+m39CTscZ3UywCD1Y2o6Fe1rRgklMPSkzUcty2jzkA0zMYkiJBD1hgg==}
     engines: {node: '>=12.11.0'}
 
   '@rolldown/binding-android-arm64@1.0.0-beta.58':
@@ -4912,8 +4912,8 @@ packages:
   primeicons@7.0.0:
     resolution: {integrity: sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==}
 
-  primeng@21.0.4:
-    resolution: {integrity: sha512-3egRt7p7sERALFVOVnNQ+JsW+GYgHHcqAYeFBxj3wvKN+tgGo1rtkHxBbMQjYGuO9S/V18LPhk8LJwfdE3DNoQ==}
+  primeng@21.1.1:
+    resolution: {integrity: sha512-ArX5X+psJjL37/5mRzIbeedYOtxDwjLrbBoTTw9hV6+kQt4v8xKy9R1dKuiIFG9OeQTQwzIaJ74OREBAJJmvoA==}
     peerDependencies:
       '@angular/cdk': ^21.0.0
       '@angular/common': ^21.0.0
@@ -7681,11 +7681,11 @@ snapshots:
 
   '@primeuix/motion@0.0.10':
     dependencies:
-      '@primeuix/utils': 0.6.3
+      '@primeuix/utils': 0.6.4
 
   '@primeuix/styled@0.7.4':
     dependencies:
-      '@primeuix/utils': 0.6.3
+      '@primeuix/utils': 0.6.4
 
   '@primeuix/styles@2.0.3':
     dependencies:
@@ -7695,7 +7695,7 @@ snapshots:
     dependencies:
       '@primeuix/styled': 0.7.4
 
-  '@primeuix/utils@0.6.3': {}
+  '@primeuix/utils@0.6.4': {}
 
   '@rolldown/binding-android-arm64@1.0.0-beta.58':
     optional: true
@@ -8400,7 +8400,7 @@ snapshots:
       jwt-decode: 4.0.0
       postcss: 8.5.6
       primeicons: 7.0.0
-      primeng: 21.0.4(59b6f9fe818e7b8bcedef9206d19138e)
+      primeng: 21.1.1(59b6f9fe818e7b8bcedef9206d19138e)
       rxjs: 7.8.2
       tailwindcss: 4.1.18
       tailwindcss-primeui: 0.6.1(tailwindcss@4.1.18)
@@ -8472,7 +8472,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  angular-eslint@21.1.0(@angular/cli@21.1.2(@types/node@24.10.9))(eslint@9.39.2(jiti@2.6.1))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3):
+  angular-eslint@21.1.0(@angular/cli@21.1.2(@types/node@24.10.9))(eslint@9.39.2(jiti@2.6.1))(typescript-eslint@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
       '@angular-devkit/core': 21.0.0
       '@angular-devkit/schematics': 21.0.0
@@ -11156,7 +11156,7 @@ snapshots:
 
   primeicons@7.0.0: {}
 
-  primeng@21.0.4(59b6f9fe818e7b8bcedef9206d19138e):
+  primeng@21.1.1(59b6f9fe818e7b8bcedef9206d19138e):
     dependencies:
       '@angular/cdk': 21.1.1(@angular/common@21.1.2(@angular/core@21.1.2(@angular/compiler@21.1.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.2(@angular/compiler@21.1.2)(rxjs@7.8.2))(@angular/platform-browser@21.1.2(@angular/animations@21.1.2(@angular/core@21.1.2(@angular/compiler@21.1.2)(rxjs@7.8.2)))(@angular/common@21.1.2(@angular/core@21.1.2(@angular/compiler@21.1.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.2(@angular/compiler@21.1.2)(rxjs@7.8.2)))(rxjs@7.8.2)
       '@angular/common': 21.1.2(@angular/core@21.1.2(@angular/compiler@21.1.2)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -11167,7 +11167,7 @@ snapshots:
       '@primeuix/motion': 0.0.10
       '@primeuix/styled': 0.7.4
       '@primeuix/styles': 2.0.3
-      '@primeuix/utils': 0.6.3
+      '@primeuix/utils': 0.6.4
       rxjs: 7.8.2
       tslib: 2.8.1
 
