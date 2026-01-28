@@ -39,20 +39,16 @@ export default defineConfig({
         },
       },
     },
-    // Para melhor compatibilidade com Angular
-    // testTransformMode: {
-    //  web: ['**/*.ts', '**/*.tsx'],
-    // },
   },
   resolve: {
     alias: {
-      // Mapeamento de paths do Angular
+      // Mapping Angular paths
       '@': '/src',
       '@app': '/src/app',
       '@environments': '/src/environments',
     },
   },
-  // Configurações para lidar com módulos Angular
+  // Config to angular modules
   define: {
     'import.meta.vitest': undefined,
   },

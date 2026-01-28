@@ -38,7 +38,7 @@ export class SelectFieldComponent<T = unknown> {
   optionLabel = input.required<string>();
   options = input.required<T[]>();
   formField = input.required<FieldTree<T | null>>();
-  dataCy = input<string>(''); // Para testes Cypress
+  dataCy = input<string>('');
 
   get state() {
     return this.formField()();
