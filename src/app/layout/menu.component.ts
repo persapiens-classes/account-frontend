@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenubarModule } from 'primeng/menubar';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, PassThroughContext } from 'primeng/api';
 import { MenubarPassThrough } from 'primeng/types/menubar';
 
 interface MenuItemWithDataCy extends MenuItem {
@@ -103,8 +103,12 @@ export class MenuComponent {
     ];
 
     this.menubarPt = {
-      itemLink: (options: any) => ({
-        'data-cy': (options?.context?.item as MenuItemWithDataCy | undefined)?.dataCy || null,
+      itemLink: (
+        options: PassThroughContext<unknown, unknown> & {
+          context?: { item?: MenuItemWithDataCy };
+        },
+      ) => ({
+        'data-cy': options?.context?.item?.dataCy || null,
       }),
     };
   }
