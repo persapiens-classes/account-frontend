@@ -14,10 +14,10 @@ describe('Owner Insert Page', () => {
     cy.visit('/balances/list');
 
     // Path to owner creation page
-    cy.contains('Owner', { timeout: 10000 }).should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/owners/list');
+    cy.get('[data-cy="menu-owner"]').should('be.visible').click();
+    cy.url().should('include', '/owners/list');
     cy.get('[data-cy="create-button"]').should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/owners/new');
+    cy.url().should('include', '/owners/new');
   });
 
   it('should allow going back to the list', () => {
@@ -29,7 +29,7 @@ describe('Owner Insert Page', () => {
     cy.get('[data-cy="input-name"]').type(validOwnerName);
     cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
-    cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+    cy.url().should('include', '/owners/detail');
   });
 
   describe('Validation Tests', () => {
@@ -40,7 +40,7 @@ describe('Owner Insert Page', () => {
         cy.get('[data-cy="input-name"]').type(testCase.name);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.url({ timeout: 5000 }).should('include', '/owners/new');
+        cy.url().should('include', '/owners/new');
       });
     });
 
@@ -52,8 +52,8 @@ describe('Owner Insert Page', () => {
         cy.get('[data-cy="input-name"]').type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-        cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+        cy.get('[data-cy="app-toast"]').should('be.visible');
+        cy.url().should('include', '/owners/detail');
       });
     });
 
@@ -65,8 +65,8 @@ describe('Owner Insert Page', () => {
         cy.get('[data-cy="input-name"]').type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-        cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+        cy.get('[data-cy="app-toast"]').should('be.visible');
+        cy.url().should('include', '/owners/detail');
       });
     });
 
@@ -77,7 +77,7 @@ describe('Owner Insert Page', () => {
         cy.get('[data-cy="input-name"]').type(testCase.name);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.url({ timeout: 5000 }).should('include', '/owners/new');
+        cy.url().should('include', '/owners/new');
       });
     });
 
@@ -89,18 +89,18 @@ describe('Owner Insert Page', () => {
       cy.get('[data-cy="input-name"]').type(uniqueDuplicateName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-      cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-      cy.url({ timeout: 10000 }).should('include', '/owners/detail');
+      cy.get('[data-cy="app-toast"]').should('be.visible');
+      cy.url().should('include', '/owners/detail');
 
       // Navigate back to create another with the same name
       cy.visit('/owners/new');
-      cy.url({ timeout: 10000 }).should('include', '/owners/new');
+      cy.url().should('include', '/owners/new');
 
       cy.get('[data-cy="input-name"]').type(uniqueDuplicateName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
       // Validate that it stays on the creation page due to duplicate error
-      cy.url({ timeout: 5000 }).should('include', '/owners/new');
+      cy.url().should('include', '/owners/new');
     });
   });
 });

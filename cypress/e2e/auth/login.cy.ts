@@ -14,7 +14,7 @@ describe('LoginPage', () => {
     cy.get('[data-cy="login-button"]').click();
 
     cy.url().should('include', '/balances/list');
-    cy.contains('Balance').should('exist');
+    cy.get('[data-cy="menu-balance"]').should('exist');
   });
 
   it('should display error with invalid credentials', () => {
