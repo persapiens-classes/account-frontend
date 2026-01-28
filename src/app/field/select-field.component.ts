@@ -14,7 +14,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
         [autofocus]="autoFocus()"
         [options]="options()"
         [optionLabel]="optionLabel()"
-        [formField]="formField()"
+        [formField]="$any(formField())"
         [attr.data-cy]="dataCy()"
         class="w-full max-w-75 min-w-50"
       />

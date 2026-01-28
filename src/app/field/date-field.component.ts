@@ -15,7 +15,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
         [id]="calculatedId()"
         [pAutoFocus]="autoFocus()"
         [showIcon]="showIcon()"
-        [formField]="formField()"
+        [formField]="$any(formField())"
         [attr.data-cy]="dataCy()"
       />
       <label [for]="calculatedId()">{{ label() }}</label>
