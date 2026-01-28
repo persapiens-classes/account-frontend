@@ -12,7 +12,7 @@ describe('Owner Edit Page', () => {
     cy.visit('/balances/list');
 
     // Navigate to owners list
-    cy.contains('Owner', ).should('be.visible').click();
+    cy.contains('Owner').should('be.visible').click();
     cy.url().should('include', '/owners/list');
   });
 
@@ -73,15 +73,12 @@ describe('Owner Edit Page', () => {
 
       const newName = `${originalName}_edited`;
 
-      cy.get('[data-cy="input-name"]', )
-        .should('be.visible')
-        .clear()
-        .type(newName);
+      cy.get('[data-cy="input-name"]').should('be.visible').clear().type(newName);
 
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
       cy.url().should('include', '/owners/detail');
-      cy.contains(newName, ).should('exist');
+      cy.contains(newName).should('exist');
     });
   });
 
@@ -93,7 +90,7 @@ describe('Owner Edit Page', () => {
       cy.visit('/owners/new');
       cy.get('[data-cy="input-name"]').type(validOwnerName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-      cy.get('[data-cy="app-toast"]', ).should('be.visible');
+      cy.get('[data-cy="app-toast"]').should('be.visible');
       cy.url().should('include', '/owners/detail');
 
       // Go to owners list and open the edit page for the created owner
@@ -104,7 +101,7 @@ describe('Owner Edit Page', () => {
         .clear({ force: true })
         .type(`${validOwnerName}{enter}`);
 
-      cy.contains('tr', validOwnerName, ).within(() => {
+      cy.contains('tr', validOwnerName).within(() => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 
@@ -130,7 +127,7 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="input-name"]').clear().type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', ).should('be.visible');
+        cy.get('[data-cy="app-toast"]').should('be.visible');
         cy.url().should('include', '/owners/detail');
       });
     });
@@ -143,7 +140,7 @@ describe('Owner Edit Page', () => {
         cy.get('[data-cy="input-name"]').clear().type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', ).should('be.visible');
+        cy.get('[data-cy="app-toast"]').should('be.visible');
         cy.url().should('include', '/owners/detail');
       });
     });
@@ -166,14 +163,14 @@ describe('Owner Edit Page', () => {
       cy.visit('/owners/new');
       cy.get('[data-cy="input-name"]').type(duplicateName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-      cy.get('[data-cy="app-toast"]', ).should('be.visible');
+      cy.get('[data-cy="app-toast"]').should('be.visible');
 
       // Go back to edit the original owner with duplicate name
       cy.visit('/owners/list');
       cy.get('[data-cy="filter-name"] input')
         .clear({ force: true })
         .type(`${validOwnerName}{enter}`);
-      cy.contains('tr', validOwnerName, ).within(() => {
+      cy.contains('tr', validOwnerName).within(() => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 

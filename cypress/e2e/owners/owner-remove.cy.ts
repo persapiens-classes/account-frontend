@@ -29,22 +29,22 @@ describe('Owner Remove Page', () => {
 
     cy.get('[data-cy="filter-name"]').should('exist').clear().type(`${createdOwnerName}{enter}`);
 
-    cy.contains('td', createdOwnerName, ).should('be.visible');
+    cy.contains('td', createdOwnerName).should('be.visible');
 
     cy.contains('tr', createdOwnerName).within(() => {
       cy.get('[data-cy="delete-button"]').should('be.visible').click({ force: true });
     });
 
     // Wait for confirmation dialog
-    cy.get('[data-cy="remove-confirm-dialog"]', ).should('be.visible');
+    cy.get('[data-cy="remove-confirm-dialog"]').should('be.visible');
 
     // Click accept button on the dialog
-    cy.get('.p-dialog .p-button-danger', ).click();
+    cy.get('.p-dialog .p-button-danger').click();
 
     // Confirm that the success message appears
-    cy.get('[data-cy="app-toast"]', ).should('be.visible');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
 
     // Confirm removal
-    cy.contains('td', createdOwnerName, ).should('not.exist');
+    cy.contains('td', createdOwnerName).should('not.exist');
   });
 });

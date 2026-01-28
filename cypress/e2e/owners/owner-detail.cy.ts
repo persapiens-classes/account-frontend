@@ -12,7 +12,7 @@ describe('Owner Detail Page', () => {
     cy.visit('/balances/list');
 
     // Navigate to owners list
-    cy.contains('Owner', ).should('be.visible').click();
+    cy.contains('Owner').should('be.visible').click();
     cy.url().should('include', '/owners/list');
   });
 

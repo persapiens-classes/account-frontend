@@ -14,7 +14,7 @@ describe('Owner Insert Page', () => {
     cy.visit('/balances/list');
 
     // Path to owner creation page
-    cy.contains('Owner', ).should('be.visible').click();
+    cy.contains('Owner').should('be.visible').click();
     cy.url().should('include', '/owners/list');
     cy.get('[data-cy="create-button"]').should('be.visible').click();
     cy.url().should('include', '/owners/new');
@@ -52,7 +52,7 @@ describe('Owner Insert Page', () => {
         cy.get('[data-cy="input-name"]').type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', ).should('be.visible');
+        cy.get('[data-cy="app-toast"]').should('be.visible');
         cy.url().should('include', '/owners/detail');
       });
     });
@@ -65,7 +65,7 @@ describe('Owner Insert Page', () => {
         cy.get('[data-cy="input-name"]').type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', ).should('be.visible');
+        cy.get('[data-cy="app-toast"]').should('be.visible');
         cy.url().should('include', '/owners/detail');
       });
     });
@@ -89,7 +89,7 @@ describe('Owner Insert Page', () => {
       cy.get('[data-cy="input-name"]').type(uniqueDuplicateName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-      cy.get('[data-cy="app-toast"]', ).should('be.visible');
+      cy.get('[data-cy="app-toast"]').should('be.visible');
       cy.url().should('include', '/owners/detail');
 
       // Navigate back to create another with the same name
