@@ -56,13 +56,13 @@ jobs:
         run: pnpm cypress install
 
       - name: Prettier run
-        run: pnpm run format:check
+        run: pnpm format:check
 
       - name: Jscpd run (Production Code)
-        run: pnpm run check-duplication:production
+        run: pnpm check-duplication:production
 
       - name: Jscpd run (Test Files)
-        run: pnpm run check-duplication:tests
+        run: pnpm check-duplication:tests
 
       - name: Jscpd upload artifacts
         uses: actions/upload-artifact@v6.0.0
@@ -72,7 +72,7 @@ jobs:
             report/jscpd/
 
       - name: ESLint run
-        run: pnpm run lint
+        run: pnpm lint
 
       - name: Tests (Unit and Integration with Angular CLI) run
         run: pnpm clean:unit:ng:coverage && pnpm test:unit:ng:coverage
@@ -84,7 +84,7 @@ jobs:
         run: pnpm clean:e2e:coverage && pnpm test:e2e:coverage
 
       - name: Merge coverage run
-        run: pnpm run merge:coverage
+        run: pnpm merge:coverage
 
       - name: Coverage upload artifacts
         uses: actions/upload-artifact@v6.0.0
@@ -118,7 +118,7 @@ jobs:
         if: ${{ github.actor != 'dependabot[bot]' && github.repository == 'persapiens-classes/account-frontend' }}
 
       - name: Build project
-        run: pnpm run build:prod
+        run: pnpm build:prod
 
       - name: Deploy on GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.8.0
