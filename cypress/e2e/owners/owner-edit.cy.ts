@@ -62,7 +62,7 @@ describe('Owner Edit Page', () => {
   it('edit last owner by adding _edited to the name', () => {
     captureLastOwner();
 
-    cy.get('@lastOwnerName').then((originalName) => {
+    cy.get<string>('@lastOwnerName').then((originalName) => {
       cy.get('[data-cy="owners-table"] tbody tr')
         .last()
         .within(() => {
