@@ -1,3 +1,13 @@
+function captureLastOwner(): void {
+  cy.get('[data-cy="owners-table"] tbody tr')
+    .last()
+    .find('td')
+    .first()
+    .invoke('text')
+    .then((text) => text.trim())
+    .as('lastOwnerName');
+}
+
 describe('Owner Edit Page', () => {
   beforeEach(() => {
     // Reset created owners state for mock
@@ -15,16 +25,6 @@ describe('Owner Edit Page', () => {
     cy.contains('Owner').should('be.visible').click();
     cy.url().should('include', '/owners/list');
   });
-
-  function captureLastOwner(): void {
-    cy.get('[data-cy="owners-table"] tbody tr')
-      .last()
-      .find('td')
-      .first()
-      .invoke('text')
-      .then((text) => text.trim())
-      .as('lastOwnerName');
-  }
 
   it('clicking pencil on last owner opens edit', () => {
     cy.get('[data-cy="owners-table"] tbody tr')

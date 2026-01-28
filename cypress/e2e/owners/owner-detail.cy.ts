@@ -1,3 +1,9 @@
+function accessOwnerDetail(): void {
+  cy.get('[data-cy="owners-table"]').should('exist');
+  cy.get('[data-cy="detail-button"]').first().should('be.visible').click();
+  cy.url().should('include', '/owners/detail');
+}
+
 describe('Owner Detail Page', () => {
   beforeEach(() => {
     // Reset created owners state for mock
@@ -15,12 +21,6 @@ describe('Owner Detail Page', () => {
     cy.contains('Owner').should('be.visible').click();
     cy.url().should('include', '/owners/list');
   });
-
-  function accessOwnerDetail(): void {
-    cy.get('[data-cy="owners-table"]').should('exist');
-    cy.get('[data-cy="detail-button"]').first().should('be.visible').click();
-    cy.url().should('include', '/owners/detail');
-  }
 
   it('should access detail page when clicking magnifying glass', () => {
     accessOwnerDetail();
