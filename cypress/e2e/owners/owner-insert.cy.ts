@@ -14,7 +14,7 @@ describe('Owner Insert Page', () => {
     cy.visit('/balances/list');
 
     // Path to owner creation page
-    cy.contains('Owner').should('be.visible').click();
+    cy.get('[data-cy="menu-owner"]').should('be.visible').click();
     cy.url().should('include', '/owners/list');
     cy.get('[data-cy="create-button"]').should('be.visible').click();
     cy.url().should('include', '/owners/new');
