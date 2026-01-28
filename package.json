@@ -73,7 +73,6 @@
     "@cypress/code-coverage": "^3.14.7",
     "@cypress/schematic": "^5.0.0",
     "@eslint/js": "^9.39.2",
-    "@types/cypress": "^1.1.6",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^24.10.9",
     "@vitest/coverage-istanbul": "4.0.18",
