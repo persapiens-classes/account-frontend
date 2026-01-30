@@ -66,7 +66,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@analogjs/platform": "^2.2.2",
+    "@analogjs/platform": "^2.2.3",
     "@angular/build": "21.1.2",
     "@angular/cli": "21.1.2",
     "@angular/compiler-cli": "21.1.2",
