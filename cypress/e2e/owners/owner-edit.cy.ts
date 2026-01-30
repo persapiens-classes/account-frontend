@@ -78,7 +78,7 @@ describe('Owner Edit Page', () => {
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
       cy.url().should('include', '/owners/detail');
-      cy.contains(newName).should('exist');
+      cy.get('[data-cy="detail-name"]').should('have.text', newName);
     });
   });
 

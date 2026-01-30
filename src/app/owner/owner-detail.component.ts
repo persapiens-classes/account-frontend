@@ -10,7 +10,7 @@ import { BeanDetailPanelComponent } from '../bean/bean-detail-panel.component';
   imports: [CommonModule, DetailFieldComponent, BeanDetailPanelComponent],
   template: `
     <app-bean-detail-panel [routerName]="'owners'" [bean]="bean">
-      <app-detail-field strong="Name" [value]="bean.name" />
+      <app-detail-field strong="Name" [value]="bean.name" dataCy="detail-name" />
     </app-bean-detail-panel>
   `,
 })
