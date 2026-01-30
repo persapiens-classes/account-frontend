@@ -136,8 +136,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2
       jscpd:
-        specifier: ^4.0.7
-        version: 4.0.7
+        specifier: ^4.0.8
+        version: 4.0.8
       jsdom:
         specifier: ^27.4.0
         version: 27.4.0
@@ -568,6 +568,11 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.28.6':
+    resolution: {integrity: sha512-TeR9zWR18BvbfPmGbLampPMW+uW1NZnJlRuuHso8i87QZNq2JRF9i6RgxRqtEq+wQGsS19NNTWr2duhnE49mfQ==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/template@7.27.2':
     resolution: {integrity: sha512-LPDZ85aEJyYSd18/DkjNh4/y1ntkE5KwUHWTiqgRxruuZL2F1yuHligVHLvcHY2vMHXttKFpJn6LwfI7cw7ODw==}
     engines: {node: '>=6.9.0'}
@@ -578,6 +583,10 @@ packages:
 
   '@babel/types@7.28.5':
     resolution: {integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.28.6':
+    resolution: {integrity: sha512-0ZrskXVEHSWIqZM/sQZ4EV3jZJXRkio/WCxaqKZP1g//CEWEPSfeZFcms4XeKBCHU0ZKnIkdJeU/kF+eRp5lBg==}
     engines: {node: '>=6.9.0'}
 
   '@bcoe/v8-coverage@1.0.2':
@@ -1254,20 +1263,20 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@jscpd/badge-reporter@4.0.3':
-    resolution: {integrity: sha512-ZDBQzbVRK2v9U1yxHIkvzbwBMgSHTZM4s0vbiDf9NKBwrpxiAvSYWSwdAtlC8xQeMpJlBNls/cTXakXmiKGb8g==}
+  '@jscpd/badge-reporter@4.0.4':
+    resolution: {integrity: sha512-I9b4MmLXPM2vo0SxSUWnNGKcA4PjQlD3GzXvFK60z43cN/EIdLbOq3FVwCL+dg2obUqGXKIzAm7EsDFTg0D+mQ==}
 
-  '@jscpd/core@4.0.3':
-    resolution: {integrity: sha512-7C//TeHQlyt0Tm/jEynir4VsyWpVmwS6GPzw0mPPhgYE1/5F6knYYWQiwUZEEAEfNwkwW3EoG4YcKPAkdOJISA==}
+  '@jscpd/core@4.0.4':
+    resolution: {integrity: sha512-QGMT3iXEX1fI6lgjPH+x8eyJwhwr2KkpSF5uBpjC0Z5Xloj0yFTFLtwJT+RhxP/Ob4WYrtx2jvpKB269oIwgMQ==}
 
-  '@jscpd/finder@4.0.3':
-    resolution: {integrity: sha512-qHi5jlG/8s2uF3Kr6QX1zZEwpj8L8RRHSHQekQxOyqm9sgWqXaaIgoR1+dZqn+XhQWFXhY8CKrrFS9T6u6GKUg==}
+  '@jscpd/finder@4.0.4':
+    resolution: {integrity: sha512-qVUWY7Nzuvfd5OIk+n7/5CM98LmFroLqblRXAI2gDABwZrc7qS+WH2SNr0qoUq0f4OqwM+piiwKvwL/VDNn/Cg==}
 
-  '@jscpd/html-reporter@4.0.3':
-    resolution: {integrity: sha512-1WxywVjdx35Kd1X1S2gfMJ9Tod1NDDMpmctP9ybVZURjq3xdShDiShg5ry2kj+1qOBqMnMVvc21r9AD+IwEK2g==}
+  '@jscpd/html-reporter@4.0.4':
+    resolution: {integrity: sha512-YiepyeYkeH74Kx59PJRdUdonznct0wHPFkf6FLQN+mCBoy6leAWCcOfHtcexnp+UsBFDlItG5nRdKrDSxSH+Kg==}
 
-  '@jscpd/tokenizer@4.0.3':
-    resolution: {integrity: sha512-EosztK2+i2TPnLZuroC5jfvSPVuSDRsPtrAOL2UhwNttcK3L8F0/ERih6zRySMNUgL77OOhch5QX0I3YE8HLcQ==}
+  '@jscpd/tokenizer@4.0.4':
+    resolution: {integrity: sha512-xxYYY/qaLah/FlwogEbGIxx9CjDO+G9E6qawcy26WwrflzJb6wsnhjwdneN6Wb0RNCDsqvzY+bzG453jsin4UQ==}
 
   '@listr2/prompt-adapter-inquirer@3.0.5':
     resolution: {integrity: sha512-WELs+hj6xcilkloBXYf9XXK8tYEnKsgLj01Xl5ONUJpKjmT5hGVUzNUS5tooUxs7pGMrw+jFD/41WpqW4V3LDA==}
@@ -2796,8 +2805,8 @@ packages:
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
 
-  blamer@1.0.6:
-    resolution: {integrity: sha512-fv7QToPS87oD1m1bDDTf29zC/bVKJxj2Nqh1r/v4NhMtbnzDIbWOHBYIfxCjlmkVGu3FGOjKgdNG3SFm7TkvBQ==}
+  blamer@1.0.7:
+    resolution: {integrity: sha512-GbBStl/EVlSWkiJQBZps3H1iARBrC7vt++Jb/TTmCNu/jZ04VW7tSN1nScbFXBUy1AN+jzeL7Zep9sbQxLhXKA==}
     engines: {node: '>=8.9'}
 
   blob-util@2.0.2:
@@ -3514,6 +3523,9 @@ packages:
   eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
 
+  eventemitter3@5.0.4:
+    resolution: {integrity: sha512-mlsTRyGaPBjPedk6Bvw+aqbsXDtoAyAzm5MO7JgU+yVRyMQ5O8bD4Kcci7BS85f93veegeCPkL8R4GLClnjLFw==}
+
   events-universal@1.0.1:
     resolution: {integrity: sha512-LUd5euvbMLpwOF8m6ivPCbhQeSiYVNb8Vs0fQ8QjXo0JTkEHpz8pxdQf0gStltaPpw0Cca8b39KxvK9cfKRiAw==}
 
@@ -3603,8 +3615,8 @@ packages:
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
-  fastq@1.19.1:
-    resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
+  fastq@1.20.1:
+    resolution: {integrity: sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==}
 
   fd-slicer@1.1.0:
     resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
@@ -3705,8 +3717,8 @@ packages:
   fromentries@1.3.2:
     resolution: {integrity: sha512-cHEpEQHUg0f8XdtZCc2ZAhrHzKzT0MrFUTcvx+hfxYu7rGMDc5SKoXFh+n4YigxsHXRzc6OrCshdR1bWH6HHyg==}
 
-  fs-extra@11.3.2:
-    resolution: {integrity: sha512-Xr9F6z6up6Ws+NjzMCZc6WXg2YFRlrLP9NQDO3VQrWrfiojdhS56TzueT88ze0uBdCTwEIhQ3ptnmKeWGFAe0A==}
+  fs-extra@11.3.3:
+    resolution: {integrity: sha512-VWSRii4t0AFm6ixFFmLLx1t7wS1gh+ckoa84aOeapGum0h+EZd1EhEumSB+ZdDLnEPuucsVB9oB7cxJHap6Afg==}
     engines: {node: '>=14.14'}
 
   fs-extra@9.1.0:
@@ -4207,11 +4219,11 @@ packages:
   jsbn@0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
 
-  jscpd-sarif-reporter@4.0.5:
-    resolution: {integrity: sha512-cD1MtUdpomUPM5C0YD0vKZmdj+Gyr0KD5Bk47yGMrPCtwtgsK+7v59OzBIUjYOL8AuxNAt6hvPFo0PH+PYJh0Q==}
+  jscpd-sarif-reporter@4.0.6:
+    resolution: {integrity: sha512-b9Sm3IPZ3+m8Lwa4gZa+4/LhDhlc/ZLEsLXKSOy1DANQ6kx0ueqZT+fUHWEdQ6m0o3+RIVIa7DmvLSojQD05ng==}
 
-  jscpd@4.0.7:
-    resolution: {integrity: sha512-ftw3OKgJUmAoS48TqeNOPRQbBdzzapKPF7L8auMKAp04kdOtoUuMonjVN0mruzb0zWObsh6CIWM78fzeeU29AA==}
+  jscpd@4.0.8:
+    resolution: {integrity: sha512-d2VNT/2Hv4dxT2/59He8Lyda4DYOxPRyRG9zBaOpTZAqJCVf2xLrBlZkT8Va6Lo9u3X2qz8Bpq4HrDi4JsrQhA==}
     hasBin: true
 
   jsdom@27.4.0:
@@ -6899,6 +6911,10 @@ snapshots:
     dependencies:
       '@babel/types': 7.28.5
 
+  '@babel/parser@7.28.6':
+    dependencies:
+      '@babel/types': 7.28.6
+
   '@babel/template@7.27.2':
     dependencies:
       '@babel/code-frame': 7.27.1
@@ -6918,6 +6934,11 @@ snapshots:
       - supports-color
 
   '@babel/types@7.28.5':
+    dependencies:
+      '@babel/helper-string-parser': 7.27.1
+      '@babel/helper-validator-identifier': 7.28.5
+
+  '@babel/types@7.28.6':
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
@@ -7450,38 +7471,38 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jscpd/badge-reporter@4.0.3':
+  '@jscpd/badge-reporter@4.0.4':
     dependencies:
       badgen: 3.2.3
       colors: 1.4.0
-      fs-extra: 11.3.2
+      fs-extra: 11.3.3
 
-  '@jscpd/core@4.0.3':
+  '@jscpd/core@4.0.4':
     dependencies:
-      eventemitter3: 5.0.1
+      eventemitter3: 5.0.4
 
-  '@jscpd/finder@4.0.3':
+  '@jscpd/finder@4.0.4':
     dependencies:
-      '@jscpd/core': 4.0.3
-      '@jscpd/tokenizer': 4.0.3
-      blamer: 1.0.6
+      '@jscpd/core': 4.0.4
+      '@jscpd/tokenizer': 4.0.4
+      blamer: 1.0.7
       bytes: 3.1.2
       cli-table3: 0.6.5
       colors: 1.4.0
       fast-glob: 3.3.3
-      fs-extra: 11.3.2
+      fs-extra: 11.3.3
       markdown-table: 2.0.0
       pug: 3.0.3
 
-  '@jscpd/html-reporter@4.0.3':
+  '@jscpd/html-reporter@4.0.4':
     dependencies:
       colors: 1.4.0
-      fs-extra: 11.3.2
+      fs-extra: 11.3.3
       pug: 3.0.3
 
-  '@jscpd/tokenizer@4.0.3':
+  '@jscpd/tokenizer@4.0.4':
     dependencies:
-      '@jscpd/core': 4.0.3
+      '@jscpd/core': 4.0.4
       reprism: 0.0.11
       spark-md5: 3.0.2
 
@@ -7656,7 +7677,7 @@ snapshots:
   '@nodelib/fs.walk@1.2.8':
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
-      fastq: 1.19.1
+      fastq: 1.20.1
 
   '@npmcli/agent@4.0.0':
     dependencies:
@@ -8827,7 +8848,7 @@ snapshots:
 
   babel-walk@3.0.0-canary-5:
     dependencies:
-      '@babel/types': 7.28.5
+      '@babel/types': 7.28.6
 
   badgen@3.2.3: {}
 
@@ -8862,7 +8883,7 @@ snapshots:
     dependencies:
       file-uri-to-path: 1.0.0
 
-  blamer@1.0.6:
+  blamer@1.0.7:
     dependencies:
       execa: 4.1.0
       which: 2.0.2
@@ -9133,8 +9154,8 @@ snapshots:
 
   constantinople@4.0.1:
     dependencies:
-      '@babel/parser': 7.28.5
-      '@babel/types': 7.28.5
+      '@babel/parser': 7.28.6
+      '@babel/types': 7.28.6
 
   content-disposition@1.0.1: {}
 
@@ -9629,6 +9650,8 @@ snapshots:
 
   eventemitter3@5.0.1: {}
 
+  eventemitter3@5.0.4: {}
+
   events-universal@1.0.1:
     dependencies:
       bare-events: 2.8.2
@@ -9769,7 +9792,7 @@ snapshots:
 
   fast-uri@3.1.0: {}
 
-  fastq@1.19.1:
+  fastq@1.20.1:
     dependencies:
       reusify: 1.1.0
 
@@ -9871,7 +9894,7 @@ snapshots:
 
   fromentries@1.3.2: {}
 
-  fs-extra@11.3.2:
+  fs-extra@11.3.3:
     dependencies:
       graceful-fs: 4.2.11
       jsonfile: 6.2.0
@@ -9948,7 +9971,7 @@ snapshots:
       email-addresses: 5.0.0
       filenamify: 4.3.0
       find-cache-dir: 3.3.2
-      fs-extra: 11.3.2
+      fs-extra: 11.3.3
       globby: 11.1.0
 
   giget@2.0.0:
@@ -10399,24 +10422,24 @@ snapshots:
 
   jsbn@0.1.1: {}
 
-  jscpd-sarif-reporter@4.0.5:
+  jscpd-sarif-reporter@4.0.6:
     dependencies:
       colors: 1.4.0
-      fs-extra: 11.3.2
+      fs-extra: 11.3.3
       node-sarif-builder: 3.4.0
 
-  jscpd@4.0.7:
+  jscpd@4.0.8:
     dependencies:
-      '@jscpd/badge-reporter': 4.0.3
-      '@jscpd/core': 4.0.3
-      '@jscpd/finder': 4.0.3
-      '@jscpd/html-reporter': 4.0.3
-      '@jscpd/tokenizer': 4.0.3
+      '@jscpd/badge-reporter': 4.0.4
+      '@jscpd/core': 4.0.4
+      '@jscpd/finder': 4.0.4
+      '@jscpd/html-reporter': 4.0.4
+      '@jscpd/tokenizer': 4.0.4
       colors: 1.4.0
       commander: 5.1.0
-      fs-extra: 11.3.2
+      fs-extra: 11.3.3
       gitignore-to-glob: 0.3.0
-      jscpd-sarif-reporter: 4.0.5
+      jscpd-sarif-reporter: 4.0.6
 
   jsdom@27.4.0:
     dependencies:
@@ -11012,7 +11035,7 @@ snapshots:
   node-sarif-builder@3.4.0:
     dependencies:
       '@types/sarif': 2.1.7
-      fs-extra: 11.3.2
+      fs-extra: 11.3.3
 
   nopt@8.1.0:
     dependencies:
@@ -12638,8 +12661,8 @@ snapshots:
 
   with@7.0.2:
     dependencies:
-      '@babel/parser': 7.28.5
-      '@babel/types': 7.28.5
+      '@babel/parser': 7.28.6
+      '@babel/types': 7.28.6
       assert-never: 1.4.0
       babel-walk: 3.0.0-canary-5
 
