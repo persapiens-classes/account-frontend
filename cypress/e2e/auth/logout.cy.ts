@@ -6,7 +6,7 @@ describe('Logout Page', () => {
       cy.login();
     });
 
-    cy.visit('/balances/list');
+    cy.visitMain();
   });
 
   it('should display login page after logout', () => {

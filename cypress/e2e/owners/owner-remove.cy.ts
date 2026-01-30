@@ -12,11 +12,12 @@ describe('Owner Remove Page', () => {
     });
 
     cy.maybeSetupOwnersMock();
+
+    cy.visitMain();
   });
 
   it('should create a new Owner for removal test', () => {
-    cy.visit('/owners/new');
-    cy.url().should('include', '/owners/new');
+    cy.navigateToOwnersNew();
 
     cy.get('[data-cy="input-name"]').type(validOwnerName);
     cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
@@ -25,7 +26,7 @@ describe('Owner Remove Page', () => {
   });
 
   it.skip('should remove the recently created Owner successfully', () => {
-    cy.visit('/owners/list');
+    cy.navigateToOwnersList();
 
     cy.get('[data-cy="filter-name"]').should('exist').clear().type(`${createdOwnerName}{enter}`);
 

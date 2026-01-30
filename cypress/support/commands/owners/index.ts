@@ -5,6 +5,8 @@ declare global {
     interface Chainable {
       setupOwnersMock(): Chainable<void>;
       maybeSetupOwnersMock(): Chainable<void>;
+      navigateToOwnersList(): Chainable<void>;
+      navigateToOwnersNew(): Chainable<void>;
     }
   }
 }
@@ -191,6 +193,25 @@ Cypress.Commands.add('maybeSetupOwnersMock', () => {
   } else {
     cy.log('Using real backend for owners');
   }
+});
+
+/**
+ * Navigate to owners list page
+ */
+Cypress.Commands.add('navigateToOwnersList', () => {
+  // Navigate to owners list
+  cy.get('[data-cy="menu-owner"]').should('be.visible').click();
+  cy.url().should('include', '/owners/list');
+});
+
+/**
+ * Navigate to owners new page
+ */
+Cypress.Commands.add('navigateToOwnersNew', () => {
+  // Path to owner creation page
+  cy.navigateToOwnersList();
+  cy.get('[data-cy="create-button"]').should('be.visible').click();
+  cy.url().should('include', '/owners/new');
 });
 
 export {};

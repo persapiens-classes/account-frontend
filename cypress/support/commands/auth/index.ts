@@ -6,6 +6,7 @@ declare global {
       login(username?: string, password?: string): Chainable<void>;
       setupAuthMock(scenario?: 'success' | 'invalid'): Chainable<void>;
       maybeSetupAuthMock(): Chainable<void>;
+      visitMain(): Chainable<void>;
     }
   }
 }
@@ -67,6 +68,13 @@ Cypress.Commands.add('login', (username?: string, password?: string) => {
   cy.get('[data-cy="login-password"]').type(pass);
   cy.get('[data-cy="login-button"]').click();
   cy.url().should('include', '/balances/list');
+});
+
+/**
+ * Custom command to visit main page
+ */
+Cypress.Commands.add('visitMain', () => {
+  cy.visit('/balances/list');
 });
 
 export {};

@@ -15,11 +15,9 @@ describe('Owner Detail Page', () => {
     });
 
     cy.maybeSetupOwnersMock();
-    cy.visit('/balances/list');
 
-    // Navigate to owners list
-    cy.get('[data-cy="menu-owner"]').should('be.visible').click();
-    cy.url().should('include', '/owners/list');
+    cy.visitMain();
+    cy.navigateToOwnersList();
   });
 
   it('should access detail page when clicking magnifying glass', () => {

@@ -19,11 +19,9 @@ describe('Owner Edit Page', () => {
     });
 
     cy.maybeSetupOwnersMock();
-    cy.visit('/balances/list');
 
-    // Navigate to owners list
-    cy.get('[data-cy="menu-owner"]').should('be.visible').click();
-    cy.url().should('include', '/owners/list');
+    cy.visitMain();
+    cy.navigateToOwnersList();
   });
 
   it('clicking pencil on last owner opens edit', () => {
@@ -87,15 +85,14 @@ describe('Owner Edit Page', () => {
 
     beforeEach(() => {
       // Create an owner first that will be edited in tests
-      cy.visit('/owners/new');
+      cy.navigateToOwnersNew();
       cy.get('[data-cy="input-name"]').type(validOwnerName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
       cy.get('[data-cy="app-toast"]').should('be.visible');
       cy.url().should('include', '/owners/detail');
 
       // Go to owners list and open the edit page for the created owner
-      cy.visit('/owners/list');
-      cy.url().should('include', '/owners/list');
+      cy.navigateToOwnersList();
 
       cy.get('[data-cy="filter-name"] input')
         .clear({ force: true })
@@ -160,13 +157,13 @@ describe('Owner Edit Page', () => {
       const duplicateName = Cypress._.uniqueId('dup_');
 
       // Create another owner first
-      cy.visit('/owners/new');
+      cy.navigateToOwnersNew();
       cy.get('[data-cy="input-name"]').type(duplicateName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
       cy.get('[data-cy="app-toast"]').should('be.visible');
 
       // Go back to edit the original owner with duplicate name
-      cy.visit('/owners/list');
+      cy.navigateToOwnersList();
       cy.get('[data-cy="filter-name"] input')
         .clear({ force: true })
         .type(`${validOwnerName}{enter}`);
