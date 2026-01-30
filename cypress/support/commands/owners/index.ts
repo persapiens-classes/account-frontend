@@ -146,10 +146,12 @@ Cypress.Commands.add('setupOwnersMock', () => {
 
       // Update the owner in createdOwners list
       const currentCreatedOwners = (Cypress.env('createdOwners') as Owner[]) || [];
-      const index = currentCreatedOwners.findIndex((o: Owner) => o.name === currentOwnerId);
-      if (index > -1) {
-        currentCreatedOwners[index] = requestBody;
-        Cypress.env('createdOwners', currentCreatedOwners);
+      const ownerExists = currentCreatedOwners.some((o: Owner) => o.name === currentOwnerId);
+      if (ownerExists) {
+        const updatedOwners = currentCreatedOwners.map((o: Owner) =>
+          o.name === currentOwnerId ? requestBody : o,
+        );
+        Cypress.env('createdOwners', updatedOwners);
       }
 
       req.reply({
