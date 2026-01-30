@@ -9,6 +9,10 @@ declare global {
   }
 }
 
+interface Owner {
+  name: string;
+}
+
 /**
  * Setup owners mock intercepts for CRUD operations and boundary value analysis
  * Includes validation for boundary value test cases (OW-01 through OW-06)
@@ -18,13 +22,13 @@ Cypress.Commands.add('setupOwnersMock', () => {
     const ownersEndpoint = '**/owners';
 
     // Create a list of existing owners for duplicate check
-    const existingOwners = ['Duplicate Owner'];
+    const existingOwners = new Set(['Duplicate Owner']);
 
     // Get or initialize the created owners from Cypress global state
     if (!Cypress.env('createdOwners')) {
       Cypress.env('createdOwners', []);
     }
-    const createdOwners = Cypress.env('createdOwners');
+    const createdOwners = Cypress.env('createdOwners') as Owner[];
 
     // Mock POST /owners - create a new owner with boundary value validation
     cy.intercept('POST', ownersEndpoint, (req) => {
@@ -54,10 +58,7 @@ Cypress.Commands.add('setupOwnersMock', () => {
       }
 
       // OW-05: Duplicate name
-      if (
-        existingOwners.includes(ownerName) ||
-        createdOwners.some((o: any) => o.name === ownerName)
-      ) {
+      if (existingOwners.has(ownerName) || createdOwners.some((o: Owner) => o.name === ownerName)) {
         return req.reply({
           statusCode: 409,
           body: {
@@ -103,7 +104,7 @@ Cypress.Commands.add('setupOwnersMock', () => {
       const requestBody = req.body;
       const ownerName = requestBody.name;
       const urlParts = req.url.split('/');
-      const currentOwnerId = urlParts[urlParts.length - 1];
+      const currentOwnerId = urlParts.at(-1) ?? '';
 
       // OW-01: Only whitespace (check first)
       if (!ownerName || ownerName.trim() === '') {
@@ -129,8 +130,8 @@ Cypress.Commands.add('setupOwnersMock', () => {
 
       // OW-05: Duplicate name (excluding current owner being edited)
       if (
-        (existingOwners.includes(ownerName) && ownerName !== currentOwnerId) ||
-        createdOwners.some((o: any) => o.name === ownerName && o.name !== currentOwnerId)
+        (existingOwners.has(ownerName) && ownerName !== currentOwnerId) ||
+        createdOwners.some((o: Owner) => o.name === ownerName && o.name !== currentOwnerId)
       ) {
         return req.reply({
           statusCode: 409,
@@ -142,8 +143,8 @@ Cypress.Commands.add('setupOwnersMock', () => {
       }
 
       // Update the owner in createdOwners list
-      const currentCreatedOwners = Cypress.env('createdOwners') || [];
-      const index = currentCreatedOwners.findIndex((o: any) => o.name === currentOwnerId);
+      const currentCreatedOwners = (Cypress.env('createdOwners') as Owner[]) || [];
+      const index = currentCreatedOwners.findIndex((o: Owner) => o.name === currentOwnerId);
       if (index > -1) {
         currentCreatedOwners[index] = requestBody;
         Cypress.env('createdOwners', currentCreatedOwners);
@@ -159,10 +160,10 @@ Cypress.Commands.add('setupOwnersMock', () => {
     cy.intercept('DELETE', `${ownersEndpoint}/*`, (req) => {
       // Remove from created owners list if it exists
       const urlParts = req.url.split('/');
-      const ownerId = urlParts[urlParts.length - 1];
+      const ownerId = urlParts.at(-1) ?? '';
 
-      const currentCreatedOwners = Cypress.env('createdOwners') || [];
-      const index = currentCreatedOwners.findIndex((o: any) => o.name === ownerId);
+      const currentCreatedOwners = (Cypress.env('createdOwners') as Owner[]) || [];
+      const index = currentCreatedOwners.findIndex((o: Owner) => o.name === ownerId);
       if (index > -1) {
         currentCreatedOwners.splice(index, 1);
         Cypress.env('createdOwners', currentCreatedOwners);
