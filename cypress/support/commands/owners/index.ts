@@ -91,7 +91,7 @@ Cypress.Commands.add('setupOwnersMock', () => {
     }).as('getOwners');
 
     // Mock GET /owners/:id - get owner detail (only numeric IDs)
-    cy.intercept('GET', /.*\/owners\/\d+$/, (req) => {
+    cy.intercept('GET', /\/owners\/\d+$/, (req) => {
       const ownerId = req.url.split('/').pop();
       req.reply({
         statusCode: 200,
