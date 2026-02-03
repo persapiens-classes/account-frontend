@@ -90,7 +90,7 @@
     "eslint-plugin-sonarjs": "^3.0.6",
     "istanbul-lib-coverage": "^3.2.2",
     "jscpd": "^4.0.8",
-    "jsdom": "^27.4.0",
+    "jsdom": "^28.0.0",
     "nyc": "^17.1.0",
     "prettier": "^3.8.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
