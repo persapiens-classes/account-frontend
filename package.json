@@ -82,7 +82,7 @@
     "angular-eslint": "21.2.0",
     "baseline-browser-mapping": "^2.9.19",
     "cross-env": "^10.1.0",
-    "cypress": "^15.9.0",
+    "cypress": "^15.10.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.5",
