@@ -27,57 +27,59 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
   ],
   template: `
     <app-bean-list-panel [routerName]="routerName">
-      <p-table
-        [value]="beansList()"
-        [rows]="5"
-        [paginator]="true"
-        [rowsPerPageOptions]="[5, 7, 10]"
-        stripedRows="true"
-      >
-        <ng-template #header>
-          <tr>
-            <th pSortableColumn="description">Description <p-sortIcon field="description" /></th>
-            <th pSortableColumn="category">Category <p-sortIcon field="category" /></th>
-            <th>Detail</th>
-            <th>Edit</th>
-            <th>Remove</th>
-          </tr>
-          <tr>
-            <th>
-              <p-columnFilter
-                type="text"
-                field="description"
-                placeholder="description"
-                ariaLabel="Filter Description"
-              />
-            </th>
-            <th>
-              <p-columnFilter
-                type="text"
-                field="category"
-                placeholder="description"
-                ariaLabel="Filter Category"
-              />
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template #body let-item>
-          <tr>
-            <td>{{ item.description }}</td>
-            <td>{{ item.category }}</td>
-            <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
-            <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
-            <td>
-              <app-remove-button
-                [beansList]="beansList"
-                [item]="item"
-                [beanRemoveService]="beanRemoveService"
-                [beanName]="beanName"
-              />
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+      <div data-cy="accounts-table">
+        <p-table
+          [value]="beansList()"
+          [rows]="5"
+          [paginator]="true"
+          [rowsPerPageOptions]="[5, 7, 10]"
+          stripedRows="true"
+        >
+          <ng-template #header>
+            <tr>
+              <th pSortableColumn="description">Description <p-sortIcon field="description" /></th>
+              <th pSortableColumn="category">Category <p-sortIcon field="category" /></th>
+              <th>Detail</th>
+              <th>Edit</th>
+              <th>Remove</th>
+            </tr>
+            <tr>
+              <th>
+                <p-columnFilter
+                  type="text"
+                  field="description"
+                  placeholder="description"
+                  ariaLabel="Filter Description"
+                />
+              </th>
+              <th>
+                <p-columnFilter
+                  type="text"
+                  field="category"
+                  placeholder="description"
+                  ariaLabel="Filter Category"
+                />
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-item>
+            <tr>
+              <td>{{ item.description }}</td>
+              <td>{{ item.category }}</td>
+              <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
+              <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
+              <td>
+                <app-remove-button
+                  [beansList]="beansList"
+                  [item]="item"
+                  [beanRemoveService]="beanRemoveService"
+                  [beanName]="beanName"
+                />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </app-bean-list-panel>
   `,
 })
