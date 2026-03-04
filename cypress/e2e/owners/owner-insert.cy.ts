@@ -5,8 +5,9 @@ describe('Owner Insert Page', () => {
     // Reset created owners state for mock
     Cypress.env('createdOwners', []);
 
+    cy.maybeSetupAuthMock();
+
     cy.session('login', () => {
-      cy.maybeSetupAuthMock();
       cy.login();
     });
 

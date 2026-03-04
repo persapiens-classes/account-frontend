@@ -6,11 +6,14 @@ describe('Logout Page', () => {
       cy.login();
     });
 
+    cy.setAuthState(true);
+
     cy.visitMain();
   });
 
   it('should display login page after logout', () => {
     cy.get('[data-cy="logout-button"]').click();
+    cy.wait('@logoutRequest');
 
     // Validates that it is on the login page
     cy.url().should('include', '/login');
@@ -21,6 +24,7 @@ describe('Logout Page', () => {
 
   it('should not be able to access protected pages after logout', () => {
     cy.get('[data-cy="logout-button"]').click();
+    cy.wait('@logoutRequest');
     cy.url().should('include', '/login');
 
     // Tries to access a protected page
