@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@analogjs/platform": "^2.2.3",
-    "@angular/build": "21.1.4",
+    "@angular/build": "21.2.0",
     "@angular/cli": "21.1.4",
     "@angular/compiler-cli": "21.1.4",
     "@cypress/code-coverage": "^4.0.0",
