@@ -51,8 +51,8 @@ importers:
         specifier: 7.0.0
         version: 7.0.0
       primeng:
-        specifier: 21.1.1
-        version: 21.1.1(2c21948670e01eb93b3d56c77f7db362)
+        specifier: 21.1.2
+        version: 21.1.2(2c21948670e01eb93b3d56c77f7db362)
       rxjs:
         specifier: 7.8.2
         version: 7.8.2
@@ -4760,8 +4760,8 @@ packages:
   primeicons@7.0.0:
     resolution: {integrity: sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==}
 
-  primeng@21.1.1:
-    resolution: {integrity: sha512-ArX5X+psJjL37/5mRzIbeedYOtxDwjLrbBoTTw9hV6+kQt4v8xKy9R1dKuiIFG9OeQTQwzIaJ74OREBAJJmvoA==}
+  primeng@21.1.2:
+    resolution: {integrity: sha512-ZJYPGdaBUqAaCqdgI11SzYoA5cdp9NUci3xJfQ3DZPkl6m+dZPgP+knexRNKguYRfrvUcM3a9+Bhi6kdbRMgaA==}
     peerDependencies:
       '@angular/cdk': ^21.0.0
       '@angular/common': ^21.0.0
@@ -8027,7 +8027,7 @@ snapshots:
       jwt-decode: 4.0.0
       postcss: 8.5.8
       primeicons: 7.0.0
-      primeng: 21.1.1(2c21948670e01eb93b3d56c77f7db362)
+      primeng: 21.1.2(2c21948670e01eb93b3d56c77f7db362)
       rxjs: 7.8.2
       tailwindcss: 4.2.1
       tailwindcss-primeui: 0.6.1(tailwindcss@4.2.1)
@@ -10765,7 +10765,7 @@ snapshots:
 
   primeicons@7.0.0: {}
 
-  primeng@21.1.1(2c21948670e01eb93b3d56c77f7db362):
+  primeng@21.1.2(2c21948670e01eb93b3d56c77f7db362):
     dependencies:
       '@angular/cdk': 21.2.0(@angular/common@21.2.1(@angular/core@21.2.1(@angular/compiler@21.2.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.1(@angular/compiler@21.2.1)(rxjs@7.8.2))(@angular/platform-browser@21.2.1(@angular/animations@21.2.1(@angular/core@21.2.1(@angular/compiler@21.2.1)(rxjs@7.8.2)))(@angular/common@21.2.1(@angular/core@21.2.1(@angular/compiler@21.2.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.1(@angular/compiler@21.2.1)(rxjs@7.8.2)))(rxjs@7.8.2)
       '@angular/common': 21.2.1(@angular/core@21.2.1(@angular/compiler@21.2.1)(rxjs@7.8.2))(rxjs@7.8.2)
