@@ -32,7 +32,12 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.authService.logout();
-    this.router.navigate(['login']);
+    this.authService.logout().subscribe(async () => {
+      try {
+        await this.router.navigate(['login']);
+      } catch {
+        // Ignore navigation errors to avoid unhandled exceptions in tests/runtime.
+      }
+    });
   }
 }

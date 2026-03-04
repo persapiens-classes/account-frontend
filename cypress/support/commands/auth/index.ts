@@ -6,10 +6,13 @@ declare global {
       login(username?: string, password?: string): Chainable<void>;
       setupAuthMock(scenario?: 'success' | 'invalid'): Chainable<void>;
       maybeSetupAuthMock(): Chainable<void>;
+      setAuthState(isAuthenticated: boolean): Chainable<void>;
       visitMain(): Chainable<void>;
     }
   }
 }
+
+let isAuthenticated = false;
 
 /**
  * Setup authentication mock intercepts based on scenario
@@ -17,13 +20,40 @@ declare global {
  */
 Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'success') => {
   cy.fixture('auth').then((authData) => {
-    const loginEndpoint = '**/login';
+    const loginEndpoint = '**/auth/login';
+    const meEndpoint = '**/auth/me';
+    const logoutEndpoint = '**/auth/logout';
 
     if (scenario === 'success') {
-      cy.intercept('POST', loginEndpoint, {
-        statusCode: 200,
-        body: authData.login.success,
+      cy.intercept('POST', loginEndpoint, (req) => {
+        isAuthenticated = true;
+        req.reply({
+          statusCode: 200,
+          body: authData.login.success,
+        });
       }).as('loginRequest');
+
+      cy.intercept('GET', meEndpoint, (req) => {
+        if (!isAuthenticated) {
+          return req.reply({
+            statusCode: 401,
+            body: authData.login.invalid,
+          });
+        }
+
+        return req.reply({
+          statusCode: 200,
+          body: authData.login.success,
+        });
+      }).as('meRequest');
+
+      cy.intercept('POST', logoutEndpoint, (req) => {
+        isAuthenticated = false;
+        req.reply({
+          statusCode: 200,
+          body: {},
+        });
+      }).as('logoutRequest');
 
       // Mock the balances API endpoint
       cy.intercept('GET', '**/balances', {
@@ -35,6 +65,19 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
         statusCode: 401,
         body: authData.login.invalid,
       }).as('loginRequest');
+
+      cy.intercept('GET', meEndpoint, {
+        statusCode: 401,
+        body: authData.login.invalid,
+      }).as('meRequest');
+
+      cy.intercept('POST', logoutEndpoint, (req) => {
+        isAuthenticated = false;
+        req.reply({
+          statusCode: 200,
+          body: {},
+        });
+      }).as('logoutRequest');
     }
   });
 });
@@ -60,8 +103,8 @@ Cypress.Commands.add('maybeSetupAuthMock', () => {
  * Uses Cypress environment variables
  */
 Cypress.Commands.add('login', (username?: string, password?: string) => {
-  const user = username || Cypress.env('validUsername');
-  const pass = password || Cypress.env('validPassword');
+  const user = username ?? Cypress.env('validUsername');
+  const pass = password ?? Cypress.env('validPassword');
 
   cy.visit('/login');
   cy.get('[data-cy="login-username"]').type(user);
@@ -75,6 +118,10 @@ Cypress.Commands.add('login', (username?: string, password?: string) => {
  */
 Cypress.Commands.add('visitMain', () => {
   cy.visit('/balances/list');
+});
+
+Cypress.Commands.add('setAuthState', (value: boolean) => {
+  isAuthenticated = value;
 });
 
 export {};

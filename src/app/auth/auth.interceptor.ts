@@ -1,40 +1,31 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 export function authIntercept(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
-  // Verify if request is from AuthService
-  if (req.url.includes('/login') || req.url.includes('/images/')) {
-    return next(req); // If login, do not add token
+  if (req.url.includes('/images/')) {
+    return next(req);
   }
 
-  const authService = inject(AuthService); // Injecting service
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  if (authService.isTokenExpired()) {
-    const router = inject(Router);
-    router.navigate(['/login']); // Redirect login if token expired
-    return new Observable<HttpEvent<unknown>>((observer) => {
-      observer.complete();
-    });
-    // Cancel the request
-  }
+  const shouldSendCredentials = req.url.startsWith(environment.apiUrl);
+  const request = shouldSendCredentials ? req.clone({ withCredentials: true }) : req;
 
-  // If not login request, add token
-  const token = authService.authenticatedToken();
-  if (token) {
-    const cloned = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return next(cloned); // Continue cloned request
-  }
-
-  return next(req); // Continue with request, without authorization
+  return next(request).pipe(
+    catchError((error) => {
+      if (error?.status === 401) {
+        authService.clearSession();
+        router.navigate(['/login']);
+      }
+      return throwError(() => error);
+    }),
+  );
 }

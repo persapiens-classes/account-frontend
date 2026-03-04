@@ -7,26 +7,6 @@ import { AuthService, LoginResponse } from './auth.service';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
-// Mock JWT tokens for testing
-const mockJwt =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImV4cCI6MTcwMzE4MTYwMH0.mock_signature';
-const mockExpiredJwt =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImV4cCI6MTYwMzE4MTYwMH0.mock_signature';
-const mockInvalidJwt = 'invalid.jwt.token';
-
-// Mock localStorage
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-};
-
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-  writable: true,
-});
-
 // Mock Date.now for consistent testing
 const mockDateNow = vi.fn();
 Object.defineProperty(Date, 'now', {
@@ -34,15 +14,11 @@ Object.defineProperty(Date, 'now', {
   writable: true,
 });
 
-// Mock console.log to avoid test output pollution
-const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {
-  // Intentionally empty to suppress console output in tests
-});
-
 // Test constants - safe hardcoded values for testing
 const TEST_USERNAME = 'testuser';
 // eslint-disable-next-line sonarjs/no-hardcoded-passwords
 const TEST_PASSWORD = 'test-password-123';
+const MOCK_LOGIN_RESPONSE = { login: 'testuser', expiresIn: 3600 };
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -82,12 +58,12 @@ describe('AuthService', () => {
     it('should have all expected public methods', () => {
       const expectedMethods = [
         'signin',
+        'loadSession',
         'logout',
         'isAuthenticated',
+        'ensureAuthenticated',
         'authenticatedLogin',
-        'getTokenExpiration',
-        'isTokenExpired',
-        'authenticatedToken',
+        'clearSession',
       ];
       TestUtils.testServiceMethods(service, expectedMethods);
       expect(expectedMethods.length).toBe(7);
@@ -96,12 +72,12 @@ describe('AuthService', () => {
     it('should have correct method signatures', () => {
       const methodSignatures = [
         { methodName: 'signin', parameterCount: 2 },
+        { methodName: 'loadSession', parameterCount: 0 },
         { methodName: 'logout', parameterCount: 0 },
         { methodName: 'isAuthenticated', parameterCount: 0 },
+        { methodName: 'ensureAuthenticated', parameterCount: 0 },
         { methodName: 'authenticatedLogin', parameterCount: 0 },
-        { methodName: 'getTokenExpiration', parameterCount: 0 },
-        { methodName: 'isTokenExpired', parameterCount: 0 },
-        { methodName: 'authenticatedToken', parameterCount: 0 },
+        { methodName: 'clearSession', parameterCount: 0 },
       ];
       TestUtils.testServiceMethodSignatures(service, methodSignatures);
       expect(methodSignatures.length).toBe(7);
@@ -111,13 +87,13 @@ describe('AuthService', () => {
   // LoginResponse class tests
   describe('LoginResponse Class', () => {
     it('should create LoginResponse instance correctly', () => {
-      const token = 'test-token';
+      const login = 'testuser';
       const expiresIn = 3600;
 
-      const loginResponse = new LoginResponse(token, expiresIn);
+      const loginResponse = new LoginResponse(login, expiresIn);
 
       expect(loginResponse).toBeInstanceOf(LoginResponse);
-      expect(loginResponse.token).toBe(token);
+      expect(loginResponse.login).toBe(login);
       expect(loginResponse.expiresIn).toBe(expiresIn);
     });
   });
@@ -127,174 +103,154 @@ describe('AuthService', () => {
       it('should make POST request to correct endpoint', () => {
         const username = TEST_USERNAME;
         const password = TEST_PASSWORD;
-        const expectedResponse = new LoginResponse(mockJwt, 3600);
+        const expectedResponse = MOCK_LOGIN_RESPONSE;
 
         service.signin(username, password).subscribe();
 
-        const req = httpMock.expectOne(`${environment.apiUrl}/login`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
         expect(req.request.method).toBe('POST');
+        expect(req.request.withCredentials).toBe(true);
         expect(req.request.body).toEqual({ username, password });
 
         req.flush(expectedResponse);
       });
 
-      it('should store token in localStorage on successful signin', () => {
-        const username = TEST_USERNAME;
-        const password = TEST_PASSWORD;
-        const expectedResponse = new LoginResponse(mockJwt, 3600);
-
-        service.signin(username, password).subscribe();
-
-        const req = httpMock.expectOne(`${environment.apiUrl}/login`);
-        req.flush(expectedResponse);
-
-        expect(localStorageMock.setItem).toHaveBeenCalledWith('token', mockJwt);
-        expect(localStorageMock.setItem).toHaveBeenCalledTimes(1);
-      });
-
       it('should return observable with LoginResponse', () => {
         const username = TEST_USERNAME;
         const password = TEST_PASSWORD;
-        const expectedResponse = new LoginResponse(mockJwt, 3600);
+        const expectedResponse = MOCK_LOGIN_RESPONSE;
 
         let actualResponse: LoginResponse;
         service.signin(username, password).subscribe((response) => {
           actualResponse = response;
         });
 
-        const req = httpMock.expectOne(`${environment.apiUrl}/login`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
         req.flush(expectedResponse);
 
         expect(actualResponse!).toEqual(expectedResponse);
-        expect(actualResponse!.token).toBe(mockJwt);
+        expect(actualResponse!.login).toBe(expectedResponse.login);
         expect(actualResponse!.expiresIn).toBe(3600);
+      });
+
+      it('should set session on successful signin', () => {
+        mockDateNow.mockReturnValue(1703181600000);
+        service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        req.flush(MOCK_LOGIN_RESPONSE);
+
+        expect(service.isAuthenticated()).toBe(true);
+        expect(service.authenticatedLogin()).toBe('testuser');
       });
     });
 
     describe('logout', () => {
-      it('should remove token from localStorage', () => {
-        service.logout();
+      it('should call backend logout endpoint', () => {
+        service.logout().subscribe();
 
-        expect(localStorageMock.removeItem).toHaveBeenCalledWith('token');
-        expect(localStorageMock.removeItem).toHaveBeenCalledTimes(1);
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
+        expect(req.request.method).toBe('POST');
+        expect(req.request.withCredentials).toBe(true);
+        req.flush({});
+      });
+
+      it('should clear session after logout', () => {
+        service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
+        const loginReq = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        loginReq.flush(MOCK_LOGIN_RESPONSE);
+
+        expect(service.isAuthenticated()).toBe(true);
+
+        service.logout().subscribe();
+        const logoutReq = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
+        logoutReq.flush({});
+
+        expect(service.isAuthenticated()).toBe(false);
+        expect(service.authenticatedLogin()).toBe('');
       });
     });
   });
 
-  describe('Token Management', () => {
-    describe('authenticatedToken', () => {
-      it('should return token from localStorage', () => {
-        localStorageMock.getItem.mockReturnValue(mockJwt);
+  describe('Session Management', () => {
+    describe('loadSession', () => {
+      it('should load session from /auth/me', () => {
+        service.loadSession().subscribe((response) => {
+          expect(response).toEqual(MOCK_LOGIN_RESPONSE);
+        });
 
-        const token = service.authenticatedToken();
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
+        expect(req.request.method).toBe('GET');
+        expect(req.request.withCredentials).toBe(true);
+        req.flush(MOCK_LOGIN_RESPONSE);
 
-        expect(token).toBe(mockJwt);
-        expect(localStorageMock.getItem).toHaveBeenCalledWith('token');
+        expect(service.isAuthenticated()).toBe(true);
+        expect(service.authenticatedLogin()).toBe('testuser');
       });
 
-      it('should return null when no token exists', () => {
-        localStorageMock.getItem.mockReturnValue(null);
+      it('should return null when session is not available', () => {
+        service.loadSession().subscribe((response) => {
+          expect(response).toBeNull();
+        });
 
-        const token = service.authenticatedToken();
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
+        req.flush({ message: 'Unauthorized' }, { status: 401, statusText: 'Unauthorized' });
 
-        expect(token).toBeNull();
-        expect(localStorageMock.getItem).toHaveBeenCalledWith('token');
+        expect(service.isAuthenticated()).toBe(false);
       });
     });
 
     describe('isAuthenticated', () => {
-      it('should return true when valid token exists', () => {
-        localStorageMock.getItem.mockReturnValue(mockJwt);
+      it('should return true when session is valid', () => {
+        mockDateNow.mockReturnValue(1703181600000);
+        service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        req.flush(MOCK_LOGIN_RESPONSE);
 
-        const isAuth = service.isAuthenticated();
-
-        expect(isAuth).toBe(true);
+        expect(service.isAuthenticated()).toBe(true);
       });
 
-      it('should return false when no token exists', () => {
-        localStorageMock.getItem.mockReturnValue(null);
+      it('should return false when session is expired', () => {
+        mockDateNow.mockReturnValue(1703181600000);
+        service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        req.flush(MOCK_LOGIN_RESPONSE);
 
-        const isAuth = service.isAuthenticated();
-
-        expect(isAuth).toBe(false);
-      });
-    });
-  });
-
-  describe('JWT Token Handling', () => {
-    describe('authenticatedLogin', () => {
-      it('should return username from JWT token', () => {
-        localStorageMock.getItem.mockReturnValue(mockJwt);
-
-        const login = service.authenticatedLogin();
-
-        expect(login).toBe('testuser');
-      });
-
-      it('should return empty string when token has no sub claim', () => {
-        // Test JWT without sub claim - not a real secret
-        const tokenWithoutSub =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDMxODE2MDB9.mock_signature'; // eslint-disable-line sonarjs/no-hardcoded-secrets
-        localStorageMock.getItem.mockReturnValue(tokenWithoutSub);
-
-        const login = service.authenticatedLogin();
-
-        expect(login).toBe('');
+        mockDateNow.mockReturnValue(1703181600000 + 3600 * 1000 + 1);
+        expect(service.isAuthenticated()).toBe(false);
+        expect(service.authenticatedLogin()).toBe('');
       });
     });
 
-    describe('getTokenExpiration', () => {
-      it('should return expiration timestamp in milliseconds', () => {
-        localStorageMock.getItem.mockReturnValue(mockJwt);
+    describe('ensureAuthenticated', () => {
+      it('should return true when session is already loaded', () => {
+        service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        req.flush(MOCK_LOGIN_RESPONSE);
 
-        const expiration = service.getTokenExpiration();
+        service.ensureAuthenticated().subscribe((result) => {
+          expect(result).toBe(true);
+        });
 
-        expect(expiration).toBe(1703181600000); // exp: 1703181600 * 1000
+        httpMock.expectNone(`${environment.apiUrl}/auth/me`);
       });
 
-      it('should return null when no token exists', () => {
-        localStorageMock.getItem.mockReturnValue(null);
+      it('should load session when none is available', () => {
+        service.ensureAuthenticated().subscribe((result) => {
+          expect(result).toBe(true);
+        });
 
-        const expiration = service.getTokenExpiration();
-
-        expect(expiration).toBeNull();
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
+        req.flush(MOCK_LOGIN_RESPONSE);
       });
 
-      it('should return null and log error for invalid JWT', () => {
-        localStorageMock.getItem.mockReturnValue(mockInvalidJwt);
+      it('should return false when session cannot be loaded', () => {
+        service.ensureAuthenticated().subscribe((result) => {
+          expect(result).toBe(false);
+        });
 
-        const expiration = service.getTokenExpiration();
-
-        expect(expiration).toBeNull();
-        expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('could not decode jwt:'));
-      });
-    });
-
-    describe('isTokenExpired', () => {
-      it('should return false for valid non-expired token', () => {
-        localStorageMock.getItem.mockReturnValue(mockJwt);
-        mockDateNow.mockReturnValue(1703181500000); // Before expiration
-
-        const isExpired = service.isTokenExpired();
-
-        expect(isExpired).toBe(false);
-      });
-
-      it('should return true for expired token', () => {
-        localStorageMock.getItem.mockReturnValue(mockExpiredJwt);
-        mockDateNow.mockReturnValue(1703181600000); // After expiration
-
-        const isExpired = service.isTokenExpired();
-
-        expect(isExpired).toBe(true);
-      });
-
-      it('should return true when no token exists', () => {
-        localStorageMock.getItem.mockReturnValue(null);
-
-        const isExpired = service.isTokenExpired();
-
-        expect(isExpired).toBe(true);
+        const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
+        req.flush({ message: 'Unauthorized' }, { status: 401, statusText: 'Unauthorized' });
       });
     });
   });
@@ -304,52 +260,44 @@ describe('AuthService', () => {
       const username = 'integrationuser';
       // eslint-disable-next-line sonarjs/no-hardcoded-passwords
       const password = 'integration-test-pass';
-      const expectedResponse = new LoginResponse(mockJwt, 3600);
+      const expectedResponse = MOCK_LOGIN_RESPONSE;
 
       // Initially not authenticated
-      localStorageMock.getItem.mockReturnValue(null);
       expect(service.isAuthenticated()).toBe(false);
 
       // Sign in
       service.signin(username, password).subscribe();
-      const req = httpMock.expectOne(`${environment.apiUrl}/login`);
+      const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
       req.flush(expectedResponse);
 
-      // Token should be stored
-      expect(localStorageMock.setItem).toHaveBeenCalledWith('token', mockJwt);
-
       // Now authenticated
-      localStorageMock.getItem.mockReturnValue(mockJwt);
       expect(service.isAuthenticated()).toBe(true);
       expect(service.authenticatedLogin()).toBe('testuser');
-      expect(service.isTokenExpired()).toBe(false);
 
       // Logout
-      service.logout();
-      expect(localStorageMock.removeItem).toHaveBeenCalledWith('token');
+      service.logout().subscribe();
+      const logoutReq = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
+      logoutReq.flush({});
 
       // No longer authenticated
-      localStorageMock.getItem.mockReturnValue(null);
       expect(service.isAuthenticated()).toBe(false);
     });
   });
 
   describe('Performance Considerations', () => {
     it('should not make unnecessary HTTP calls on token checks', () => {
-      localStorageMock.getItem.mockReturnValue(mockJwt);
+      service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
+      const loginReq = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+      loginReq.flush(MOCK_LOGIN_RESPONSE);
 
       // Multiple authentication checks should not trigger HTTP requests
       const authResult1 = service.isAuthenticated();
       const authResult2 = service.isAuthenticated();
       const login = service.authenticatedLogin();
-      const expiration = service.getTokenExpiration();
-      const expired = service.isTokenExpired();
 
       expect(authResult1).toBe(true);
       expect(authResult2).toBe(true);
       expect(login).toBe('testuser');
-      expect(expiration).toBeDefined();
-      expect(expired).toBe(false);
       httpMock.expectNone(() => true);
     });
   });
