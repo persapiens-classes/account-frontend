@@ -19,9 +19,11 @@ describe('LoginPage', () => {
 
   it('should display error with invalid credentials', () => {
     // Setup specific mock for invalid scenario if using mocks
-    if (Cypress.env('useMock')) {
-      cy.setupAuthMock('invalid');
-    }
+    cy.env(['useMock']).then(({ useMock }) => {
+      if (useMock) {
+        cy.setupAuthMock('invalid');
+      }
+    });
 
     cy.get('[data-cy="login-username"]').type('wronguser');
     cy.get('[data-cy="login-password"]').type('123');

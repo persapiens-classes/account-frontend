@@ -178,14 +178,14 @@ Cypress.Commands.add('setupOwnersMock', () => {
  * If CYPRESS_USE_MOCK=false or not set, will use real backend
  */
 Cypress.Commands.add('maybeSetupOwnersMock', () => {
-  const useMock = Cypress.env('useMock');
-
-  if (useMock) {
-    cy.log('Using mocked owners data');
-    cy.setupOwnersMock();
-  } else {
-    cy.log('Using real backend for owners');
-  }
+  cy.env(['useMock']).then(({ useMock }) => {
+    if (useMock) {
+      cy.log('Using mocked owners data');
+      cy.setupOwnersMock();
+    } else {
+      cy.log('Using real backend for owners');
+    }
+  });
 });
 
 /**

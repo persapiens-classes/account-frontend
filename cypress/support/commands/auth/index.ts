@@ -88,14 +88,14 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
  * If CYPRESS_USE_MOCK=false or not set, will use real backend
  */
 Cypress.Commands.add('maybeSetupAuthMock', () => {
-  const useMock = Cypress.env('useMock');
-
-  if (useMock) {
-    cy.log('Using mocked data');
-    cy.setupAuthMock('success');
-  } else {
-    cy.log('Using real backend');
-  }
+  cy.env(['useMock']).then(({ useMock }) => {
+    if (useMock) {
+      cy.log('Using mocked data');
+      cy.setupAuthMock('success');
+    } else {
+      cy.log('Using real backend');
+    }
+  });
 });
 
 /**
