@@ -103,12 +103,14 @@ Cypress.Commands.add('maybeSetupAuthMock', () => {
  * Uses Cypress environment variables
  */
 Cypress.Commands.add('login', (username?: string, password?: string) => {
-  const user = username ?? Cypress.env('validUsername');
-  const pass = password ?? Cypress.env('validPassword');
-
   cy.visit('/login');
-  cy.get('[data-cy="login-username"]').type(user);
-  cy.get('[data-cy="login-password"]').type(pass);
+  cy.env(['validUsername', 'validPassword']).then(({ validUsername, validPassword }) => {
+    const user = username ?? validUsername;
+    const pass = password ?? validPassword;
+
+    cy.get('[data-cy="login-username"]').type(user);
+    cy.get('[data-cy="login-password"]').type(pass);
+  });
   cy.get('[data-cy="login-button"]').click();
   cy.url().should('include', '/balances/list');
 });

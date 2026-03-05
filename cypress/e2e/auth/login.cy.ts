@@ -1,7 +1,4 @@
 describe('LoginPage', () => {
-  const validUsername = Cypress.env('validUsername');
-  const validPassword = Cypress.env('validPassword');
-
   beforeEach(() => {
     // Setup mock if configured
     cy.maybeSetupAuthMock();
@@ -9,8 +6,10 @@ describe('LoginPage', () => {
   });
 
   it('should login with valid username and password', () => {
-    cy.get('[data-cy="login-username"]').type(validUsername);
-    cy.get('[data-cy="login-password"]').type(validPassword);
+    cy.env(['validUsername', 'validPassword']).then(({ validUsername, validPassword }) => {
+      cy.get('[data-cy="login-username"]').type(validUsername);
+      cy.get('[data-cy="login-password"]').type(validPassword);
+    });
     cy.get('[data-cy="login-button"]').click();
 
     cy.url().should('include', '/balances/list');
