@@ -3,9 +3,6 @@ describe('Owner Remove Page', () => {
   const createdOwnerName = validOwnerName;
 
   beforeEach(() => {
-    // Reset created owners state for mock
-    Cypress.env('createdOwners', []);
-
     cy.maybeSetupAuthMock();
 
     cy.session('login', () => {

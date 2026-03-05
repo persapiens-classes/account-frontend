@@ -6,9 +6,6 @@ function accessOwnerDetail(): void {
 
 describe('Owner Detail Page', () => {
   beforeEach(() => {
-    // Reset created owners state for mock
-    Cypress.env('createdOwners', []);
-
     cy.maybeSetupAuthMock();
 
     cy.session('login', () => {

@@ -25,12 +25,7 @@ Cypress.Commands.add('setupOwnersMock', () => {
 
     // Create a list of existing owners for duplicate check
     const existingOwners = new Set(['Duplicate Owner']);
-
-    // Get or initialize the created owners from Cypress global state
-    if (!Cypress.env('createdOwners')) {
-      Cypress.env('createdOwners', []);
-    }
-    const createdOwners = Cypress.env('createdOwners') as Owner[];
+    const createdOwners: Owner[] = [];
 
     // Mock POST /owners - create a new owner with boundary value validation
     cy.intercept('POST', ownersEndpoint, (req) => {
@@ -73,7 +68,6 @@ Cypress.Commands.add('setupOwnersMock', () => {
       // OW-03: Valid names (3-255 characters)
       // Track the created owner
       createdOwners.push(requestBody);
-      Cypress.env('createdOwners', createdOwners);
 
       req.reply({
         statusCode: 201,
@@ -145,13 +139,12 @@ Cypress.Commands.add('setupOwnersMock', () => {
       }
 
       // Update the owner in createdOwners list
-      const currentCreatedOwners = (Cypress.env('createdOwners') as Owner[]) || [];
-      const ownerExists = currentCreatedOwners.some((o: Owner) => o.name === currentOwnerId);
+      const ownerExists = createdOwners.some((o: Owner) => o.name === currentOwnerId);
       if (ownerExists) {
-        const updatedOwners = currentCreatedOwners.map((o: Owner) =>
+        const updatedOwners = createdOwners.map((o: Owner) =>
           o.name === currentOwnerId ? requestBody : o,
         );
-        Cypress.env('createdOwners', updatedOwners);
+        createdOwners.splice(0, createdOwners.length, ...updatedOwners);
       }
 
       req.reply({
@@ -166,11 +159,9 @@ Cypress.Commands.add('setupOwnersMock', () => {
       const urlParts = req.url.split('/');
       const ownerId = urlParts.at(-1) ?? '';
 
-      const currentCreatedOwners = (Cypress.env('createdOwners') as Owner[]) || [];
-      const index = currentCreatedOwners.findIndex((o: Owner) => o.name === ownerId);
+      const index = createdOwners.findIndex((o: Owner) => o.name === ownerId);
       if (index > -1) {
-        currentCreatedOwners.splice(index, 1);
-        Cypress.env('createdOwners', currentCreatedOwners);
+        createdOwners.splice(index, 1);
       }
 
       req.reply({

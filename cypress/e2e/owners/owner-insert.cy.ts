@@ -2,9 +2,6 @@ describe('Owner Insert Page', () => {
   const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
 
   beforeEach(() => {
-    // Reset created owners state for mock
-    Cypress.env('createdOwners', []);
-
     cy.maybeSetupAuthMock();
 
     cy.session('login', () => {
