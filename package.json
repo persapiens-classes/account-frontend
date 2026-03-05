@@ -91,7 +91,7 @@
     "istanbul-lib-coverage": "3.2.2",
     "jscpd": "4.0.8",
     "jsdom": "28.1.0",
-    "nyc": "17.1.0",
+    "nyc": "18.0.0",
     "prettier": "3.8.1",
     "prettier-plugin-tailwindcss": "0.7.2",
     "rimraf": "6.1.3",
