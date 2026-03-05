@@ -207,4 +207,4 @@ Cypress.Commands.add('navigateToOwnersNew', () => {
   cy.url().should('include', '/owners/new');
 });
 
-export {};
+export {}; // NOSONAR - required for module scope with global augmentation typescript:S7787

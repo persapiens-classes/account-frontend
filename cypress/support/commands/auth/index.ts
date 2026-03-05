@@ -126,4 +126,4 @@ Cypress.Commands.add('setAuthState', (value: boolean) => {
   isAuthenticated = value;
 });
 
-export {};
+export {}; // NOSONAR - required for module scope with global augmentation typescript:S7787
