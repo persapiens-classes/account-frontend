@@ -87,7 +87,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
     "eslint-plugin-security": "4.0.0",
-    "eslint-plugin-sonarjs": "4.0.1",
+    "eslint-plugin-sonarjs": "4.0.2",
     "istanbul-lib-coverage": "3.2.2",
     "jscpd": "4.0.8",
     "jsdom": "28.1.0",
