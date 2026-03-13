@@ -1,5 +1,5 @@
 describe('Equity Account Remove Page', () => {
-  const validEquityAccountDescription = `equity_${Date.now()}`; // dynamic description to avoid duplicates
+  const validEquityAccountDescription = Cypress._.uniqueId('equity_'); // dynamic description to avoid duplicates
   const createdEquityAccountDescription = validEquityAccountDescription;
 
   beforeEach(() => {

@@ -79,7 +79,7 @@ describe('Equity Account Edit Page', () => {
   });
 
   describe('Validation Tests', () => {
-    const validEquityAccountDescription = `equity_${Date.now()}`;
+    const validEquityAccountDescription = Cypress._.uniqueId('equity_');
 
     beforeEach(() => {
       // Create an equity account first that will be edited in tests
@@ -122,7 +122,7 @@ describe('Equity Account Edit Page', () => {
     it('AC-02: should edit equity account successfully using 3 characters (lower limit)', () => {
       cy.fixture('accounts').then((accountsData) => {
         const testCase = accountsData.boundaryValues['AC-02'];
-        const uniqueDescription = `${testCase.description}_${Date.now()}`;
+        const uniqueDescription = Cypress._.uniqueId(testCase.description);
 
         cy.get('[data-cy="input-description"]').clear().type(uniqueDescription);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click({ force: true });
@@ -135,7 +135,7 @@ describe('Equity Account Edit Page', () => {
     it('AC-03: should edit equity account successfully using 255 characters (upper limit)', () => {
       cy.fixture('accounts').then((accountsData) => {
         const testCase = accountsData.boundaryValues['AC-03'];
-        const uniqueDescription = testCase.description.substring(0, 245) + Date.now();
+        const uniqueDescription = Cypress._.uniqueId(testCase.description.substring(0, 245));
 
         cy.get('[data-cy="input-description"]').clear().type(uniqueDescription);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click({ force: true });
@@ -157,7 +157,7 @@ describe('Equity Account Edit Page', () => {
     });
 
     it('AC-05: should edit equity account successfully with valid category', () => {
-      cy.get('[data-cy="input-description"]').clear().type(`valid_account_${Date.now()}`);
+      cy.get('[data-cy="input-description"]').clear().type(Cypress._.uniqueId('valid_account_'));
 
       cy.get('[data-cy="select-category"]').click();
       cy.get('[role="listbox"]').should('be.visible');

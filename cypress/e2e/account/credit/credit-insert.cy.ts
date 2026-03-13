@@ -1,5 +1,5 @@
 describe('Credit Account Insert Page', () => {
-  const validCreditAccountDescription = `credit_${Date.now()}`; // dynamic description to avoid duplicates
+  const validCreditAccountDescription = Cypress._.uniqueId('credit_'); // dynamic description to avoid duplicates
 
   beforeEach(() => {
     // Reset created accounts state for mock
@@ -55,7 +55,7 @@ describe('Credit Account Insert Page', () => {
     it('AC-02: should create credit account successfully using 3 characters (lower limit)', () => {
       cy.fixture('accounts').then((accountsData) => {
         const testCase = accountsData.boundaryValues['AC-02'];
-        const uniqueDescription = `${testCase.description}_${Date.now()}`;
+        const uniqueDescription = Cypress._.uniqueId(testCase.description);
 
         cy.get('[data-cy="input-description"]').type(uniqueDescription);
 
@@ -118,7 +118,7 @@ describe('Credit Account Insert Page', () => {
     });
 
     it('AC-06: should create credit account successfully with valid category', () => {
-      cy.get('[data-cy="input-description"]').type(`valid_account_${Date.now()}`);
+      cy.get('[data-cy="input-description"]').type(Cypress._.uniqueId('valid_account_'));
 
       cy.get('[data-cy="select-category"]').click();
       cy.get('[role="listbox"]').should('be.visible');

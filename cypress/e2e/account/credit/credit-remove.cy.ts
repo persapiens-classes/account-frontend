@@ -1,5 +1,5 @@
 describe('Credit Account Remove Page', () => {
-  const validCreditAccountDescription = `credit_${Date.now()}`; // dynamic description to avoid duplicates
+  const validCreditAccountDescription = Cypress._.uniqueId('credit_'); // dynamic description to avoid duplicates
   const createdCreditAccountDescription = validCreditAccountDescription;
 
   beforeEach(() => {

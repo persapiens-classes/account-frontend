@@ -76,7 +76,7 @@ describe('Credit Account Edit Page', () => {
   });
 
   describe('Validation Tests', () => {
-    const validCreditAccountDescription = `credit_${Date.now()}`;
+    const validCreditAccountDescription = Cypress._.uniqueId('credit_');
 
     beforeEach(() => {
       // Create a credit account first that will be edited in tests
@@ -119,7 +119,7 @@ describe('Credit Account Edit Page', () => {
     it('AC-02: should edit credit account successfully using 3 characters (lower limit)', () => {
       cy.fixture('accounts').then((accountsData) => {
         const testCase = accountsData.boundaryValues['AC-02'];
-        const uniqueDescription = `${testCase.description}_${Date.now()}`;
+        const uniqueDescription = Cypress._.uniqueId(testCase.description);
 
         cy.get('[data-cy="input-description"]').clear().type(uniqueDescription);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click({ force: true });
@@ -156,7 +156,7 @@ describe('Credit Account Edit Page', () => {
     it('AC-05: should edit credit account successfully with valid category', () => {
       cy.fixture('accounts').then((accountsData) => {
         const testCase = accountsData.boundaryValues['AC-06'];
-        const uniqueDescription = `${testCase.description}_${Date.now()}`;
+        const uniqueDescription = Cypress._.uniqueId(testCase.description);
 
         cy.get('[data-cy="input-description"]').clear().type(uniqueDescription);
 

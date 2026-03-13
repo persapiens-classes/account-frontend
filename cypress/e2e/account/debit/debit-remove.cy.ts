@@ -1,5 +1,5 @@
 describe('Debit Account Remove Page', () => {
-  const validDebitAccountDescription = `debit_${Date.now()}`; // dynamic description to avoid duplicates
+  const validDebitAccountDescription = Cypress._.uniqueId('debit_'); // dynamic description to avoid duplicates
   const createdDebitAccountDescription = validDebitAccountDescription;
 
   beforeEach(() => {
