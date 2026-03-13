@@ -19,7 +19,7 @@ describe('Debit Account Detail Page', () => {
       .within(() => {
         cy.get('[data-cy="detail-button"]').should('be.visible').click();
       });
-    cy.url({ timeout: 10000 }).should('include', '/debitAccounts/detail');
+    cy.url().should('include', '/debitAccounts/detail');
   }
 
   it('should access detail page by clicking magnifying glass icon', () => {
@@ -29,12 +29,12 @@ describe('Debit Account Detail Page', () => {
   it('should go back to list by clicking list icon', () => {
     accessDebitAccountDetail();
     cy.get('[data-cy="list-button"]').should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/debitAccounts/list');
+    cy.url().should('include', '/debitAccounts/list');
   });
 
   it('should go to edit page by clicking pencil icon', () => {
     accessDebitAccountDetail();
     cy.get('[data-cy="edit-button"]').should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/debitAccounts/edit');
+    cy.url().should('include', '/debitAccounts/edit');
   });
 });

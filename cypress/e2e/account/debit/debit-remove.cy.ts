@@ -24,42 +24,40 @@ describe('Debit Account Remove Page', () => {
     cy.get('[data-cy="input-description"]').type(validDebitAccountDescription);
 
     cy.get('[data-cy="select-category"]').click();
-    cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
+    cy.get('[role="listbox"]').should('be.visible');
     cy.get('[role="option"]').last().click();
 
     cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
-    cy.url({ timeout: 10000 }).should('include', '/debitAccounts/detail');
+    cy.url().should('include', '/debitAccounts/detail');
   });
 
   it('should remove the newly created Debit Account successfully', () => {
     cy.navigateToAccountList('debit');
-    cy.get('[data-cy="filter-description"]', { timeout: 10000 }).should('exist');
+    cy.get('[data-cy="filter-description"]').should('exist');
     cy.wait(500);
 
-    cy.get('[data-cy="filter-description"]', { timeout: 10000 })
+    cy.get('[data-cy="filter-description"]')
       .should('be.visible')
       .clear({ force: true })
       .type(`${createdDebitAccountDescription}{enter}`);
 
-    cy.contains('td', createdDebitAccountDescription, { timeout: 10000 }).should('be.visible');
+    cy.contains('td', createdDebitAccountDescription).should('be.visible');
 
     cy.contains('tr', createdDebitAccountDescription).within(() => {
       cy.get('[data-cy="delete-button"]').should('be.visible').click({ force: true });
     });
 
     // Wait for confirmation dialog
-    cy.get('[data-cy="remove-confirm-dialog"]', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy="remove-confirm-dialog"]').should('be.visible');
 
     // Click YES button (danger button)
-    cy.get('.p-dialog .p-button-danger', { timeout: 10000 })
-      .should('be.visible')
-      .click({ force: true });
+    cy.get('.p-dialog .p-button-danger').should('be.visible').click({ force: true });
 
     // Confirm that the success message appears
-    cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy="app-toast"]').should('be.visible');
 
     // Confirm removal
-    cy.contains('td', createdDebitAccountDescription, { timeout: 10000 }).should('not.exist');
+    cy.contains('td', createdDebitAccountDescription).should('not.exist');
   });
 });

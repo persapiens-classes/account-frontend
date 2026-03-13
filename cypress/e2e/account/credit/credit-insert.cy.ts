@@ -18,7 +18,7 @@ describe('Credit Account Insert Page', () => {
   });
 
   it('should allow going back to the list', () => {
-    cy.get('[data-cy="input-description"]', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy="input-description"]').should('be.visible');
     cy.get('[data-cy="list-button"]').should('be.visible').click();
     cy.url().should('include', '/creditAccounts/list');
   });
@@ -27,12 +27,12 @@ describe('Credit Account Insert Page', () => {
     cy.get('[data-cy="input-description"]').type(validCreditAccountDescription);
 
     cy.get('[data-cy="select-category"]').click();
-    cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
+    cy.get('[role="listbox"]').should('be.visible');
     cy.get('[role="option"]').last().click();
 
     cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
     cy.get('[data-cy="app-toast"]').should('be.visible');
-    cy.url({ timeout: 10000 }).should('include', '/creditAccounts/detail');
+    cy.url().should('include', '/creditAccounts/detail');
   });
 
   describe('Validation Tests', () => {
@@ -43,12 +43,12 @@ describe('Credit Account Insert Page', () => {
         cy.get('[data-cy="input-description"]').type(testCase.description);
 
         cy.get('[data-cy="select-category"]').click();
-        cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
+        cy.get('[role="listbox"]').should('be.visible');
         cy.get('[role="option"]').last().click();
 
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.url({ timeout: 5000 }).should('include', '/creditAccounts/new');
+        cy.url().should('include', '/creditAccounts/new');
       });
     });
 
@@ -60,13 +60,13 @@ describe('Credit Account Insert Page', () => {
         cy.get('[data-cy="input-description"]').type(uniqueDescription);
 
         cy.get('[data-cy="select-category"]').click();
-        cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
+        cy.get('[role="listbox"]').should('be.visible');
         cy.get('[role="option"]').last().click();
 
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-        cy.url({ timeout: 10000 }).should('include', '/creditAccounts/detail');
+        cy.get('[data-cy="app-toast"]').should('be.visible');
+        cy.url().should('include', '/creditAccounts/detail');
       });
     });
 
@@ -78,13 +78,13 @@ describe('Credit Account Insert Page', () => {
         cy.get('[data-cy="input-description"]').type(uniqueDescription);
 
         cy.get('[data-cy="select-category"]').click();
-        cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
+        cy.get('[role="listbox"]').should('be.visible');
         cy.get('[role="option"]').last().click();
 
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-        cy.url({ timeout: 10000 }).should('include', '/creditAccounts/detail');
+        cy.get('[data-cy="app-toast"]').should('be.visible');
+        cy.url().should('include', '/creditAccounts/detail');
       });
     });
 
@@ -95,12 +95,12 @@ describe('Credit Account Insert Page', () => {
         cy.get('[data-cy="input-description"]').type(testCase.description);
 
         cy.get('[data-cy="select-category"]').click();
-        cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
+        cy.get('[role="listbox"]').should('be.visible');
         cy.get('[role="option"]').last().click();
 
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-        cy.url({ timeout: 5000 }).should('include', '/creditAccounts/new');
+        cy.url().should('include', '/creditAccounts/new');
       });
     });
 
@@ -121,13 +121,13 @@ describe('Credit Account Insert Page', () => {
       cy.get('[data-cy="input-description"]').type(`valid_account_${Date.now()}`);
 
       cy.get('[data-cy="select-category"]').click();
-      cy.get('[role="listbox"]', { timeout: 5000 }).should('be.visible');
+      cy.get('[role="listbox"]').should('be.visible');
       cy.get('[role="option"]').last().click();
 
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
-      cy.get('[data-cy="app-toast"]', { timeout: 10000 }).should('be.visible');
-      cy.url({ timeout: 10000 }).should('include', '/creditAccounts/detail');
+      cy.get('[data-cy="app-toast"]').should('be.visible');
+      cy.url().should('include', '/creditAccounts/detail');
     });
   });
 });
