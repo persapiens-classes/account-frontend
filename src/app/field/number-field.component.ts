@@ -3,7 +3,6 @@ import { Component, computed, input } from '@angular/core';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { NumberFieldComponent as INumberFieldComponent } from './field-component';
 import { FormField, FieldTree } from '@angular/forms/signals';
 
 @Component({
@@ -17,7 +16,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
         [currency]="currency()"
         [locale]="locale()"
         [pAutoFocus]="autoFocus()"
-        [formField]="formField()"
+        [formField]="$any(formField())"
         [attr.data-cy]="dataCy()"
       />
       <label [for]="calculatedId()">{{ label() }}</label>
@@ -39,7 +38,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
     }
   `,
 })
-export class NumberFieldComponent implements INumberFieldComponent {
+export class NumberFieldComponent {
   id = input<string>('');
   label = input.required<string>();
   autoFocus = input<boolean>(false);

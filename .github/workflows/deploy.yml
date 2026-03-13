@@ -10,12 +10,12 @@ jobs:
 
     steps:
       - name: Source code checkout
-        uses: actions/checkout@v6.0.1
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Node install
-        uses: actions/setup-node@v6.2.0
+        uses: actions/setup-node@v6.3.0
         with:
           node-version: '24'
 
@@ -34,7 +34,7 @@ jobs:
           echo "STORE_PATH=$STORE_PATH" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@v5.0.2
+        uses: actions/cache@v5.0.3
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
@@ -42,7 +42,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Cache Cypress binary
-        uses: actions/cache@v5.0.2
+        uses: actions/cache@v5.0.3
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-cache-${{ hashFiles('pnpm-lock.yaml') }}
@@ -56,51 +56,42 @@ jobs:
         run: pnpm cypress install
 
       - name: Prettier run
-        run: pnpm run format:check
+        run: pnpm format:check
 
       - name: Jscpd run (Production Code)
-        run: pnpm run check-duplication:production
+        run: pnpm check-duplication:production
 
       - name: Jscpd run (Test Files)
-        run: pnpm run check-duplication:tests
+        run: pnpm check-duplication:tests
 
       - name: Jscpd upload artifacts
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: jscpd-reports
           path: |
             report/jscpd/
 
       - name: ESLint run
-        run: pnpm run lint
+        run: pnpm lint
 
-      - name: Tests (Unit and Integration) run
-        run: pnpm run test:coverage
+      - name: Tests (Unit and Integration with Angular CLI) run
+        run: pnpm clean:unit:ng:coverage && pnpm test:unit:ng:coverage
 
-      - name: Tests (E2E) run
-        run: pnpm test:start-server:mock:run
+      - name: Tests (Unit and Integration with Vitest) run
+        run: pnpm clean:unit:coverage && pnpm test:unit:coverage
+
+      - name: Tests (E2E with Vite and Cypress) run
+        run: pnpm clean:e2e:coverage && pnpm test:e2e:coverage
+
+      - name: Merge coverage run
+        run: pnpm merge:coverage
 
       - name: Coverage upload artifacts
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: coverage
           path: |
             coverage/
-
-      - name: Verify coverage files
-        run: |
-          echo "Checking coverage files..."
-          ls -la coverage/
-          if [ -f "coverage/lcov.info" ]; then
-            echo "✅ LCOV file exists"
-            echo "📊 LCOV file size: $(wc -l < coverage/lcov.info) lines"
-            echo "📄 LCOV file preview:"
-            head -20 coverage/lcov.info
-          else
-            echo "❌ LCOV file missing"
-            exit 1
-          fi
-        if: github.actor != 'dependabot[bot]'
 
       - name: Debug SonarCloud Analysis
         run: |
@@ -108,26 +99,26 @@ jobs:
           find src -name "*.ts" -not -path "*/node_modules/*" | head -10
           echo ""
           echo "📊 Files with coverage in LCOV:"
-          grep "^SF:" coverage/lcov.info | sed 's/SF://' | head -10
+          grep "^SF:" coverage/merged/lcov.info | sed 's/SF://' | head -10
           echo ""
           echo "📈 Sample coverage data:"
-          grep -A 3 -B 1 "LF:" coverage/lcov.info | head -10
+          grep -A 3 -B 1 "LF:" coverage/merged/lcov.info | head -10
           echo ""
           echo "🎯 Detail field component coverage:"
-          grep -A 10 -B 2 "detail-field.component" coverage/lcov.info
+          grep -A 10 -B 2 "detail-field.component" coverage/merged/lcov.info
           echo ""
           echo "📋 Coverage summary:"
-          grep -E "^(SF|LF|LH):" coverage/lcov.info | head -15
+          grep -E "^(SF|LF|LH):" coverage/merged/lcov.info | head -15
         if: github.actor != 'dependabot[bot]'
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v7.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        if: ${{ vars.SONAR_HOST_URL != '' && vars.SONAR_ORGANIZATION != '' && vars.SONAR_PROJECT_KEY != '' }}
+        if: ${{ github.actor != 'dependabot[bot]' && github.repository == 'persapiens-classes/account-frontend' }}
 
       - name: Build project
-        run: pnpm run build:prod
+        run: pnpm build:prod
 
       - name: Deploy on GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.8.0

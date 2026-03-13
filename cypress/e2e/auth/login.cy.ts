@@ -1,7 +1,4 @@
 describe('LoginPage', () => {
-  const validUsername = Cypress.env('validUsername');
-  const validPassword = Cypress.env('validPassword');
-
   beforeEach(() => {
     // Setup mock if configured
     cy.maybeSetupAuthMock();
@@ -9,21 +6,25 @@ describe('LoginPage', () => {
   });
 
   it('should login with valid username and password', () => {
-    cy.get('[data-cy="login-username"]').type(validUsername);
-    cy.get('[data-cy="login-password"]').type(validPassword);
+    cy.env(['validUsername', 'validPassword']).then(({ validUsername, validPassword }) => {
+      cy.get('[data-cy="login-username"]').type(validUsername);
+      cy.get('[data-cy="login-password"]').type(validPassword);
+    });
     cy.get('[data-cy="login-button"]').click();
 
     cy.url().should('include', '/balances/list');
-    cy.contains('Balance').should('exist');
+    cy.get('[data-cy="menu-balance"]').should('exist');
   });
 
   it('should display error with invalid credentials', () => {
     // Setup specific mock for invalid scenario if using mocks
-    if (Cypress.env('useMock')) {
-      cy.setupAuthMock('invalid');
-    }
+    cy.env(['useMock']).then(({ useMock }) => {
+      if (useMock) {
+        cy.setupAuthMock('invalid');
+      }
+    });
 
-    cy.get('[data-cy="login-username"]').type('errado');
+    cy.get('[data-cy="login-username"]').type('wronguser');
     cy.get('[data-cy="login-password"]').type('123');
     cy.get('[data-cy="login-button"]').click();
 

@@ -1,20 +1,21 @@
 // @ts-check
-const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const angular = require('angular-eslint');
-const prettierPlugin = require('eslint-plugin-prettier');
-const securityPlugin = require('eslint-plugin-security');
-const prettierDisableRules = require('eslint-config-prettier');
-const securityPluginRecommended = require('eslint-plugin-security').configs.recommended;
-const sonarjs = require('eslint-plugin-sonarjs');
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from 'angular-eslint';
+import prettierPlugin from 'eslint-plugin-prettier';
+import securityPlugin from 'eslint-plugin-security';
+import prettierDisableRules from 'eslint-config-prettier';
+import sonarjs from 'eslint-plugin-sonarjs';
 
-module.exports = tseslint.config(
+const securityPluginRecommended = securityPlugin.configs.recommended;
+
+export default tseslint.config(
   {
     files: ['**/*.ts'],
     languageOptions: {
       parserOptions: {
         project: './tsconfig.eslint.json',
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     extends: [

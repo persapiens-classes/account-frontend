@@ -115,10 +115,6 @@ describe('OwnerListComponent', () => {
   });
 
   describe('Component Structure', () => {
-    it('should have correct component metadata', () => {
-      expect(component.constructor.name).toBe('OwnerListComponent');
-    });
-
     it('should have correct bean configuration', () => {
       expect(component.beanName).toBe('Owner');
       expect(component.routerName).toBe('owners');

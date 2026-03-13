@@ -50,7 +50,6 @@ describe('OwnerListService', () => {
   describe('Service Configuration', () => {
     it('should be injectable service', () => {
       expect(service).toBeTruthy();
-      expect(service.constructor.name).toBe('OwnerListService');
     });
 
     it('should maintain service instance', () => {

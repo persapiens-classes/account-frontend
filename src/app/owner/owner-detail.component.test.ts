@@ -3,13 +3,7 @@ import { Router } from '@angular/router';
 import { expect, describe, it, beforeEach, vi } from 'vitest';
 import { TestUtils } from '../shared/test-utils';
 import { OwnerDetailComponent } from './owner-detail.component';
-import { Owner, createOwner } from './owner';
-import { toBeanFromHistory } from '../bean/bean';
-
-// Mock the toBeanFromHistory function
-vi.mock('../bean/bean', () => ({
-  toBeanFromHistory: vi.fn(),
-}));
+import { Owner } from './owner';
 
 describe('OwnerDetailComponent', () => {
   let component: OwnerDetailComponent;
@@ -17,18 +11,14 @@ describe('OwnerDetailComponent', () => {
   let mockRouter: {
     navigate: ReturnType<typeof vi.fn>;
   };
-  let mockToBeanFromHistory: ReturnType<typeof vi.fn>;
-
   beforeEach(async () => {
     // Create router mock
     mockRouter = {
       navigate: vi.fn(),
     };
 
-    // Setup mock for toBeanFromHistory
-    mockToBeanFromHistory = vi.mocked(toBeanFromHistory);
-    mockToBeanFromHistory.mockReturnValue(new Owner('Test Owner'));
-
+    // Setup history state used by toBeanFromHistory
+    history.replaceState({ bean: { name: 'Test Owner' } }, '');
     await TestUtils.setupComponentTestBed(OwnerDetailComponent, [
       { provide: Router, useValue: mockRouter },
     ]);
@@ -43,9 +33,7 @@ describe('OwnerDetailComponent', () => {
     });
 
     it('should initialize bean using toBeanFromHistory', () => {
-      expect(mockToBeanFromHistory).toHaveBeenCalledWith(createOwner);
-      // Note: Called multiple times due to component creation in different tests
-      expect(mockToBeanFromHistory.mock.calls.length).toBeGreaterThan(0);
+      expect(component.bean.name).toBe('Test Owner');
     });
 
     it('should have Owner bean with expected structure', () => {
@@ -70,26 +58,20 @@ describe('OwnerDetailComponent', () => {
 
   describe('History State Integration', () => {
     it('should call toBeanFromHistory with createOwner function', () => {
-      // Component is already created in beforeEach, so toBeanFromHistory was called
-      expect(mockToBeanFromHistory).toHaveBeenCalledWith(createOwner);
+      expect(component.bean.getId()).toBe('Test Owner');
     });
 
     it('should handle different history states', () => {
-      // Test with different mock returns to simulate different history states
-      const mockOwnerFromHistory = new Owner('From History');
-      mockToBeanFromHistory.mockReturnValue(mockOwnerFromHistory);
-
+      history.replaceState({ bean: { name: 'From History' } }, '');
       const newFixture = TestUtils.createFixture(OwnerDetailComponent);
       const newComponent = newFixture.componentInstance;
 
-      expect(newComponent.bean).toBe(mockOwnerFromHistory);
       expect(newComponent.bean.name).toBe('From History');
     });
 
     it('should create Owner with empty name when no history state', () => {
-      // Mock toBeanFromHistory to return default created owner
-      mockToBeanFromHistory.mockReturnValue(createOwner());
-
+      // Simulate missing history state
+      history.replaceState({}, '');
       const newFixture = TestUtils.createFixture(OwnerDetailComponent);
       const newComponent = newFixture.componentInstance;
 
@@ -103,7 +85,6 @@ describe('OwnerDetailComponent', () => {
       // Use helper pattern for initialization testing
       const testInitialization = () => {
         expect(component.bean).toBeDefined();
-        expect(mockToBeanFromHistory).toHaveBeenCalled();
       };
 
       testInitialization();

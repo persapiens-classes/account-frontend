@@ -9,9 +9,9 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['node_modules', 'dist', '.angular', 'coverage', '**/*.e2e.spec.ts'],
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html', 'lcov'],
-      reportsDirectory: './coverage',
+      provider: 'istanbul',
+      reporter: ['html', 'lcov', 'text', 'text-summary', 'json'],
+      reportsDirectory: './coverage/unit',
       include: ['src/**/*.{js,ts,jsx,tsx}'],
       exclude: [
         'node_modules/',
@@ -25,6 +25,7 @@ export default defineConfig({
         '**/*.d.ts',
         'src/**/*.routes.ts',
         'src/app/app.config.ts',
+        'src/app/shared/test-utils.ts',
         'coverage/',
         'dist/',
         '.angular/',
@@ -38,20 +39,16 @@ export default defineConfig({
         },
       },
     },
-    // Para melhor compatibilidade com Angular
-    // testTransformMode: {
-    //  web: ['**/*.ts', '**/*.tsx'],
-    // },
   },
   resolve: {
     alias: {
-      // Mapeamento de paths do Angular
+      // Mapping Angular paths
       '@': '/src',
       '@app': '/src/app',
       '@environments': '/src/environments',
     },
   },
-  // Configurações para lidar com módulos Angular
+  // Config to angular modules
   define: {
     'import.meta.vitest': undefined,
   },

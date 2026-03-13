@@ -75,7 +75,7 @@ This frontend application is built with Angular and leverages the following tech
 Angular CLI includes powerful code scaffolding tools:
 
 ```bash
-ng generate component component-name
+pnpm ng generate component component-name
 ```
 
 ### Building
@@ -83,7 +83,7 @@ ng generate component component-name
 Build for production:
 
 ```bash
-ng build
+pnpm ng build
 ```
 
 Or with production configuration and base href for GitHub Pages:
@@ -94,22 +94,35 @@ pnpm run build:prod
 
 ### Running Tests
 
+Execute unit tests with Angular Cli:
+
+```bash
+pnpm ng test
+```
+
 Execute unit tests with Vitest:
 
 ```bash
 pnpm test
 ```
 
-Run tests with UI:
+Run e2e tests with Cypress and Vite:
 
 ```bash
-pnpm run test:ui
+pnpm vite:start:instrumented &
+pnpm cypress:run
 ```
 
-Generate coverage report:
+Generate unit coverage report:
 
 ```bash
-pnpm run test:coverage
+pnpm test:unit:coverage
+```
+
+Generate e2e coverage report:
+
+```bash
+pnpm test:e2e:coverage
 ```
 
 ### Code Quality
@@ -117,7 +130,7 @@ pnpm run test:coverage
 Run all quality checks:
 
 ```bash
-pnpm run quality
+pnpm quality
 ```
 
 This includes:
@@ -186,7 +199,3 @@ module.exports = defineConfig({
 ## License
 
 This project is licensed under the [Apache License 2.0](LICENSE)
-
-```
-
-```

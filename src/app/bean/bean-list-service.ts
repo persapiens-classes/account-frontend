@@ -60,7 +60,7 @@ export function handleHttpResourceError(
       `${beanName} not listed`,
     );
   } else {
-    // fallback para qualquer coisa (string, objeto desconhecido etc.)
+    // fallback to anything (string, unknown object, etc.)
     appMessageService.addErrorMessage(
       new HttpErrorResponse({ error: String(error), status: 0, statusText: 'Unknown error' }),
       `${beanName} not listed`,

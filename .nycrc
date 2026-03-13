@@ -1,6 +1,6 @@
 {
-  "report-dir": "coverage",
-  "reporter": ["html", "lcov", "text", "json"],
+  "report-dir": "coverage/e2e",
+  "reporter": ["html", "lcov", "text", "text-summary", "json"],
   "exclude": [
     "**/*.spec.ts",
     "**/*.test.ts",
@@ -12,7 +12,8 @@
     "**/cypress/**",
     "**/coverage/**",
     "**/dist/**",
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "**/src/app/shared/test-utils.ts"
   ],
   "temp-dir": ".nyc_output",
   "all": true,
