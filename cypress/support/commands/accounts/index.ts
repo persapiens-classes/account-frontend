@@ -235,14 +235,14 @@ Cypress.Commands.add('navigateToAccountList', (accountType: 'credit' | 'debit' |
   };
 
   // Navigate via menu clicks
-  cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-  cy.contains(labelMap[accountType], { timeout: 10000 }).click({ force: true });
+  cy.get('p-menubar').contains('Account').click({ force: true });
+  cy.contains(labelMap[accountType]).click({ force: true });
 
   // Verify we're on the correct page
-  cy.url({ timeout: 10000 }).should('include', urlSegmentMap[accountType]);
+  cy.url().should('include', urlSegmentMap[accountType]);
 
   // Wait for table to load
-  cy.get('[data-cy="accounts-table"]', { timeout: 10000 }).should('exist');
+  cy.get('[data-cy="accounts-table"]').should('exist');
 });
 
 /**
@@ -261,7 +261,7 @@ Cypress.Commands.add('navigateToAccountNew', (accountType: 'credit' | 'debit' | 
     equity: '/equityAccounts/new',
   };
 
-  cy.url({ timeout: 10000 }).should('include', urlSegmentMap[accountType]);
+  cy.url().should('include', urlSegmentMap[accountType]);
 });
 
 export {};
