@@ -10,11 +10,9 @@ describe('Equity Account Edit Page', () => {
 
     cy.maybeSetupAccountsMock();
     cy.maybeSetupCategoriesMock();
-    cy.visit('/balances/list');
 
-    cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-    cy.contains('Equity Account', { timeout: 10000 }).click({ force: true });
-    cy.url({ timeout: 10000 }).should('include', '/equityAccounts/list');
+    cy.visitMain();
+    cy.navigateToAccountList('equity');
   });
 
   function captureLastEquityAccount(): void {

@@ -6,12 +6,9 @@ describe('Credit Account Detail Page', () => {
     });
 
     cy.maybeSetupAccountsMock();
-    cy.visit('/balances/list');
 
-    // Navigate to credit account list
-    cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-    cy.get('p-menubar').contains('Credit Account', { timeout: 10000 }).click({ force: true });
-    cy.url({ timeout: 10000 }).should('include', '/creditAccounts/list');
+    cy.visitMain();
+    cy.navigateToAccountList('credit');
   });
 
   function accessCreditAccountDetail(): void {

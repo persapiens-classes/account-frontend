@@ -6,12 +6,9 @@ describe('Equity Account Detail Page', () => {
     });
 
     cy.maybeSetupAccountsMock();
-    cy.visit('/balances/list');
 
-    // Navigate to equity account list
-    cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-    cy.get('p-menubar').contains('Equity Account', { timeout: 10000 }).click({ force: true });
-    cy.url({ timeout: 10000 }).should('include', '/equityAccounts/list');
+    cy.visitMain();
+    cy.navigateToAccountList('equity');
   });
 
   function accessEquityAccountDetail(): void {

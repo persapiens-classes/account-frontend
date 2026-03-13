@@ -10,11 +10,9 @@ describe('Credit Account Edit Page', () => {
 
     cy.maybeSetupAccountsMock();
     cy.maybeSetupCategoriesMock();
-    cy.visit('/balances/list');
 
-    cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-    cy.contains('Credit Account', { timeout: 10000 }).click({ force: true });
-    cy.url({ timeout: 10000 }).should('include', '/creditAccounts/list');
+    cy.visitMain();
+    cy.navigateToAccountList('credit');
   });
 
   it('clicking pencil on last credit account opens edit', () => {

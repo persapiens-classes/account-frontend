@@ -12,16 +12,9 @@ describe('Debit Account Insert Page', () => {
 
     cy.maybeSetupAccountsMock();
     cy.maybeSetupCategoriesMock();
-    cy.visit('/balances/list');
 
-    // Path to debit account creation page
-    cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-    cy.contains('Debit Account', { timeout: 10000 }).click({ force: true });
-    cy.url({ timeout: 10000 }).should('include', '/debitAccounts/list');
-
-    // Open creation page
-    cy.get('[data-cy="create-button"]').should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/debitAccounts/new');
+    cy.visitMain();
+    cy.navigateToAccountNew('debit');
   });
 
   it('should allow going back to the list', () => {

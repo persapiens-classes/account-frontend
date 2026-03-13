@@ -13,10 +13,12 @@ describe('Debit Account Remove Page', () => {
 
     cy.maybeSetupAccountsMock();
     cy.maybeSetupCategoriesMock();
+
+    cy.visitMain();
   });
 
   it('should create a new Debit Account for removal test', () => {
-    cy.visit('/debitAccounts/new');
+    cy.navigateToAccountNew('debit');
     cy.url().should('include', '/debitAccounts/new');
 
     cy.get('[data-cy="input-description"]').type(validDebitAccountDescription);
@@ -31,7 +33,7 @@ describe('Debit Account Remove Page', () => {
   });
 
   it('should remove the newly created Debit Account successfully', () => {
-    cy.visit('/debitAccounts/list');
+    cy.navigateToAccountList('debit');
     cy.get('[data-cy="filter-description"]', { timeout: 10000 }).should('exist');
     cy.wait(500);
 

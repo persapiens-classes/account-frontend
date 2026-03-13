@@ -6,6 +6,7 @@ declare global {
       setupAccountsMock(): Chainable<void>;
       maybeSetupAccountsMock(): Chainable<void>;
       navigateToAccountList(accountType: 'credit' | 'debit' | 'equity'): Chainable<void>;
+      navigateToAccountNew(accountType: 'credit' | 'debit' | 'equity'): Chainable<void>;
     }
   }
 }
@@ -218,29 +219,49 @@ Cypress.Commands.add('maybeSetupAccountsMock', () => {
 
 /**
  * Navigate to account list by type (credit, debit, or equity)
- * Uses direct URL navigation when possible, with fallback to menu navigation
+ * Uses menu navigation via clicks instead of direct URL navigation
  */
 Cypress.Commands.add('navigateToAccountList', (accountType: 'credit' | 'debit' | 'equity') => {
-  const routeMap = {
-    credit: '/creditAccounts/list',
-    debit: '/debitAccounts/list',
-    equity: '/equityAccounts/list',
-  };
-
   const labelMap = {
     credit: 'Credit Account',
     debit: 'Debit Account',
     equity: 'Equity Account',
   };
 
-  // Navigate directly via URL (more reliable than UI navigation)
-  cy.visit(routeMap[accountType]);
+  const urlSegmentMap = {
+    credit: '/creditAccounts/list',
+    debit: '/debitAccounts/list',
+    equity: '/equityAccounts/list',
+  };
+
+  // Navigate via menu clicks
+  cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
+  cy.contains(labelMap[accountType], { timeout: 10000 }).click({ force: true });
 
   // Verify we're on the correct page
-  cy.url({ timeout: 10000 }).should('include', routeMap[accountType]);
+  cy.url({ timeout: 10000 }).should('include', urlSegmentMap[accountType]);
 
   // Wait for table to load
   cy.get('[data-cy="accounts-table"]', { timeout: 10000 }).should('exist');
+});
+
+/**
+ * Navigate to account creation page by type (credit, debit, or equity)
+ */
+Cypress.Commands.add('navigateToAccountNew', (accountType: 'credit' | 'debit' | 'equity') => {
+  // Go to the account list first
+  cy.navigateToAccountList(accountType);
+
+  // Click create button
+  cy.get('[data-cy="create-button"]').should('be.visible').click();
+
+  const urlSegmentMap = {
+    credit: '/creditAccounts/new',
+    debit: '/debitAccounts/new',
+    equity: '/equityAccounts/new',
+  };
+
+  cy.url({ timeout: 10000 }).should('include', urlSegmentMap[accountType]);
 });
 
 export {};

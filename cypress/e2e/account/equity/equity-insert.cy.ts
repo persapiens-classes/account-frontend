@@ -12,16 +12,9 @@ describe('Equity Account Insert Page', () => {
 
     cy.maybeSetupAccountsMock();
     cy.maybeSetupCategoriesMock();
-    cy.visit('/balances/list');
 
-    // Path to equity account creation page
-    cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-    cy.contains('Equity Account', { timeout: 10000 }).click({ force: true });
-    cy.url({ timeout: 10000 }).should('include', '/equityAccounts/list');
-
-    // Open creation page
-    cy.get('[data-cy="create-button"]').should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/equityAccounts/new');
+    cy.visitMain();
+    cy.navigateToAccountNew('equity');
   });
 
   it('should allow going back to the list', () => {

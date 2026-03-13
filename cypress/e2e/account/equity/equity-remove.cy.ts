@@ -13,10 +13,12 @@ describe('Equity Account Remove Page', () => {
 
     cy.maybeSetupAccountsMock();
     cy.maybeSetupCategoriesMock();
+
+    cy.visitMain();
   });
 
   it('should create a new Equity Account for removal test', () => {
-    cy.visit('/equityAccounts/new');
+    cy.navigateToAccountNew('equity');
     cy.url().should('include', '/equityAccounts/new');
 
     cy.get('[data-cy="input-description"]').type(validEquityAccountDescription);
@@ -31,7 +33,7 @@ describe('Equity Account Remove Page', () => {
   });
 
   it('should remove the newly created Equity Account successfully', () => {
-    cy.visit('/equityAccounts/list');
+    cy.navigateToAccountList('equity');
     cy.get('[data-cy="filter-description"]', { timeout: 10000 }).should('exist');
     cy.wait(500);
 

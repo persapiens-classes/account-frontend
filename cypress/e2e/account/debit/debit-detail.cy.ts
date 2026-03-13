@@ -6,12 +6,9 @@ describe('Debit Account Detail Page', () => {
     });
 
     cy.maybeSetupAccountsMock();
-    cy.visit('/balances/list');
 
-    // Navigate to debit account list
-    cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-    cy.get('p-menubar').contains('Debit Account', { timeout: 10000 }).click({ force: true });
-    cy.url({ timeout: 10000 }).should('include', '/debitAccounts/list');
+    cy.visitMain();
+    cy.navigateToAccountList('debit');
   });
 
   function accessDebitAccountDetail(): void {

@@ -13,11 +13,12 @@ describe('Credit Account Remove Page', () => {
 
     cy.maybeSetupAccountsMock();
     cy.maybeSetupCategoriesMock();
+
+    cy.visitMain();
   });
 
   it('should create a new Credit Account for removal test', () => {
-    cy.visit('/creditAccounts/new');
-    cy.url().should('include', '/creditAccounts/new');
+    cy.navigateToAccountNew('credit');
 
     cy.get('[data-cy="input-description"]').type(validCreditAccountDescription);
 
@@ -31,7 +32,7 @@ describe('Credit Account Remove Page', () => {
   });
 
   it('should remove the newly created Credit Account successfully', () => {
-    cy.visit('/creditAccounts/list');
+    cy.navigateToAccountList('credit');
     cy.get('[data-cy="filter-description"]', { timeout: 10000 }).should('exist');
     cy.wait(500);
 

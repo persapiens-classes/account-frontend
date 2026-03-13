@@ -12,16 +12,9 @@ describe('Credit Account Insert Page', () => {
 
     cy.maybeSetupAccountsMock();
     cy.maybeSetupCategoriesMock();
-    cy.visit('/balances/list');
 
-    // Path to credit account creation page
-    cy.get('p-menubar').contains('Account', { timeout: 10000 }).click({ force: true });
-    cy.contains('Credit Account', { timeout: 10000 }).click({ force: true });
-    cy.url({ timeout: 10000 }).should('include', '/creditAccounts/list');
-
-    // Open creation page
-    cy.get('[data-cy="create-button"]').should('be.visible').click();
-    cy.url({ timeout: 10000 }).should('include', '/creditAccounts/new');
+    cy.visitMain();
+    cy.navigateToAccountNew('credit');
   });
 
   it('should allow going back to the list', () => {
