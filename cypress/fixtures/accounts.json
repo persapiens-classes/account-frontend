@@ -1,0 +1,65 @@
+{
+  "accounts": {
+    "list": [
+      {
+        "id": 1,
+        "description": "Account 1",
+        "category": "Category 1"
+      },
+      {
+        "id": 2,
+        "description": "Account 2",
+        "category": "Category 2"
+      },
+      {
+        "id": 3,
+        "description": "Account 3",
+        "category": "Category 3"
+      }
+    ]
+  },
+  "account": {
+    "create": {
+      "description": "New Account",
+      "category": "Category 1"
+    },
+    "update": {
+      "description": "Updated Account",
+      "category": "Category 1"
+    }
+  },
+  "boundaryValues": {
+    "AC-01": {
+      "description": "   ",
+      "expectedStatus": 400,
+      "description_en": "Description with 3 whitespaces only"
+    },
+    "AC-02": {
+      "description": "ABC",
+      "expectedStatus": 201,
+      "description_en": "Description with 3 characters (lower limit)"
+    },
+    "AC-03": {
+      "description": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expectedStatus": 201,
+      "description_en": "Description with 255 characters (upper limit)"
+    },
+    "AC-04": {
+      "description": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expectedStatus": 400,
+      "description_en": "Description with 256 characters (exceeds limit)"
+    },
+    "AC-05": {
+      "description": "Valid Description",
+      "category": "",
+      "expectedStatus": 400,
+      "description_en": "Empty category"
+    },
+    "AC-06": {
+      "description": "Valid Description",
+      "category": "Category 1",
+      "expectedStatus": 201,
+      "description_en": "Valid category"
+    }
+  }
+}
