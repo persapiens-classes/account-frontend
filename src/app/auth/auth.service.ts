@@ -5,9 +5,11 @@ import { environment } from '../../environments/environment';
 
 export class LoginResponse {
   login: string;
+  token: string;
   expiresIn: number;
-  constructor(login: string, expiresIn: number) {
+  constructor(login: string, token: string, expiresIn: number) {
     this.login = login;
+    this.token = token;
     this.expiresIn = expiresIn;
   }
 }
@@ -20,25 +22,20 @@ export class AuthService {
 
   private readonly http = inject(HttpClient);
   private session: LoginResponse | null = null;
+  private jwtToken: string | null = null;
   private sessionExpiresAt: number | null = null;
   private sessionChecked = false;
 
   signin(username: string, password: string): Observable<LoginResponse> {
-    return this.http
-      .post<LoginResponse>(
-        `${this.apiUrl}/login`,
-        { username, password },
-        { withCredentials: true },
-      )
-      .pipe(
-        tap((loginResponse) => {
-          this.setSession(loginResponse);
-        }),
-      );
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
+      tap((loginResponse) => {
+        this.setSession(loginResponse);
+      }),
+    );
   }
 
   loadSession(): Observable<LoginResponse | null> {
-    return this.http.get<LoginResponse>(`${this.apiUrl}/me`, { withCredentials: true }).pipe(
+    return this.http.get<LoginResponse>(`${this.apiUrl}/me`).pipe(
       tap((loginResponse) => {
         this.setSession(loginResponse);
         this.sessionChecked = true;
@@ -52,7 +49,7 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/logout`, {}, { withCredentials: true }).pipe(
+    return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
       tap(() => {
         this.clearSession();
       }),
@@ -89,14 +86,20 @@ export class AuthService {
     return this.session?.login ?? '';
   }
 
+  authenticatedToken(): string | null {
+    return this.jwtToken;
+  }
+
   clearSession() {
     this.session = null;
+    this.jwtToken = null;
     this.sessionExpiresAt = null;
     this.sessionChecked = true;
   }
 
   private setSession(loginResponse: LoginResponse) {
     this.session = loginResponse;
+    this.jwtToken = loginResponse.token;
     this.sessionChecked = true;
     this.sessionExpiresAt = Number.isFinite(loginResponse.expiresIn)
       ? Date.now() + loginResponse.expiresIn * 1000

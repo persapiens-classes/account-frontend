@@ -18,7 +18,7 @@ Object.defineProperty(Date, 'now', {
 const TEST_USERNAME = 'testuser';
 // eslint-disable-next-line sonarjs/no-hardcoded-passwords
 const TEST_PASSWORD = 'test-password-123';
-const MOCK_LOGIN_RESPONSE = { login: 'testuser', expiresIn: 3600 };
+const MOCK_LOGIN_RESPONSE = { login: 'testuser', token: 'jwt-token-123', expiresIn: 3600 };
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -63,10 +63,11 @@ describe('AuthService', () => {
         'isAuthenticated',
         'ensureAuthenticated',
         'authenticatedLogin',
+        'authenticatedToken',
         'clearSession',
       ];
       TestUtils.testServiceMethods(service, expectedMethods);
-      expect(expectedMethods.length).toBe(7);
+      expect(expectedMethods.length).toBe(8);
     });
 
     it('should have correct method signatures', () => {
@@ -77,10 +78,11 @@ describe('AuthService', () => {
         { methodName: 'isAuthenticated', parameterCount: 0 },
         { methodName: 'ensureAuthenticated', parameterCount: 0 },
         { methodName: 'authenticatedLogin', parameterCount: 0 },
+        { methodName: 'authenticatedToken', parameterCount: 0 },
         { methodName: 'clearSession', parameterCount: 0 },
       ];
       TestUtils.testServiceMethodSignatures(service, methodSignatures);
-      expect(methodSignatures.length).toBe(7);
+      expect(methodSignatures.length).toBe(8);
     });
   });
 
@@ -88,12 +90,14 @@ describe('AuthService', () => {
   describe('LoginResponse Class', () => {
     it('should create LoginResponse instance correctly', () => {
       const login = 'testuser';
+      const token = 'jwt-token-123';
       const expiresIn = 3600;
 
-      const loginResponse = new LoginResponse(login, expiresIn);
+      const loginResponse = new LoginResponse(login, token, expiresIn);
 
       expect(loginResponse).toBeInstanceOf(LoginResponse);
       expect(loginResponse.login).toBe(login);
+      expect(loginResponse.token).toBe(token);
       expect(loginResponse.expiresIn).toBe(expiresIn);
     });
   });
@@ -109,7 +113,7 @@ describe('AuthService', () => {
 
         const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
         expect(req.request.method).toBe('POST');
-        expect(req.request.withCredentials).toBe(true);
+        expect(req.request.withCredentials).toBe(false);
         expect(req.request.body).toEqual({ username, password });
 
         req.flush(expectedResponse);
@@ -130,6 +134,7 @@ describe('AuthService', () => {
 
         expect(actualResponse!).toEqual(expectedResponse);
         expect(actualResponse!.login).toBe(expectedResponse.login);
+        expect(actualResponse!.token).toBe(expectedResponse.token);
         expect(actualResponse!.expiresIn).toBe(3600);
       });
 
@@ -151,7 +156,7 @@ describe('AuthService', () => {
 
         const req = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
         expect(req.request.method).toBe('POST');
-        expect(req.request.withCredentials).toBe(true);
+        expect(req.request.withCredentials).toBe(false);
         req.flush({});
       });
 
@@ -181,7 +186,7 @@ describe('AuthService', () => {
 
         const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
         expect(req.request.method).toBe('GET');
-        expect(req.request.withCredentials).toBe(true);
+        expect(req.request.withCredentials).toBe(false);
         req.flush(MOCK_LOGIN_RESPONSE);
 
         expect(service.isAuthenticated()).toBe(true);

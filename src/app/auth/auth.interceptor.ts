@@ -16,8 +16,16 @@ export function authIntercept(
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const shouldSendCredentials = req.url.startsWith(environment.apiUrl);
-  const request = shouldSendCredentials ? req.clone({ withCredentials: true }) : req;
+  const shouldAttachAuth = req.url.startsWith(environment.apiUrl);
+  const token = authService.authenticatedToken();
+  const request =
+    shouldAttachAuth && token
+      ? req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      : req;
 
   return next(request).pipe(
     catchError((error) => {
