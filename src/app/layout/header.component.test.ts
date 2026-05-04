@@ -78,7 +78,7 @@ describe('HeaderComponent', () => {
       expect(logo).toBeTruthy();
       expect(logo.getAttribute('src')).toBe('images/account.png');
       expect(logo.getAttribute('alt')).toBe('Account logo');
-      expect(logo.classList.contains('w-[70px]')).toBe(true);
+      expect(logo.classList.contains('w-17.5')).toBe(true);
       expect(logo.classList.contains('h-auto')).toBe(true);
       expect(logo.classList.contains('self-center')).toBe(true);
     });

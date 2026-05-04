@@ -4,14 +4,9 @@ describe('Owner Remove Page', () => {
 
   beforeEach(() => {
     cy.maybeSetupAuthMock();
-
-    cy.session('login', () => {
-      cy.login();
-    });
+    cy.login();
 
     cy.maybeSetupOwnersMock();
-
-    cy.visitMain();
   });
 
   it('should create a new Owner for removal test', () => {

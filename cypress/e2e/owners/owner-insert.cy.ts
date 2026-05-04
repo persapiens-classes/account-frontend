@@ -3,14 +3,9 @@ describe('Owner Insert Page', () => {
 
   beforeEach(() => {
     cy.maybeSetupAuthMock();
-
-    cy.session('login', () => {
-      cy.login();
-    });
+    cy.login();
 
     cy.maybeSetupOwnersMock();
-
-    cy.visitMain();
 
     cy.navigateToOwnersNew();
   });

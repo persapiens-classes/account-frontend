@@ -10,7 +10,7 @@ import { MenubarModule } from 'primeng/menubar';
   imports: [ButtonModule, TooltipModule, MenubarModule],
   template: `
     <div class="mb-3 flex items-center gap-2.5">
-      <img src="images/account.png" class="h-auto w-[70px] self-center" alt="Account logo" />
+      <img src="images/account.png" class="h-auto w-17.5 self-center" alt="Account logo" />
       <h1 class="font-serif text-3xl italic">Account</h1>
       <span class="ml-auto">{{ authenticatedLogin() }}</span>
       <p-button

@@ -1,14 +1,7 @@
 describe('Logout Page', () => {
   beforeEach(() => {
     cy.maybeSetupAuthMock();
-
-    cy.session('login', () => {
-      cy.login();
-    });
-
-    cy.setAuthState(true);
-
-    cy.visitMain();
+    cy.login();
   });
 
   it('should display login page after logout', () => {

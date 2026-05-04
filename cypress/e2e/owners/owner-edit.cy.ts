@@ -11,14 +11,9 @@ function captureLastOwner(): void {
 describe('Owner Edit Page', () => {
   beforeEach(() => {
     cy.maybeSetupAuthMock();
-
-    cy.session('login', () => {
-      cy.login();
-    });
+    cy.login();
 
     cy.maybeSetupOwnersMock();
-
-    cy.visitMain();
     cy.navigateToOwnersList();
   });
 
