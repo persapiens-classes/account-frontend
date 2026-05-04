@@ -58,7 +58,6 @@ describe('AuthService', () => {
     it('should have all expected public methods', () => {
       const expectedMethods = [
         'signin',
-        'loadSession',
         'logout',
         'isAuthenticated',
         'ensureAuthenticated',
@@ -67,13 +66,12 @@ describe('AuthService', () => {
         'clearSession',
       ];
       TestUtils.testServiceMethods(service, expectedMethods);
-      expect(expectedMethods.length).toBe(8);
+      expect(expectedMethods.length).toBe(7);
     });
 
     it('should have correct method signatures', () => {
       const methodSignatures = [
         { methodName: 'signin', parameterCount: 2 },
-        { methodName: 'loadSession', parameterCount: 0 },
         { methodName: 'logout', parameterCount: 0 },
         { methodName: 'isAuthenticated', parameterCount: 0 },
         { methodName: 'ensureAuthenticated', parameterCount: 0 },
@@ -82,7 +80,7 @@ describe('AuthService', () => {
         { methodName: 'clearSession', parameterCount: 0 },
       ];
       TestUtils.testServiceMethodSignatures(service, methodSignatures);
-      expect(methodSignatures.length).toBe(8);
+      expect(methodSignatures.length).toBe(7);
     });
   });
 
@@ -178,33 +176,6 @@ describe('AuthService', () => {
   });
 
   describe('Session Management', () => {
-    describe('loadSession', () => {
-      it('should load session from /auth/me', () => {
-        service.loadSession().subscribe((response) => {
-          expect(response).toEqual(MOCK_LOGIN_RESPONSE);
-        });
-
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
-        expect(req.request.method).toBe('GET');
-        expect(req.request.withCredentials).toBe(false);
-        req.flush(MOCK_LOGIN_RESPONSE);
-
-        expect(service.isAuthenticated()).toBe(true);
-        expect(service.authenticatedLogin()).toBe('testuser');
-      });
-
-      it('should return null when session is not available', () => {
-        service.loadSession().subscribe((response) => {
-          expect(response).toBeNull();
-        });
-
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
-        req.flush({ message: 'Unauthorized' }, { status: 401, statusText: 'Unauthorized' });
-
-        expect(service.isAuthenticated()).toBe(false);
-      });
-    });
-
     describe('isAuthenticated', () => {
       it('should return true when session is valid', () => {
         mockDateNow.mockReturnValue(1703181600000);
@@ -236,26 +207,14 @@ describe('AuthService', () => {
         service.ensureAuthenticated().subscribe((result) => {
           expect(result).toBe(true);
         });
-
-        httpMock.expectNone(`${environment.apiUrl}/auth/me`);
       });
 
-      it('should load session when none is available', () => {
-        service.ensureAuthenticated().subscribe((result) => {
-          expect(result).toBe(true);
-        });
-
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
-        req.flush(MOCK_LOGIN_RESPONSE);
-      });
-
-      it('should return false when session cannot be loaded', () => {
+      it('should return false when no session is available', () => {
         service.ensureAuthenticated().subscribe((result) => {
           expect(result).toBe(false);
         });
 
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
-        req.flush({ message: 'Unauthorized' }, { status: 401, statusText: 'Unauthorized' });
+        httpMock.expectNone(() => true);
       });
     });
   });

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export class LoginResponse {
@@ -24,26 +24,11 @@ export class AuthService {
   private session: LoginResponse | null = null;
   private jwtToken: string | null = null;
   private sessionExpiresAt: number | null = null;
-  private sessionChecked = false;
 
   signin(username: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap((loginResponse) => {
         this.setSession(loginResponse);
-      }),
-    );
-  }
-
-  loadSession(): Observable<LoginResponse | null> {
-    return this.http.get<LoginResponse>(`${this.apiUrl}/me`).pipe(
-      tap((loginResponse) => {
-        this.setSession(loginResponse);
-        this.sessionChecked = true;
-      }),
-      catchError(() => {
-        this.clearSession();
-        this.sessionChecked = true;
-        return of(null);
       }),
     );
   }
@@ -71,15 +56,7 @@ export class AuthService {
   }
 
   ensureAuthenticated(): Observable<boolean> {
-    if (this.isAuthenticated()) {
-      return of(true);
-    }
-
-    if (this.sessionChecked) {
-      return of(false);
-    }
-
-    return this.loadSession().pipe(map(() => this.isAuthenticated()));
+    return of(this.isAuthenticated());
   }
 
   authenticatedLogin(): string {
@@ -94,13 +71,11 @@ export class AuthService {
     this.session = null;
     this.jwtToken = null;
     this.sessionExpiresAt = null;
-    this.sessionChecked = true;
   }
 
   private setSession(loginResponse: LoginResponse) {
     this.session = loginResponse;
     this.jwtToken = loginResponse.token;
-    this.sessionChecked = true;
     this.sessionExpiresAt = Number.isFinite(loginResponse.expiresIn)
       ? Date.now() + loginResponse.expiresIn * 1000
       : null;
