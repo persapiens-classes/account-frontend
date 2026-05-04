@@ -33,6 +33,7 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
+        tableStyleClass="table-stack-mobile"
         stripedRows="true"
       >
         <ng-template #header>
@@ -91,15 +92,19 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
         </ng-template>
         <ng-template #body let-item>
           <tr>
-            <td>{{ item.inOwner }}</td>
-            <td>{{ item.inAccount.description }}</td>
-            <td>{{ item.outOwner }}</td>
-            <td>{{ item.outAccount.description }}</td>
-            <td>{{ item.date.toLocaleDateString() }}</td>
-            <td>{{ item.value | number: '1.2-2' }}</td>
-            <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
-            <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
-            <td>
+            <td data-label="InOwner">{{ item.inOwner }}</td>
+            <td data-label="InAccount">{{ item.inAccount.description }}</td>
+            <td data-label="OutOwner">{{ item.outOwner }}</td>
+            <td data-label="OutAccount">{{ item.outAccount.description }}</td>
+            <td data-label="Date">{{ item.date.toLocaleDateString() }}</td>
+            <td data-label="Value">{{ item.value | number: '1.2-2' }}</td>
+            <td data-label="Detail">
+              <app-start-detail-button [item]="item" [routerName]="routerName" />
+            </td>
+            <td data-label="Edit">
+              <app-start-update-button [item]="item" [routerName]="routerName" />
+            </td>
+            <td data-label="Remove">
               <app-remove-button
                 [beansList]="beansList"
                 [item]="item"

@@ -30,6 +30,7 @@ import { OwnerListService } from './owner-list-service';
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
+        tableStyleClass="table-stack-mobile"
         stripedRows="true"
       >
         <ng-template #header>
@@ -53,10 +54,14 @@ import { OwnerListService } from './owner-list-service';
         </ng-template>
         <ng-template #body let-item>
           <tr>
-            <td>{{ item.name }}</td>
-            <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
-            <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
-            <td>
+            <td data-label="Name">{{ item.name }}</td>
+            <td data-label="Detail">
+              <app-start-detail-button [item]="item" [routerName]="routerName" />
+            </td>
+            <td data-label="Edit">
+              <app-start-update-button [item]="item" [routerName]="routerName" />
+            </td>
+            <td data-label="Remove">
               <app-remove-button
                 [beansList]="beansList"
                 [item]="item"

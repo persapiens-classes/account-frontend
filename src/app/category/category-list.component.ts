@@ -32,6 +32,7 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
+        tableStyleClass="table-stack-mobile"
         stripedRows="true"
       >
         <ng-template #header>
@@ -54,10 +55,14 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
         </ng-template>
         <ng-template #body let-item>
           <tr>
-            <td>{{ item.description }}</td>
-            <td><app-start-detail-button [item]="item" [routerName]="routerName" /></td>
-            <td><app-start-update-button [item]="item" [routerName]="routerName" /></td>
-            <td>
+            <td data-label="Description">{{ item.description }}</td>
+            <td data-label="Detail">
+              <app-start-detail-button [item]="item" [routerName]="routerName" />
+            </td>
+            <td data-label="Edit">
+              <app-start-update-button [item]="item" [routerName]="routerName" />
+            </td>
+            <td data-label="Remove">
               <app-remove-button
                 [beansList]="beansList"
                 [item]="item"
