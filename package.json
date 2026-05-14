@@ -60,7 +60,7 @@
     "tslib": "2.8.1"
   },
   "devDependencies": {
-    "@analogjs/platform": "2.5.0",
+    "@analogjs/platform": "2.5.1",
     "@angular/build": "21.2.11",
     "@angular/cli": "21.2.10",
     "@angular/compiler-cli": "21.2.11",
