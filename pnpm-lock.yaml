@@ -121,8 +121,8 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
       jscpd:
-        specifier: 4.2.0
-        version: 4.2.0
+        specifier: 4.2.2
+        version: 4.2.2
       jsdom:
         specifier: 29.1.1
         version: 29.1.1
@@ -1418,20 +1418,20 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@jscpd/badge-reporter@4.2.0':
-    resolution: {integrity: sha512-edvLAhMBsIo4OLsRTZNO6Mwm4rwJCiWYBiWc4qQdo6ZNFbJ6Sp3ZU9ceyEFMxFVBH2hwX94rHWzO4FgO4Rg4OQ==}
+  '@jscpd/badge-reporter@4.2.2':
+    resolution: {integrity: sha512-03ngWGBtvdL6dRC7+Q/4FdoUozN4KBHpaJ1SjGnPaMuPoEmcGDdw7W/+HfhPWSwpzam3lfTM2yBsGhrG2g3LqQ==}
 
-  '@jscpd/core@4.2.0':
-    resolution: {integrity: sha512-fkmjSlTqGQ/PMpAHJqYl5qqB4ALmfj/3i6urfTfme1SR1zLUVgyUQV8KmRQdP2JLn4ZUg16DnuZ4Qgug/8LOew==}
+  '@jscpd/core@4.2.2':
+    resolution: {integrity: sha512-YheyoZAVIeZXyQ5mE1lZ+no8Rs8bo02PXnTfW6PN9QrPUOlRsuJ0br5F3T/H6GU8S2DUP5gUJPOp1Lz7oxN+aA==}
 
-  '@jscpd/finder@4.2.0':
-    resolution: {integrity: sha512-5A53+csbgRqvBBWFY53ZG44CVMEmxE4jmBW4Y7fH1qR7w/Wb+PYOSn0R69+yfNv6vTL9m2VPdGHUQu9o/ggpNw==}
+  '@jscpd/finder@4.2.2':
+    resolution: {integrity: sha512-HGsvprcIVTjSU3x8+Ofb5mKq2gRYYZ8Cd1O00w97x8GWUub5sHLGOdvlP4Bw19FVoZzBz+1pjnF5dDvzEoj4rg==}
 
-  '@jscpd/html-reporter@4.2.0':
-    resolution: {integrity: sha512-JkMloHiW0bsurnfOiVNJHqJ728Dk2q+yoVuPaTp1XFMvvH6cRXUcOr331B7QR9S9H5OAgeB322qJ/xOEU3rAcw==}
+  '@jscpd/html-reporter@4.2.2':
+    resolution: {integrity: sha512-pw+spkYfgWNiDH9bURB0jWzGlfbpQjc8gUe3c726qzPSgMUe9QB3fBA44e9iAJP/o0jtizgUd4MZHyWRbVAw1w==}
 
-  '@jscpd/tokenizer@4.2.0':
-    resolution: {integrity: sha512-jywXhLyzSzP+g/Qfe9IlZk3kPYdy7WKSFXSqgCszIrbR8EjbBrQZ6fyO683So3sWKyFAIpuvYUtnqpNTIefStw==}
+  '@jscpd/tokenizer@4.2.2':
+    resolution: {integrity: sha512-haV7OWM2xzQ3I7tWgNTAOcR+kkFr0lYxkdnTOSd5Pve4QGx1Jk7kwk9gotqpXTd6AauaPnBdfHPxeZrUY21QYA==}
 
   '@listr2/prompt-adapter-inquirer@3.0.5':
     resolution: {integrity: sha512-WELs+hj6xcilkloBXYf9XXK8tYEnKsgLj01Xl5ONUJpKjmT5hGVUzNUS5tooUxs7pGMrw+jFD/41WpqW4V3LDA==}
@@ -4217,11 +4217,11 @@ packages:
   jsbn@0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
 
-  jscpd-sarif-reporter@4.2.0:
-    resolution: {integrity: sha512-v/RyDPJDJTHm03P/GUrd5i9EqSyUKXVH/U5tY0ODSQIoPJvAA9ISTyxzOct03KyWHHR8cSqdZzsG2sBSHQHLwQ==}
+  jscpd-sarif-reporter@4.2.2:
+    resolution: {integrity: sha512-qpLhFZ6pVJcIjvEcUVRxnsrQuTbRY7bBnAgzXY9th0mL1uYhb1ii+SkMcBrBchH23vFfZu/9EG4lIxLCGfEpCQ==}
 
-  jscpd@4.2.0:
-    resolution: {integrity: sha512-C0J/Tggbt5bKnJK/izPGR8aIdfEgzyEFJ063rn5n46OwkOmSl3mHyrdI14NDYH2CHqAqKp3BECZ2/MpxYaIVnA==}
+  jscpd@4.2.2:
+    resolution: {integrity: sha512-zmoSXtG5Dsgo3QHhnsA06okqnKu3DlYBeAuD7MRnNQoNiL13UgBBh28pEEhe0tyR4yqYXk4Q3GAFoHx5cY+oDw==}
     hasBin: true
 
   jsdom@29.1.1:
@@ -7445,20 +7445,20 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jscpd/badge-reporter@4.2.0':
+  '@jscpd/badge-reporter@4.2.2':
     dependencies:
       badgen: 3.3.2
       colors: 1.4.0
       fs-extra: 11.3.5
 
-  '@jscpd/core@4.2.0':
+  '@jscpd/core@4.2.2':
     dependencies:
       eventemitter3: 5.0.4
 
-  '@jscpd/finder@4.2.0':
+  '@jscpd/finder@4.2.2':
     dependencies:
-      '@jscpd/core': 4.2.0
-      '@jscpd/tokenizer': 4.2.0
+      '@jscpd/core': 4.2.2
+      '@jscpd/tokenizer': 4.2.2
       blamer: 1.0.7
       bytes: 3.1.2
       cli-table3: 0.6.5
@@ -7468,15 +7468,15 @@ snapshots:
       markdown-table: 2.0.0
       pug: 3.0.4
 
-  '@jscpd/html-reporter@4.2.0':
+  '@jscpd/html-reporter@4.2.2':
     dependencies:
       colors: 1.4.0
       fs-extra: 11.3.5
       pug: 3.0.4
 
-  '@jscpd/tokenizer@4.2.0':
+  '@jscpd/tokenizer@4.2.2':
     dependencies:
-      '@jscpd/core': 4.2.0
+      '@jscpd/core': 4.2.2
       spark-md5: 3.0.2
 
   '@listr2/prompt-adapter-inquirer@3.0.5(@inquirer/prompts@7.10.1(@types/node@24.12.4))(@types/node@24.12.4)(listr2@9.0.5)':
@@ -10219,23 +10219,23 @@ snapshots:
 
   jsbn@0.1.1: {}
 
-  jscpd-sarif-reporter@4.2.0:
+  jscpd-sarif-reporter@4.2.2:
     dependencies:
       colors: 1.4.0
       fs-extra: 11.3.5
       node-sarif-builder: 3.4.0
 
-  jscpd@4.2.0:
+  jscpd@4.2.2:
     dependencies:
-      '@jscpd/badge-reporter': 4.2.0
-      '@jscpd/core': 4.2.0
-      '@jscpd/finder': 4.2.0
-      '@jscpd/html-reporter': 4.2.0
-      '@jscpd/tokenizer': 4.2.0
+      '@jscpd/badge-reporter': 4.2.2
+      '@jscpd/core': 4.2.2
+      '@jscpd/finder': 4.2.2
+      '@jscpd/html-reporter': 4.2.2
+      '@jscpd/tokenizer': 4.2.2
       colors: 1.4.0
       commander: 5.1.0
       fs-extra: 11.3.5
-      jscpd-sarif-reporter: 4.2.0
+      jscpd-sarif-reporter: 4.2.2
 
   jsdom@29.1.1:
     dependencies:
