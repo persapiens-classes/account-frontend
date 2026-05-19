@@ -163,8 +163,8 @@ importers:
         specifier: 8.0.13
         version: 8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.97.3)(terser@5.47.1)
       vite-plugin-istanbul:
-        specifier: 8.0.0
-        version: 8.0.0(vite@8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.97.3)(terser@5.47.1))
+        specifier: 9.0.0
+        version: 9.0.0(vite@8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.97.3)(terser@5.47.1))
       vitest:
         specifier: 4.1.5
         version: 4.1.5(@types/node@24.12.4)(@vitest/coverage-istanbul@4.1.5)(@vitest/coverage-v8@4.1.5)(@vitest/ui@4.1.5)(jsdom@29.1.1)(vite@8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.97.3)(terser@5.47.1))
@@ -5982,10 +5982,10 @@ packages:
     resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
 
-  vite-plugin-istanbul@8.0.0:
-    resolution: {integrity: sha512-r6L7cg2iwPqNnY/rWFyemWeDTIKRZjekEWS90e2FsTjDYH4UdTS6hvW1nEX1B++PKPCnqCaj5BJTDn5Cy5jYoQ==}
+  vite-plugin-istanbul@9.0.0:
+    resolution: {integrity: sha512-Ia0GYwVAYZMyGM9vZFAb1+xy/s+aFWBO0lWfpuBbl9XyHEm1rVCBtpk+52G2M54t272q9b07CMlwSuew7DNhqQ==}
     peerDependencies:
-      vite: '>=4'
+      vite: '>=7'
 
   vite@7.3.2:
     resolution: {integrity: sha512-Bby3NOsna2jsjfLVOHKes8sGwgl4TT0E6vvpYgnAYDIF/tie7MRaFthmKuHx1NSXjiTueXH3do80FMQgvEktRg==}
@@ -12238,7 +12238,7 @@ snapshots:
       core-util-is: 1.0.2
       extsprintf: 1.3.0
 
-  vite-plugin-istanbul@8.0.0(vite@8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.97.3)(terser@5.47.1)):
+  vite-plugin-istanbul@9.0.0(vite@8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.97.3)(terser@5.47.1)):
     dependencies:
       '@babel/generator': 7.29.1
       '@istanbuljs/load-nyc-config': 1.1.0
