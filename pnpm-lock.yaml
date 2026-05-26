@@ -121,8 +121,8 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
       jscpd:
-        specifier: 4.2.3
-        version: 4.2.3
+        specifier: 4.2.4
+        version: 4.2.4
       jsdom:
         specifier: 29.1.1
         version: 29.1.1
@@ -565,8 +565,16 @@ packages:
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-string-parser@7.29.7':
+    resolution: {integrity: sha512-Pb5ijPrZ89GDH8223L4UP8i6QApWxs04RbPQJTeWDV0/keR2E36MeKnyr6LYmUUvqRRI+Iv87SuF1W6ErINzYw==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-identifier@7.28.5':
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/helper-validator-identifier@7.29.7':
+    resolution: {integrity: sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==}
     engines: {node: '>=6.9.0'}
 
   '@babel/helper-validator-option@7.27.1':
@@ -582,6 +590,11 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.29.7':
+    resolution: {integrity: sha512-hnORnjP/1P/zFEndoeX+n+t1RwWRJiJpM/jO7FW32Kn9r5+sJB2JWOdYo4L6k78j15eCwY3Gm/7364B1EMwtNg==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/template@7.28.6':
     resolution: {integrity: sha512-YA6Ma2KsCdGb+WC6UpBVFJGXL58MDA6oyONbjyF/+5sBgxY/dwkhLogbMT2GXXyU84/IhRw/2D1Os1B/giz+BQ==}
     engines: {node: '>=6.9.0'}
@@ -592,6 +605,10 @@ packages:
 
   '@babel/types@7.29.0':
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.29.7':
+    resolution: {integrity: sha512-4zBIxpPzowiZpusoFkyGVwakdRJUyuH5PxQ/PrqghfdFWWasvnCdPfQXHrenDai+gyLARulZjZowCOj6fjT4pA==}
     engines: {node: '>=6.9.0'}
 
   '@bcoe/v8-coverage@1.0.2':
@@ -1431,20 +1448,20 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@jscpd/badge-reporter@4.2.3':
-    resolution: {integrity: sha512-yNvbwWl/NwogHT5XrHyqXgF9yVZeLWA2QOhGqYTopvgi7LsSbDumpOqOcJMHP9Z4RalhMfahh+dVXFSI7tMcaA==}
+  '@jscpd/badge-reporter@4.2.4':
+    resolution: {integrity: sha512-g5vu05u0lX9rcHA0k3CptLfpOiuMzxh5+mUe2iYRAznTwH3ks6JAVAf9aPi5mBFttMCRiJh2zSt3xnSadHtMGg==}
 
-  '@jscpd/core@4.2.3':
-    resolution: {integrity: sha512-VQ2gH+tiI51ty3PBRD4HClNNgyX/VH9cs0dcFKuywxDzLQ64jYp7vhJPcqnyiVX9tVEIAa12sucRHQP/VHwugA==}
+  '@jscpd/core@4.2.4':
+    resolution: {integrity: sha512-9V9YzmmhYg9682kFqi+n0KGOhXNSoqxHbuIP3i/l/oSd6upBOnnSeBWDZMGOenQRQnyKEtCIbnS9YFz+3B+siQ==}
 
-  '@jscpd/finder@4.2.3':
-    resolution: {integrity: sha512-ZpjviFAg6zLojQHS+owvrn8DG1OY1d4835Je4LUKzbMurndmQDhvRRFDkN9V6xPn6gvRaMVkJHN2tyljsnUjWA==}
+  '@jscpd/finder@4.2.4':
+    resolution: {integrity: sha512-4LLEuAAmAraud/TAAlB5BByVdWfy7SYiPKacj5yEggpkNs0qsw2kiZ5EyU3LonB+/vntJJEDDpJMmvOeS58e0A==}
 
-  '@jscpd/html-reporter@4.2.3':
-    resolution: {integrity: sha512-kp1pqJXCKwyRu5mJK5IvXdFQEDHWQDb7svLFlbVXGI0dVH1y1XNl8mrIrSoRw+0AySxhDkuSyIlQOSDC2GRwQg==}
+  '@jscpd/html-reporter@4.2.4':
+    resolution: {integrity: sha512-6UljCTVGf7O+o6D6fs1zNBG+vR1PTn47W2mSgb5hzSrvNw60rLrVoAMZMnr/TeIEdd/OEgAu+icbdvvVBfnvJw==}
 
-  '@jscpd/tokenizer@4.2.3':
-    resolution: {integrity: sha512-RvjD7/hwqtcQC9MWOl31odTti6kGCFxZ77DKEhwyMn+r6oVEUFbXgcGvzn0GC/wuTl7f3j5MF9JNMeTneOFwYA==}
+  '@jscpd/tokenizer@4.2.4':
+    resolution: {integrity: sha512-nM4kGyDvpcevt8t0zOsMQ82ShSc65c3LIQUHClTYwraiOGOmWgUQyen+JIiFCNF8eDCGR2Qa5iI5XBfGWYQzIg==}
 
   '@listr2/prompt-adapter-inquirer@3.0.5':
     resolution: {integrity: sha512-WELs+hj6xcilkloBXYf9XXK8tYEnKsgLj01Xl5ONUJpKjmT5hGVUzNUS5tooUxs7pGMrw+jFD/41WpqW4V3LDA==}
@@ -4271,11 +4288,11 @@ packages:
   jsbn@0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
 
-  jscpd-sarif-reporter@4.2.3:
-    resolution: {integrity: sha512-rM0LM5S0kdASLCtDsr1s51rJOPf8nubaxaWQUTWVVPda1UMPymXbELG+A3Rgpoa4D4QFUFfXqz60Jn/W+vlFtA==}
+  jscpd-sarif-reporter@4.2.4:
+    resolution: {integrity: sha512-JtX79kFSyAhqJh5TdLUcvtYJtJd1F8UW8b4Miaga+EIgUn2/nR0N2zWL9mH5cRXgbzLuQbbsw9kReUVIECApwQ==}
 
-  jscpd@4.2.3:
-    resolution: {integrity: sha512-/1BEga1E1cY56/sdQOzU/PFtnea+n1beqG8/Xx4HopG9c5rkUO8ptnu9En8Xf1ILGW6KSWidV4vLQTm2FGYvpw==}
+  jscpd@4.2.4:
+    resolution: {integrity: sha512-PSo2U0G8OxULayGyQMv7T/0ZQ+c3PPltdMOz/57v9Xnmq5xSIhh4cnZ0oYZPKqejy10aFwAbMVxqAlo24+PQ3g==}
     hasBin: true
 
   jsdom@29.1.1:
@@ -6885,7 +6902,11 @@ snapshots:
 
   '@babel/helper-string-parser@7.27.1': {}
 
+  '@babel/helper-string-parser@7.29.7': {}
+
   '@babel/helper-validator-identifier@7.28.5': {}
+
+  '@babel/helper-validator-identifier@7.29.7': {}
 
   '@babel/helper-validator-option@7.27.1': {}
 
@@ -6897,6 +6918,10 @@ snapshots:
   '@babel/parser@7.29.3':
     dependencies:
       '@babel/types': 7.29.0
+
+  '@babel/parser@7.29.7':
+    dependencies:
+      '@babel/types': 7.29.7
 
   '@babel/template@7.28.6':
     dependencies:
@@ -6920,6 +6945,11 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
+
+  '@babel/types@7.29.7':
+    dependencies:
+      '@babel/helper-string-parser': 7.29.7
+      '@babel/helper-validator-identifier': 7.29.7
 
   '@bcoe/v8-coverage@1.0.2': {}
 
@@ -7521,20 +7551,20 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jscpd/badge-reporter@4.2.3':
+  '@jscpd/badge-reporter@4.2.4':
     dependencies:
       badgen: 3.3.2
       colors: 1.4.0
       fs-extra: 11.3.5
 
-  '@jscpd/core@4.2.3':
+  '@jscpd/core@4.2.4':
     dependencies:
       eventemitter3: 5.0.4
 
-  '@jscpd/finder@4.2.3':
+  '@jscpd/finder@4.2.4':
     dependencies:
-      '@jscpd/core': 4.2.3
-      '@jscpd/tokenizer': 4.2.3
+      '@jscpd/core': 4.2.4
+      '@jscpd/tokenizer': 4.2.4
       blamer: 1.0.7
       bytes: 3.1.2
       cli-table3: 0.6.5
@@ -7544,15 +7574,15 @@ snapshots:
       markdown-table: 2.0.0
       pug: 3.0.4
 
-  '@jscpd/html-reporter@4.2.3':
+  '@jscpd/html-reporter@4.2.4':
     dependencies:
       colors: 1.4.0
       fs-extra: 11.3.5
       pug: 3.0.4
 
-  '@jscpd/tokenizer@4.2.3':
+  '@jscpd/tokenizer@4.2.4':
     dependencies:
-      '@jscpd/core': 4.2.3
+      '@jscpd/core': 4.2.4
       spark-md5: 3.0.2
 
   '@listr2/prompt-adapter-inquirer@3.0.5(@inquirer/prompts@7.10.1(@types/node@24.12.4))(@types/node@24.12.4)(listr2@9.0.5)':
@@ -8861,7 +8891,7 @@ snapshots:
 
   babel-walk@3.0.0-canary-5:
     dependencies:
-      '@babel/types': 7.29.0
+      '@babel/types': 7.29.7
 
   badgen@3.3.2: {}
 
@@ -9177,8 +9207,8 @@ snapshots:
 
   constantinople@4.0.1:
     dependencies:
-      '@babel/parser': 7.29.3
-      '@babel/types': 7.29.0
+      '@babel/parser': 7.29.7
+      '@babel/types': 7.29.7
 
   content-disposition@1.1.0: {}
 
@@ -10348,23 +10378,23 @@ snapshots:
 
   jsbn@0.1.1: {}
 
-  jscpd-sarif-reporter@4.2.3:
+  jscpd-sarif-reporter@4.2.4:
     dependencies:
       colors: 1.4.0
       fs-extra: 11.3.5
       node-sarif-builder: 3.4.0
 
-  jscpd@4.2.3:
+  jscpd@4.2.4:
     dependencies:
-      '@jscpd/badge-reporter': 4.2.3
-      '@jscpd/core': 4.2.3
-      '@jscpd/finder': 4.2.3
-      '@jscpd/html-reporter': 4.2.3
-      '@jscpd/tokenizer': 4.2.3
+      '@jscpd/badge-reporter': 4.2.4
+      '@jscpd/core': 4.2.4
+      '@jscpd/finder': 4.2.4
+      '@jscpd/html-reporter': 4.2.4
+      '@jscpd/tokenizer': 4.2.4
       colors: 1.4.0
       commander: 5.1.0
       fs-extra: 11.3.5
-      jscpd-sarif-reporter: 4.2.3
+      jscpd-sarif-reporter: 4.2.4
 
   jsdom@29.1.1:
     dependencies:
@@ -12420,8 +12450,8 @@ snapshots:
 
   with@7.0.2:
     dependencies:
-      '@babel/parser': 7.29.3
-      '@babel/types': 7.29.0
+      '@babel/parser': 7.29.7
+      '@babel/types': 7.29.7
       assert-never: 1.4.0
       babel-walk: 3.0.0-canary-5
 
