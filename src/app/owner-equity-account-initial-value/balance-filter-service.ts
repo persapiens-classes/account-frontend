@@ -2,11 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Balance } from './balance';
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class BalanceFilterService {
   private readonly apiUrl = environment.apiUrl + '/balances/filter';
 

@@ -1,10 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { MessageService } from 'primeng/api';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AppMessageService {
   private readonly messageService = inject(MessageService);
 

@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   createOwnerEquityAccountInitialValue,
@@ -8,9 +8,7 @@ import {
 import { BeanInsertService, insertBean } from '../bean/bean-insert-service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class OwnerEquityAccountInitialValueInsertService implements BeanInsertService<
   OwnerEquityAccountInitialValue,
   OwnerEquityAccountInitialValueInsert

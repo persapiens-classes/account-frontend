@@ -1,9 +1,7 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class PreviousRouteService {
   private previousUrl: string | null = null;
   private currentUrl: string | null = null;

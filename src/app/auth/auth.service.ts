@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -14,9 +14,7 @@ export class LoginResponse {
   }
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
   private readonly apiUrl = environment.apiUrl + '/auth';
 
