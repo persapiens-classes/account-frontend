@@ -121,8 +121,8 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
       jscpd:
-        specifier: 5.0.4
-        version: 5.0.4
+        specifier: 5.0.5
+        version: 5.0.5
       jsdom:
         specifier: 29.1.1
         version: 29.1.1
@@ -3653,36 +3653,36 @@ packages:
     resolution: {integrity: sha512-tJtZBBHA6vjIAaF6EnIaq6laBBP9aq/Y3ouVJjEfoHbRBcHBAHYcMh/w8LDrk2PvIMMq8gmopa5D4V8RmbrxGw==}
     engines: {node: '>= 0.10'}
 
-  cpd-darwin-arm64@5.0.4:
-    resolution: {integrity: sha512-oqD0RVirv3QRuMjM1XdKfZR+b6qFWqR/J6Jia1wsiV+XJYLjeRLPvWwjhdPQzIY/lRMqDETWZ+8U5h7LXX5C/Q==}
+  cpd-darwin-arm64@5.0.5:
+    resolution: {integrity: sha512-Ebbdu8Pzqbpsf2r+tHcY1S5tx23iSYwUrpYb8eYqh6kFlPlPciHpd6rJNA2KrmsABmgiZt/NDcyIzpXhxElaKw==}
     cpu: [arm64]
     os: [darwin]
 
-  cpd-darwin-x64@5.0.4:
-    resolution: {integrity: sha512-I3wD3TrwK5vzqTO2ej+/t9Jugg6mGEx8jwIsqZXamxQoRW55UNI91wlrsThcp3mMp7ZLSsSnrFm6jcx3BPHafw==}
+  cpd-darwin-x64@5.0.5:
+    resolution: {integrity: sha512-7hZ8Rjr06933B/i1A7MSc5KpK47Lj5V7zxKMzd4iSMGchQLZtov9zJnaNOldHGmbkNM40O4cL/r7iJpWtlMxqg==}
     cpu: [x64]
     os: [darwin]
 
-  cpd-linux-arm64-gnu@5.0.4:
-    resolution: {integrity: sha512-KvRHvlx12cGYTHNe1bTFdk4l6ILtdfwPr0hCJuFB7Q340o7UlWA2GX4SxW/1hE9Ts1id1W0iKGKkkp5LP5Aagg==}
+  cpd-linux-arm64-gnu@5.0.5:
+    resolution: {integrity: sha512-2w8enNvAZTYq+qT5zn+a8GT0hcUjLa460xl75XWggM4Y/I9f+/hbpP/o7iA4BRxa/bVK7q//KtKSasIidHRDag==}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  cpd-linux-x64-gnu@5.0.4:
-    resolution: {integrity: sha512-vF4OI+1BZDomxKN3rVu9NuhX5gj0F7NWtofN6A2ApGOtyM0CmhOTYcitqF9jExiXkknr6uETBs4avEopOfcHPQ==}
+  cpd-linux-x64-gnu@5.0.5:
+    resolution: {integrity: sha512-m3V4s0FvrmFHCexqsjr1YpNr1/x0HKRMxg301SJcDkAm2CHYmpv0hz4JP5i6FnwJLzpJvpCRaESyMJFJzr6atw==}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  cpd-linux-x64-musl@5.0.4:
-    resolution: {integrity: sha512-dooVyen2ThTyNtpSIndo6SH/BDTM2Wazz6leJON244bZJ8JgCp8Suc54nK0RlWpHOZjYSqZu2k9bHFlBWrrAlg==}
+  cpd-linux-x64-musl@5.0.5:
+    resolution: {integrity: sha512-8Qvk7otkGNpkc8I0+ti8/KzXqU+0WLNg5Lhxl7FzauG5fDo4dAgsZmjUoSc/nQNvQE7pw5i0Ai7AtQ/QNh+xYw==}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  cpd-windows-x64-msvc@5.0.4:
-    resolution: {integrity: sha512-J3k4x4MHjgtsr2vLWpuK3imi6tLlFU9UADrgoS0BFzQI8BJpXtXen7Q7IMuYcAnvGR7I+Rf//5bGFIfQ+2PqhA==}
+  cpd-windows-x64-msvc@5.0.5:
+    resolution: {integrity: sha512-dwu4CjxNXilMFXVKpPeBSeDApjqAYMj4Y5j3gNADuN5eNIhy/8wPEsF3gexOVdesExBVJR4q8irF3hnseJWJvg==}
     cpu: [x64]
     os: [win32]
 
@@ -4705,8 +4705,8 @@ packages:
   jsbn@0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
 
-  jscpd@5.0.4:
-    resolution: {integrity: sha512-I1skFSqn6gpLeA62konLjtfJgZZcam3scIXHAXM+/1VRpBHXauWF/x2VOgeGbizR7vrxA8qSxsHfNwbBOAHedw==}
+  jscpd@5.0.5:
+    resolution: {integrity: sha512-efwUuW4Uubf+uQ8z7c3rphFoO4Y1Uo4qtfEcqX945dwyuyaUKYmnFzLoNvW0T3y/0QSzn7iNvQxeqxHT4KMcrw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -10228,22 +10228,22 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  cpd-darwin-arm64@5.0.4:
+  cpd-darwin-arm64@5.0.5:
     optional: true
 
-  cpd-darwin-x64@5.0.4:
+  cpd-darwin-x64@5.0.5:
     optional: true
 
-  cpd-linux-arm64-gnu@5.0.4:
+  cpd-linux-arm64-gnu@5.0.5:
     optional: true
 
-  cpd-linux-x64-gnu@5.0.4:
+  cpd-linux-x64-gnu@5.0.5:
     optional: true
 
-  cpd-linux-x64-musl@5.0.4:
+  cpd-linux-x64-musl@5.0.5:
     optional: true
 
-  cpd-windows-x64-msvc@5.0.4:
+  cpd-windows-x64-msvc@5.0.5:
     optional: true
 
   crc-32@1.2.2: {}
@@ -11351,14 +11351,14 @@ snapshots:
 
   jsbn@0.1.1: {}
 
-  jscpd@5.0.4:
+  jscpd@5.0.5:
     optionalDependencies:
-      cpd-darwin-arm64: 5.0.4
-      cpd-darwin-x64: 5.0.4
-      cpd-linux-arm64-gnu: 5.0.4
-      cpd-linux-x64-gnu: 5.0.4
-      cpd-linux-x64-musl: 5.0.4
-      cpd-windows-x64-msvc: 5.0.4
+      cpd-darwin-arm64: 5.0.5
+      cpd-darwin-x64: 5.0.5
+      cpd-linux-arm64-gnu: 5.0.5
+      cpd-linux-x64-gnu: 5.0.5
+      cpd-linux-x64-musl: 5.0.5
+      cpd-windows-x64-msvc: 5.0.5
 
   jsdom@29.1.1:
     dependencies:
