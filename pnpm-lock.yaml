@@ -94,8 +94,8 @@ importers:
         specifier: 22.0.0
         version: 22.0.0(@angular/cli@22.0.0(@types/node@24.13.1)(chokidar@5.0.0))(chokidar@5.0.0)(eslint@10.4.1(jiti@2.7.0))(typescript-eslint@8.61.0(eslint@10.4.1(jiti@2.7.0))(typescript@6.0.3))(typescript@6.0.3)
       baseline-browser-mapping:
-        specifier: 2.10.34
-        version: 2.10.34
+        specifier: 2.10.35
+        version: 2.10.35
       cross-env:
         specifier: 10.1.0
         version: 10.1.0
@@ -3358,6 +3358,11 @@ packages:
 
   baseline-browser-mapping@2.10.34:
     resolution: {integrity: sha512-IMDedajPifLnHNY0X9n8hKxRTQ6/eTHwr5bDo04WnuqxyKw6LYtQywCuuqPZwhl3aBXMvQpJov42GLCwRRdQzw==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
+  baseline-browser-mapping@2.10.35:
+    resolution: {integrity: sha512-honAfLBde0HAFLdNyBEfuuENkF6zR+ozxqxa/2zJKHBe1qzLqyTSeRKpdPEHAP03rlDGyQOPnCSxnVpVqQo9Mg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -9940,6 +9945,8 @@ snapshots:
   base64-js@1.5.1: {}
 
   baseline-browser-mapping@2.10.34: {}
+
+  baseline-browser-mapping@2.10.35: {}
 
   bcrypt-pbkdf@1.0.2:
     dependencies:
