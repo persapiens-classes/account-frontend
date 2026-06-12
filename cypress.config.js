@@ -1,3 +1,6 @@
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 const { defineConfig } = require('cypress');
 
 let coverageTask;
@@ -8,7 +11,7 @@ try {
   coverageTask = null;
 }
 
-module.exports = defineConfig({
+export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:5173', // frontend
     video: false,
