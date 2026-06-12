@@ -22,7 +22,7 @@ jobs:
       - name: Pnpm install
         uses: pnpm/action-setup@v6.0.8
         with:
-          version: '11.5.1'
+          version: '11.6.0'
           run_install: false
 
       - name: Pnpm determine store path
