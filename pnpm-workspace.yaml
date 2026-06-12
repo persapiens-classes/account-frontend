@@ -43,6 +43,9 @@ minimumReleaseAgeExclude:
   - '@typescript-eslint/visitor-keys@8.61.0'
   - typescript-eslint@8.61.0
   - angular-cli-ghpages@3.1.0
+  - '@analogjs/platform@2.6.1'
+  - '@analogjs/vite-plugin-angular@2.6.1'
+  - '@analogjs/vite-plugin-nitro@2.6.1'
 
 onlyBuiltDependencies:
   - cypress
