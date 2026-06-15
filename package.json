@@ -50,7 +50,7 @@
     "@angular/common": "22.0.1",
     "@angular/compiler": "22.0.1",
     "@angular/core": "22.0.1",
-    "@angular/forms": "22.0.0",
+    "@angular/forms": "22.0.1",
     "@angular/platform-browser": "22.0.1",
     "@angular/router": "22.0.1",
     "@primeuix/themes": "2.0.3",
