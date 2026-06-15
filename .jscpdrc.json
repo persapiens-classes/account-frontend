@@ -3,7 +3,7 @@
   "reporters": ["console", "json", "html"],
   "absolute": true,
   "gitignore": true,
-  "ignorePattern": [
+  "ignore": [
     "**/node_modules/**",
     "**/dist/**",
     "**/.angular/**",
