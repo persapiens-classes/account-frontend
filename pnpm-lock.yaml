@@ -121,8 +121,8 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
       jscpd:
-        specifier: 5.0.8
-        version: 5.0.8
+        specifier: 5.0.9
+        version: 5.0.9
       jsdom:
         specifier: 29.1.1
         version: 29.1.1
@@ -3791,36 +3791,36 @@ packages:
     resolution: {integrity: sha512-tJtZBBHA6vjIAaF6EnIaq6laBBP9aq/Y3ouVJjEfoHbRBcHBAHYcMh/w8LDrk2PvIMMq8gmopa5D4V8RmbrxGw==}
     engines: {node: '>= 0.10'}
 
-  cpd-darwin-arm64@5.0.8:
-    resolution: {integrity: sha512-PkbfGYpQMqRliprPBs4U39FRNxXTAepPWKF8dj/OVBm6avE0OkJlkK6gtxxLe6mrS7S1Hen5R/UCQkyzXboPaw==}
+  cpd-darwin-arm64@5.0.9:
+    resolution: {integrity: sha512-hUYQKrUUmlYxl2MDD8GYESpcKc5M5eGMjiHTK+O8ooCj1ogPiNHXg+aIeDl6BuLu7v3jFDcCu5fVqtcpHzAKpw==}
     cpu: [arm64]
     os: [darwin]
 
-  cpd-darwin-x64@5.0.8:
-    resolution: {integrity: sha512-5vfR17HlL5LSikWxVH2R04YbH+hnLs0NAdxVtjtoVhjnr6xAHC2JRbnGUPu/PRMa5Ku6lIu5RkTm/HDA+A4ArA==}
+  cpd-darwin-x64@5.0.9:
+    resolution: {integrity: sha512-viCFEUhUQnGundSMFq9ixi+RxfRiNDQsWP/CZErMlf20fM5h9zTtrHI9liNyRQn+ZtQUTTpabQ4PpzDV530bMg==}
     cpu: [x64]
     os: [darwin]
 
-  cpd-linux-arm64-gnu@5.0.8:
-    resolution: {integrity: sha512-eOBVkjjmA54y1EGmSkjc59ZGGWVmWMdpr0NWqGgHahJKsWuYTEdYOyP2OkB+wj52KvGL3Gak2kTPbTJ51+MPTQ==}
+  cpd-linux-arm64-gnu@5.0.9:
+    resolution: {integrity: sha512-BxiLx9haM+AhDlkyFoe1ro1w4/dvAteyEGytv4XraaRNntw2NMFX1Fsa9I8waegpXydM6E0lPWRWqkG59rin3A==}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  cpd-linux-x64-gnu@5.0.8:
-    resolution: {integrity: sha512-QKn47hJ9qBSgKPjYVDf+XSX3hFO3o1CTknS29s4yGyLo5knqEQhsI55WAMpIAruN+EQgiPo87NUQ5wZCm+kOOA==}
+  cpd-linux-x64-gnu@5.0.9:
+    resolution: {integrity: sha512-VC2bUEJ0KRZ3fJijqqFcrBl6a69vmHrrNoJkSPtFwFju8x7ce2Vs9ntEmlxeB7Ho4mIzN8OYOrlCeqyNdAZcUA==}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  cpd-linux-x64-musl@5.0.8:
-    resolution: {integrity: sha512-3zHP9v7KcYjEzPftVz/quZWoMQWBFit/sLBAbku1k8kXW1u0ZRGCpXhOwJY1xuCKMa4k7dW8kmGdqioUguc3TA==}
+  cpd-linux-x64-musl@5.0.9:
+    resolution: {integrity: sha512-YJekKRRgAhez2+Rrbt42fp8cJuNi/PtGuBb8jIzEtegXRRBG9CE9HaoTy0mS3JeiQuwxiT0Fnz2j8hR9gDbq0w==}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  cpd-windows-x64-msvc@5.0.8:
-    resolution: {integrity: sha512-sxNzZ8lbMNTwWplH//s+e/79AmKTxT9GrM20ailLRdpTy6uXFAAAVxAyNJtK16YF5f6JoFEl+aIzaqlD+krwXA==}
+  cpd-windows-x64-msvc@5.0.9:
+    resolution: {integrity: sha512-Z54yLFmRjIgTMqzeUxbZzgxj8gWxB/jjMi/QOkBOLx9yHHwzhW8MukpY7JhCOmlvPOOn6pjSVrMTxChliDcYAw==}
     cpu: [x64]
     os: [win32]
 
@@ -4848,8 +4848,8 @@ packages:
   jsbn@0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
 
-  jscpd@5.0.8:
-    resolution: {integrity: sha512-dyP6fZZuHe8aks3iH3L02Ey3/CJgSPsLLgDlGCn79BmZ7Kxl5kX+NKWVpxQyBl/rNss2pcpEXgsx4MeuclRCJw==}
+  jscpd@5.0.9:
+    resolution: {integrity: sha512-52zn0erBrRCCLvKulOs/UNUsL2fAmnMRUUbwbJhfUmqI9jtVSQ2Hk20F7m58JnkmgBEoyNBSTTomrF8K+H4fLA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -7339,7 +7339,7 @@ snapshots:
   '@angular/compiler-cli@22.0.0(@angular/compiler@22.0.1)(typescript@6.0.3)':
     dependencies:
       '@angular/compiler': 22.0.1
-      '@babel/core': 7.29.0(supports-color@8.1.1)
+      '@babel/core': 7.29.0
       '@jridgewell/sourcemap-codec': 1.5.5
       chokidar: 5.0.0
       convert-source-map: 1.9.0
@@ -7417,12 +7417,32 @@ snapshots:
 
   '@babel/compat-data@7.29.7': {}
 
-  '@babel/core@7.29.0(supports-color@8.1.1)':
+  '@babel/core@7.29.0':
     dependencies:
       '@babel/code-frame': 7.29.7
       '@babel/generator': 7.29.7
       '@babel/helper-compilation-targets': 7.29.7
       '@babel/helper-module-transforms': 7.29.7(@babel/core@7.29.0)
+      '@babel/helpers': 7.29.7
+      '@babel/parser': 7.29.7
+      '@babel/template': 7.29.7
+      '@babel/traverse': 7.29.7(supports-color@8.1.1)
+      '@babel/types': 7.29.7
+      '@jridgewell/remapping': 2.3.5
+      convert-source-map: 2.0.0
+      debug: 4.4.3(supports-color@8.1.1)
+      gensync: 1.0.0-beta.2
+      json5: 2.2.3
+      semver: 6.3.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@babel/core@7.29.0(supports-color@8.1.1)':
+    dependencies:
+      '@babel/code-frame': 7.29.7
+      '@babel/generator': 7.29.7
+      '@babel/helper-compilation-targets': 7.29.7
+      '@babel/helper-module-transforms': 7.29.7(@babel/core@7.29.0(supports-color@8.1.1))
       '@babel/helpers': 7.29.7
       '@babel/parser': 7.29.7
       '@babel/template': 7.29.7
@@ -7528,9 +7548,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/helper-module-transforms@7.29.7(@babel/core@7.29.0)':
+  '@babel/helper-module-transforms@7.29.7(@babel/core@7.29.0(supports-color@8.1.1))':
     dependencies:
       '@babel/core': 7.29.0(supports-color@8.1.1)
+      '@babel/helper-module-imports': 7.29.7
+      '@babel/helper-validator-identifier': 7.29.7
+      '@babel/traverse': 7.29.7(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@babel/helper-module-transforms@7.29.7(@babel/core@7.29.0)':
+    dependencies:
+      '@babel/core': 7.29.0
       '@babel/helper-module-imports': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
       '@babel/traverse': 7.29.7(supports-color@8.1.1)
@@ -10426,22 +10455,22 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  cpd-darwin-arm64@5.0.8:
+  cpd-darwin-arm64@5.0.9:
     optional: true
 
-  cpd-darwin-x64@5.0.8:
+  cpd-darwin-x64@5.0.9:
     optional: true
 
-  cpd-linux-arm64-gnu@5.0.8:
+  cpd-linux-arm64-gnu@5.0.9:
     optional: true
 
-  cpd-linux-x64-gnu@5.0.8:
+  cpd-linux-x64-gnu@5.0.9:
     optional: true
 
-  cpd-linux-x64-musl@5.0.8:
+  cpd-linux-x64-musl@5.0.9:
     optional: true
 
-  cpd-windows-x64-msvc@5.0.8:
+  cpd-windows-x64-msvc@5.0.9:
     optional: true
 
   crc-32@1.2.2: {}
@@ -11577,14 +11606,14 @@ snapshots:
 
   jsbn@0.1.1: {}
 
-  jscpd@5.0.8:
+  jscpd@5.0.9:
     optionalDependencies:
-      cpd-darwin-arm64: 5.0.8
-      cpd-darwin-x64: 5.0.8
-      cpd-linux-arm64-gnu: 5.0.8
-      cpd-linux-x64-gnu: 5.0.8
-      cpd-linux-x64-musl: 5.0.8
-      cpd-windows-x64-msvc: 5.0.8
+      cpd-darwin-arm64: 5.0.9
+      cpd-darwin-x64: 5.0.9
+      cpd-linux-arm64-gnu: 5.0.9
+      cpd-linux-x64-gnu: 5.0.9
+      cpd-linux-x64-musl: 5.0.9
+      cpd-windows-x64-msvc: 5.0.9
 
   jsdom@29.1.1:
     dependencies:
