@@ -63,7 +63,7 @@
     "@analogjs/platform": "2.6.1",
     "@angular/build": "22.0.0",
     "@angular/cli": "22.0.0",
-    "@angular/compiler-cli": "22.0.0",
+    "@angular/compiler-cli": "22.0.1",
     "@cypress/code-coverage": "4.0.3",
     "@cypress/schematic": "5.0.0",
     "@eslint/js": "10.0.1",
