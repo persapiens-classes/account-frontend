@@ -75,7 +75,7 @@
     "@vitest/ui": "4.1.9",
     "angular-cli-ghpages": "3.1.0",
     "angular-eslint": "22.0.0",
-    "baseline-browser-mapping": "2.10.35",
+    "baseline-browser-mapping": "2.10.38",
     "cross-env": "10.1.0",
     "cypress": "15.17.0",
     "eslint": "10.5.0",
