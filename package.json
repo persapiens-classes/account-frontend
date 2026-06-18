@@ -67,7 +67,7 @@
     "@cypress/code-coverage": "4.0.3",
     "@cypress/schematic": "5.0.0",
     "@eslint/js": "10.0.1",
-    "@tailwindcss/postcss": "4.3.0",
+    "@tailwindcss/postcss": "4.3.1",
     "@types/jsdom": "28.0.3",
     "@types/node": "24.13.2",
     "@vitest/coverage-istanbul": "4.1.9",
