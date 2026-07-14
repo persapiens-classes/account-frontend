@@ -2,6 +2,7 @@ import { ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { of } from 'rxjs';
 import { CategoryListComponent } from './category-list.component';
 import { TestUtils } from '../shared/test-utils';
 import { CategoryType } from './category';
@@ -32,10 +33,11 @@ function createTestBed(type: CategoryType) {
   };
 
   const mockHttpClient = {
-    get: vi.fn(),
-    post: vi.fn(),
-    put: vi.fn(),
-    delete: vi.fn(),
+    request: vi.fn(() => of([])),
+    get: vi.fn(() => of([])),
+    post: vi.fn(() => of({})),
+    put: vi.fn(() => of({})),
+    delete: vi.fn(() => of({})),
   };
 
   return TestUtils.setupComponentTestBed(CategoryListComponent, [

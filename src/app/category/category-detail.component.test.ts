@@ -32,6 +32,7 @@ function createTestBed(type: CategoryType, testId: number) {
   };
 
   const mockHttpClient = {
+    request: vi.fn(),
     get: vi.fn(),
     post: vi.fn(),
     put: vi.fn(),
@@ -114,6 +115,7 @@ describe('CategoryDetailComponent for DEBIT', () => {
     };
 
     const mockHttpClient = {
+      request: vi.fn(),
       get: vi.fn(),
       post: vi.fn(),
       put: vi.fn(),
@@ -175,6 +177,7 @@ describe('CategoryDetailComponent for CREDIT', () => {
     };
 
     const mockHttpClient = {
+      request: vi.fn(),
       get: vi.fn(),
       post: vi.fn(),
       put: vi.fn(),
@@ -228,6 +231,7 @@ describe('CategoryDetailComponent for EQUITY', () => {
     };
 
     const mockHttpClient = {
+      request: vi.fn(),
       get: vi.fn(),
       post: vi.fn(),
       put: vi.fn(),
