@@ -132,7 +132,7 @@ describe('AppComponent', () => {
       );
 
       // Should be empty or contain only Angular internal properties
-      expect(inputProperties.filter((key) => !key.startsWith('__')).length).toBe(0);
+      expect(inputProperties.filter((key) => !key.startsWith('__'))).toHaveLength(0);
     });
 
     it('should not have any output properties', () => {
@@ -142,7 +142,7 @@ describe('AppComponent', () => {
         (key) => key.includes('Output') || key.includes('Event'),
       );
 
-      expect(outputProperties.filter((key) => !key.startsWith('__')).length).toBe(0);
+      expect(outputProperties.filter((key) => !key.startsWith('__'))).toHaveLength(0);
     });
 
     it('should maintain consistent structure after change detection', () => {
@@ -196,7 +196,7 @@ describe('AppComponent', () => {
       const children = compiled.children;
 
       // Should only have one main element
-      expect(children.length).toBe(1);
+      expect(children).toHaveLength(1);
       expect(children[0]?.tagName.toLowerCase()).toBe('main');
     });
   });

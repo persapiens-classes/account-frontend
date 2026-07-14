@@ -129,13 +129,13 @@ describe('AccountListComponent', () => {
       component.beansList = signal(testAccounts);
 
       expect(component.beansList()).toEqual(testAccounts);
-      expect(component.beansList().length).toBe(2);
+      expect(component.beansList()).toHaveLength(2);
     });
 
     it('should handle empty beansList', () => {
       component.beansList = signal([]);
       expect(component.beansList()).toEqual([]);
-      expect(component.beansList().length).toBe(0);
+      expect(component.beansList()).toHaveLength(0);
     });
 
     it('should handle large datasets in signal', () => {
@@ -145,7 +145,7 @@ describe('AccountListComponent', () => {
       );
       component.beansList = signal(largeDataset);
 
-      expect(component.beansList().length).toBe(100);
+      expect(component.beansList()).toHaveLength(100);
       expect(component.beansList()[0].description).toBe('Account 0');
       expect(component.beansList()[99].description).toBe('Account 99');
     });

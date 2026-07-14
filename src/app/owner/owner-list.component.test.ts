@@ -132,20 +132,20 @@ describe('OwnerListComponent', () => {
   describe('Signal Management', () => {
     it('should handle signal data changes', () => {
       const initialOwners = component.beansList();
-      expect(initialOwners.length).toBe(3);
+      expect(initialOwners).toHaveLength(3);
 
       // Update signal with new data
       const newOwners = [new Owner('New Owner Only')];
       mockOwnersSignal.set(newOwners);
 
       // Component should reflect the change
-      expect(component.beansList().length).toBe(1);
+      expect(component.beansList()).toHaveLength(1);
       expect(component.beansList()[0].name).toBe('New Owner Only');
     });
 
     it('should handle empty owners list', () => {
       mockOwnersSignal.set([]);
-      expect(component.beansList().length).toBe(0);
+      expect(component.beansList()).toHaveLength(0);
       expect(component.beansList()).toEqual([]);
     });
 
@@ -153,7 +153,7 @@ describe('OwnerListComponent', () => {
       const largeOwnerList = Array.from({ length: 100 }, (_, i) => new Owner(`Owner ${i + 1}`));
       mockOwnersSignal.set(largeOwnerList);
 
-      expect(component.beansList().length).toBe(100);
+      expect(component.beansList()).toHaveLength(100);
       expect(component.beansList()[0].name).toBe('Owner 1');
       expect(component.beansList()[99].name).toBe('Owner 100');
     });
@@ -167,7 +167,7 @@ describe('OwnerListComponent', () => {
         mockOwnersSignal.set(newOwners);
       }
 
-      expect(component.beansList().length).toBe(5);
+      expect(component.beansList()).toHaveLength(5);
       expect(component.beansList()[0].name).toBe('Rapid Owner 4-0');
     });
   });

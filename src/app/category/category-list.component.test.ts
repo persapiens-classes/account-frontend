@@ -78,7 +78,7 @@ function describeListComponentTests(type: CategoryType) {
         expect(component.beanRemoveService).toBeDefined();
       });
 
-      describe.skip('Template rendering', () => {
+      describe('Template rendering', () => {
         it('should render component', () => {
           fixture.detectChanges();
           const element = fixture.nativeElement;

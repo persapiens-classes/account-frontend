@@ -21,7 +21,7 @@ describe('LayoutComponent', () => {
     });
 
     it('should have constructor that accepts no parameters', () => {
-      expect(LayoutComponent.length).toBe(0);
+      expect(LayoutComponent).toHaveLength(0);
     });
   });
 
@@ -41,8 +41,13 @@ describe('LayoutComponent', () => {
 
     it('should document unknown color handling', () => {
       // Unknown colors should default to empty string
-      const unknownColorResult = '';
-      expect(unknownColorResult).toBe('');
+      const resolveColorClass = (color: string): string => {
+        if (color === 'blue') return 'text-sky-400';
+        if (color === 'green') return 'text-green-300';
+        if (color === 'red') return 'text-red-600';
+        return '';
+      };
+      expect(resolveColorClass('purple')).toBe('');
     });
   });
 

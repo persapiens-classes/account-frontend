@@ -66,7 +66,7 @@ describe('AuthService', () => {
         'clearSession',
       ];
       TestUtils.testServiceMethods(service, expectedMethods);
-      expect(expectedMethods.length).toBe(7);
+      expect(expectedMethods).toHaveLength(7);
     });
 
     it('should have correct method signatures', () => {
@@ -80,7 +80,7 @@ describe('AuthService', () => {
         { methodName: 'clearSession', parameterCount: 0 },
       ];
       TestUtils.testServiceMethodSignatures(service, methodSignatures);
-      expect(methodSignatures.length).toBe(7);
+      expect(methodSignatures).toHaveLength(7);
     });
   });
 

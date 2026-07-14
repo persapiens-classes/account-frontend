@@ -60,7 +60,7 @@ describe('BeanListService', () => {
       const result = mockService.findAll();
       expect(result).toBeDefined();
       expect(Array.isArray(result())).toBe(true);
-      expect(result().length).toBe(1);
+      expect(result()).toHaveLength(1);
       expect(result()[0]).toBeInstanceOf(TestBean);
     });
 
@@ -239,7 +239,7 @@ describe('BeanListService', () => {
       beansSignal.set([new TestBean('1', 'Test')]);
 
       expect(beansSignal()).toEqual([expect.any(TestBean)]);
-      expect(beansSignal().length).toBe(1);
+      expect(beansSignal()).toHaveLength(1);
       expect(beansSignal()[0].getId()).toBe('1');
     });
   });

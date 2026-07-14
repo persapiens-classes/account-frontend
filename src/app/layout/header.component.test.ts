@@ -149,7 +149,7 @@ describe('HeaderComponent', () => {
       fixture.detectChanges();
 
       expect(authService.authenticatedLogin).toHaveBeenCalled();
-      expect(result).toBe(null);
+      expect(result).toBeNull();
     });
 
     it('should call authenticatedLogin multiple times and return consistent results', () => {
@@ -333,7 +333,7 @@ describe('HeaderComponent', () => {
       // Test null state
       mockAuthService.authenticatedLogin.mockReturnValue(null);
       result = component.authenticatedLogin();
-      expect(result).toBe(null);
+      expect(result).toBeNull();
     });
 
     it('should maintain proper service communication flow', () => {

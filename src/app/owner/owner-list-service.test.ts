@@ -82,7 +82,7 @@ describe('OwnerListService', () => {
       // but we can test that the method exists and is callable
       expect(service.findAll).toBeDefined();
       expect(typeof service.findAll).toBe('function');
-      expect(service.findAll.length).toBe(0); // Should take no parameters
+      expect(service.findAll).toHaveLength(0); // Should take no parameters
     });
   });
 });

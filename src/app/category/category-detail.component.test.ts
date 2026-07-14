@@ -82,7 +82,7 @@ function describeDetailComponentTests(type: CategoryType, testId: number) {
     });
 
     if (type === CategoryType.DEBIT) {
-      describe.skip('Template rendering', () => {
+      describe('Template rendering', () => {
         it('should render component', () => {
           fixture.detectChanges();
           const element = fixture.nativeElement;
@@ -149,7 +149,7 @@ describe('CategoryDetailComponent for DEBIT', () => {
     expect(component.bean).toBeDefined();
   });
 
-  describe.skip('Template rendering', () => {
+  describe('Template rendering', () => {
     it('should render component', () => {
       fixture.detectChanges();
       const element = fixture.nativeElement;

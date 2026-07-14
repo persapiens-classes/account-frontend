@@ -78,7 +78,7 @@ describe('MenuComponent', () => {
 
   describe('Menu Items Structure', () => {
     it('should have correct number of top-level menu items', () => {
-      expect(component.items.length).toBe(7);
+      expect(component.items).toHaveLength(7);
     });
 
     it('should have main navigation items with correct properties', () => {
@@ -178,7 +178,7 @@ describe('MenuComponent', () => {
 
     it('should have minimal template structure', () => {
       const template = fixture.nativeElement;
-      expect(template.children.length).toBe(1);
+      expect(template.children).toHaveLength(1);
       expect(template.firstElementChild.tagName.toLowerCase()).toBe('p-menubar');
     });
   });
@@ -222,7 +222,7 @@ describe('MenuComponent', () => {
       // Simulate some time passing
       fixture.detectChanges();
 
-      expect(component.items.length).toBe(originalItemsLength);
+      expect(component.items).toHaveLength(originalItemsLength);
       expect(component.items[0].label).toBe(originalFirstItem.label);
       expect(component.items[0].icon).toBe(originalFirstItem.icon);
     });
@@ -238,7 +238,7 @@ describe('MenuComponent', () => {
         'Owner',
       ];
 
-      expect(component.items.length).toBe(expectedLabels.length);
+      expect(component.items).toHaveLength(expectedLabels.length);
 
       // Test each menu item individually to avoid security warnings
       expect(component.items[0]?.label).toBe('Balance');
@@ -300,7 +300,7 @@ describe('MenuComponent', () => {
       allNavigationItems.forEach((item) => {
         expect(item.routerLink).toBeDefined();
         expect(Array.isArray(item.routerLink)).toBe(true);
-        expect(item.routerLink!.length).toBe(1);
+        expect(item.routerLink!).toHaveLength(1);
         expect(typeof item.routerLink![0]).toBe('string');
         expect(item.routerLink![0]).toMatch(/^\/[a-zA-Z]+$/);
       });
@@ -315,7 +315,7 @@ describe('MenuComponent', () => {
       const routePaths = allNavigationItems.map((item) => item.routerLink![0]);
       const uniqueRoutePaths = [...new Set(routePaths)];
 
-      expect(routePaths.length).toBe(uniqueRoutePaths.length);
+      expect(routePaths).toHaveLength(uniqueRoutePaths.length);
     });
   });
 });
