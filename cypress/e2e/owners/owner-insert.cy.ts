@@ -60,6 +60,7 @@ describe('Owner Insert Page', () => {
       });
     });
 
+    // Reason: not working yet
     it.skip('OW-04: should fail when trying to create owner with 256 characters (exceeds upper limit)', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-04'];

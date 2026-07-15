@@ -18,6 +18,7 @@ describe('Owner Remove Page', () => {
     cy.url().should('include', '/owners/detail');
   });
 
+  // Reason: not working yet
   it.skip('should remove the recently created Owner successfully', () => {
     cy.navigateToOwnersList();
 
@@ -26,7 +27,7 @@ describe('Owner Remove Page', () => {
     cy.contains('td', createdOwnerName).should('be.visible');
 
     cy.contains('tr', createdOwnerName).within(() => {
-      cy.get('[data-cy="delete-button"]').should('be.visible').click({ force: true });
+      cy.get('[data-cy="delete-button"]').should('be.visible').click();
     });
 
     // Wait for confirmation dialog

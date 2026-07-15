@@ -87,9 +87,7 @@ describe('Owner Edit Page', () => {
       // Go to owners list and open the edit page for the created owner
       cy.navigateToOwnersList();
 
-      cy.get('[data-cy="filter-name"] input')
-        .clear({ force: true })
-        .type(`${validOwnerName}{enter}`);
+      cy.get('[data-cy="filter-name"] input').clear().type(`${validOwnerName}{enter}`);
 
       cy.contains('tr', validOwnerName).within(() => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
@@ -135,6 +133,7 @@ describe('Owner Edit Page', () => {
       });
     });
 
+    // Reason: not working yet
     it.skip('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-04'];
@@ -157,9 +156,7 @@ describe('Owner Edit Page', () => {
 
       // Go back to edit the original owner with duplicate name
       cy.navigateToOwnersList();
-      cy.get('[data-cy="filter-name"] input')
-        .clear({ force: true })
-        .type(`${validOwnerName}{enter}`);
+      cy.get('[data-cy="filter-name"] input').clear().type(`${validOwnerName}{enter}`);
       cy.contains('tr', validOwnerName).within(() => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
