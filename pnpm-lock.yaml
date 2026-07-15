@@ -33,8 +33,8 @@ importers:
         specifier: 22.0.6
         version: 22.0.6(@angular/common@22.0.6(@angular/core@22.0.6(@angular/compiler@22.0.6)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.6(@angular/compiler@22.0.6)(rxjs@7.8.2))(@angular/platform-browser@22.0.6(@angular/animations@22.0.6(@angular/core@22.0.6(@angular/compiler@22.0.6)(rxjs@7.8.2)))(@angular/common@22.0.6(@angular/core@22.0.6(@angular/compiler@22.0.6)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.6(@angular/compiler@22.0.6)(rxjs@7.8.2)))(rxjs@7.8.2)
       '@primeuix/themes':
-        specifier: 2.0.3
-        version: 2.0.3
+        specifier: 3.0.0
+        version: 3.0.0
       primeicons:
         specifier: 7.0.0
         version: 7.0.0
@@ -125,7 +125,7 @@ importers:
         version: 5.0.12
       jsdom:
         specifier: 29.1.1
-        version: 29.1.1
+        version: 29.1.1(@noble/hashes@2.2.0)
       nyc:
         specifier: 18.0.0
         version: 18.0.0
@@ -167,7 +167,7 @@ importers:
         version: 9.0.1(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
       vitest:
         specifier: 4.1.10
-        version: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1)(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
+        version: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
 
 packages:
 
@@ -1911,6 +1911,13 @@ packages:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
 
+  '@noble/ed25519@2.3.0':
+    resolution: {integrity: sha512-M7dvXL2B92/M7dw9+gzuydL8qn/jiqNHaoR3Q+cb1q1GHV7uwE17WCyFMG+Y+TZb5izcaXk5TdJRrDUxHXL78A==}
+
+  '@noble/hashes@2.2.0':
+    resolution: {integrity: sha512-IYqDGiTXab6FniAgnSdZwgWbomxpy9FtYvLKs7wCUs2a8RkITG+DFGO1DM9cr+E3/RgADRpFjrKVaJ1z6sjtEg==}
+    engines: {node: '>= 20.19.0'}
+
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -2223,6 +2230,9 @@ packages:
   '@poppinss/exception@1.2.3':
     resolution: {integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==}
 
+  '@primeui/license-manager@1.0.0':
+    resolution: {integrity: sha512-89J7r8cclEqoHVwjOX1adPcB/blFSocpzuYlzmd+6r0gxzg2Vd4jM54TKXt9/qwAT/kOv4vYnHKZ6hcP2GFtfA==}
+
   '@primeuix/motion@0.0.10':
     resolution: {integrity: sha512-PsZwOPq79Scp7/ionshRcQ5xKVf9+zuLcyY5mf6onK8chHT5C9JGphmcIZ4CzcqxuGEpsm8AIbTGy+zS3RtzLA==}
     engines: {node: '>=12.11.0'}
@@ -2231,11 +2241,15 @@ packages:
     resolution: {integrity: sha512-QSO/NpOQg8e9BONWRBx9y8VGMCMYz0J/uKfNJEya/RGEu7ARx0oYW0ugI1N3/KB1AAvyGxzKBzGImbwg0KUiOQ==}
     engines: {node: '>=12.11.0'}
 
+  '@primeuix/styled@1.0.0':
+    resolution: {integrity: sha512-6SXoeQWwKswSqTv1ygaXNfY7otHo6Rb9mxbKJK5WF8adWlZ6CtwmlNfIP+p8cH/zGccsei/5Bu7IetXlMoZGjQ==}
+    engines: {node: '>=12.11.0'}
+
   '@primeuix/styles@2.0.3':
     resolution: {integrity: sha512-2ykAB6BaHzR/6TwF8ShpJTsZrid6cVIEBVlookSdvOdmlWuevGu5vWOScgIwqWwlZcvkFYAGR/SUV3OHCTBMdw==}
 
-  '@primeuix/themes@2.0.3':
-    resolution: {integrity: sha512-3fS1883mtCWhgUgNf/feiaaDSOND4EBIOu9tZnzJlJ8QtYyL6eFLcA6V3ymCWqLVXQ1+lTVEZv1gl47FIdXReg==}
+  '@primeuix/themes@3.0.0':
+    resolution: {integrity: sha512-lNMOhorzu4vHRKbTDIU2/raS7/Z6Oyq2WXGfFDVhOwAIVDF4e7hCX75jlgfC7bo4D0Bl5f+oW5HPGZpG52r6lw==}
 
   '@primeuix/utils@0.6.4':
     resolution: {integrity: sha512-pZ5f+vj7wSzRhC7KoEQRU5fvYAe+RP9+m39CTscZ3UywCD1Y2o6Fe1rRgklMPSkzUcty2jzkA0zMYkiJBD1hgg==}
@@ -2243,6 +2257,10 @@ packages:
 
   '@primeuix/utils@0.7.2':
     resolution: {integrity: sha512-pmEbSfP0Phf9W9RweiM66zXnkn73ZeKyYINElbX3uZ2+stzzaba2svLAl3B1pHVcRw5t43O0VciaGe4ye2EXKw==}
+    engines: {node: '>=12.11.0'}
+
+  '@primeuix/utils@0.8.0':
+    resolution: {integrity: sha512-dZSMKU2XJ7W7VDLuFMS/o4k+QYw4SYIpqSNhR/jdasMaaXl8eq0Gt7fTzTwwq7hgfmfOsI6V5xtzUUIvybOJ/w==}
     engines: {node: '>=12.11.0'}
 
   '@rolldown/binding-android-arm64@1.1.5':
@@ -7178,7 +7196,7 @@ snapshots:
       lmdb: 3.5.4
       postcss: 8.5.19
       tailwindcss: 4.3.2
-      vitest: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1)(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
     transitivePeerDependencies:
       - '@types/node'
       - chokidar
@@ -8312,7 +8330,9 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@exodus/bytes@1.15.1': {}
+  '@exodus/bytes@1.15.1(@noble/hashes@2.2.0)':
+    optionalDependencies:
+      '@noble/hashes': 2.2.0
 
   '@gar/promise-retry@1.0.3': {}
 
@@ -8691,6 +8711,10 @@ snapshots:
       '@tybys/wasm-util': 0.10.3
     optional: true
 
+  '@noble/ed25519@2.3.0': {}
+
+  '@noble/hashes@2.2.0': {}
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -8929,6 +8953,11 @@ snapshots:
 
   '@poppinss/exception@1.2.3': {}
 
+  '@primeui/license-manager@1.0.0':
+    dependencies:
+      '@noble/ed25519': 2.3.0
+      '@noble/hashes': 2.2.0
+
   '@primeuix/motion@0.0.10':
     dependencies:
       '@primeuix/utils': 0.6.4
@@ -8937,17 +8966,24 @@ snapshots:
     dependencies:
       '@primeuix/utils': 0.6.4
 
+  '@primeuix/styled@1.0.0':
+    dependencies:
+      '@primeui/license-manager': 1.0.0
+      '@primeuix/utils': 0.8.0
+
   '@primeuix/styles@2.0.3':
     dependencies:
       '@primeuix/styled': 0.7.4
 
-  '@primeuix/themes@2.0.3':
+  '@primeuix/themes@3.0.0':
     dependencies:
-      '@primeuix/styled': 0.7.4
+      '@primeuix/styled': 1.0.0
 
   '@primeuix/utils@0.6.4': {}
 
   '@primeuix/utils@0.7.2': {}
+
+  '@primeuix/utils@0.8.0': {}
 
   '@rolldown/binding-android-arm64@1.1.5':
     optional: true
@@ -9567,7 +9603,7 @@ snapshots:
       magicast: 0.5.3
       obug: 2.1.3
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1)(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
     transitivePeerDependencies:
       - supports-color
 
@@ -9583,7 +9619,7 @@ snapshots:
       obug: 2.1.3
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1)(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
 
   '@vitest/expect@4.1.10':
     dependencies:
@@ -9629,7 +9665,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1)(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
 
   '@vitest/utils@4.1.10':
     dependencies:
@@ -10389,10 +10425,10 @@ snapshots:
     dependencies:
       assert-plus: 1.0.0
 
-  data-urls@7.0.0:
+  data-urls@7.0.0(@noble/hashes@2.2.0):
     dependencies:
       whatwg-mimetype: 5.0.0
-      whatwg-url: 16.0.1
+      whatwg-url: 16.0.1(@noble/hashes@2.2.0)
     transitivePeerDependencies:
       - '@noble/hashes'
 
@@ -11136,9 +11172,9 @@ snapshots:
     dependencies:
       lru-cache: 11.5.1
 
-  html-encoding-sniffer@6.0.0:
+  html-encoding-sniffer@6.0.0(@noble/hashes@2.2.0):
     dependencies:
-      '@exodus/bytes': 1.15.1
+      '@exodus/bytes': 1.15.1(@noble/hashes@2.2.0)
     transitivePeerDependencies:
       - '@noble/hashes'
 
@@ -11435,17 +11471,17 @@ snapshots:
       jscpd-linux-x64-musl: 5.0.12
       jscpd-windows-x64-msvc: 5.0.12
 
-  jsdom@29.1.1:
+  jsdom@29.1.1(@noble/hashes@2.2.0):
     dependencies:
       '@asamuzakjp/css-color': 5.1.11
       '@asamuzakjp/dom-selector': 7.1.1
       '@bramus/specificity': 2.4.2
       '@csstools/css-syntax-patches-for-csstree': 1.1.5(css-tree@3.2.1)
-      '@exodus/bytes': 1.15.1
+      '@exodus/bytes': 1.15.1(@noble/hashes@2.2.0)
       css-tree: 3.2.1
-      data-urls: 7.0.0
+      data-urls: 7.0.0(@noble/hashes@2.2.0)
       decimal.js: 10.6.0
-      html-encoding-sniffer: 6.0.0
+      html-encoding-sniffer: 6.0.0(@noble/hashes@2.2.0)
       is-potential-custom-element-name: 1.0.1
       lru-cache: 11.5.1
       parse5: 8.0.1
@@ -11456,7 +11492,7 @@ snapshots:
       w3c-xmlserializer: 5.0.0
       webidl-conversions: 8.0.1
       whatwg-mimetype: 5.0.0
-      whatwg-url: 16.0.1
+      whatwg-url: 16.0.1(@noble/hashes@2.2.0)
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - '@noble/hashes'
@@ -13369,7 +13405,7 @@ snapshots:
     optionalDependencies:
       vite: 8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0)
 
-  vitest@4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1)(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0)):
+  vitest@4.1.10(@types/node@24.13.2)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.10
       '@vitest/mocker': 4.1.10(vite@8.1.4(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(yaml@2.9.0))
@@ -13396,7 +13432,7 @@ snapshots:
       '@vitest/coverage-istanbul': 4.1.10(vitest@4.1.10)
       '@vitest/coverage-v8': 4.1.10(vitest@4.1.10)
       '@vitest/ui': 4.1.10(vitest@4.1.10)
-      jsdom: 29.1.1
+      jsdom: 29.1.1(@noble/hashes@2.2.0)
     transitivePeerDependencies:
       - msw
 
@@ -13476,9 +13512,9 @@ snapshots:
 
   whatwg-mimetype@5.0.0: {}
 
-  whatwg-url@16.0.1:
+  whatwg-url@16.0.1(@noble/hashes@2.2.0):
     dependencies:
-      '@exodus/bytes': 1.15.1
+      '@exodus/bytes': 1.15.1(@noble/hashes@2.2.0)
       tr46: 6.0.0
       webidl-conversions: 8.0.1
     transitivePeerDependencies:
