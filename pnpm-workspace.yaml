@@ -12,9 +12,9 @@ ignoredBuiltDependencies:
   - msgpackr-extract
 
 minimumReleaseAgeExclude:
-  - '@analogjs/platform@2.6.0 || 2.6.1'
-  - '@analogjs/vite-plugin-angular@2.6.0 || 2.6.1'
-  - '@analogjs/vite-plugin-nitro@2.6.0 || 2.6.1'
+  - '@analogjs/platform@2.6.1'
+  - '@analogjs/vite-plugin-angular@2.6.1'
+  - '@analogjs/vite-plugin-nitro@2.6.1'
   - '@angular-devkit/architect@0.2200.0'
   - '@angular-devkit/core@22.0.0'
   - '@angular-devkit/schematics@22.0.0'
@@ -30,7 +30,7 @@ minimumReleaseAgeExclude:
   - '@angular/platform-browser@22.0.0'
   - '@angular/router@22.0.0'
   - '@schematics/angular@22.0.0'
-  - jscpd@5.0.4
+  - jscpd@5.0.4 || 5.0.14
   - '@typescript-eslint/eslint-plugin@8.61.0'
   - '@typescript-eslint/parser@8.61.0'
   - '@typescript-eslint/project-service@8.61.0'
@@ -50,6 +50,15 @@ minimumReleaseAgeExclude:
   - '@openng/optimus-ui@1.0.0-rc.2'
   - '@openng/optimus-ui-tailwindcss@1.0.0-rc.2'
   - '@openng/optimus-ui-themes@1.0.0-rc.2'
+  - eslint-plugin-sonarjs@4.2.0
+  - baseline-browser-mapping@2.11.5
+  - jscpd-darwin-arm64@5.0.14
+  - jscpd-darwin-x64@5.0.14
+  - jscpd-linux-arm64-gnu@5.0.14
+  - jscpd-linux-x64-gnu@5.0.14
+  - jscpd-linux-x64-musl@5.0.14
+  - jscpd-windows-x64-msvc@5.0.14
+  - jsdom@30.0.0
 
 onlyBuiltDependencies:
   - cypress

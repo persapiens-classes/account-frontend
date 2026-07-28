@@ -85,7 +85,6 @@ function describeDetailComponentTests(type: CategoryType, testId: number) {
     if (type === CategoryType.DEBIT) {
       describe('Template rendering', () => {
         it('should render component', () => {
-          fixture.detectChanges();
           const element = fixture.nativeElement;
           expect(element).toBeTruthy();
         });
@@ -153,7 +152,6 @@ describe('CategoryDetailComponent for DEBIT', () => {
 
   describe('Template rendering', () => {
     it('should render component', () => {
-      fixture.detectChanges();
       const element = fixture.nativeElement;
       expect(element).toBeTruthy();
     });
