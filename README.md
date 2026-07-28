@@ -14,7 +14,7 @@ This is the pedagogical example app of the discipline [Aplicação com Interface
 - Modern single-page application (SPA) for account management
 - JWT-based authentication and route guards
 - CRUD operations for accounts, categories, owners, and entries
-- Responsive UI with PrimeNG components and Tailwind CSS
+- Responsive UI with OptimusUI components and Tailwind CSS
 - Real-time form validation and error handling
 - Multiple entry types: Credit, Debit, and Transfer
 - Balance tracking and initial value management
@@ -28,8 +28,7 @@ This frontend application is built with Angular and leverages the following tech
 
 - **[Angular](https://angular.dev/)** (Framework)
 - **[TypeScript](https://www.typescriptlang.org/)** (Language)
-- **[PrimeNG](https://primeng.org/)** (UI component library)
-- **[PrimeIcons](https://primeng.org/icons)** (Icon library)
+- **[OptimusUI](https://optimus.openng.org/)** (UI component library)
 - **[Tailwind CSS](https://tailwindcss.com/)** (Utility-first CSS framework)
 - **[RxJS](https://rxjs.dev/)** (Reactive programming)
 - **[JWT Decode](https://github.com/auth0/jwt-decode)** (JWT token parsing)
