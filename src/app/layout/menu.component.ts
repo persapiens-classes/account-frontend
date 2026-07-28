@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { TooltipModule } from 'primeng/tooltip';
-import { MenubarModule } from 'primeng/menubar';
-import { MenuItem, PassThroughContext } from 'primeng/api';
-import { MenubarPassThrough } from 'primeng/types/menubar';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
+import { MenubarModule } from '@openng/optimus-ui/menubar';
+import { MenuItem, PassThroughContext } from '@openng/optimus-ui/api';
+import { MenubarPassThrough } from '@openng/optimus-ui/types/menubar';
 
 interface MenuItemWithDataCy extends MenuItem {
   dataCy?: string;

@@ -1,11 +1,11 @@
 import { Component, inject, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
+import { TableModule } from '@openng/optimus-ui/table';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
 import { Entry } from './entry';
 import { HttpClient } from '@angular/common/http';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
 import { RemoveButtonComponent } from '../bean/remove-button.component';

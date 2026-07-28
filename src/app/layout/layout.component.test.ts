@@ -9,7 +9,7 @@ import { LayoutComponent } from './layout.component';
  * - Mapping titleClass values ('blue', 'green', 'red') to Tailwind CSS classes
  * - Rendering a layout with header, menu, title, and router outlet
  *
- * Due to Angular's dependency injection complexities and PrimeNG Toast dependencies,
+ * Due to Angular's dependency injection complexities and OptimusUI Toast dependencies,
  * these tests serve as documentation of the expected behavior.
  * The component's logic is straightforward and can be verified through integration tests.
  */
@@ -112,14 +112,14 @@ describe('LayoutComponent', () => {
         'ActivatedRoute',
         'HeaderComponent',
         'MenuComponent',
-        'PrimeNG ToastModule',
+        'OptimusUI ToastModule',
         'Router RouterOutlet',
       ];
 
       expect(requiredDependencies).toContain('ActivatedRoute');
       expect(requiredDependencies).toContain('HeaderComponent');
       expect(requiredDependencies).toContain('MenuComponent');
-      expect(requiredDependencies).toContain('PrimeNG ToastModule');
+      expect(requiredDependencies).toContain('OptimusUI ToastModule');
       expect(requiredDependencies).toContain('Router RouterOutlet');
     });
 

@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { PanelModule } from '@openng/optimus-ui/panel';
 import { createOwner, Owner } from './owner';
 import { InputFieldComponent } from '../field/input-field.component';
 import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';

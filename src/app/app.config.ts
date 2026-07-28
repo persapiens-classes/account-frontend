@@ -4,12 +4,12 @@ import {
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authIntercept } from './auth/auth.interceptor';
-import { MessageService } from 'primeng/api';
+import { MessageService } from '@openng/optimus-ui/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,14 +17,14 @@ export const appConfig: ApplicationConfig = {
     MessageService,
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    providePrimeNG({
+    provideOptimus({
       theme: {
         preset: Aura,
         options: {
           darkModeSelector: '.app-dark',
           cssLayer: {
-            name: 'primeng',
-            order: 'theme, base, primeng',
+            name: 'optimus',
+            order: 'theme, base, optimus',
           },
         },
       },

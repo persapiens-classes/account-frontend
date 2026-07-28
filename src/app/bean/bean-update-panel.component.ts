@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { Bean } from './bean';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { PanelModule } from '@openng/optimus-ui/panel';
 import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { BeanUpdateService } from './bean-update-service';

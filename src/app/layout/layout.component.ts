@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { ToastModule } from 'primeng/toast';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { MenuComponent } from './menu.component';
 import { HeaderComponent } from './header.component';
 import { CommonModule } from '@angular/common';

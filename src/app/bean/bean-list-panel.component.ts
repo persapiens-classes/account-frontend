@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, inject, input } from '@angular/core';
-import { PanelModule } from 'primeng/panel';
-import { ButtonModule } from 'primeng/button';
+import { PanelModule } from '@openng/optimus-ui/panel';
+import { ButtonModule } from '@openng/optimus-ui/button';
 
 @Component({
   selector: 'app-bean-list-panel',

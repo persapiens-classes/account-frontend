@@ -1,10 +1,10 @@
 @import 'tailwindcss';
-@import 'tailwindcss-primeui';
-@import 'primeicons/primeicons.css';
+@import '@openng/optimus-ui-tailwindcss';
+@import '@openng/icons/openng-icons.css';
 
 /* stylelint-disable selector-type-no-unknown */
 
-/* reusable PrimeNG p-table stack mode for mobile */
+/* reusable OptimusUI p-table stack mode for mobile */
 @media (max-width: 768px) {
   .table-stack-mobile .p-datatable-thead,
   .table-stack-mobile .p-datatable-tfoot {

@@ -1,14 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { form, FormField, required, minLength } from '@angular/forms/signals';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { PanelModule } from 'primeng/panel';
-import { AutoFocusModule } from 'primeng/autofocus';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { PanelModule } from '@openng/optimus-ui/panel';
+import { AutoFocusModule } from '@openng/optimus-ui/autofocus';
 import { AuthService } from './auth.service';
-import { ToastModule } from 'primeng/toast';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { catchError, of, tap } from 'rxjs';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
 import { AppMessageService } from '../app-message-service';
 import { InputFieldComponent } from '../field/input-field.component';
 

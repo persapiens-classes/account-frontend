@@ -16,7 +16,7 @@ interface GlobalThis {
 
 (globalThis as GlobalThis).ngDevMode = false;
 
-// Mock for matchMedia (required for some PrimeNG components)
+// Mock for matchMedia (required for some OptimusUI components)
 Object.defineProperty(globalThis, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({

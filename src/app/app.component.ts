@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PanelModule } from 'primeng/panel';
+import { PanelModule } from '@openng/optimus-ui/panel';
 import { RouterOutlet } from '@angular/router';
 
 @Component({

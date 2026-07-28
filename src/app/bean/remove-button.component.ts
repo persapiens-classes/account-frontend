@@ -1,11 +1,11 @@
 import { Component, inject, input, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { Bean } from './bean';
 import { catchError, of, tap } from 'rxjs';
 import { AppMessageService } from '../app-message-service';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from '@openng/optimus-ui/confirmdialog';
+import { ConfirmationService } from '@openng/optimus-ui/api';
 import { BeanRemoveService } from './bean-remove-service';
 import { HttpErrorResponse } from '@angular/common/http';
 

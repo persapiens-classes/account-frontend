@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { TooltipModule } from 'primeng/tooltip';
+import { TableModule } from '@openng/optimus-ui/table';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
 import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
 import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
 import { RemoveButtonComponent } from '../bean/remove-button.component';

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { AutoFocusModule } from 'primeng/autofocus';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { AutoFocusModule } from '@openng/optimus-ui/autofocus';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { FormField, FieldTree } from '@angular/forms/signals';
 
 @Component({

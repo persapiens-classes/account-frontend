@@ -12,9 +12,9 @@ ignoredBuiltDependencies:
   - msgpackr-extract
 
 minimumReleaseAgeExclude:
-  - '@analogjs/platform@2.6.0'
-  - '@analogjs/vite-plugin-angular@2.6.0'
-  - '@analogjs/vite-plugin-nitro@2.6.0'
+  - '@analogjs/platform@2.6.0 || 2.6.1'
+  - '@analogjs/vite-plugin-angular@2.6.0 || 2.6.1'
+  - '@analogjs/vite-plugin-nitro@2.6.0 || 2.6.1'
   - '@angular-devkit/architect@0.2200.0'
   - '@angular-devkit/core@22.0.0'
   - '@angular-devkit/schematics@22.0.0'
@@ -43,9 +43,13 @@ minimumReleaseAgeExclude:
   - '@typescript-eslint/visitor-keys@8.61.0'
   - typescript-eslint@8.61.0
   - angular-cli-ghpages@3.1.0
-  - '@analogjs/platform@2.6.1'
-  - '@analogjs/vite-plugin-angular@2.6.1'
-  - '@analogjs/vite-plugin-nitro@2.6.1'
+  - '@openng/optimus-ui-motion@1.0.0-rc.2'
+  - '@openng/optimus-ui-styled@1.0.0-rc.2'
+  - '@openng/optimus-ui-styles@1.0.0-rc.2'
+  - '@openng/optimus-ui-utils@1.0.0-rc.2'
+  - '@openng/optimus-ui@1.0.0-rc.2'
+  - '@openng/optimus-ui-tailwindcss@1.0.0-rc.2'
+  - '@openng/optimus-ui-themes@1.0.0-rc.2'
 
 onlyBuiltDependencies:
   - cypress

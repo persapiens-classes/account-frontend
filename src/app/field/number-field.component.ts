@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { AutoFocusModule } from 'primeng/autofocus';
-import { InputNumberModule } from 'primeng/inputnumber';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { AutoFocusModule } from '@openng/optimus-ui/autofocus';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
 import { FormField, FieldTree } from '@angular/forms/signals';
 
 @Component({

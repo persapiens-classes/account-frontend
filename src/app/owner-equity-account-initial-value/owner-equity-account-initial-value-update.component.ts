@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { PanelModule } from '@openng/optimus-ui/panel';
 import { createOwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';

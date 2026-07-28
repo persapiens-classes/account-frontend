@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { Router } from '@angular/router';
-import { TooltipModule } from 'primeng/tooltip';
-import { MenubarModule } from 'primeng/menubar';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
+import { MenubarModule } from '@openng/optimus-ui/menubar';
 
 @Component({
   selector: 'app-header',

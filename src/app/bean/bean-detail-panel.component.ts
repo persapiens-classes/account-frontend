@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { Bean } from './bean';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { PanelModule } from '@openng/optimus-ui/panel';
 import { Component, inject, input } from '@angular/core';
 
 @Component({

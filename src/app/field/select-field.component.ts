@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { SelectModule } from 'primeng/select';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { SelectModule } from '@openng/optimus-ui/select';
 import { FormField, FieldTree } from '@angular/forms/signals';
 
 @Component({
