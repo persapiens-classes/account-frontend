@@ -1,23 +1,24 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Category, createCategory } from './category';
+import { Category, categoryId, createCategory } from './category';
 import { InputFieldComponent } from '../field/input-field.component';
 import { CategoryInsertService } from './category-insert-service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
 import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-category-insert',
-  imports: [CommonModule, InputFieldComponent, BeanInsertPanelComponent],
+  imports: [CommonModule, InputFieldComponent, ModelInsertPanelComponent],
   template: `
-    <app-bean-insert-panel
+    <app-model-insert-panel
       [form]="form"
-      [createBean]="createBean.bind(this)"
-      [beanInsertService]="beanInsertService"
-      [beanName]="beanName"
+      [createModel]="createModel.bind(this)"
+      [modelInsertService]="modelInsertService"
+      [modelName]="modelName"
       [routerName]="routerName"
+      [modelIdFn]="modelIdFn"
     >
       <app-input-field
         label="Description"
@@ -25,7 +26,7 @@ import { form, minLength, required } from '@angular/forms/signals';
         [formField]="form.description"
         dataCy="input-description"
       />
-    </app-bean-insert-panel>
+    </app-model-insert-panel>
   `,
 })
 export class CategoryInsertComponent {
@@ -34,19 +35,20 @@ export class CategoryInsertComponent {
     minLength(f.description, 3);
   });
   routerName: string;
-  beanName: string;
-  beanInsertService: CategoryInsertService;
+  modelName: string;
+  modelInsertService: CategoryInsertService;
 
   constructor() {
     const activatedRoute = inject(ActivatedRoute);
     const http = inject(HttpClient);
     const type = activatedRoute.snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Categories`;
-    this.beanName = `${type} Category`;
-    this.beanInsertService = new CategoryInsertService(http, type);
+    this.modelName = `${type} Category`;
+    this.modelInsertService = new CategoryInsertService(http, type);
   }
+  modelIdFn = categoryId;
 
-  createBean(): Category {
-    return new Category(this.form().value().description);
+  createModel(): Category {
+    return { description: this.form().value().description };
   }
 }

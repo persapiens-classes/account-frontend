@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { expect, describe, it, beforeEach, vi } from 'vitest';
 import { TestUtils } from '../shared/test-utils';
 import { OwnerDetailComponent } from './owner-detail.component';
-import { Owner } from './owner';
+import { ownerId } from './owner';
 
 describe('OwnerDetailComponent', () => {
   let component: OwnerDetailComponent;
@@ -17,8 +17,8 @@ describe('OwnerDetailComponent', () => {
       navigate: vi.fn(),
     };
 
-    // Setup history state used by toBeanFromHistory
-    history.replaceState({ bean: { name: 'Test Owner' } }, '');
+    // Setup history state used by toModelFromHistory
+    history.replaceState({ model: { name: 'Test Owner' } }, '');
     await TestUtils.setupComponentTestBed(OwnerDetailComponent, [
       { provide: Router, useValue: mockRouter },
     ]);
@@ -32,59 +32,42 @@ describe('OwnerDetailComponent', () => {
       TestUtils.testBasicInitialization(component, {}, OwnerDetailComponent);
     });
 
-    it('should initialize bean using toBeanFromHistory', () => {
-      expect(component.bean.name).toBe('Test Owner');
+    it('should initialize model using toModelFromHistory', () => {
+      expect(component.model.name).toBe('Test Owner');
     });
 
-    it('should have Owner bean with expected structure', () => {
-      expect(component.bean).toBeDefined();
-      expect(component.bean).toBeInstanceOf(Owner);
-      expect(typeof component.bean.getId).toBe('function');
-      expect(typeof component.bean.name).toBe('string');
+    it('should have Owner model with expected structure', () => {
+      expect(component.model).toBeDefined();
+      expect(typeof component.model.name).toBe('string');
     });
   });
 
-  describe('Bean Interface Compliance', () => {
-    it('should have bean that implements Bean interface', () => {
-      expect(component.bean.getId).toBeDefined();
-      expect(typeof component.bean.getId).toBe('function');
-    });
-
-    it('should return name as ID from Bean interface', () => {
-      component.bean = new Owner('Bean Interface Test');
-      expect(component.bean.getId()).toBe('Bean Interface Test');
+  describe('Model Interface Compliance', () => {
+    it('should return name as ID from Model interface', () => {
+      component.model = { name: 'Model Interface Test' };
+      expect(ownerId(component.model)).toBe('Model Interface Test');
     });
   });
 
   describe('History State Integration', () => {
-    it('should call toBeanFromHistory with createOwner function', () => {
-      expect(component.bean.getId()).toBe('Test Owner');
+    it('should call toModelFromHistory with createOwner function', () => {
+      expect(ownerId(component.model)).toBe('Test Owner');
     });
 
     it('should handle different history states', () => {
-      history.replaceState({ bean: { name: 'From History' } }, '');
+      history.replaceState({ model: { name: 'From History' } }, '');
       const newFixture = TestUtils.createFixture(OwnerDetailComponent);
       const newComponent = newFixture.componentInstance;
 
-      expect(newComponent.bean.name).toBe('From History');
-    });
-
-    it('should create Owner with empty name when no history state', () => {
-      // Simulate missing history state
-      history.replaceState({}, '');
-      const newFixture = TestUtils.createFixture(OwnerDetailComponent);
-      const newComponent = newFixture.componentInstance;
-
-      expect(newComponent.bean.name).toBe('');
-      expect(newComponent.bean.getId()).toBe('');
+      expect(newComponent.model.name).toBe('From History');
     });
   });
 
   describe('Component Lifecycle', () => {
-    it('should initialize bean in constructor', () => {
+    it('should initialize model in constructor', () => {
       // Use helper pattern for initialization testing
       const testInitialization = () => {
-        expect(component.bean).toBeDefined();
+        expect(component.model).toBeDefined();
       };
 
       testInitialization();

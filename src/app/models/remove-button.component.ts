@@ -1,12 +1,11 @@
 import { Component, inject, input, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { Bean } from './bean';
 import { catchError, of, tap } from 'rxjs';
 import { AppMessageService } from '../app-message-service';
 import { ConfirmDialogModule } from '@openng/optimus-ui/confirmdialog';
 import { ConfirmationService } from '@openng/optimus-ui/api';
-import { BeanRemoveService } from './bean-remove-service';
+import { ModelRemoveService } from './model-remove-service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -31,11 +30,12 @@ import { HttpErrorResponse } from '@angular/common/http';
     />
   `,
 })
-export class RemoveButtonComponent<T extends Bean> {
-  beansList = input.required<WritableSignal<T[]>>();
+export class RemoveButtonComponent<T> {
+  modelsList = input.required<WritableSignal<T[]>>();
   item = input.required<T>();
-  beanRemoveService = input.required<BeanRemoveService>();
-  beanName = input.required<string>();
+  modelRemoveService = input.required<ModelRemoveService>();
+  modelName = input.required<string>();
+  modelIdFn = input.required<(t: T) => string>();
 
   private readonly appMessageService = inject(AppMessageService);
   private readonly confirmationService = inject(ConfirmationService);
@@ -49,8 +49,8 @@ export class RemoveButtonComponent<T extends Bean> {
   }
 
   private handleRemove() {
-    this.beanRemoveService()
-      .remove(this.item().getId())
+    this.modelRemoveService()
+      .remove(this.modelIdFn()(this.item()))
       .pipe(
         tap(() => this.onRemoveSuccess()),
         catchError((error) => this.onRemoveError(error)),
@@ -60,14 +60,16 @@ export class RemoveButtonComponent<T extends Bean> {
 
   private onRemoveSuccess() {
     this.appMessageService.addSuccessMessage(
-      `${this.beanName()} removed`,
-      `${this.beanName()} removed ok.`,
+      `${this.modelName()} removed`,
+      `${this.modelName()} removed ok.`,
     );
-    this.beansList().update((list: T[]) => list.filter((b) => b.getId() !== this.item().getId()));
+    this.modelsList().update((list: T[]) =>
+      list.filter((b) => this.modelIdFn()(b) !== this.modelIdFn()(this.item())),
+    );
   }
 
   private onRemoveError(error: HttpErrorResponse) {
-    this.appMessageService.addErrorMessage(error, `${this.beanName()} not removed`);
+    this.appMessageService.addErrorMessage(error, `${this.modelName()} not removed`);
     return of();
   }
 }

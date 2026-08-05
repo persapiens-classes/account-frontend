@@ -4,7 +4,7 @@ import { PanelModule } from '@openng/optimus-ui/panel';
 import { ButtonModule } from '@openng/optimus-ui/button';
 
 @Component({
-  selector: 'app-bean-list-panel',
+  selector: 'app-model-list-panel',
   imports: [PanelModule, ButtonModule],
   template: `
     <p-panel header="List">
@@ -24,7 +24,7 @@ import { ButtonModule } from '@openng/optimus-ui/button';
     </p-panel>
   `,
 })
-export class BeanListPanelComponent {
+export class ModelListPanelComponent {
   routerName = input.required<string>();
 
   private readonly router = inject(Router);

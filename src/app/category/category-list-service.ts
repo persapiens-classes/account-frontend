@@ -1,20 +1,19 @@
 import { WritableSignal } from '@angular/core';
-import { Category, CategoryType, createCategory } from './category';
-import { BeanListService, loadBeans } from '../bean/bean-list-service';
+import { Category, CategoryType } from './category';
+import { ModelListService, loadModels } from '../models/model-list-service';
 import { AppMessageService } from '../app-message-service';
 
-export class CategoryListService implements BeanListService<Category> {
+export class CategoryListService implements ModelListService<Category> {
   constructor(
     private readonly appMessageService: AppMessageService,
     private readonly type: CategoryType,
   ) {}
 
   findAll(): WritableSignal<Category[]> {
-    return loadBeans(
+    return loadModels(
       this.appMessageService,
       `${this.type} Category`,
       `${this.type.toLowerCase()}Categories`,
-      createCategory,
     );
   }
 }

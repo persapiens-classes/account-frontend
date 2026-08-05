@@ -1,20 +1,21 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Owner } from './owner';
+import { createOwner, Owner, ownerId } from './owner';
 import { InputFieldComponent } from '../field/input-field.component';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
 import { OwnerInsertService } from './owner-insert-service';
 import { form, minLength, required, maxLength } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-owner-insert',
-  imports: [CommonModule, InputFieldComponent, BeanInsertPanelComponent],
+  imports: [CommonModule, InputFieldComponent, ModelInsertPanelComponent],
   template: `
-    <app-bean-insert-panel
+    <app-model-insert-panel
       [form]="form"
-      [createBean]="createBean.bind(this)"
-      [beanInsertService]="beanInsertService"
-      [beanName]="'Owner'"
+      [createModel]="createModel.bind(this)"
+      [modelInsertService]="modelInsertService"
+      [modelIdFn]="modelIdFn"
+      [modelName]="'Owner'"
       [routerName]="'owners'"
     >
       <app-input-field
@@ -23,19 +24,20 @@ import { form, minLength, required, maxLength } from '@angular/forms/signals';
         [formField]="form.name"
         dataCy="input-name"
       />
-    </app-bean-insert-panel>
+    </app-model-insert-panel>
   `,
 })
 export class OwnerInsertComponent {
-  form = form(signal(new Owner('')), (f) => {
+  form = form(signal(createOwner()), (f) => {
     required(f.name);
     minLength(f.name, 3);
     maxLength(f.name, 255);
   });
 
-  beanInsertService = inject(OwnerInsertService);
+  modelInsertService = inject(OwnerInsertService);
+  modelIdFn = ownerId;
 
-  createBean(): Owner {
-    return new Owner(this.form().value().name);
+  createModel(): Owner {
+    return { name: this.form().value().name };
   }
 }

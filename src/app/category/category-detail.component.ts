@@ -1,26 +1,26 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Category, createCategory } from './category';
+import { Category } from './category';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { toBeanFromHistory } from '../bean/bean';
+import { toModelFromHistory } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
-import { BeanDetailPanelComponent } from '../bean/bean-detail-panel.component';
+import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 
 @Component({
   selector: 'app-category-detail',
-  imports: [CommonModule, DetailFieldComponent, BeanDetailPanelComponent],
+  imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
-    <app-bean-detail-panel [routerName]="routerName" [bean]="bean">
-      <app-detail-field strong="Description" value="{{ bean.description }}" />
-    </app-bean-detail-panel>
+    <app-model-detail-panel [routerName]="routerName" [model]="model">
+      <app-detail-field strong="Description" value="{{ model.description }}" />
+    </app-model-detail-panel>
   `,
 })
 export class CategoryDetailComponent {
-  bean: Category;
+  model: Category;
   routerName: string;
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Categories`;
-    this.bean = toBeanFromHistory(createCategory);
+    this.model = toModelFromHistory<Category>();
   }
 }

@@ -1,11 +1,17 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Account, accountFormToModel, accountModelToForm, createAccount } from './account';
+import {
+  Account,
+  accountFormToModel,
+  accountId,
+  accountModelToForm,
+  createAccount,
+} from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryListService } from '../category/category-list-service';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
 import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { AccountInsertService } from './account-insert-service';
@@ -14,13 +20,14 @@ import { form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-account-insert',
-  imports: [CommonModule, InputFieldComponent, SelectFieldComponent, BeanInsertPanelComponent],
+  imports: [CommonModule, InputFieldComponent, SelectFieldComponent, ModelInsertPanelComponent],
   template: `
-    <app-bean-insert-panel
+    <app-model-insert-panel
       [form]="form"
-      [createBean]="createBean.bind(this)"
-      [beanInsertService]="beanInsertService"
-      [beanName]="beanName"
+      [createModel]="createModel.bind(this)"
+      [modelIdFn]="modelIdFn"
+      [modelInsertService]="modelInsertService"
+      [modelName]="modelName"
       [routerName]="routerName"
     >
       <app-input-field
@@ -37,7 +44,7 @@ import { form, minLength, required } from '@angular/forms/signals';
         [formField]="form.category"
         dataCy="select-category"
       />
-    </app-bean-insert-panel>
+    </app-model-insert-panel>
   `,
 })
 export class AccountInsertComponent {
@@ -47,8 +54,9 @@ export class AccountInsertComponent {
     required(f.category);
   });
   routerName: string;
-  beanName: string;
-  beanInsertService: AccountInsertService;
+  modelName: string;
+  modelInsertService: AccountInsertService;
+  modelIdFn = accountId;
 
   categories: WritableSignal<Category[]>;
 
@@ -63,11 +71,11 @@ export class AccountInsertComponent {
 
     const type = activatedRoute.snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Accounts`;
-    this.beanName = `${type} Account`;
-    this.beanInsertService = new AccountInsertService(http, type);
+    this.modelName = `${type} Account`;
+    this.modelInsertService = new AccountInsertService(http, type);
   }
 
-  createBean(): Account {
+  createModel(): Account {
     return accountFormToModel(this.form().value());
   }
 }

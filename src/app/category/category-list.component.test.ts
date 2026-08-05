@@ -71,13 +71,13 @@ function describeListComponentTests(type: CategoryType) {
       expect(component.routerName).toBe(expectedRouterName);
     });
 
-    it('should initialize beansList signal', () => {
-      expect(component.beansList).toBeDefined();
+    it('should initialize modelsList signal', () => {
+      expect(component.modelsList).toBeDefined();
     });
 
     if (type === CategoryType.DEBIT) {
-      it('should set beanRemoveService', () => {
-        expect(component.beanRemoveService).toBeDefined();
+      it('should set modelRemoveService', () => {
+        expect(component.modelRemoveService).toBeDefined();
       });
 
       describe('Template rendering', () => {

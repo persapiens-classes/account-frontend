@@ -40,8 +40,8 @@ describe('OwnerListService', () => {
     expect(typeof service.findAll).toBe('function');
   });
 
-  describe('BeanListService Interface Implementation', () => {
-    it('should implement BeanListService interface', () => {
+  describe('ModelListService Interface Implementation', () => {
+    it('should implement ModelListService interface', () => {
       expect(service.findAll).toBeDefined();
       expect(typeof service.findAll).toBe('function');
     });
@@ -66,7 +66,6 @@ describe('OwnerListService', () => {
       const testOwner = createOwner();
       expect(testOwner).toBeDefined();
       expect(testOwner.name).toBe('');
-      expect(typeof testOwner.getId).toBe('function');
     });
 
     it('should have proper service structure', () => {

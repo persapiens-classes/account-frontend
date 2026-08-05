@@ -28,7 +28,7 @@ describe('OwnerListComponent', () => {
 
   beforeEach(async () => {
     // Create test data
-    const testOwners = [new Owner('Owner 1'), new Owner('Owner 2'), new Owner('Owner & Co. Ltd.')];
+    const testOwners = [{ name: 'Owner 1' }, { name: 'Owner 2' }, { name: 'Owner & Co. Ltd.' }];
 
     // Create signals for reactive data
     mockOwnersSignal = signal(testOwners);
@@ -67,7 +67,7 @@ describe('OwnerListComponent', () => {
       TestUtils.testBasicInitialization(
         component,
         {
-          beanName: 'Owner',
+          modelName: 'Owner',
           routerName: 'owners',
         },
         OwnerListComponent,
@@ -76,15 +76,15 @@ describe('OwnerListComponent', () => {
     });
 
     it('should have correct default properties', () => {
-      expect(component.beanName).toBe('Owner');
+      expect(component.modelName).toBe('Owner');
       expect(component.routerName).toBe('owners');
-      expect(component.beanRemoveService).toBe(mockOwnerRemoveService);
-      expect(component.beansList).toBe(mockOwnersSignal);
+      expect(component.modelRemoveService).toBe(mockOwnerRemoveService);
+      expect(component.modelsList).toBe(mockOwnersSignal);
     });
 
     it('should inject required services', () => {
-      expect(component.beanRemoveService).toBeDefined();
-      expect(component.beansList).toBeDefined();
+      expect(component.modelRemoveService).toBeDefined();
+      expect(component.modelsList).toBeDefined();
       expect(mockOwnerListService.findAll).toHaveBeenCalled();
     });
   });
@@ -96,79 +96,78 @@ describe('OwnerListComponent', () => {
     });
 
     it('should use OwnerRemoveService instance', () => {
-      expect(component.beanRemoveService).toBe(mockOwnerRemoveService);
-      expect(component.beanRemoveService).toBeInstanceOf(Object);
+      expect(component.modelRemoveService).toBe(mockOwnerRemoveService);
+      expect(component.modelRemoveService).toBeInstanceOf(Object);
     });
 
     it('should maintain reactive connection to service data', () => {
       const initialOwners = mockOwnersSignal();
-      expect(component.beansList()).toBe(initialOwners);
+      expect(component.modelsList()).toBe(initialOwners);
 
       // Change the signal
-      const newOwners = [new Owner('Changed Owner')];
+      const newOwners = [{ name: 'Changed Owner' }];
       mockOwnersSignal.set(newOwners);
 
       // Component should reflect the change
-      expect(component.beansList()).toBe(newOwners);
-      expect(component.beansList()).not.toBe(initialOwners);
+      expect(component.modelsList()).toBe(newOwners);
+      expect(component.modelsList()).not.toBe(initialOwners);
     });
   });
 
   describe('Component Structure', () => {
-    it('should have correct bean configuration', () => {
-      expect(component.beanName).toBe('Owner');
+    it('should have correct model configuration', () => {
+      expect(component.modelName).toBe('Owner');
       expect(component.routerName).toBe('owners');
     });
 
     it('should implement required component interface', () => {
-      expect(typeof component.beanName).toBe('string');
+      expect(typeof component.modelName).toBe('string');
       expect(typeof component.routerName).toBe('string');
-      expect(component.beanRemoveService).toBeDefined();
-      expect(component.beansList).toBeDefined();
-      expect(typeof component.beansList).toBe('function'); // Signal is a function
+      expect(component.modelRemoveService).toBeDefined();
+      expect(component.modelsList).toBeDefined();
+      expect(typeof component.modelsList).toBe('function'); // Signal is a function
     });
   });
 
   describe('Signal Management', () => {
     it('should handle signal data changes', () => {
-      const initialOwners = component.beansList();
+      const initialOwners = component.modelsList();
       expect(initialOwners).toHaveLength(3);
 
       // Update signal with new data
-      const newOwners = [new Owner('New Owner Only')];
+      const newOwners = [{ name: 'New Owner Only' }];
       mockOwnersSignal.set(newOwners);
 
       // Component should reflect the change
-      expect(component.beansList()).toHaveLength(1);
-      expect(component.beansList()[0].name).toBe('New Owner Only');
+      expect(component.modelsList()).toHaveLength(1);
+      expect(component.modelsList()[0].name).toBe('New Owner Only');
     });
 
     it('should handle empty owners list', () => {
       mockOwnersSignal.set([]);
-      expect(component.beansList()).toHaveLength(0);
-      expect(component.beansList()).toEqual([]);
+      expect(component.modelsList()).toHaveLength(0);
+      expect(component.modelsList()).toEqual([]);
     });
 
     it('should handle large datasets', () => {
-      const largeOwnerList = Array.from({ length: 100 }, (_, i) => new Owner(`Owner ${i + 1}`));
+      const largeOwnerList = Array.from({ length: 100 }, (_, i) => ({ name: `Owner ${i + 1}` }));
       mockOwnersSignal.set(largeOwnerList);
 
-      expect(component.beansList()).toHaveLength(100);
-      expect(component.beansList()[0].name).toBe('Owner 1');
-      expect(component.beansList()[99].name).toBe('Owner 100');
+      expect(component.modelsList()).toHaveLength(100);
+      expect(component.modelsList()[0].name).toBe('Owner 1');
+      expect(component.modelsList()[99].name).toBe('Owner 100');
     });
 
     it('should handle rapid data changes', () => {
       for (let i = 0; i < 5; i++) {
-        const newOwners = Array.from(
-          { length: i + 1 },
-          (_, j) => new Owner(`Rapid Owner ${i}-${j}`),
-        );
+        const newOwners = Array.from({ length: i + 1 }, (_, j) => ({
+          name: `Rapid Owner ${i}-${j}`,
+        }));
         mockOwnersSignal.set(newOwners);
       }
 
-      expect(component.beansList()).toHaveLength(5);
-      expect(component.beansList()[0].name).toBe('Rapid Owner 4-0');
+      expect(component.modelsList()).toHaveLength(5);
+      expect(component.modelsList()[0].name).toBe('Rapid Owner 4-0');
     });
   });
 });

@@ -1,20 +1,19 @@
-import { createEntry, Entry, EntryType, jsonToEntry } from './entry';
-import { BeanListService, loadBeans } from '../bean/bean-list-service';
+import { Entry, EntryType, jsonToEntry } from './entry';
+import { ModelListService, loadModels } from '../models/model-list-service';
 import { WritableSignal } from '@angular/core';
 import { AppMessageService } from '../app-message-service';
 
-export class EntryListService implements BeanListService<Entry> {
+export class EntryListService implements ModelListService<Entry> {
   constructor(
     private readonly appMessageService: AppMessageService,
     private readonly type: EntryType,
   ) {}
 
   findAll(): WritableSignal<Entry[]> {
-    return loadBeans(
+    return loadModels(
       this.appMessageService,
       `${this.type} Entry`,
       `${this.type.toLowerCase()}Entries`,
-      createEntry,
       jsonToEntry,
     );
   }

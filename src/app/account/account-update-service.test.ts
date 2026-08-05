@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { AccountUpdateService } from './account-update-service';
-import { Account, AccountType, createAccount } from './account';
+import { Account, accountId, AccountType, createAccount } from './account';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -56,8 +56,8 @@ describe('AccountUpdateService', () => {
   describe('update method', () => {
     it('should call HTTP PUT with correct parameters for debit accounts', () => {
       const accountId = 'existing-account';
-      const updatedAccount = new Account('Updated Account', 'Updated Category');
-      const expectedResponse = new Account('Updated Account', 'Updated Category');
+      const updatedAccount = { description: 'Updated Account', category: 'Updated Category' };
+      const expectedResponse = { description: 'Updated Account', category: 'Updated Category' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -72,8 +72,8 @@ describe('AccountUpdateService', () => {
     it('should call HTTP PUT with correct parameters for credit accounts', () => {
       const creditService = new AccountUpdateService(mockHttpClient, AccountType.CREDIT);
       const accountId = 'credit-account';
-      const updatedAccount = new Account('Credit Account', 'Credit Category');
-      const expectedResponse = new Account('Credit Account', 'Credit Category');
+      const updatedAccount = { description: 'Credit Account', category: 'Credit Category' };
+      const expectedResponse = { description: 'Credit Account', category: 'Credit Category' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -88,8 +88,8 @@ describe('AccountUpdateService', () => {
     it('should call HTTP PUT with correct parameters for equity accounts', () => {
       const equityService = new AccountUpdateService(mockHttpClient, AccountType.EQUITY);
       const accountId = 'equity-account';
-      const updatedAccount = new Account('Equity Account', 'Equity Category');
-      const expectedResponse = new Account('Equity Account', 'Equity Category');
+      const updatedAccount = { description: 'Equity Account', category: 'Equity Category' };
+      const expectedResponse = { description: 'Equity Account', category: 'Equity Category' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -102,28 +102,27 @@ describe('AccountUpdateService', () => {
     });
 
     it('should return transformed Account on successful update', async () => {
-      const accountId = 'test-account';
-      const updatedAccount = new Account('Updated Description', 'Updated Category');
+      const testAccountId = 'test-account';
+      const updatedAccount = { description: 'Updated Description', category: 'Updated Category' };
       const mockResponse = { description: 'Updated Description', category: 'Updated Category' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
 
       const result = await new Promise<Account>((resolve, reject) => {
-        service.update(accountId, updatedAccount).subscribe({
+        service.update(testAccountId, updatedAccount).subscribe({
           next: resolve,
           error: reject,
         });
       });
 
-      expect(result).toBeInstanceOf(Account);
       expect(result.description).toBe('Updated Description');
       expect(result.category).toBe('Updated Category');
-      expect(result.getId()).toBe('Updated Description');
+      expect(accountId(result)).toBe('Updated Description');
     });
 
     it('should handle HTTP errors correctly', async () => {
-      const accountId = 'test-account';
-      const updatedAccount = new Account('Updated Account', 'Updated Category');
+      const testAccountId = 'test-account';
+      const updatedAccount = { description: 'Updated Account', category: 'Updated Category' };
       const errorResponse = new HttpErrorResponse({
         error: 'Update failed',
         status: 404,
@@ -136,7 +135,7 @@ describe('AccountUpdateService', () => {
 
       await expect(
         new Promise((resolve, reject) => {
-          service.update(accountId, updatedAccount).subscribe({
+          service.update(testAccountId, updatedAccount).subscribe({
             next: resolve,
             error: reject,
           });
@@ -148,8 +147,8 @@ describe('AccountUpdateService', () => {
     });
 
     it('should handle network errors', async () => {
-      const accountId = 'test-account';
-      const updatedAccount = new Account('Updated Account', 'Updated Category');
+      const testAccountId = 'test-account';
+      const updatedAccount = { description: 'Updated Account', category: 'Updated Category' };
       const networkError = new Error('Network error');
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(
@@ -158,7 +157,7 @@ describe('AccountUpdateService', () => {
 
       await expect(
         new Promise((resolve, reject) => {
-          service.update(accountId, updatedAccount).subscribe({
+          service.update(testAccountId, updatedAccount).subscribe({
             next: resolve,
             error: reject,
           });
@@ -167,31 +166,30 @@ describe('AccountUpdateService', () => {
     });
 
     it('should work with empty description and category', async () => {
-      const accountId = 'test-account';
-      const emptyAccount = new Account('', '');
+      const testAccountId = 'test-account';
+      const emptyAccount = { description: '', category: '' };
       const mockResponse = { description: '', category: '' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
 
       const result = await new Promise<Account>((resolve, reject) => {
-        service.update(accountId, emptyAccount).subscribe({
+        service.update(testAccountId, emptyAccount).subscribe({
           next: resolve,
           error: reject,
         });
       });
 
-      expect(result).toBeInstanceOf(Account);
       expect(result.description).toBe('');
       expect(result.category).toBe('');
-      expect(result.getId()).toBe('');
+      expect(accountId(result)).toBe('');
     });
 
     it('should work with special characters in description and category', async () => {
-      const accountId = 'special-account';
-      const specialAccount = new Account(
-        'Account & Co. Ltd. (Updated)',
-        'Category <Special> "Test"',
-      );
+      const testAccountId = 'special-account';
+      const specialAccount = {
+        description: 'Account & Co. Ltd. (Updated)',
+        category: 'Category <Special> "Test"',
+      };
       const mockResponse = {
         description: 'Account & Co. Ltd. (Updated)',
         category: 'Category <Special> "Test"',
@@ -200,21 +198,20 @@ describe('AccountUpdateService', () => {
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
 
       const result = await new Promise<Account>((resolve, reject) => {
-        service.update(accountId, specialAccount).subscribe({
+        service.update(testAccountId, specialAccount).subscribe({
           next: resolve,
           error: reject,
         });
       });
 
-      expect(result).toBeInstanceOf(Account);
       expect(result.description).toBe('Account & Co. Ltd. (Updated)');
       expect(result.category).toBe('Category <Special> "Test"');
-      expect(result.getId()).toBe('Account & Co. Ltd. (Updated)');
+      expect(accountId(result)).toBe('Account & Co. Ltd. (Updated)');
     });
 
     it('should handle server validation errors', async () => {
-      const accountId = 'test-account';
-      const updatedAccount = new Account('Duplicate Description', 'Test Category');
+      const testAccountId = 'test-account';
+      const updatedAccount = { description: 'Duplicate Description', category: 'Test Category' };
       const validationError = new HttpErrorResponse({
         error: { message: 'Account description already exists' },
         status: 422,
@@ -227,7 +224,7 @@ describe('AccountUpdateService', () => {
 
       await expect(
         new Promise((resolve, reject) => {
-          service.update(accountId, updatedAccount).subscribe({
+          service.update(testAccountId, updatedAccount).subscribe({
             next: resolve,
             error: reject,
           });
@@ -240,7 +237,7 @@ describe('AccountUpdateService', () => {
 
     it('should handle account not found errors', async () => {
       const nonExistentId = 'non-existent-account';
-      const updatedAccount = new Account('Updated Description', 'Updated Category');
+      const updatedAccount = { description: 'Updated Description', category: 'Updated Category' };
       const notFoundError = new HttpErrorResponse({
         error: 'Account not found',
         status: 404,
@@ -265,11 +262,11 @@ describe('AccountUpdateService', () => {
     });
 
     it('should return Observable<Account>', () => {
-      const accountId = 'test-account';
-      const updatedAccount = new Account('Updated Account', 'Updated Category');
+      const testAccountId = 'test-account';
+      const updatedAccount = { description: 'Updated Account', category: 'Updated Category' };
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(updatedAccount));
 
-      const result = service.update(accountId, updatedAccount);
+      const result = service.update(testAccountId, updatedAccount);
       expect(result).toBeInstanceOf(Observable);
     });
 
@@ -290,7 +287,7 @@ describe('AccountUpdateService', () => {
       ];
 
       for (const testCase of testCases) {
-        const account = new Account(testCase.description, testCase.category);
+        const account = { description: testCase.description, category: testCase.category };
         const mockResponse = { description: testCase.description, category: testCase.category };
 
         (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -302,7 +299,6 @@ describe('AccountUpdateService', () => {
           });
         });
 
-        expect(result).toBeInstanceOf(Account);
         expect(result.description).toBe(testCase.description);
         expect(result.category).toBe(testCase.category);
         expect(mockHttpClient.put).toHaveBeenCalledWith(
@@ -316,60 +312,60 @@ describe('AccountUpdateService', () => {
   describe('AccountType Integration', () => {
     it('should work with DEBIT type', () => {
       const debitService = new AccountUpdateService(mockHttpClient, AccountType.DEBIT);
-      const accountId = 'test-debit';
-      const account = new Account('Debit Account', 'Assets');
-      const expectedResponse = new Account('Debit Account', 'Assets');
+      const testAccountId = 'test-debit';
+      const account = { description: 'Debit Account', category: 'Assets' };
+      const expectedResponse = { description: 'Debit Account', category: 'Assets' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
-      debitService.update(accountId, account).subscribe();
+      debitService.update(testAccountId, account).subscribe();
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(
-        `${environment.apiUrl}/debitAccounts/${accountId}`,
+        `${environment.apiUrl}/debitAccounts/${testAccountId}`,
         account,
       );
     });
 
     it('should work with CREDIT type', () => {
       const creditService = new AccountUpdateService(mockHttpClient, AccountType.CREDIT);
-      const accountId = 'test-credit';
-      const account = new Account('Credit Account', 'Liabilities');
-      const expectedResponse = new Account('Credit Account', 'Liabilities');
+      const testAccountId = 'test-credit';
+      const account = { description: 'Credit Account', category: 'Liabilities' };
+      const expectedResponse = { description: 'Credit Account', category: 'Liabilities' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
-      creditService.update(accountId, account).subscribe();
+      creditService.update(testAccountId, account).subscribe();
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(
-        `${environment.apiUrl}/creditAccounts/${accountId}`,
+        `${environment.apiUrl}/creditAccounts/${testAccountId}`,
         account,
       );
     });
 
     it('should work with EQUITY type', () => {
       const equityService = new AccountUpdateService(mockHttpClient, AccountType.EQUITY);
-      const accountId = 'test-equity';
-      const account = new Account('Equity Account', 'Capital');
-      const expectedResponse = new Account('Equity Account', 'Capital');
+      const testAccountId = 'test-equity';
+      const account = { description: 'Equity Account', category: 'Capital' };
+      const expectedResponse = { description: 'Equity Account', category: 'Capital' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
-      equityService.update(accountId, account).subscribe();
+      equityService.update(testAccountId, account).subscribe();
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(
-        `${environment.apiUrl}/equityAccounts/${accountId}`,
+        `${environment.apiUrl}/equityAccounts/${testAccountId}`,
         account,
       );
     });
 
     it('should format account type to lowercase for URL', () => {
       const debitService = new AccountUpdateService(mockHttpClient, AccountType.DEBIT);
-      const accountId = 'test-account';
-      const account = new Account('Test Account', 'Test Category');
+      const testAccountId = 'test-account';
+      const account = { description: 'Test Account', category: 'Test Category' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(account));
 
-      debitService.update(accountId, account).subscribe();
+      debitService.update(testAccountId, account).subscribe();
 
       // Verify that 'Debit' is converted to 'debitAccounts'
       expect(mockHttpClient.put).toHaveBeenCalledWith(
@@ -387,10 +383,9 @@ describe('AccountUpdateService', () => {
   describe('createAccount integration', () => {
     it('should work with createAccount factory', () => {
       const newAccount = createAccount();
-      expect(newAccount).toBeInstanceOf(Account);
       expect(newAccount.description).toBe('');
       expect(newAccount.category).toBe('');
-      expect(newAccount.getId()).toBe('');
+      expect(accountId(newAccount)).toBe('');
     });
   });
 

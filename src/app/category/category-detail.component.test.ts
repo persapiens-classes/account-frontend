@@ -39,10 +39,10 @@ function createTestBed(type: CategoryType, testId: number) {
     delete: vi.fn(),
   };
 
-  // Mock history.state with a category bean
+  // Mock history.state with a category model
   window.history.replaceState(
     // eslint-disable-next-line security/detect-object-injection
-    { bean: { id: testId, description: `Test ${typeNameMap[type]} Category` } },
+    { model: { id: testId, description: `Test ${typeNameMap[type]} Category` } },
     '',
     window.location.href,
   );
@@ -78,8 +78,8 @@ function describeDetailComponentTests(type: CategoryType, testId: number) {
       expect(component.routerName).toBe(expectedRouterName);
     });
 
-    it('should have bean property', () => {
-      expect(component.bean).toBeDefined();
+    it('should have model property', () => {
+      expect(component.model).toBeDefined();
     });
 
     if (type === CategoryType.DEBIT) {
@@ -121,9 +121,9 @@ describe('CategoryDetailComponent for DEBIT', () => {
       delete: vi.fn(),
     };
 
-    // Mock history.state with a category bean
+    // Mock history.state with a category model
     window.history.replaceState(
-      { bean: { id: 1, description: 'Test Debit Category' } },
+      { model: { id: 1, description: 'Test Debit Category' } },
       '',
       window.location.href,
     );
@@ -146,8 +146,8 @@ describe('CategoryDetailComponent for DEBIT', () => {
     expect(component.routerName).toBe('debitCategories');
   });
 
-  it('should have bean property', () => {
-    expect(component.bean).toBeDefined();
+  it('should have model property', () => {
+    expect(component.model).toBeDefined();
   });
 
   describe('Template rendering', () => {
@@ -182,9 +182,9 @@ describe('CategoryDetailComponent for CREDIT', () => {
       delete: vi.fn(),
     };
 
-    // Mock history.state with a category bean
+    // Mock history.state with a category model
     window.history.replaceState(
-      { bean: { id: 2, description: 'Test Credit Category' } },
+      { model: { id: 2, description: 'Test Credit Category' } },
       '',
       window.location.href,
     );
@@ -207,8 +207,8 @@ describe('CategoryDetailComponent for CREDIT', () => {
     expect(component.routerName).toBe('creditCategories');
   });
 
-  it('should have bean property', () => {
-    expect(component.bean).toBeDefined();
+  it('should have model property', () => {
+    expect(component.model).toBeDefined();
   });
 });
 
@@ -236,9 +236,9 @@ describe('CategoryDetailComponent for EQUITY', () => {
       delete: vi.fn(),
     };
 
-    // Mock history.state with a category bean
+    // Mock history.state with a category model
     window.history.replaceState(
-      { bean: { id: 3, description: 'Test Equity Category' } },
+      { model: { id: 3, description: 'Test Equity Category' } },
       '',
       window.location.href,
     );
@@ -261,7 +261,7 @@ describe('CategoryDetailComponent for EQUITY', () => {
     expect(component.routerName).toBe('equityCategories');
   });
 
-  it('should have bean property', () => {
-    expect(component.bean).toBeDefined();
+  it('should have model property', () => {
+    expect(component.model).toBeDefined();
   });
 });

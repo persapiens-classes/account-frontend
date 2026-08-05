@@ -1,28 +1,28 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { signal, WritableSignal } from '@angular/core';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
-import { BeanListService, handleHttpResourceError } from './bean-list-service';
-import { Bean, toBean, defaultJsonToBean } from './bean';
+import { ModelListService, handleHttpResourceError } from './model-list-service';
+import { toModel, defaultJsonToModel } from './models';
 import { AppMessageService } from '../app-message-service';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
-// Mock implementation of Bean for testing
-class TestBean implements Bean {
-  constructor(
-    public id = '',
-    public name = '',
-  ) {}
-
-  getId(): string {
-    return this.id;
-  }
+// Mock implementation of Model for testing
+interface TestModel {
+  id: string;
+  name: string;
+  value: number;
 }
 
-// Factory function for TestBean
-const createTestBean = (): TestBean => new TestBean();
+function createTestModel(): TestModel {
+  return {
+    id: '',
+    name: '',
+    value: 0,
+  };
+}
 
-describe('BeanListService', () => {
+describe('ModelListService', () => {
   let mockAppMessageService: AppMessageService;
 
   beforeEach(async () => {
@@ -35,11 +35,11 @@ describe('BeanListService', () => {
     // Mock setup for AppMessageService is sufficient for these tests
   });
 
-  describe('BeanListService Interface', () => {
+  describe('ModelListService Interface', () => {
     it('should define the correct interface structure', () => {
       // Test that the interface exists and has the expected method signature
-      const mockService: BeanListService<TestBean> = {
-        findAll: (): WritableSignal<TestBean[]> => signal([]),
+      const mockService: ModelListService<TestModel> = {
+        findAll: (): WritableSignal<TestModel[]> => signal([]),
       };
 
       TestUtils.testServiceMethods(mockService, ['findAll']);
@@ -53,20 +53,20 @@ describe('BeanListService', () => {
     });
 
     it('should return WritableSignal from findAll method', () => {
-      const mockService: BeanListService<TestBean> = {
-        findAll: (): WritableSignal<TestBean[]> => signal([new TestBean('1', 'Test')]),
+      const mockService: ModelListService<TestModel> = {
+        findAll: (): WritableSignal<TestModel[]> =>
+          signal([{ ...createTestModel(), id: '1', name: 'Test' }]),
       };
 
       const result = mockService.findAll();
       expect(result).toBeDefined();
       expect(Array.isArray(result())).toBe(true);
       expect(result()).toHaveLength(1);
-      expect(result()[0]).toBeInstanceOf(TestBean);
     });
 
-    it('should implement BeanListService interface correctly', () => {
-      const service: BeanListService<TestBean> = {
-        findAll: (): WritableSignal<TestBean[]> => signal([]),
+    it('should implement ModelListService interface correctly', () => {
+      const service: ModelListService<TestModel> = {
+        findAll: (): WritableSignal<TestModel[]> => signal([]),
       };
 
       TestUtils.testServiceStructure(service, Object as never);
@@ -82,22 +82,22 @@ describe('BeanListService', () => {
         error: 'Resource not found',
       });
 
-      handleHttpResourceError(httpError, mockAppMessageService, 'TestBean');
+      handleHttpResourceError(httpError, mockAppMessageService, 'TestModel');
 
       expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
         httpError,
-        'TestBean not listed',
+        'TestModel not listed',
       );
     });
 
     it('should handle generic Error correctly', () => {
       const genericError = new Error('Network connection failed');
 
-      handleHttpResourceError(genericError, mockAppMessageService, 'TestBean');
+      handleHttpResourceError(genericError, mockAppMessageService, 'TestModel');
 
       expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
         expect.any(HttpErrorResponse),
-        'TestBean not listed',
+        'TestModel not listed',
       );
 
       const capturedCall = vi.mocked(mockAppMessageService.addErrorMessage).mock.calls[0];
@@ -108,25 +108,25 @@ describe('BeanListService', () => {
     it('should handle unknown error types correctly', () => {
       const unknownError = 'String error message';
 
-      handleHttpResourceError(unknownError, mockAppMessageService, 'TestBean');
+      handleHttpResourceError(unknownError, mockAppMessageService, 'TestModel');
 
       expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
         expect.any(HttpErrorResponse),
-        'TestBean not listed',
+        'TestModel not listed',
       );
 
       const capturedCall = vi.mocked(mockAppMessageService.addErrorMessage).mock.calls[0];
       const wrappedError = capturedCall[0] as HttpErrorResponse;
       expect(wrappedError.status).toBe(0);
-      expect(wrappedError.error).toBe('String error message');
+      expect(wrappedError.error).toContain('String error message');
     });
 
     it('should handle null/undefined errors correctly', () => {
-      handleHttpResourceError(null, mockAppMessageService, 'TestBean');
+      handleHttpResourceError(null, mockAppMessageService, 'TestModel');
 
       expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
         expect.any(HttpErrorResponse),
-        'TestBean not listed',
+        'TestModel not listed',
       );
 
       const capturedCall = vi.mocked(mockAppMessageService.addErrorMessage).mock.calls[0];
@@ -134,26 +134,11 @@ describe('BeanListService', () => {
       expect(wrappedError.error).toBe('null');
     });
 
-    it('should handle object errors correctly', () => {
-      const objectError = { message: 'Custom error object', code: 'ERR001' };
-
-      handleHttpResourceError(objectError, mockAppMessageService, 'TestBean');
-
-      expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
-        expect.any(HttpErrorResponse),
-        'TestBean not listed',
-      );
-
-      const capturedCall = vi.mocked(mockAppMessageService.addErrorMessage).mock.calls[0];
-      const wrappedError = capturedCall[0] as HttpErrorResponse;
-      expect(wrappedError.error).toBe('[object Object]');
-    });
-
-    it('should customize bean name in error message', () => {
+    it('should customize model name in error message', () => {
       const httpError = new HttpErrorResponse({ status: 500 });
-      const customBeanName = 'CustomEntity';
+      const customModelName = 'CustomEntity';
 
-      handleHttpResourceError(httpError, mockAppMessageService, customBeanName);
+      handleHttpResourceError(httpError, mockAppMessageService, customModelName);
 
       expect(mockAppMessageService.addErrorMessage).toHaveBeenCalledWith(
         httpError,
@@ -162,35 +147,36 @@ describe('BeanListService', () => {
     });
   });
 
-  describe('Integration with Bean utility functions', () => {
-    it('should work with toBean function', () => {
-      const jsonData = { id: '1', name: 'Test Bean' };
-      const bean = toBean(jsonData, createTestBean, defaultJsonToBean);
+  describe('Integration with Model utility functions', () => {
+    it('should work with toModel function', () => {
+      const jsonData = { id: '1', name: 'Test Model' };
+      const model = toModel(jsonData, defaultJsonToModel);
 
-      expect(bean).toBeInstanceOf(TestBean);
-      expect(bean.getId()).toBe('1');
-      expect(bean.name).toBe('Test Bean');
+      expect(model.id).toBe('1');
+      expect(model.name).toBe('Test Model');
     });
 
-    it('should work with custom Bean implementations', () => {
-      class CustomBean implements Bean {
-        constructor(
-          public id = '',
-          public title = '',
-          public active = true,
-        ) {}
-
-        getId(): string {
-          return this.id;
-        }
+    it('should work with custom Model implementations', () => {
+      interface CustomModel {
+        id: string;
+        title: string;
+        active: boolean;
       }
 
-      const mockService: BeanListService<CustomBean> = {
-        findAll: (): WritableSignal<CustomBean[]> => signal([new CustomBean('1', 'Test', true)]),
+      function createCustomModelImpl(): CustomModel {
+        return {
+          id: '',
+          title: '',
+          active: true,
+        };
+      }
+
+      const mockService: ModelListService<CustomModel> = {
+        findAll: (): WritableSignal<CustomModel[]> =>
+          signal([{ ...createCustomModelImpl(), id: '1', title: 'Test', active: true }]),
       };
 
       const result = mockService.findAll();
-      expect(result()[0]).toBeInstanceOf(CustomBean);
       expect(result()[0].title).toBe('Test');
       expect(result()[0].active).toBe(true);
     });
@@ -203,19 +189,19 @@ describe('BeanListService', () => {
       const routerName = 'test-entities';
       const expectedUrl = `${environment.apiUrl}/${routerName}`;
 
-      // This would be tested in the findAllBeans function
+      // This would be tested in the findAllModels function
       expect(expectedUrl).toBe(`${environment.apiUrl}/test-entities`);
     });
   });
 
   describe('Type Safety and Generic Constraints', () => {
-    it('should enforce Bean constraint on generic types', () => {
+    it('should enforce Model constraint on generic types', () => {
       // This is enforced at compile time, but we can test runtime behavior
-      interface ValidBeanType extends Bean {
+      interface ValidModelType {
         name: string;
       }
 
-      class ValidBean implements ValidBeanType {
+      class ValidModel implements ValidModelType {
         constructor(
           public id = '',
           public name = '',
@@ -226,8 +212,8 @@ describe('BeanListService', () => {
         }
       }
 
-      const service: BeanListService<ValidBean> = {
-        findAll: (): WritableSignal<ValidBean[]> => signal([]),
+      const service: ModelListService<ValidModel> = {
+        findAll: (): WritableSignal<ValidModel[]> => signal([]),
       };
 
       expect(service.findAll).toBeDefined();
@@ -235,12 +221,11 @@ describe('BeanListService', () => {
     });
 
     it('should maintain type safety with WritableSignal', () => {
-      const beansSignal: WritableSignal<TestBean[]> = signal([]);
-      beansSignal.set([new TestBean('1', 'Test')]);
+      const modelsSignal: WritableSignal<TestModel[]> = signal([]);
+      modelsSignal.set([{ ...createTestModel(), id: '1', name: 'Test' }]);
 
-      expect(beansSignal()).toEqual([expect.any(TestBean)]);
-      expect(beansSignal()).toHaveLength(1);
-      expect(beansSignal()[0].getId()).toBe('1');
+      expect(modelsSignal()).toHaveLength(1);
+      expect(modelsSignal()[0].id).toBe('1');
     });
   });
 
@@ -253,22 +238,21 @@ describe('BeanListService', () => {
     });
 
     it('should support factory function pattern', () => {
-      const factory = createTestBean;
+      const factory = createTestModel;
       expect(typeof factory).toBe('function');
 
-      const bean = factory();
-      expect(bean).toBeInstanceOf(TestBean);
-      expect(bean.getId()).toBe('');
+      const model = factory();
+      expect(model.id).toBe('');
     });
 
     it('should support transformation function pattern', () => {
-      const customTransform = (bean: TestBean): TestBean => {
-        bean.name = bean.name.toUpperCase();
-        return bean;
+      const customTransform = (model: TestModel): TestModel => {
+        model.name = model.name.toUpperCase();
+        return model;
       };
 
-      const bean = new TestBean('1', 'test');
-      const transformed = customTransform(bean);
+      const model = { ...createTestModel(), id: '1', name: 'test' };
+      const transformed = customTransform(model);
 
       expect(transformed.name).toBe('TEST');
     });

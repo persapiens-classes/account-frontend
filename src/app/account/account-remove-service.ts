@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { BeanRemoveService, removeBean } from '../bean/bean-remove-service';
+import { ModelRemoveService, removeModel } from '../models/model-remove-service';
 import { Observable } from 'rxjs';
 import { AccountType } from './account';
 
-export class AccountRemoveService implements BeanRemoveService {
+export class AccountRemoveService implements ModelRemoveService {
   constructor(
     private readonly http: HttpClient,
     private readonly type: AccountType,
   ) {}
 
   remove(id: string): Observable<void> {
-    return removeBean(this.http, `${this.type.toLowerCase()}Accounts`, id, '/');
+    return removeModel(this.http, `${this.type.toLowerCase()}Accounts`, id, '/');
   }
 }

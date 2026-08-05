@@ -1,15 +1,15 @@
-import { Account } from '../account/account';
-import { Bean } from '../bean/bean';
+import { Account, createAccount } from '../account/account';
 
-export class OwnerEquityAccountInitialValue implements Bean {
-  constructor(
-    public owner: string,
-    public equityAccount: Account,
-    public initialValue: number,
-  ) {}
-  getId(): string {
-    return `owner=${this.owner}&equityAccount=${this.equityAccount.description}`;
-  }
+export interface OwnerEquityAccountInitialValue {
+  owner: string;
+  equityAccount: Account;
+  initialValue: number;
+}
+
+export function ownerEquityAccountInitialValueId(
+  ownerEquityAccountInitialValue: OwnerEquityAccountInitialValue,
+): string {
+  return `owner=${ownerEquityAccountInitialValue.owner}&equityAccount=${ownerEquityAccountInitialValue.equityAccount.description}`;
 }
 
 export interface OwnerEquityAccountInitialValueInsert {
@@ -19,5 +19,9 @@ export interface OwnerEquityAccountInitialValueInsert {
 }
 
 export function createOwnerEquityAccountInitialValue(): OwnerEquityAccountInitialValue {
-  return new OwnerEquityAccountInitialValue('', new Account('', ''), 0);
+  return {
+    owner: '',
+    equityAccount: createAccount(),
+    initialValue: 0,
+  };
 }

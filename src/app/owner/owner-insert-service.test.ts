@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { OwnerInsertService } from './owner-insert-service';
-import { Owner, createOwner } from './owner';
+import { Owner, createOwner, ownerId } from './owner';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -60,8 +60,8 @@ describe('OwnerInsertService', () => {
   // Functional tests
   describe('insert method', () => {
     it('should call HTTP POST with correct parameters', () => {
-      const testOwner = new Owner('Test Owner');
-      const expectedResponse = new Owner('Test Owner');
+      const testOwner = { name: 'Test Owner' };
+      const expectedResponse = { name: 'Test Owner' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -71,7 +71,7 @@ describe('OwnerInsertService', () => {
     });
 
     it('should return transformed Owner on successful insert', async () => {
-      const inputOwner = new Owner('New Owner');
+      const inputOwner = { name: 'New Owner' };
       const mockResponse = { name: 'New Owner' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -83,13 +83,12 @@ describe('OwnerInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Owner);
       expect(result.name).toBe('New Owner');
-      expect(result.getId()).toBe('New Owner');
+      expect(ownerId(result)).toBe('New Owner');
     });
 
     it('should handle HTTP errors correctly', async () => {
-      const testOwner = new Owner('Test Owner');
+      const testOwner = { name: 'Test Owner' };
       const errorResponse = new HttpErrorResponse({
         error: 'Insert failed',
         status: 400,
@@ -114,7 +113,7 @@ describe('OwnerInsertService', () => {
     });
 
     it('should handle network errors', async () => {
-      const testOwner = new Owner('Test Owner');
+      const testOwner = { name: 'Test Owner' };
       const networkError = new Error('Network error');
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(
@@ -132,7 +131,7 @@ describe('OwnerInsertService', () => {
     });
 
     it('should work with empty name', async () => {
-      const emptyOwner = new Owner('');
+      const emptyOwner = { name: '' };
       const mockResponse = { name: '' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -144,13 +143,12 @@ describe('OwnerInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Owner);
       expect(result.name).toBe('');
-      expect(result.getId()).toBe('');
+      expect(ownerId(result)).toBe('');
     });
 
     it('should work with special characters in name', async () => {
-      const specialOwner = new Owner('Owner & Co. Ltd. (Main)');
+      const specialOwner = { name: 'Owner & Co. Ltd. (Main)' };
       const mockResponse = { name: 'Owner & Co. Ltd. (Main)' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -162,13 +160,12 @@ describe('OwnerInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Owner);
       expect(result.name).toBe('Owner & Co. Ltd. (Main)');
-      expect(result.getId()).toBe('Owner & Co. Ltd. (Main)');
+      expect(ownerId(result)).toBe('Owner & Co. Ltd. (Main)');
     });
 
     it('should handle server validation errors', async () => {
-      const testOwner = new Owner('Test Owner');
+      const testOwner = { name: 'Test Owner' };
       const validationError = new HttpErrorResponse({
         error: { message: 'Owner name already exists' },
         status: 422,
@@ -193,7 +190,7 @@ describe('OwnerInsertService', () => {
     });
 
     it('should return Observable<Owner>', () => {
-      const testOwner = new Owner('Test Owner');
+      const testOwner = { name: 'Test Owner' };
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(testOwner));
 
       const result = service.insert(testOwner);
@@ -205,9 +202,8 @@ describe('OwnerInsertService', () => {
   describe('createOwner integration', () => {
     it('should work with createOwner factory', () => {
       const newOwner = createOwner();
-      expect(newOwner).toBeInstanceOf(Owner);
       expect(newOwner.name).toBe('');
-      expect(newOwner.getId()).toBe('');
+      expect(ownerId(newOwner)).toBe('');
     });
   });
 });

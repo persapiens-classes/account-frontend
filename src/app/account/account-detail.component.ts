@@ -1,27 +1,27 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Account, createAccount } from './account';
+import { Account } from './account';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { toBeanFromHistory } from '../bean/bean';
+import { toModelFromHistory } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
-import { BeanDetailPanelComponent } from '../bean/bean-detail-panel.component';
+import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 
 @Component({
   selector: 'app-account-detail',
-  imports: [CommonModule, DetailFieldComponent, BeanDetailPanelComponent],
+  imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
-    <app-bean-detail-panel [routerName]="routerName" [bean]="bean">
-      <app-detail-field strong="Description" value="{{ bean.description }}" />
-      <app-detail-field strong="Category" value="{{ bean.category }}" />
-    </app-bean-detail-panel>
+    <app-model-detail-panel [routerName]="routerName" [model]="model">
+      <app-detail-field strong="Description" value="{{ model.description }}" />
+      <app-detail-field strong="Category" value="{{ model.category }}" />
+    </app-model-detail-panel>
   `,
 })
 export class AccountDetailComponent {
-  bean: Account;
+  model: Account;
   routerName: string;
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Accounts`;
-    this.bean = toBeanFromHistory(createAccount);
+    this.model = toModelFromHistory();
   }
 }

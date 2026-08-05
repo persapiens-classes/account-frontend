@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import {
-  createEntry,
   entryModelToForm,
   EntryInsertUpdate,
   jsonToEntry,
   entryFormToModel,
+  entryId,
 } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
@@ -19,9 +19,9 @@ import { SelectFieldComponent } from '../field/select-field.component';
 import { DateFieldComponent } from '../field/date-field.component';
 import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
-import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
+import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { EntryUpdateService } from './entry-update-service';
-import { toBeanFromHistory } from '../bean/bean';
+import { toModelFromHistory } from '../models/models';
 import { AppMessageService } from '../app-message-service';
 import { form, required } from '@angular/forms/signals';
 
@@ -35,16 +35,17 @@ import { form, required } from '@angular/forms/signals';
     SelectFieldComponent,
     NumberFieldComponent,
     InputFieldComponent,
-    BeanUpdatePanelComponent,
+    ModelUpdatePanelComponent,
   ],
   template: `
-    <app-bean-update-panel
+    <app-model-update-panel
       [form]="form"
-      [beanFromHistory]="beanFromHistory"
-      [createBean]="createBean.bind(this)"
-      [beanUpdateService]="beanUpdateService"
-      [beanName]="beanName"
+      [modelFromHistory]="modelFromHistory"
+      [createModel]="createModel.bind(this)"
+      [modelUpdateService]="modelUpdateService"
+      [modelName]="modelName"
       [routerName]="routerName"
+      [modelIdFn]="modelIdFn"
     >
       <app-date-field label="Date" [autoFocus]="true" [formField]="form.date" dataCy="input-date" />
       <app-select-field
@@ -81,12 +82,12 @@ import { form, required } from '@angular/forms/signals';
 
       <app-number-field label="Value" [formField]="form.value" dataCy="input-value" />
       <app-input-field label="Note" [formField]="form.note" dataCy="input-note" />
-    </app-bean-update-panel>
+    </app-model-update-panel>
   `,
 })
 export class EntryUpdateComponent {
-  beanFromHistory = toBeanFromHistory(createEntry, jsonToEntry);
-  form = form(signal(entryModelToForm(this.beanFromHistory)), (f) => {
+  modelFromHistory = toModelFromHistory(jsonToEntry);
+  form = form(signal(entryModelToForm(this.modelFromHistory)), (f) => {
     required(f.date);
     required(f.inAccount);
     required(f.inOwner);
@@ -96,8 +97,9 @@ export class EntryUpdateComponent {
   });
 
   routerName: string;
-  beanName: string;
-  beanUpdateService: EntryUpdateService;
+  modelName: string;
+  modelUpdateService: EntryUpdateService;
+  modelIdFn = entryId;
 
   inAccounts: WritableSignal<Account[]>;
   outAccounts: WritableSignal<Account[]>;
@@ -108,8 +110,8 @@ export class EntryUpdateComponent {
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Entries`;
-    this.beanName = `${type} Entry`;
-    this.beanUpdateService = new EntryUpdateService(http, type);
+    this.modelName = `${type} Entry`;
+    this.modelUpdateService = new EntryUpdateService(http, type);
 
     this.outAccounts = new AccountListService(
       inject(AppMessageService),
@@ -122,7 +124,7 @@ export class EntryUpdateComponent {
     this.owners = inject(OwnerListService).findAll();
   }
 
-  createBean(): EntryInsertUpdate {
+  createModel(): EntryInsertUpdate {
     return entryFormToModel(this.form().value());
   }
 }
