@@ -1,16 +1,15 @@
 import { Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
-import { Bean } from './bean';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
-import { BeanUpdateService } from './bean-update-service';
+import { ModelUpdateService } from './model-update-service';
 import { AppMessageService } from '../app-message-service';
 import { FieldTree } from '@angular/forms/signals';
 
 @Component({
-  selector: 'app-bean-update-panel',
+  selector: 'app-model-update-panel',
   imports: [ButtonModule, PanelModule, CommonModule],
   template: `
     <form (submit)="onSubmit($event)">
@@ -42,16 +41,18 @@ import { FieldTree } from '@angular/forms/signals';
     </form>
   `,
 })
-export class BeanUpdatePanelComponent<F, T extends Bean, U> {
+export class ModelUpdatePanelComponent<F, T, U> {
   form = input.required<FieldTree<F>>();
 
-  beanFromHistory = input.required<T>();
+  modelFromHistory = input.required<T>();
 
-  createBean = input.required<() => U>();
+  createModel = input.required<() => U>();
 
-  beanUpdateService = input.required<BeanUpdateService<T, U>>();
+  modelIdFn = input.required<(t: T) => string>();
 
-  beanName = input.required<string>();
+  modelUpdateService = input.required<ModelUpdateService<T, U>>();
+
+  modelName = input.required<string>();
 
   routerName = input.required<string>();
 
@@ -60,20 +61,20 @@ export class BeanUpdatePanelComponent<F, T extends Bean, U> {
 
   update() {
     if (this.form()().valid()) {
-      this.beanUpdateService()
-        .update(this.beanFromHistory().getId(), this.createBean()())
+      this.modelUpdateService()
+        .update(this.modelIdFn()(this.modelFromHistory()), this.createModel()())
         .pipe(
-          tap((bean) => {
+          tap((model) => {
             this.appMessageService.addSuccessMessage(
-              `${this.beanName()} edited`,
-              `${this.beanName()} ${this.beanFromHistory().getId()} edited ok.`,
+              `${this.modelName()} edited`,
+              `${this.modelName()} ${this.modelIdFn()(this.modelFromHistory())} edited ok.`,
             );
             this.router.navigate([`${this.routerName()}/detail`], {
-              state: { bean: bean },
+              state: { model: model },
             });
           }),
           catchError((error) => {
-            this.appMessageService.addErrorMessage(error, `${this.beanName()} not edited`);
+            this.appMessageService.addErrorMessage(error, `${this.modelName()} not edited`);
             return of();
           }),
         )
@@ -87,7 +88,7 @@ export class BeanUpdatePanelComponent<F, T extends Bean, U> {
 
   cancelToDetail() {
     this.router.navigate([`${this.routerName()}/detail`], {
-      state: { bean: this.beanFromHistory() },
+      state: { model: this.modelFromHistory() },
     });
   }
 

@@ -40,8 +40,8 @@ describe('AccountListService', () => {
     expect(typeof service.findAll).toBe('function');
   });
 
-  describe('BeanListService Interface Implementation', () => {
-    it('should implement BeanListService interface', () => {
+  describe('ModelListService Interface Implementation', () => {
+    it('should implement ModelListService interface', () => {
       expect(service.findAll).toBeDefined();
       expect(typeof service.findAll).toBe('function');
     });
@@ -72,7 +72,6 @@ describe('AccountListService', () => {
       expect(testAccount).toBeDefined();
       expect(testAccount.description).toBe('');
       expect(testAccount.category).toBe('');
-      expect(typeof testAccount.getId).toBe('function');
     });
 
     it('should have proper service structure', () => {

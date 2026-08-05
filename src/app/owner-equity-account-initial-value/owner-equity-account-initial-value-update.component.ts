@@ -2,12 +2,15 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { createOwnerEquityAccountInitialValue } from './owner-equity-account-initial-value';
+import {
+  OwnerEquityAccountInitialValue,
+  ownerEquityAccountInitialValueId,
+} from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
-import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
+import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { OwnerEquityAccountInitialValueUpdateService } from './owner-equity-account-initial-value-update-service';
-import { toBeanFromHistory } from '../bean/bean';
+import { toModelFromHistory } from '../models/models';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
@@ -18,39 +21,41 @@ import { form, required } from '@angular/forms/signals';
     CommonModule,
     NumberFieldComponent,
     DetailFieldComponent,
-    BeanUpdatePanelComponent,
+    ModelUpdatePanelComponent,
   ],
   template: `
-    <app-bean-update-panel
+    <app-model-update-panel
       [form]="form"
-      [beanFromHistory]="beanFromHistory"
-      [createBean]="createBean.bind(this)"
-      [beanUpdateService]="beanUpdateService"
-      [beanName]="'Balances'"
+      [modelFromHistory]="modelFromHistory"
+      [modelIdFn]="modelIdFn"
+      [createModel]="createModel.bind(this)"
+      [modelUpdateService]="modelUpdateService"
+      [modelName]="'Balances'"
       [routerName]="'ownerEquityAccountInitialValues'"
     >
-      <app-detail-field strong="Owner" value="{{ beanFromHistory.owner }}" />
+      <app-detail-field strong="Owner" value="{{ modelFromHistory.owner }}" />
 
       <app-detail-field
         strong="Equity Account"
-        value="{{ beanFromHistory.equityAccount.description }} - {{
-          beanFromHistory.equityAccount.category
+        value="{{ modelFromHistory.equityAccount.description }} - {{
+          modelFromHistory.equityAccount.category
         }}"
       />
 
       <app-number-field label="Initial Value" [autoFocus]="true" [formField]="form.initialValue" />
-    </app-bean-update-panel>
+    </app-model-update-panel>
   `,
 })
 export class OwnerEquityAccountInitialValueUpdateComponent {
-  beanFromHistory = toBeanFromHistory(createOwnerEquityAccountInitialValue);
-  form = form(signal(this.beanFromHistory), (f) => {
+  modelFromHistory = toModelFromHistory<OwnerEquityAccountInitialValue>();
+  form = form(signal(this.modelFromHistory), (f) => {
     required(f.initialValue);
   });
 
-  beanUpdateService = inject(OwnerEquityAccountInitialValueUpdateService);
+  modelUpdateService = inject(OwnerEquityAccountInitialValueUpdateService);
+  modelIdFn = ownerEquityAccountInitialValueId;
 
-  createBean(): number {
+  createModel(): number {
     return this.form().value().initialValue;
   }
 }

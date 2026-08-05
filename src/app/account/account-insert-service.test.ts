@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { AccountInsertService } from './account-insert-service';
-import { Account, AccountType, createAccount } from './account';
+import { Account, accountId, AccountType, createAccount } from './account';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -55,8 +55,8 @@ describe('AccountInsertService', () => {
   // Functional tests
   describe('insert method', () => {
     it('should call HTTP POST with correct parameters for debit accounts', () => {
-      const testAccount = new Account('Test Account', 'Test Category');
-      const expectedResponse = new Account('Test Account', 'Test Category');
+      const testAccount = { description: 'Test Account', category: 'Test Category' };
+      const expectedResponse = { description: 'Test Account', category: 'Test Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -70,8 +70,8 @@ describe('AccountInsertService', () => {
 
     it('should call HTTP POST with correct parameters for credit accounts', () => {
       const creditService = new AccountInsertService(mockHttpClient, AccountType.CREDIT);
-      const testAccount = new Account('Credit Account', 'Credit Category');
-      const expectedResponse = new Account('Credit Account', 'Credit Category');
+      const testAccount = { description: 'Credit Account', category: 'Credit Category' };
+      const expectedResponse = { description: 'Credit Account', category: 'Credit Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -85,8 +85,8 @@ describe('AccountInsertService', () => {
 
     it('should call HTTP POST with correct parameters for equity accounts', () => {
       const equityService = new AccountInsertService(mockHttpClient, AccountType.EQUITY);
-      const testAccount = new Account('Equity Account', 'Equity Category');
-      const expectedResponse = new Account('Equity Account', 'Equity Category');
+      const testAccount = { description: 'Equity Account', category: 'Equity Category' };
+      const expectedResponse = { description: 'Equity Account', category: 'Equity Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -99,7 +99,7 @@ describe('AccountInsertService', () => {
     });
 
     it('should return transformed Account on successful insert', async () => {
-      const inputAccount = new Account('New Account', 'New Category');
+      const inputAccount = { description: 'New Account', category: 'New Category' };
       const mockResponse = { description: 'New Account', category: 'New Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -111,14 +111,13 @@ describe('AccountInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Account);
       expect(result.description).toBe('New Account');
       expect(result.category).toBe('New Category');
-      expect(result.getId()).toBe('New Account');
+      expect(accountId(result)).toBe('New Account');
     });
 
     it('should handle HTTP errors correctly', async () => {
-      const testAccount = new Account('Test Account', 'Test Category');
+      const testAccount = { description: 'Test Account', category: 'Test Category' };
       const errorResponse = new HttpErrorResponse({
         error: 'Insert failed',
         status: 400,
@@ -143,7 +142,7 @@ describe('AccountInsertService', () => {
     });
 
     it('should handle network errors', async () => {
-      const testAccount = new Account('Test Account', 'Test Category');
+      const testAccount = { description: 'Test Account', category: 'Test Category' };
       const networkError = new Error('Network error');
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(
@@ -161,7 +160,7 @@ describe('AccountInsertService', () => {
     });
 
     it('should work with empty description and category', async () => {
-      const emptyAccount = new Account('', '');
+      const emptyAccount = { description: '', category: '' };
       const mockResponse = { description: '', category: '' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -173,14 +172,16 @@ describe('AccountInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Account);
       expect(result.description).toBe('');
       expect(result.category).toBe('');
-      expect(result.getId()).toBe('');
+      expect(accountId(result)).toBe('');
     });
 
     it('should work with special characters in description and category', async () => {
-      const specialAccount = new Account('Account & Co. Ltd. (Main)', 'Category <Special> "Test"');
+      const specialAccount = {
+        description: 'Account & Co. Ltd. (Main)',
+        category: 'Category <Special> "Test"',
+      };
       const mockResponse = {
         description: 'Account & Co. Ltd. (Main)',
         category: 'Category <Special> "Test"',
@@ -195,14 +196,13 @@ describe('AccountInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Account);
       expect(result.description).toBe('Account & Co. Ltd. (Main)');
       expect(result.category).toBe('Category <Special> "Test"');
-      expect(result.getId()).toBe('Account & Co. Ltd. (Main)');
+      expect(accountId(result)).toBe('Account & Co. Ltd. (Main)');
     });
 
     it('should handle server validation errors', async () => {
-      const testAccount = new Account('Test Account', 'Test Category');
+      const testAccount = { description: 'Test Account', category: 'Test Category' };
       const validationError = new HttpErrorResponse({
         error: { message: 'Account description already exists' },
         status: 422,
@@ -227,7 +227,7 @@ describe('AccountInsertService', () => {
     });
 
     it('should return Observable<Account>', () => {
-      const testAccount = new Account('Test Account', 'Test Category');
+      const testAccount = { description: 'Test Account', category: 'Test Category' };
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(testAccount));
 
       const result = service.insert(testAccount);
@@ -239,8 +239,8 @@ describe('AccountInsertService', () => {
   describe('AccountType integration', () => {
     it('should work with DEBIT type', () => {
       const debitService = new AccountInsertService(mockHttpClient, AccountType.DEBIT);
-      const testAccount = new Account('Debit Account', 'Assets');
-      const expectedResponse = new Account('Debit Account', 'Assets');
+      const testAccount = { description: 'Debit Account', category: 'Assets' };
+      const expectedResponse = { description: 'Debit Account', category: 'Assets' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -254,8 +254,8 @@ describe('AccountInsertService', () => {
 
     it('should work with CREDIT type', () => {
       const creditService = new AccountInsertService(mockHttpClient, AccountType.CREDIT);
-      const testAccount = new Account('Credit Account', 'Liabilities');
-      const expectedResponse = new Account('Credit Account', 'Liabilities');
+      const testAccount = { description: 'Credit Account', category: 'Liabilities' };
+      const expectedResponse = { description: 'Credit Account', category: 'Liabilities' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -269,8 +269,8 @@ describe('AccountInsertService', () => {
 
     it('should work with EQUITY type', () => {
       const equityService = new AccountInsertService(mockHttpClient, AccountType.EQUITY);
-      const testAccount = new Account('Equity Account', 'Capital');
-      const expectedResponse = new Account('Equity Account', 'Capital');
+      const testAccount = { description: 'Equity Account', category: 'Capital' };
+      const expectedResponse = { description: 'Equity Account', category: 'Capital' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -284,7 +284,7 @@ describe('AccountInsertService', () => {
 
     it('should format account type to lowercase for URL', () => {
       const debitService = new AccountInsertService(mockHttpClient, AccountType.DEBIT);
-      const testAccount = new Account('Test Account', 'Test Category');
+      const testAccount = { description: 'Test Account', category: 'Test Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(testAccount));
 
@@ -306,10 +306,9 @@ describe('AccountInsertService', () => {
   describe('createAccount integration', () => {
     it('should work with createAccount factory', () => {
       const newAccount = createAccount();
-      expect(newAccount).toBeInstanceOf(Account);
       expect(newAccount.description).toBe('');
       expect(newAccount.category).toBe('');
-      expect(newAccount.getId()).toBe('');
+      expect(accountId(newAccount)).toBe('');
     });
   });
 

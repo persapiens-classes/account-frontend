@@ -1,11 +1,11 @@
 import { inject, Service, WritableSignal } from '@angular/core';
-import { createOwner, Owner } from './owner';
-import { BeanListService, loadBeans } from '../bean/bean-list-service';
+import { Owner } from './owner';
+import { ModelListService, loadModels } from '../models/model-list-service';
 import { AppMessageService } from '../app-message-service';
 
 @Service()
-export class OwnerListService implements BeanListService<Owner> {
+export class OwnerListService implements ModelListService<Owner> {
   findAll(): WritableSignal<Owner[]> {
-    return loadBeans(inject(AppMessageService), 'Owner', 'owners', createOwner);
+    return loadModels(inject(AppMessageService), 'Owner', 'owners');
   }
 }

@@ -3,16 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TableModule } from '@openng/optimus-ui/table';
 import { TooltipModule } from '@openng/optimus-ui/tooltip';
-import { Entry } from './entry';
+import { Entry, entryId } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
-import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
-import { RemoveButtonComponent } from '../bean/remove-button.component';
+import { StartDetailButtonComponent } from '../models/start-detail-button.component';
+import { StartUpdateButtonComponent } from '../models/start-update-button.component';
+import { RemoveButtonComponent } from '../models/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { EntryListService } from './entry-list-service';
 import { EntryRemoveService } from './entry-remove-service';
-import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { ModelListPanelComponent } from '../models/model-list-panel.component';
 
 @Component({
   selector: 'app-entry-list',
@@ -24,12 +24,12 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
     StartDetailButtonComponent,
     StartUpdateButtonComponent,
     RemoveButtonComponent,
-    BeanListPanelComponent,
+    ModelListPanelComponent,
   ],
   template: `
-    <app-bean-list-panel [routerName]="routerName">
+    <app-model-list-panel [routerName]="routerName">
       <p-table
-        [value]="beansList()"
+        [value]="modelsList()"
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
@@ -106,34 +106,36 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
             </td>
             <td data-label="Remove">
               <app-remove-button
-                [beansList]="beansList"
+                [modelsList]="modelsList"
                 [item]="item"
-                [beanRemoveService]="beanRemoveService"
-                [beanName]="beanName"
+                [modelRemoveService]="modelRemoveService"
+                [modelName]="modelName"
+                [modelIdFn]="modelIdFn"
               />
             </td>
           </tr>
         </ng-template>
       </p-table>
-    </app-bean-list-panel>
+    </app-model-list-panel>
   `,
 })
 export class EntryListComponent {
-  beanName: string;
+  modelName: string;
   routerName: string;
-  beanRemoveService: EntryRemoveService;
+  modelRemoveService: EntryRemoveService;
 
-  beansList: WritableSignal<Entry[]>;
+  modelsList: WritableSignal<Entry[]>;
+  modelIdFn = entryId;
 
   constructor() {
     const http = inject(HttpClient);
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
-    this.beanName = `${type} Entry`;
+    this.modelName = `${type} Entry`;
     this.routerName = `${type.toLowerCase()}Entries`;
 
-    this.beanRemoveService = new EntryRemoveService(http, type);
+    this.modelRemoveService = new EntryRemoveService(http, type);
 
-    this.beansList = new EntryListService(inject(AppMessageService), type).findAll();
+    this.modelsList = new EntryListService(inject(AppMessageService), type).findAll();
   }
 }

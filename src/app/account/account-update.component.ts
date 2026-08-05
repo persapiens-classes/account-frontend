@@ -4,15 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { Account, accountFormToModel, accountModelToForm, createAccount } from './account';
+import { Account, accountFormToModel, accountId, accountModelToForm } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { CategoryListService } from '../category/category-list-service';
 import { AccountUpdateService } from './account-update-service';
-import { toBeanFromHistory } from '../bean/bean';
-import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
+import { toModelFromHistory } from '../models/models';
+import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { AppMessageService } from '../app-message-service';
 
 @Component({
@@ -23,16 +23,17 @@ import { AppMessageService } from '../app-message-service';
     CommonModule,
     InputFieldComponent,
     SelectFieldComponent,
-    BeanUpdatePanelComponent,
+    ModelUpdatePanelComponent,
   ],
   template: `
-    <app-bean-update-panel
+    <app-model-update-panel
       [form]="form"
-      [beanFromHistory]="beanFromHistory"
-      [createBean]="createBean.bind(this)"
-      [beanUpdateService]="beanUpdateService"
-      [beanName]="beanName"
+      [modelFromHistory]="modelFromHistory"
+      [createModel]="createModel.bind(this)"
+      [modelUpdateService]="modelUpdateService"
+      [modelName]="modelName"
       [routerName]="routerName"
+      [modelIdFn]="modelIdFn"
     >
       <app-input-field
         label="Description"
@@ -47,30 +48,31 @@ import { AppMessageService } from '../app-message-service';
         [formField]="form.category"
         dataCy="select-category"
       />
-    </app-bean-update-panel>
+    </app-model-update-panel>
   `,
 })
 export class AccountUpdateComponent {
-  beanFromHistory = toBeanFromHistory(createAccount);
-  form = form(signal(accountModelToForm(this.beanFromHistory)), (f) => {
+  modelFromHistory = toModelFromHistory<Account>();
+  modelIdFn = accountId;
+  form = form(signal(accountModelToForm(this.modelFromHistory)), (f) => {
     required(f.description);
     minLength(f.description, 3);
     required(f.category);
   });
 
   routerName: string;
-  beanName: string;
-  beanUpdateService: AccountUpdateService;
+  modelName: string;
+  modelUpdateService: AccountUpdateService;
 
   categories: WritableSignal<Category[]>;
 
   constructor() {
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
-    this.beanName = `${type} Account`;
+    this.modelName = `${type} Account`;
     this.routerName = `${type.toLowerCase()}Accounts`;
     const http = inject(HttpClient);
-    this.beanUpdateService = new AccountUpdateService(http, type);
+    this.modelUpdateService = new AccountUpdateService(http, type);
 
     this.categories = new CategoryListService(
       inject(AppMessageService),
@@ -78,7 +80,7 @@ export class AccountUpdateComponent {
     ).findAll();
   }
 
-  createBean(): Account {
+  createModel(): Account {
     return accountFormToModel(this.form().value());
   }
 }

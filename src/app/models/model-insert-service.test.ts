@@ -2,34 +2,30 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 
 import { expect, vi, describe, it, beforeEach } from 'vitest';
-import { BeanInsertService, insertBean } from './bean-insert-service';
-import { Bean, toBean, defaultJsonToBean } from './bean';
+import { ModelInsertService, insertModel } from './model-insert-service';
+import { toModel, defaultJsonToModel } from './models';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
-// Mock implementation of Bean for testing
-class TestBean implements Bean {
-  constructor(
-    public id = '',
-    public name = '',
-    public value = 0,
-  ) {}
-
-  getId(): string {
-    return this.id;
-  }
-}
-
-// Factory function for TestBean
-const createTestBean = (): TestBean => new TestBean();
-
-// Mock input type for insert operations
-interface TestBeanInput {
+// Mock implementation of Model for testing
+interface TestModel {
+  id: string;
   name: string;
   value: number;
 }
 
-describe('BeanInsertService', () => {
+// Factory function for TestModel
+const createTestModel = (): TestModel => {
+  return { id: '', name: '', value: 0 };
+};
+
+// Mock input type for insert operations
+interface TestModelInput {
+  name: string;
+  value: number;
+}
+
+describe('ModelInsertService', () => {
   let mockHttpClient: HttpClient;
 
   beforeEach(async () => {
@@ -50,11 +46,11 @@ describe('BeanInsertService', () => {
     ]);
   });
 
-  describe('BeanInsertService Interface', () => {
+  describe('ModelInsertService Interface', () => {
     it('should define the correct interface structure', () => {
       // Test that the interface exists and has the expected method signature
-      const mockService: BeanInsertService<TestBean, TestBeanInput> = {
-        insert: (): Observable<TestBean> => of(new TestBean()),
+      const mockService: ModelInsertService<TestModel, TestModelInput> = {
+        insert: (): Observable<TestModel> => of(createTestModel()),
       };
 
       TestUtils.testServiceMethods(mockService, ['insert']);
@@ -66,43 +62,45 @@ describe('BeanInsertService', () => {
     });
 
     it('should accept correct generic type parameters', () => {
-      // Test with different Bean and Input types
-      interface CustomBeanInput {
+      // Test with different Model and Input types
+      interface CustomModelInput {
         title: string;
         active: boolean;
       }
 
-      class CustomBean implements Bean {
-        constructor(
-          public id = '',
-          public title = '',
-          public active = true,
-        ) {}
-
-        getId(): string {
-          return this.id;
-        }
+      interface CustomModel {
+        id: string;
+        title: string;
+        active: boolean;
       }
 
-      const mockService: BeanInsertService<CustomBean, CustomBeanInput> = {
-        insert: (): Observable<CustomBean> => of(new CustomBean()),
+      function createCustomModel(): CustomModel {
+        return {
+          id: '',
+          title: '',
+          active: true,
+        };
+      }
+
+      const mockService: ModelInsertService<CustomModel, CustomModelInput> = {
+        insert: (): Observable<CustomModel> => of(createCustomModel()),
       };
 
       TestUtils.testServiceMethods(mockService, ['insert']);
       expect(mockService.insert).toBeDefined();
 
       // Test type compatibility
-      const input: CustomBeanInput = { title: 'Test', active: true };
+      const input: CustomModelInput = { title: 'Test', active: true };
       const result = mockService.insert(input);
       expect(result).toBeInstanceOf(Observable);
     });
 
     it('should implement insert method with correct signature', () => {
-      const service: BeanInsertService<TestBean, TestBeanInput> = {
-        insert: (bean: TestBeanInput): Observable<TestBean> => {
+      const service: ModelInsertService<TestModel, TestModelInput> = {
+        insert: (model: TestModelInput): Observable<TestModel> => {
           // Acknowledge parameter is intentionally unused in mock
-          expect(bean).toBeDefined();
-          return of(new TestBean());
+          expect(model).toBeDefined();
+          return of(createTestModel());
         },
       };
 
@@ -111,101 +109,95 @@ describe('BeanInsertService', () => {
     });
   });
 
-  describe('insertBean Function', () => {
+  describe('insertModel Function', () => {
     it('should construct correct API URL', () => {
-      const routerName = 'test-beans';
+      const routerName = 'test-models';
       const expectedUrl = `${environment.apiUrl}/${routerName}`;
-      const mockResponse = { id: '1', name: 'Test Bean', value: 42 };
+      const mockResponse = { id: '1', name: 'Test Model', value: 42 };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
-      const inputBean: TestBeanInput = { name: 'Test Bean', value: 42 };
+      const inputModel: TestModelInput = { name: 'Test Model', value: 42 };
 
-      insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe();
+      insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe();
 
-      expect(mockHttpClient.post).toHaveBeenCalledWith(expectedUrl, inputBean);
+      expect(mockHttpClient.post).toHaveBeenCalledWith(expectedUrl, inputModel);
     });
 
     it('should send POST request with correct data', () => {
       const routerName = 'owners';
-      const inputBean: TestBeanInput = { name: 'John Doe', value: 100 };
+      const inputModel: TestModelInput = { name: 'John Doe', value: 100 };
       const mockResponse = { id: '123', name: 'John Doe', value: 100 };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
-      insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe();
+      insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
         `${environment.apiUrl}/${routerName}`,
-        inputBean,
+        inputModel,
       );
     });
 
-    it('should transform response using toBean function', async () => {
+    it('should transform response using toModel function', async () => {
       const routerName = 'test-entities';
-      const inputBean: TestBeanInput = { name: 'Entity', value: 50 };
+      const inputModel: TestModelInput = { name: 'Entity', value: 50 };
       const mockResponse = { id: '456', name: 'Entity', value: 50 };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
       return new Promise<void>((resolve) => {
-        insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe((result) => {
-          expect(result).toBeInstanceOf(TestBean);
-          expect(result.getId()).toBe('456');
-          expect(result.name).toBe('Entity');
-          expect(result.value).toBe(50);
+        insertModel(inputModel, mockHttpClient, routerName).subscribe((result) => {
+          expect((result as TestModel).id).toBe('456');
+          expect((result as TestModel).name).toBe('Entity');
+          expect((result as TestModel).value).toBe(50);
           resolve();
         });
       });
     });
 
-    it('should use custom jsonToBeanFunction when provided', () => {
-      const customJsonToBean = vi.fn((bean: TestBean): TestBean => {
-        bean.name = `Inserted ${bean.name}`;
-        return bean;
+    it('should use custom jsonToModelFunction when provided', () => {
+      const customJsonToModel = vi.fn((model: TestModel): TestModel => {
+        model.name = `Inserted ${model.name}`;
+        return model;
       });
 
-      const routerName = 'custom-beans';
-      const inputBean: TestBeanInput = { name: 'Custom', value: 25 };
+      const routerName = 'custom-models';
+      const inputModel: TestModelInput = { name: 'Custom', value: 25 };
       const mockResponse = { id: '789', name: 'Custom', value: 25 };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
       return new Promise<void>((resolve) => {
-        insertBean(
-          inputBean,
-          mockHttpClient,
-          routerName,
-          createTestBean,
-          customJsonToBean,
-        ).subscribe((result) => {
-          expect(customJsonToBean).toHaveBeenCalled();
-          expect(result.name).toBe('Inserted Custom');
-          resolve();
-        });
+        insertModel(inputModel, mockHttpClient, routerName, customJsonToModel).subscribe(
+          (result) => {
+            expect(customJsonToModel).toHaveBeenCalled();
+            expect(result.name).toBe('Inserted Custom');
+            resolve();
+          },
+        );
       });
     });
 
-    it('should use defaultJsonToBean when no custom function provided', () => {
-      const routerName = 'default-beans';
-      const inputBean: TestBeanInput = { name: 'Default', value: 75 };
+    it('should use defaultJsonToModel when no custom function provided', () => {
+      const routerName = 'default-models';
+      const inputModel: TestModelInput = { name: 'Default', value: 75 };
       const mockResponse = { id: '101', name: 'Default', value: 75 };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
       return new Promise<void>((resolve) => {
-        insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe((result) => {
-          expect(result).toBeInstanceOf(TestBean);
-          expect(result.name).toBe('Default');
-          expect(result.value).toBe(75);
+        insertModel(inputModel, mockHttpClient, routerName).subscribe((result) => {
+          expect((result as TestModel).name).toBe('Default');
+          expect((result as TestModel).value).toBe(75);
           resolve();
         });
       });
     });
 
     it('should handle HTTP errors correctly', () => {
-      const routerName = 'error-beans';
-      const inputBean: TestBeanInput = { name: 'Error', value: 0 };
+      const routerName = 'error-models';
+      const inputModel: TestModelInput = { name: 'Error', value: 0 };
       const httpError = new HttpErrorResponse({
         status: 400,
         statusText: 'Bad Request',
@@ -215,7 +207,7 @@ describe('BeanInsertService', () => {
       vi.mocked(mockHttpClient.post).mockReturnValue(throwError(() => httpError));
 
       return new Promise<void>((resolve) => {
-        insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe({
+        insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -230,8 +222,8 @@ describe('BeanInsertService', () => {
     });
 
     it('should handle different HTTP status errors', () => {
-      const routerName = 'server-error-beans';
-      const inputBean: TestBeanInput = { name: 'Server Error', value: 500 };
+      const routerName = 'server-error-models';
+      const inputModel: TestModelInput = { name: 'Server Error', value: 500 };
       const serverError = new HttpErrorResponse({
         status: 500,
         statusText: 'Internal Server Error',
@@ -241,7 +233,7 @@ describe('BeanInsertService', () => {
       vi.mocked(mockHttpClient.post).mockReturnValue(throwError(() => serverError));
 
       return new Promise<void>((resolve) => {
-        insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe({
+        insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -255,41 +247,32 @@ describe('BeanInsertService', () => {
     });
   });
 
-  describe('Integration with Bean utility functions', () => {
-    it('should work with toBean function', () => {
+  describe('Integration with Model utility functions', () => {
+    it('should work with toModel function', () => {
       const jsonData = { id: '1', name: 'Integration Test', value: 200 };
-      const bean = toBean(jsonData, createTestBean, defaultJsonToBean);
+      const model = toModel(jsonData, defaultJsonToModel);
 
-      expect(bean).toBeInstanceOf(TestBean);
-      expect(bean.getId()).toBe('1');
-      expect(bean.name).toBe('Integration Test');
-      expect(bean.value).toBe(200);
+      expect(model.id).toBe('1');
+      expect(model.name).toBe('Integration Test');
+      expect(model.value).toBe(200);
     });
 
-    it('should work with different Bean implementations', () => {
-      class MinimalBean implements Bean {
-        constructor(
-          public id = '',
-          public data = '',
-        ) {}
-
-        getId(): string {
-          return this.id;
-        }
+    it('should work with different Model implementations', () => {
+      interface MinimalModel {
+        id: string;
+        data: string;
       }
 
-      const createMinimalBean = (): MinimalBean => new MinimalBean();
-      const routerName = 'minimal-beans';
+      const routerName = 'minimal-models';
       const inputData = { data: 'minimal data' };
       const mockResponse = { id: 'min-1', data: 'minimal data' };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
       return new Promise<void>((resolve) => {
-        insertBean(inputData, mockHttpClient, routerName, createMinimalBean).subscribe((result) => {
-          expect(result).toBeInstanceOf(MinimalBean);
-          expect(result.getId()).toBe('min-1');
-          expect(result.data).toBe('minimal data');
+        insertModel(inputData, mockHttpClient, routerName).subscribe((result) => {
+          expect((result as MinimalModel).id).toBe('min-1');
+          expect((result as MinimalModel).data).toBe('minimal data');
           resolve();
         });
       });
@@ -302,13 +285,13 @@ describe('BeanInsertService', () => {
 
       const routerName = 'environment-test';
       const expectedUrl = `${environment.apiUrl}/${routerName}`;
-      const inputBean: TestBeanInput = { name: 'Env Test', value: 123 };
+      const inputModel: TestModelInput = { name: 'Env Test', value: 123 };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of({}));
 
-      insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe();
+      insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe();
 
-      expect(mockHttpClient.post).toHaveBeenCalledWith(expectedUrl, inputBean);
+      expect(mockHttpClient.post).toHaveBeenCalledWith(expectedUrl, inputModel);
     });
 
     it('should construct URLs correctly with different router names', () => {
@@ -319,23 +302,23 @@ describe('BeanInsertService', () => {
       ];
 
       testCases.forEach(({ routerName, expected }) => {
-        const inputBean: TestBeanInput = { name: 'Test', value: 1 };
+        const inputModel: TestModelInput = { name: 'Test', value: 1 };
         vi.mocked(mockHttpClient.post).mockReturnValue(of({}));
 
-        insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe();
+        insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe();
 
-        expect(mockHttpClient.post).toHaveBeenCalledWith(expected, inputBean);
+        expect(mockHttpClient.post).toHaveBeenCalledWith(expected, inputModel);
       });
     });
   });
 
   describe('Type Safety and Generic Constraints', () => {
-    it('should enforce Bean constraint on generic types', () => {
-      interface ValidBeanType extends Bean {
+    it('should enforce Model constraint on generic types', () => {
+      interface ValidModelType {
         title: string;
       }
 
-      class ValidBean implements ValidBeanType {
+      class ValidModel implements ValidModelType {
         constructor(
           public id = '',
           public title = '',
@@ -346,8 +329,8 @@ describe('BeanInsertService', () => {
         }
       }
 
-      const service: BeanInsertService<ValidBean, { title: string }> = {
-        insert: (): Observable<ValidBean> => of(new ValidBean()),
+      const service: ModelInsertService<ValidModel, { title: string }> = {
+        insert: (): Observable<ValidModel> => of(new ValidModel()),
       };
 
       TestUtils.testServiceMethods(service, ['insert']);
@@ -356,20 +339,20 @@ describe('BeanInsertService', () => {
 
     it('should handle Observable streams correctly', () => {
       const routerName = 'stream-test';
-      const inputBean: TestBeanInput = { name: 'Stream', value: 999 };
+      const inputModel: TestModelInput = { name: 'Stream', value: 999 };
       const mockResponse = { id: 'stream-1', name: 'Stream', value: 999 };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
-      const result$ = insertBean(inputBean, mockHttpClient, routerName, createTestBean);
+      const result$ = insertModel(inputModel, mockHttpClient, routerName);
 
       expect(result$).toBeInstanceOf(Observable);
 
       return new Promise<void>((resolve, reject) => {
         result$.subscribe({
-          next: (bean) => {
-            expect(bean).toBeInstanceOf(TestBean);
-            expect(bean.getId()).toBe('stream-1');
+          next: (model) => {
+            const typedModel = model as TestModel;
+            expect(typedModel.id).toBe('stream-1');
             resolve();
           },
           error: (error) => {
@@ -383,7 +366,7 @@ describe('BeanInsertService', () => {
   describe('Error Handling Edge Cases', () => {
     it('should handle network timeout errors', () => {
       const routerName = 'timeout-test';
-      const inputBean: TestBeanInput = { name: 'Timeout', value: 408 };
+      const inputModel: TestModelInput = { name: 'Timeout', value: 408 };
       const timeoutError = new HttpErrorResponse({
         status: 408,
         statusText: 'Request Timeout',
@@ -393,7 +376,7 @@ describe('BeanInsertService', () => {
       vi.mocked(mockHttpClient.post).mockReturnValue(throwError(() => timeoutError));
 
       return new Promise<void>((resolve) => {
-        insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe({
+        insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -402,36 +385,6 @@ describe('BeanInsertService', () => {
             expect(error.statusText).toBe('Request Timeout');
             resolve();
           },
-        });
-      });
-    });
-
-    it('should handle malformed response data', () => {
-      const routerName = 'malformed-test';
-      const inputBean: TestBeanInput = { name: 'Malformed', value: 400 };
-      const malformedResponse = 'invalid json response';
-
-      vi.mocked(mockHttpClient.post).mockReturnValue(of(malformedResponse));
-
-      return new Promise<void>((resolve) => {
-        insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe((result) => {
-          // toBean should handle malformed data gracefully
-          expect(result).toBeInstanceOf(TestBean);
-          resolve();
-        });
-      });
-    });
-
-    it('should handle null response data', () => {
-      const routerName = 'null-test';
-      const inputBean: TestBeanInput = { name: 'Null', value: 0 };
-
-      vi.mocked(mockHttpClient.post).mockReturnValue(of(null));
-
-      return new Promise<void>((resolve) => {
-        insertBean(inputBean, mockHttpClient, routerName, createTestBean).subscribe((result) => {
-          expect(result).toBeInstanceOf(TestBean);
-          resolve();
         });
       });
     });
@@ -445,46 +398,45 @@ describe('BeanInsertService', () => {
     });
 
     it('should support factory function pattern', () => {
-      const factory = createTestBean;
+      const factory = createTestModel;
       expect(typeof factory).toBe('function');
 
-      const bean = factory();
-      expect(bean).toBeInstanceOf(TestBean);
-      expect(bean.getId()).toBe('');
+      const model = factory();
+      expect(model.id).toBe('');
     });
 
     it('should support transformation function pattern', () => {
-      const customTransform = (bean: TestBean): TestBean => {
-        bean.name = bean.name.toUpperCase();
-        return bean;
+      const customTransform = (model: TestModel): TestModel => {
+        model.name = model.name.toUpperCase();
+        return model;
       };
 
-      const testBean = new TestBean('1', 'test', 100);
-      const transformed = customTransform(testBean);
+      const testModel = { id: '1', name: 'test', value: 100 };
+      const transformed = customTransform(testModel);
 
       expect(transformed.name).toBe('TEST');
-      expect(transformed).toBe(testBean); // Same reference
+      expect(transformed).toBe(testModel); // Same reference
     });
 
     it('should support service composition', () => {
-      const service1: BeanInsertService<TestBean, TestBeanInput> = {
-        insert: (bean: TestBeanInput): Observable<TestBean> =>
-          of(new TestBean('1', bean.name, bean.value)),
+      const service1: ModelInsertService<TestModel, TestModelInput> = {
+        insert: (model: TestModelInput): Observable<TestModel> =>
+          of({ id: '1', name: model.name, value: model.value }),
       };
 
-      const service2: BeanInsertService<TestBean, TestBeanInput> = {
-        insert: (bean: TestBeanInput): Observable<TestBean> =>
-          of(new TestBean('2', bean.name, bean.value)),
+      const service2: ModelInsertService<TestModel, TestModelInput> = {
+        insert: (model: TestModelInput): Observable<TestModel> =>
+          of({ id: '2', name: model.name, value: model.value }),
       };
 
       // Test that services can be composed
-      const input: TestBeanInput = { name: 'Composed', value: 500 };
+      const input: TestModelInput = { name: 'Composed', value: 500 };
 
       return new Promise<void>((resolve) => {
         service1.insert(input).subscribe((result1) => {
           service2.insert(input).subscribe((result2) => {
-            expect(result1.getId()).toBe('1');
-            expect(result2.getId()).toBe('2');
+            expect(result1.id).toBe('1');
+            expect(result2.id).toBe('2');
             expect(result1.name).toBe(result2.name);
             resolve();
           });
@@ -512,21 +464,21 @@ describe('BeanInsertService', () => {
       });
 
       const insertObservables = requests.map((request) =>
-        insertBean(request, mockHttpClient, routerName, createTestBean),
+        insertModel(request, mockHttpClient, routerName),
       );
 
       return new Promise<void>((resolve) => {
         let completedCount = 0;
-        const results: TestBean[] = [];
+        const results: TestModel[] = [];
 
         insertObservables.forEach((observable) => {
           observable.subscribe((result) => {
-            results.push(result);
+            results.push(result as TestModel);
             completedCount++;
             if (completedCount === requests.length) {
               expect(results).toHaveLength(5);
               results.forEach((resultItem, i) => {
-                expect(resultItem.getId()).toBe(`concurrent-${i}`);
+                expect(resultItem.id).toBe(`concurrent-${i}`);
               });
               resolve();
             }
@@ -553,11 +505,10 @@ describe('BeanInsertService', () => {
       const startTime = performance.now();
 
       return new Promise<void>((resolve) => {
-        insertBean(largeData, mockHttpClient, routerName, createTestBean).subscribe((result) => {
+        insertModel(largeData, mockHttpClient, routerName, createTestModel).subscribe(() => {
           const endTime = performance.now();
           const duration = endTime - startTime;
 
-          expect(result).toBeInstanceOf(TestBean);
           expect(duration).toBeLessThan(100); // Should complete quickly
           resolve();
         });

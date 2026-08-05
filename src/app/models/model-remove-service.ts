@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-export interface BeanRemoveService {
+export interface ModelRemoveService {
   remove(id: string): Observable<void>;
 }
 
-export function removeBean(
+export function removeModel(
   http: HttpClient,
   routerName: string,
   id: string,

@@ -1,7 +1,13 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { createEntry, entryFormToModel, EntryInsertUpdate, entryModelToForm } from './entry';
+import {
+  createEntry,
+  entryFormToModel,
+  entryId,
+  EntryInsertUpdate,
+  entryModelToForm,
+} from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
@@ -12,7 +18,7 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
 import { EntryInsertService } from './entry-insert-service';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
 import { AppMessageService } from '../app-message-service';
 import { form, FormField, required } from '@angular/forms/signals';
 
@@ -24,16 +30,17 @@ import { form, FormField, required } from '@angular/forms/signals';
     SelectFieldComponent,
     NumberFieldComponent,
     InputFieldComponent,
-    BeanInsertPanelComponent,
+    ModelInsertPanelComponent,
     FormField,
   ],
   template: `
-    <app-bean-insert-panel
+    <app-model-insert-panel
       [form]="form"
-      [createBean]="createBean.bind(this)"
-      [beanInsertService]="beanInsertService"
-      [beanName]="beanName"
+      [createModel]="createModel.bind(this)"
+      [modelInsertService]="modelInsertService"
+      [modelName]="modelName"
       [routerName]="routerName"
+      [modelIdFn]="modelIdFn"
     >
       <app-date-field label="Date" [autoFocus]="true" [formField]="form.date" dataCy="input-date" />
       <app-select-field
@@ -70,7 +77,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 
       <app-number-field label="Value" [formField]="form.value" dataCy="input-value" />
       <app-input-field label="Note" [formField]="form.note" dataCy="input-note" />
-    </app-bean-insert-panel>
+    </app-model-insert-panel>
   `,
 })
 export class EntryInsertComponent {
@@ -83,9 +90,10 @@ export class EntryInsertComponent {
     required(f.value);
   });
 
-  beanInsertService: EntryInsertService;
+  modelInsertService: EntryInsertService;
   routerName: string;
-  beanName: string;
+  modelName: string;
+  modelIdFn = entryId;
 
   inAccounts: WritableSignal<Account[]>;
   outAccounts: WritableSignal<Account[]>;
@@ -95,9 +103,9 @@ export class EntryInsertComponent {
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Entries`;
-    this.beanName = `${type} Entry`;
+    this.modelName = `${type} Entry`;
     const http = inject(HttpClient);
-    this.beanInsertService = new EntryInsertService(http, type);
+    this.modelInsertService = new EntryInsertService(http, type);
 
     this.inAccounts = new AccountListService(
       inject(AppMessageService),
@@ -110,7 +118,7 @@ export class EntryInsertComponent {
     this.owners = inject(OwnerListService).findAll();
   }
 
-  createBean(): EntryInsertUpdate {
+  createModel(): EntryInsertUpdate {
     return entryFormToModel(this.form().value());
   }
 }

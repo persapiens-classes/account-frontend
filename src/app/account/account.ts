@@ -1,19 +1,19 @@
-import { Bean } from '../bean/bean';
 import { Category } from '../category/category';
 
-export class Account implements Bean {
-  constructor(
-    public description: string,
-    public category: string,
-  ) {}
+export interface Account {
+  description: string;
+  category: string;
+}
 
-  getId(): string {
-    return this.description;
-  }
+export function accountId(account: Account): string {
+  return account.description;
 }
 
 export function createAccount(): Account {
-  return new Account('', '');
+  return {
+    description: '',
+    category: '',
+  };
 }
 
 export enum AccountType {
@@ -28,15 +28,15 @@ export interface AccountForm {
 }
 
 export function accountFormToModel(accountForm: AccountForm): Account {
-  return new Account(
-    accountForm.description,
-    accountForm.category ? accountForm.category.description : '',
-  );
+  return {
+    description: accountForm.description,
+    category: accountForm.category ? accountForm.category.description : '',
+  };
 }
 
 export function accountModelToForm(account: Account): AccountForm {
   return {
     description: account.description,
-    category: new Category(account.category),
+    category: { description: account.category },
   };
 }

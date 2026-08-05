@@ -2,24 +2,31 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { createOwner, Owner } from './owner';
+import { Owner, ownerId } from './owner';
 import { InputFieldComponent } from '../field/input-field.component';
-import { BeanUpdatePanelComponent } from '../bean/bean-update-panel.component';
+import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { OwnerUpdateService } from './owner-update-service';
-import { toBeanFromHistory } from '../bean/bean';
+import { toModelFromHistory } from '../models/models';
 import { form, minLength, required, maxLength } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-owner-update',
-  imports: [ButtonModule, PanelModule, CommonModule, InputFieldComponent, BeanUpdatePanelComponent],
+  imports: [
+    ButtonModule,
+    PanelModule,
+    CommonModule,
+    InputFieldComponent,
+    ModelUpdatePanelComponent,
+  ],
   template: `
-    <app-bean-update-panel
+    <app-model-update-panel
       [form]="form"
-      [beanFromHistory]="beanFromHistory"
-      [createBean]="createBean.bind(this)"
-      [beanUpdateService]="beanUpdateService"
-      [beanName]="'Owner'"
+      [modelFromHistory]="modelFromHistory"
+      [createModel]="createModel.bind(this)"
+      [modelUpdateService]="modelUpdateService"
+      [modelName]="'Owner'"
       [routerName]="'owners'"
+      [modelIdFn]="modelIdFn"
     >
       <app-input-field
         label="Name"
@@ -27,21 +34,23 @@ import { form, minLength, required, maxLength } from '@angular/forms/signals';
         [formField]="form.name"
         dataCy="input-name"
       />
-    </app-bean-update-panel>
+    </app-model-update-panel>
   `,
 })
 export class OwnerUpdateComponent {
-  form = form(signal(toBeanFromHistory(createOwner)), (f) => {
+  form = form(signal(toModelFromHistory<Owner>()), (f) => {
     required(f.name);
     minLength(f.name, 3);
     maxLength(f.name, 255);
   });
 
-  beanUpdateService = inject(OwnerUpdateService);
+  modelUpdateService = inject(OwnerUpdateService);
 
-  beanFromHistory = toBeanFromHistory(createOwner);
+  modelFromHistory = toModelFromHistory<Owner>();
 
-  createBean(): Owner {
-    return new Owner(this.form().value().name);
+  modelIdFn = ownerId;
+
+  createModel(): Owner {
+    return { name: this.form().value().name };
   }
 }

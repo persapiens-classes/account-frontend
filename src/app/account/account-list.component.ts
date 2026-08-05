@@ -3,15 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { TableModule } from '@openng/optimus-ui/table';
 import { TooltipModule } from '@openng/optimus-ui/tooltip';
-import { Account } from './account';
+import { Account, accountId } from './account';
 import { HttpClient } from '@angular/common/http';
-import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
-import { RemoveButtonComponent } from '../bean/remove-button.component';
-import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
+import { StartDetailButtonComponent } from '../models/start-detail-button.component';
+import { RemoveButtonComponent } from '../models/remove-button.component';
+import { StartUpdateButtonComponent } from '../models/start-update-button.component';
 import { AppMessageService } from '../app-message-service';
 import { AccountListService } from './account-list-service';
 import { AccountRemoveService } from './account-remove-service';
-import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { ModelListPanelComponent } from '../models/model-list-panel.component';
 
 @Component({
   selector: 'app-account-list',
@@ -23,12 +23,12 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
     RemoveButtonComponent,
     StartDetailButtonComponent,
     StartUpdateButtonComponent,
-    BeanListPanelComponent,
+    ModelListPanelComponent,
   ],
   template: `
-    <app-bean-list-panel [routerName]="routerName">
+    <app-model-list-panel [routerName]="routerName">
       <p-table
-        [value]="beansList()"
+        [value]="modelsList()"
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
@@ -74,33 +74,35 @@ import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
             </td>
             <td data-label="Remove">
               <app-remove-button
-                [beansList]="beansList"
+                [modelIdFn]="modelIdFn"
+                [modelsList]="modelsList"
                 [item]="item"
-                [beanRemoveService]="beanRemoveService"
-                [beanName]="beanName"
+                [modelRemoveService]="modelRemoveService"
+                [modelName]="modelName"
               />
             </td>
           </tr>
         </ng-template>
       </p-table>
-    </app-bean-list-panel>
+    </app-model-list-panel>
   `,
 })
 export class AccountListComponent {
-  beanName: string;
+  modelName: string;
   routerName: string;
-  beanRemoveService: AccountRemoveService;
+  modelRemoveService: AccountRemoveService;
 
-  beansList: WritableSignal<Account[]>;
+  modelsList: WritableSignal<Account[]>;
+  modelIdFn = accountId;
 
   constructor() {
     const http = inject(HttpClient);
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
-    this.beanName = `${type} Account`;
+    this.modelName = `${type} Account`;
     this.routerName = `${type.toLowerCase()}Accounts`;
-    this.beanRemoveService = new AccountRemoveService(http, type);
+    this.modelRemoveService = new AccountRemoveService(http, type);
 
-    this.beansList = new AccountListService(inject(AppMessageService), type).findAll();
+    this.modelsList = new AccountListService(inject(AppMessageService), type).findAll();
   }
 }

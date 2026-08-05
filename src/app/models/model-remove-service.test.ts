@@ -1,11 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError, firstValueFrom } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
-import { BeanRemoveService, removeBean } from './bean-remove-service';
+import { ModelRemoveService, removeModel } from './model-remove-service';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
-describe('BeanRemoveService', () => {
+describe('ModelRemoveService', () => {
   let mockHttpClient: HttpClient;
 
   beforeEach(async () => {
@@ -26,10 +26,10 @@ describe('BeanRemoveService', () => {
     ]);
   });
 
-  describe('BeanRemoveService Interface', () => {
+  describe('ModelRemoveService Interface', () => {
     it('should define the correct interface structure', () => {
       // Test that the interface exists and has the expected method signature
-      const mockService: BeanRemoveService = {
+      const mockService: ModelRemoveService = {
         remove: (): Observable<void> => of(undefined),
       };
 
@@ -42,7 +42,7 @@ describe('BeanRemoveService', () => {
     });
 
     it('should implement remove method with correct signature', () => {
-      const service: BeanRemoveService = {
+      const service: ModelRemoveService = {
         remove: (id: string): Observable<void> => {
           // Acknowledge parameter is intentionally unused in mock
           expect(id).toBeDefined();
@@ -55,7 +55,7 @@ describe('BeanRemoveService', () => {
     });
 
     it('should handle string ID parameter correctly', () => {
-      const service: BeanRemoveService = {
+      const service: ModelRemoveService = {
         remove: (id: string): Observable<void> => {
           expect(typeof id).toBe('string');
           expect(id.length).toBeGreaterThan(0);
@@ -72,16 +72,16 @@ describe('BeanRemoveService', () => {
     });
   });
 
-  describe('removeBean Function', () => {
+  describe('removeModel Function', () => {
     it('should construct correct API URL with simple ID', () => {
-      const routerName = 'test-beans';
+      const routerName = 'test-models';
       const id = '123';
       const idSeparator = '/';
       const expectedUrl = `${environment.apiUrl}/${routerName}/${id}`;
 
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-      removeBean(mockHttpClient, routerName, id, idSeparator).subscribe();
+      removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
 
       expect(mockHttpClient.delete).toHaveBeenCalledWith(expectedUrl);
     });
@@ -94,7 +94,7 @@ describe('BeanRemoveService', () => {
 
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-      removeBean(mockHttpClient, routerName, id, idSeparator).subscribe();
+      removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
 
       expect(mockHttpClient.delete).toHaveBeenCalledWith(expectedUrl);
     });
@@ -106,7 +106,7 @@ describe('BeanRemoveService', () => {
 
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-      removeBean(mockHttpClient, routerName, id, idSeparator).subscribe();
+      removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
 
       expect(mockHttpClient.delete).toHaveBeenCalledWith(
         `${environment.apiUrl}/${routerName}/${id}`,
@@ -122,7 +122,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
       return new Promise<void>((resolve) => {
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe((result) => {
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe((result) => {
           expect(result).toBeUndefined();
           resolve();
         });
@@ -142,7 +142,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(throwError(() => httpError));
 
       return new Promise<void>((resolve) => {
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe({
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -169,7 +169,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(throwError(() => serverError));
 
       return new Promise<void>((resolve) => {
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe({
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -195,7 +195,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(throwError(() => forbiddenError));
 
       return new Promise<void>((resolve) => {
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe({
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -221,7 +221,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(throwError(() => conflictError));
 
       return new Promise<void>((resolve) => {
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe({
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -246,7 +246,7 @@ describe('BeanRemoveService', () => {
 
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-      removeBean(mockHttpClient, routerName, id, idSeparator).subscribe();
+      removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
 
       expect(mockHttpClient.delete).toHaveBeenCalledWith(expectedUrl);
     });
@@ -274,7 +274,7 @@ describe('BeanRemoveService', () => {
         const idSeparator = '/';
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe();
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
 
         expect(mockHttpClient.delete).toHaveBeenCalledWith(expected);
       });
@@ -298,7 +298,7 @@ describe('BeanRemoveService', () => {
         const idSeparator = '/';
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe();
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
 
         expect(mockHttpClient.delete).toHaveBeenCalledWith(expected);
       });
@@ -320,7 +320,7 @@ describe('BeanRemoveService', () => {
 
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-        removeBean(mockHttpClient, routerName, id, separator).subscribe();
+        removeModel(mockHttpClient, routerName, id, separator).subscribe();
 
         expect(mockHttpClient.delete).toHaveBeenCalledWith(expected);
       });
@@ -334,7 +334,7 @@ describe('BeanRemoveService', () => {
 
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-      removeBean(mockHttpClient, routerName, id, separator).subscribe();
+      removeModel(mockHttpClient, routerName, id, separator).subscribe();
 
       expect(mockHttpClient.delete).toHaveBeenCalledWith(expectedUrl);
     });
@@ -363,7 +363,7 @@ describe('BeanRemoveService', () => {
 
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-        removeBean(mockHttpClient, routerName, id, separator).subscribe();
+        removeModel(mockHttpClient, routerName, id, separator).subscribe();
 
         expect(mockHttpClient.delete).toHaveBeenCalledWith(expected);
       });
@@ -378,7 +378,7 @@ describe('BeanRemoveService', () => {
 
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-      const result$ = removeBean(mockHttpClient, routerName, id, idSeparator);
+      const result$ = removeModel(mockHttpClient, routerName, id, idSeparator);
 
       expect(result$).toBeInstanceOf(Observable);
 
@@ -402,7 +402,7 @@ describe('BeanRemoveService', () => {
 
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-      const result$ = removeBean(mockHttpClient, routerName, id, idSeparator);
+      const result$ = removeModel(mockHttpClient, routerName, id, idSeparator);
 
       expect(result$).toBeInstanceOf(Observable);
 
@@ -428,7 +428,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
       return new Promise<void>((resolve) => {
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe({
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe({
           next: (value) => {
             expect(value).toBeUndefined();
           },
@@ -454,7 +454,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(throwError(() => timeoutError));
 
       return new Promise<void>((resolve) => {
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe({
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -476,7 +476,7 @@ describe('BeanRemoveService', () => {
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
         // The function should still construct a URL, even with malformed IDs
-        removeBean(mockHttpClient, routerName, malformedId, idSeparator).subscribe();
+        removeModel(mockHttpClient, routerName, malformedId, idSeparator).subscribe();
 
         expect(mockHttpClient.delete).toHaveBeenCalled();
       });
@@ -495,7 +495,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(throwError(() => serviceError));
 
       return new Promise<void>((resolve) => {
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe({
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -530,7 +530,7 @@ describe('BeanRemoveService', () => {
         entityId: string,
         separator: string,
       ) => {
-        return removeBean(httpClient, router, entityId, separator);
+        return removeModel(httpClient, router, entityId, separator);
       };
 
       const result$ = deleteAndLog(mockHttpClient, routerName, id, idSeparator);
@@ -546,11 +546,11 @@ describe('BeanRemoveService', () => {
       });
     });
 
-    it('should support service composition with other Bean services', () => {
-      const service: BeanRemoveService = {
+    it('should support service composition with other Model services', () => {
+      const service: ModelRemoveService = {
         remove: (id: string): Observable<void> => {
           expect(id).toBeDefined();
-          return removeBean(mockHttpClient, 'composed-entities', id, '/');
+          return removeModel(mockHttpClient, 'composed-entities', id, '/');
         },
       };
 
@@ -575,7 +575,7 @@ describe('BeanRemoveService', () => {
 
       // Test multiple sequential deletions
       const deletePromises = ids.map((id) =>
-        firstValueFrom(removeBean(mockHttpClient, routerName, id, idSeparator)),
+        firstValueFrom(removeModel(mockHttpClient, routerName, id, idSeparator)),
       );
 
       return Promise.all(deletePromises).then(() => {
@@ -605,7 +605,7 @@ describe('BeanRemoveService', () => {
 
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe();
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
 
         expect(mockHttpClient.delete).toHaveBeenCalledWith(fullExpected);
       });
@@ -619,7 +619,7 @@ describe('BeanRemoveService', () => {
 
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-      removeBean(mockHttpClient, routerName, longId, idSeparator).subscribe();
+      removeModel(mockHttpClient, routerName, longId, idSeparator).subscribe();
 
       expect(mockHttpClient.delete).toHaveBeenCalledWith(expectedUrl);
     });
@@ -634,7 +634,7 @@ describe('BeanRemoveService', () => {
 
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe();
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
 
         expect(mockHttpClient.delete).toHaveBeenCalledWith(expectedUrl);
       });
@@ -650,7 +650,7 @@ describe('BeanRemoveService', () => {
       vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
       const deleteObservables = ids.map((id) =>
-        removeBean(mockHttpClient, routerName, id, idSeparator),
+        removeModel(mockHttpClient, routerName, id, idSeparator),
       );
 
       return new Promise<void>((resolve) => {
@@ -689,7 +689,7 @@ describe('BeanRemoveService', () => {
 
         const startTime = performance.now();
 
-        removeBean(mockHttpClient, routerName, id, idSeparator).subscribe(() => {
+        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe(() => {
           const endTime = performance.now();
           const duration = endTime - startTime;
 
@@ -710,7 +710,7 @@ describe('BeanRemoveService', () => {
       const startTime = performance.now();
 
       const batchPromises = ids.map((id) =>
-        firstValueFrom(removeBean(mockHttpClient, routerName, id, idSeparator)),
+        firstValueFrom(removeModel(mockHttpClient, routerName, id, idSeparator)),
       );
 
       return Promise.all(batchPromises).then(() => {

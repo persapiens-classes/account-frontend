@@ -1,11 +1,11 @@
 import { inject, Service, WritableSignal } from '@angular/core';
-import { BeanListService, loadBeans } from '../bean/bean-list-service';
+import { ModelListService, loadModels } from '../models/model-list-service';
 import { AppMessageService } from '../app-message-service';
-import { Balance, createBalance } from './balance';
+import { Balance } from './balance';
 
 @Service()
-export class BalanceListService implements BeanListService<Balance> {
+export class BalanceListService implements ModelListService<Balance> {
   findAll(): WritableSignal<Balance[]> {
-    return loadBeans(inject(AppMessageService), 'Balance', 'balances', createBalance);
+    return loadModels(inject(AppMessageService), 'Balance', 'balances');
   }
 }

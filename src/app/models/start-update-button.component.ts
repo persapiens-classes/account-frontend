@@ -1,7 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { Bean } from './bean';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,13 +16,13 @@ import { Router } from '@angular/router';
     />
   `,
 })
-export class StartUpdateButtonComponent<T extends Bean> {
+export class StartUpdateButtonComponent<T> {
   item = input.required<T>();
   routerName = input.required<string>();
 
   private readonly router = inject(Router);
 
   startUpdate(item: T): void {
-    this.router.navigate([`${this.routerName()}/edit`], { state: { bean: item } });
+    this.router.navigate([`${this.routerName()}/edit`], { state: { model: item } });
   }
 }

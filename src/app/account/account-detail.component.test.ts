@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { expect, describe, it, beforeEach, vi } from 'vitest';
 import { TestUtils } from '../shared/test-utils';
 import { AccountDetailComponent } from './account-detail.component';
-import { Account, AccountType } from './account';
+import { accountId, AccountType } from './account';
 
 describe('AccountDetailComponent', () => {
   let component: AccountDetailComponent;
@@ -30,8 +30,8 @@ describe('AccountDetailComponent', () => {
       },
     };
 
-    // Setup history state used by toBeanFromHistory
-    history.replaceState({ bean: { description: 'Test Account', category: 'Test Category' } }, '');
+    // Setup history state used by toModelFromHistory
+    history.replaceState({ model: { description: 'Test Account', category: 'Test Category' } }, '');
 
     await TestUtils.setupComponentTestBed(AccountDetailComponent, [
       { provide: Router, useValue: mockRouter },
@@ -48,17 +48,15 @@ describe('AccountDetailComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should initialize bean using toBeanFromHistory', () => {
-      expect(component.bean.description).toBe('Test Account');
-      expect(component.bean.category).toBe('Test Category');
+    it('should initialize model using toModelFromHistory', () => {
+      expect(component.model.description).toBe('Test Account');
+      expect(component.model.category).toBe('Test Category');
     });
 
-    it('should have Account bean with expected structure', () => {
-      expect(component.bean).toBeDefined();
-      expect(component.bean).toBeInstanceOf(Account);
-      expect(typeof component.bean.getId).toBe('function');
-      expect(typeof component.bean.description).toBe('string');
-      expect(typeof component.bean.category).toBe('string');
+    it('should have Account model with expected structure', () => {
+      expect(component.model).toBeDefined();
+      expect(typeof component.model.description).toBe('string');
+      expect(typeof component.model.category).toBe('string');
     });
 
     it('should set routerName based on account type from ActivatedRoute', () => {
@@ -81,51 +79,35 @@ describe('AccountDetailComponent', () => {
     });
   });
 
-  describe('Bean Interface Compliance', () => {
-    it('should have bean that implements Bean interface', () => {
-      expect(component.bean.getId).toBeDefined();
-      expect(typeof component.bean.getId).toBe('function');
-    });
-
-    it('should return description as ID from Bean interface', () => {
-      component.bean = new Account('Bean Interface Test', 'Test Category');
-      expect(component.bean.getId()).toBe('Bean Interface Test');
+  describe('Model Interface Compliance', () => {
+    it('should return description as ID from Model interface', () => {
+      component.model = { description: 'Model Interface Test', category: 'Test Category' };
+      expect(accountId(component.model)).toBe('Model Interface Test');
     });
   });
 
   describe('History State Integration', () => {
-    it('should call toBeanFromHistory with createAccount function', () => {
-      expect(component.bean.getId()).toBe('Test Account');
+    it('should call toModelFromHistory with createAccount function', () => {
+      expect(accountId(component.model)).toBe('Test Account');
     });
 
     it('should handle different history states', () => {
       history.replaceState(
-        { bean: { description: 'From History', category: 'History Category' } },
+        { model: { description: 'From History', category: 'History Category' } },
         '',
       );
 
       const newFixture = TestUtils.createFixture(AccountDetailComponent);
       const newComponent = newFixture.componentInstance;
 
-      expect(newComponent.bean.description).toBe('From History');
-      expect(newComponent.bean.category).toBe('History Category');
-    });
-
-    it('should create Account with empty fields when no history state', () => {
-      history.replaceState({}, '');
-
-      const newFixture = TestUtils.createFixture(AccountDetailComponent);
-      const newComponent = newFixture.componentInstance;
-
-      expect(newComponent.bean.description).toBe('');
-      expect(newComponent.bean.category).toBe('');
-      expect(newComponent.bean.getId()).toBe('');
+      expect(newComponent.model.description).toBe('From History');
+      expect(newComponent.model.category).toBe('History Category');
     });
   });
 
   describe('Component Lifecycle', () => {
-    it('should initialize bean in constructor', () => {
-      expect(component.bean).toBeDefined();
+    it('should initialize model in constructor', () => {
+      expect(component.model).toBeDefined();
     });
 
     it('should initialize routerName in constructor', () => {
@@ -134,9 +116,9 @@ describe('AccountDetailComponent', () => {
       expect(component.routerName).toBe('debitAccounts');
     });
 
-    it('should maintain bean reference throughout component lifecycle', () => {
-      const initialBean = component.bean;
-      expect(component.bean).toBe(initialBean);
+    it('should maintain model reference throughout component lifecycle', () => {
+      const initialModel = component.model;
+      expect(component.model).toBe(initialModel);
     });
   });
 

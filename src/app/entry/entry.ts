@@ -1,22 +1,19 @@
-import { Account } from '../account/account';
-import { Bean } from '../bean/bean';
+import { Account, createAccount } from '../account/account';
 import { Owner } from '../owner/owner';
 
-export class Entry implements Bean {
-  constructor(
-    public id: number,
-    public inOwner: string,
-    public outOwner: string,
-    public date: Date,
-    public inAccount: Account,
-    public outAccount: Account,
-    public value: number,
-    public note: string,
-  ) {}
+export interface Entry {
+  id: number;
+  inOwner: string;
+  outOwner: string;
+  date: Date;
+  inAccount: Account;
+  outAccount: Account;
+  value: number;
+  note: string;
+}
 
-  getId(): string {
-    return this.id.toString();
-  }
+export function entryId(entry: Entry): string {
+  return entry.id.toString();
 }
 
 export interface EntryInsertUpdate {
@@ -30,7 +27,16 @@ export interface EntryInsertUpdate {
 }
 
 export function createEntry(): Entry {
-  return new Entry(0, '', '', new Date(), new Account('', ''), new Account('', ''), 0, '');
+  return {
+    id: 0,
+    inOwner: '',
+    outOwner: '',
+    date: new Date(),
+    inAccount: createAccount(),
+    outAccount: createAccount(),
+    value: 0,
+    note: '',
+  };
 }
 
 export function jsonToEntry(result: Entry): Entry {
@@ -70,8 +76,8 @@ export function entryFormToModel(entryForm: EntryForm): EntryInsertUpdate {
 export function entryModelToForm(entry: Entry): EntryForm {
   return {
     id: entry.id,
-    inOwner: new Owner(entry.inOwner),
-    outOwner: new Owner(entry.outOwner),
+    inOwner: { name: entry.inOwner },
+    outOwner: { name: entry.outOwner },
     date: entry.date,
     inAccount: entry.inAccount,
     outAccount: entry.outAccount,

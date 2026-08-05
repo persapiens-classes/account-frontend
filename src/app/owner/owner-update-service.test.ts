@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { OwnerUpdateService } from './owner-update-service';
-import { Owner, createOwner } from './owner';
+import { Owner, createOwner, ownerId } from './owner';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -61,8 +61,8 @@ describe('OwnerUpdateService', () => {
   describe('update method', () => {
     it('should call HTTP PUT with correct parameters', () => {
       const ownerId = 'existing-owner';
-      const updatedOwner = new Owner('Updated Owner');
-      const expectedResponse = new Owner('Updated Owner');
+      const updatedOwner = { name: 'Updated Owner' };
+      const expectedResponse = { name: 'Updated Owner' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -75,27 +75,26 @@ describe('OwnerUpdateService', () => {
     });
 
     it('should return transformed Owner on successful update', async () => {
-      const ownerId = 'test-owner';
-      const updatedOwner = new Owner('Updated Name');
+      const testOwnerId = 'test-owner';
+      const updatedOwner = { name: 'Updated Name' };
       const mockResponse = { name: 'Updated Name' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
 
       const result = await new Promise<Owner>((resolve, reject) => {
-        service.update(ownerId, updatedOwner).subscribe({
+        service.update(testOwnerId, updatedOwner).subscribe({
           next: resolve,
           error: reject,
         });
       });
 
-      expect(result).toBeInstanceOf(Owner);
       expect(result.name).toBe('Updated Name');
-      expect(result.getId()).toBe('Updated Name');
+      expect(ownerId(result)).toBe('Updated Name');
     });
 
     it('should handle HTTP errors correctly', async () => {
-      const ownerId = 'test-owner';
-      const updatedOwner = new Owner('Updated Owner');
+      const testOwnerId = 'test-owner';
+      const updatedOwner = { name: 'Updated Owner' };
       const errorResponse = new HttpErrorResponse({
         error: 'Update failed',
         status: 404,
@@ -108,7 +107,7 @@ describe('OwnerUpdateService', () => {
 
       await expect(
         new Promise((resolve, reject) => {
-          service.update(ownerId, updatedOwner).subscribe({
+          service.update(testOwnerId, updatedOwner).subscribe({
             next: resolve,
             error: reject,
           });
@@ -120,8 +119,8 @@ describe('OwnerUpdateService', () => {
     });
 
     it('should handle network errors', async () => {
-      const ownerId = 'test-owner';
-      const updatedOwner = new Owner('Updated Owner');
+      const testOwnerId = 'test-owner';
+      const updatedOwner = { name: 'Updated Owner' };
       const networkError = new Error('Network error');
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(
@@ -130,7 +129,7 @@ describe('OwnerUpdateService', () => {
 
       await expect(
         new Promise((resolve, reject) => {
-          service.update(ownerId, updatedOwner).subscribe({
+          service.update(testOwnerId, updatedOwner).subscribe({
             next: resolve,
             error: reject,
           });
@@ -139,46 +138,44 @@ describe('OwnerUpdateService', () => {
     });
 
     it('should work with empty owner name', async () => {
-      const ownerId = 'test-owner';
-      const emptyOwner = new Owner('');
+      const testOwnerId = 'test-owner';
+      const emptyOwner = { name: '' };
       const mockResponse = { name: '' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
 
       const result = await new Promise<Owner>((resolve, reject) => {
-        service.update(ownerId, emptyOwner).subscribe({
+        service.update(testOwnerId, emptyOwner).subscribe({
           next: resolve,
           error: reject,
         });
       });
 
-      expect(result).toBeInstanceOf(Owner);
       expect(result.name).toBe('');
-      expect(result.getId()).toBe('');
+      expect(ownerId(result)).toBe('');
     });
 
     it('should work with special characters in name', async () => {
-      const ownerId = 'special-owner';
-      const specialOwner = new Owner('Owner & Co. Ltd. (Updated)');
+      const testOwnerId = 'special-owner';
+      const specialOwner = { name: 'Owner & Co. Ltd. (Updated)' };
       const mockResponse = { name: 'Owner & Co. Ltd. (Updated)' };
 
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
 
       const result = await new Promise<Owner>((resolve, reject) => {
-        service.update(ownerId, specialOwner).subscribe({
+        service.update(testOwnerId, specialOwner).subscribe({
           next: resolve,
           error: reject,
         });
       });
 
-      expect(result).toBeInstanceOf(Owner);
       expect(result.name).toBe('Owner & Co. Ltd. (Updated)');
-      expect(result.getId()).toBe('Owner & Co. Ltd. (Updated)');
+      expect(ownerId(result)).toBe('Owner & Co. Ltd. (Updated)');
     });
 
     it('should handle server validation errors', async () => {
-      const ownerId = 'test-owner';
-      const updatedOwner = new Owner('Duplicate Name');
+      const testOwnerId = 'test-owner';
+      const updatedOwner = { name: 'Duplicate Name' };
       const validationError = new HttpErrorResponse({
         error: { message: 'Owner name already exists' },
         status: 422,
@@ -191,7 +188,7 @@ describe('OwnerUpdateService', () => {
 
       await expect(
         new Promise((resolve, reject) => {
-          service.update(ownerId, updatedOwner).subscribe({
+          service.update(testOwnerId, updatedOwner).subscribe({
             next: resolve,
             error: reject,
           });
@@ -204,7 +201,7 @@ describe('OwnerUpdateService', () => {
 
     it('should handle owner not found errors', async () => {
       const nonExistentId = 'non-existent-owner';
-      const updatedOwner = new Owner('Updated Name');
+      const updatedOwner = { name: 'Updated Name' };
       const notFoundError = new HttpErrorResponse({
         error: 'Owner not found',
         status: 404,
@@ -229,11 +226,11 @@ describe('OwnerUpdateService', () => {
     });
 
     it('should return Observable<Owner>', () => {
-      const ownerId = 'test-owner';
-      const updatedOwner = new Owner('Updated Owner');
+      const testOwnerId = 'test-owner';
+      const updatedOwner = { name: 'Updated Owner' };
       (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(updatedOwner));
 
-      const result = service.update(ownerId, updatedOwner);
+      const result = service.update(testOwnerId, updatedOwner);
       expect(result).toBeInstanceOf(Observable);
     });
 
@@ -246,7 +243,7 @@ describe('OwnerUpdateService', () => {
       ];
 
       for (const testCase of testCases) {
-        const owner = new Owner(testCase.name);
+        const owner = { name: testCase.name };
         const mockResponse = { name: testCase.name };
 
         (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -258,7 +255,6 @@ describe('OwnerUpdateService', () => {
           });
         });
 
-        expect(result).toBeInstanceOf(Owner);
         expect(result.name).toBe(testCase.name);
         expect(mockHttpClient.put).toHaveBeenCalledWith(
           `${environment.apiUrl}/owners/${testCase.id}`,
@@ -272,9 +268,8 @@ describe('OwnerUpdateService', () => {
   describe('createOwner integration', () => {
     it('should work with createOwner factory', () => {
       const newOwner = createOwner();
-      expect(newOwner).toBeInstanceOf(Owner);
       expect(newOwner.name).toBe('');
-      expect(newOwner.getId()).toBe('');
+      expect(ownerId(newOwner)).toBe('');
     });
   });
 });

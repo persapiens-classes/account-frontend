@@ -1,12 +1,11 @@
 import { Router } from '@angular/router';
-import { Bean } from './bean';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { Component, inject, input } from '@angular/core';
 
 @Component({
-  selector: 'app-bean-detail-panel',
+  selector: 'app-model-detail-panel',
   imports: [CommonModule, ButtonModule, PanelModule],
   template: `
     <p-panel header="Detail">
@@ -28,10 +27,10 @@ import { Component, inject, input } from '@angular/core';
     </p-panel>
   `,
 })
-export class BeanDetailPanelComponent<T extends Bean> {
+export class ModelDetailPanelComponent<T> {
   routerName = input.required<string>();
 
-  bean = input.required<T>();
+  model = input.required<T>();
 
   private readonly router = inject(Router);
 
@@ -41,7 +40,7 @@ export class BeanDetailPanelComponent<T extends Bean> {
 
   startUpdate() {
     this.router.navigate([`${this.routerName()}/edit`], {
-      state: { bean: this.bean() },
+      state: { model: this.model() },
     });
   }
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   createOwnerEquityAccountInitialValue,
   OwnerEquityAccountInitialValue,
+  ownerEquityAccountInitialValueId,
   OwnerEquityAccountInitialValueInsert,
 } from './owner-equity-account-initial-value';
 import { Owner } from '../owner/owner';
@@ -11,7 +12,7 @@ import { SelectFieldComponent } from '../field/select-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
 import { OwnerListService } from '../owner/owner-list-service';
 import { AccountListService } from '../account/account-list-service';
-import { BeanInsertPanelComponent } from '../bean/bean-insert-panel.component';
+import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
 import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-account-initial-value-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { form, required } from '@angular/forms/signals';
@@ -36,7 +37,7 @@ export function ownerEquityAccountInitialValueModelToForm(
   ownerEquityAccountInitialValue: OwnerEquityAccountInitialValue,
 ): OwnerEquityAccountInitialValueForm {
   return {
-    owner: new Owner(ownerEquityAccountInitialValue.owner),
+    owner: { name: ownerEquityAccountInitialValue.owner },
     equityAccount: ownerEquityAccountInitialValue.equityAccount,
     initialValue: ownerEquityAccountInitialValue.initialValue,
   };
@@ -44,13 +45,14 @@ export function ownerEquityAccountInitialValueModelToForm(
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-insert',
-  imports: [CommonModule, NumberFieldComponent, SelectFieldComponent, BeanInsertPanelComponent],
+  imports: [CommonModule, NumberFieldComponent, SelectFieldComponent, ModelInsertPanelComponent],
   template: `
-    <app-bean-insert-panel
+    <app-model-insert-panel
       [form]="form"
-      [createBean]="createBean.bind(this)"
-      [beanInsertService]="beanInsertService"
-      [beanName]="'Balances'"
+      [createModel]="createModel.bind(this)"
+      [modelIdFn]="modelIdFn"
+      [modelInsertService]="modelInsertService"
+      [modelName]="'Balances'"
       [routerName]="'ownerEquityAccountInitialValues'"
     >
       <app-select-field
@@ -75,7 +77,7 @@ export function ownerEquityAccountInitialValueModelToForm(
         [formField]="form.initialValue"
         dataCy="input-initial-value"
       />
-    </app-bean-insert-panel>
+    </app-model-insert-panel>
   `,
 })
 export class OwnerEquityAccountInitialValueInsertComponent {
@@ -88,7 +90,8 @@ export class OwnerEquityAccountInitialValueInsertComponent {
     },
   );
 
-  beanInsertService = inject(OwnerEquityAccountInitialValueInsertService);
+  modelInsertService = inject(OwnerEquityAccountInitialValueInsertService);
+  modelIdFn = ownerEquityAccountInitialValueId;
 
   equityAccounts: WritableSignal<Account[]>;
   owners: WritableSignal<Owner[]>;
@@ -101,7 +104,7 @@ export class OwnerEquityAccountInitialValueInsertComponent {
     this.owners = inject(OwnerListService).findAll();
   }
 
-  createBean(): OwnerEquityAccountInitialValueInsert {
+  createModel(): OwnerEquityAccountInitialValueInsert {
     return ownerEquityAccountInitialValueFormToModel(this.form().value());
   }
 }

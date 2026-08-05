@@ -1,15 +1,13 @@
-import { Bean } from '../bean/bean';
+export interface Category {
+  description: string;
+}
 
-export class Category implements Bean {
-  constructor(public description: string) {}
-
-  getId(): string {
-    return this.description;
-  }
+export function categoryId(category: Category): string {
+  return category.description;
 }
 
 export function createCategory(): Category {
-  return new Category('');
+  return { description: '' };
 }
 
 export enum CategoryType {

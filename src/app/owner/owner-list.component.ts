@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { TableModule } from '@openng/optimus-ui/table';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { TooltipModule } from '@openng/optimus-ui/tooltip';
-import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
-import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
-import { RemoveButtonComponent } from '../bean/remove-button.component';
+import { StartDetailButtonComponent } from '../models/start-detail-button.component';
+import { StartUpdateButtonComponent } from '../models/start-update-button.component';
+import { RemoveButtonComponent } from '../models/remove-button.component';
 import { OwnerRemoveService } from './owner-remove-service';
-import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { ModelListPanelComponent } from '../models/model-list-panel.component';
 import { OwnerListService } from './owner-list-service';
+import { ownerId } from './owner';
 
 @Component({
   selector: 'app-owner-list',
@@ -20,13 +21,13 @@ import { OwnerListService } from './owner-list-service';
     StartDetailButtonComponent,
     StartUpdateButtonComponent,
     RemoveButtonComponent,
-    BeanListPanelComponent,
+    ModelListPanelComponent,
   ],
   template: `
-    <app-bean-list-panel [routerName]="routerName">
+    <app-model-list-panel [routerName]="routerName">
       <p-table
         data-cy="owners-table"
-        [value]="beansList()"
+        [value]="modelsList()"
         [rows]="5"
         [paginator]="true"
         [rowsPerPageOptions]="[5, 7, 10]"
@@ -63,22 +64,24 @@ import { OwnerListService } from './owner-list-service';
             </td>
             <td data-label="Remove">
               <app-remove-button
-                [beansList]="beansList"
+                [modelsList]="modelsList"
                 [item]="item"
-                [beanRemoveService]="beanRemoveService"
-                [beanName]="beanName"
+                [modelRemoveService]="modelRemoveService"
+                [modelName]="modelName"
+                [modelIdFn]="modelIdFn"
               />
             </td>
           </tr>
         </ng-template>
       </p-table>
-    </app-bean-list-panel>
+    </app-model-list-panel>
   `,
 })
 export class OwnerListComponent {
-  beanName = 'Owner';
+  modelName = 'Owner';
   routerName = 'owners';
-  beanRemoveService = inject(OwnerRemoveService);
+  modelRemoveService = inject(OwnerRemoveService);
 
-  beansList = inject(OwnerListService).findAll();
+  modelsList = inject(OwnerListService).findAll();
+  modelIdFn = ownerId;
 }

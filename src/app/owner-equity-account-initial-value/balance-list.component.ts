@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { TableModule } from '@openng/optimus-ui/table';
 import { TooltipModule } from '@openng/optimus-ui/tooltip';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { StartDetailButtonComponent } from '../bean/start-detail-button.component';
-import { StartUpdateButtonComponent } from '../bean/start-update-button.component';
-import { RemoveButtonComponent } from '../bean/remove-button.component';
-import { Balance } from './balance';
+import { StartDetailButtonComponent } from '../models/start-detail-button.component';
+import { StartUpdateButtonComponent } from '../models/start-update-button.component';
+import { RemoveButtonComponent } from '../models/remove-button.component';
+import { Balance, balanceId } from './balance';
 import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-account-initial-value-remove-service';
-import { BeanListPanelComponent } from '../bean/bean-list-panel.component';
+import { ModelListPanelComponent } from '../models/model-list-panel.component';
 
 import { BalanceListService } from './balance-list-service';
 
@@ -22,13 +22,13 @@ import { BalanceListService } from './balance-list-service';
     StartDetailButtonComponent,
     StartUpdateButtonComponent,
     RemoveButtonComponent,
-    BeanListPanelComponent,
+    ModelListPanelComponent,
   ],
   template: `
-    <app-bean-list-panel [routerName]="routerName">
+    <app-model-list-panel [routerName]="routerName">
       <div class="w-full">
         <p-table
-          [value]="beansList()"
+          [value]="modelsList()"
           [rows]="5"
           [paginator]="true"
           [rowsPerPageOptions]="[5, 7, 10]"
@@ -82,10 +82,11 @@ import { BalanceListService } from './balance-list-service';
               </td>
               <td data-label="Remove">
                 <app-remove-button
-                  [beansList]="beansList"
+                  [modelIdFn]="modelIdFn"
+                  [modelsList]="modelsList"
                   [item]="item"
-                  [beanRemoveService]="beanRemoveService"
-                  [beanName]="beanName"
+                  [modelRemoveService]="modelRemoveService"
+                  [modelName]="modelName"
                 />
               </td>
             </tr>
@@ -116,17 +117,18 @@ import { BalanceListService } from './balance-list-service';
           >
         </div>
       </div>
-    </app-bean-list-panel>
+    </app-model-list-panel>
   `,
 })
 export class BalanceListComponent {
-  beanName = 'Balance';
+  modelName = 'Balance';
   routerName = 'balances';
-  beanRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
+  modelRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
+  modelIdFn = balanceId;
 
-  beansList = inject(BalanceListService).findAll();
+  modelsList = inject(BalanceListService).findAll();
 
   total = computed(() =>
-    this.beansList().reduce((sum: number, b: Balance) => sum + (b.balance ?? 0), 0),
+    this.modelsList().reduce((sum: number, b: Balance) => sum + (b.balance ?? 0), 0),
   );
 }

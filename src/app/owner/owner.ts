@@ -1,12 +1,13 @@
-import { Bean } from '../bean/bean';
+export interface Owner {
+  name: string;
+}
 
-export class Owner implements Bean {
-  constructor(public name: string) {}
-  getId(): string {
-    return this.name;
-  }
+export function ownerId(owner: Owner): string {
+  return owner.name;
 }
 
 export function createOwner(): Owner {
-  return new Owner('');
+  return {
+    name: '',
+  };
 }

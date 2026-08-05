@@ -3,7 +3,7 @@ import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { of, throwError } from 'rxjs';
 
 import { CategoryInsertService } from './category-insert-service';
-import { Category, CategoryType } from './category';
+import { Category, categoryId, CategoryType } from './category';
 import { environment } from '../../environments/environment';
 
 describe('CategoryInsertService', () => {
@@ -47,8 +47,8 @@ describe('CategoryInsertService', () => {
 
   describe('insert method - DEBIT category', () => {
     it('should call HTTP POST with correct parameters', () => {
-      const testCategory = new Category('Test Category');
-      const expectedResponse = new Category('Test Category');
+      const testCategory = { description: 'Test Category' };
+      const expectedResponse = { description: 'Test Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -61,7 +61,7 @@ describe('CategoryInsertService', () => {
     });
 
     it('should return transformed Category on successful insert', async () => {
-      const inputCategory = new Category('New Category');
+      const inputCategory = { description: 'New Category' };
       const mockResponse = { description: 'New Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -73,13 +73,12 @@ describe('CategoryInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Category);
       expect(result.description).toBe('New Category');
-      expect(result.getId()).toBe('New Category');
+      expect(categoryId(result)).toBe('New Category');
     });
 
     it('should handle HTTP errors correctly', async () => {
-      const testCategory = new Category('Test Category');
+      const testCategory = { description: 'Test Category' };
       const errorResponse = new HttpErrorResponse({
         error: 'Insert failed',
         status: 400,
@@ -104,7 +103,7 @@ describe('CategoryInsertService', () => {
     });
 
     it('should handle network errors', async () => {
-      const testCategory = new Category('Test Category');
+      const testCategory = { description: 'Test Category' };
       const networkError = new Error('Network error');
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(
@@ -122,7 +121,7 @@ describe('CategoryInsertService', () => {
     });
 
     it('should work with empty description', async () => {
-      const emptyCategory = new Category('');
+      const emptyCategory = { description: '' };
       const mockResponse = { description: '' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -134,13 +133,12 @@ describe('CategoryInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Category);
       expect(result.description).toBe('');
-      expect(result.getId()).toBe('');
+      expect(categoryId(result)).toBe('');
     });
 
     it('should preserve special characters in description', async () => {
-      const categoryWithSpecialChars = new Category('Category & <Special> "Characters"');
+      const categoryWithSpecialChars = { description: 'Category & <Special> "Characters"' };
       const mockResponse = { description: 'Category & <Special> "Characters"' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -162,8 +160,8 @@ describe('CategoryInsertService', () => {
     });
 
     it('should use correct URL for CREDIT category', () => {
-      const testCategory = new Category('Credit Category');
-      const expectedResponse = new Category('Credit Category');
+      const testCategory = { description: 'Credit Category' };
+      const expectedResponse = { description: 'Credit Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -176,7 +174,7 @@ describe('CategoryInsertService', () => {
     });
 
     it('should insert CREDIT category successfully', async () => {
-      const inputCategory = new Category('Revenue Category');
+      const inputCategory = { description: 'Revenue Category' };
       const mockResponse = { description: 'Revenue Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -188,7 +186,6 @@ describe('CategoryInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Category);
       expect(result.description).toBe('Revenue Category');
     });
   });
@@ -199,8 +196,8 @@ describe('CategoryInsertService', () => {
     });
 
     it('should use correct URL for EQUITY category', () => {
-      const testCategory = new Category('Equity Category');
-      const expectedResponse = new Category('Equity Category');
+      const testCategory = { description: 'Equity Category' };
+      const expectedResponse = { description: 'Equity Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
 
@@ -213,7 +210,7 @@ describe('CategoryInsertService', () => {
     });
 
     it('should insert EQUITY category successfully', async () => {
-      const inputCategory = new Category('Capital Category');
+      const inputCategory = { description: 'Capital Category' };
       const mockResponse = { description: 'Capital Category' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -225,14 +222,13 @@ describe('CategoryInsertService', () => {
         });
       });
 
-      expect(result).toBeInstanceOf(Category);
       expect(result.description).toBe('Capital Category');
     });
   });
 
   describe('Error Handling', () => {
     it('should handle 500 server error', async () => {
-      const testCategory = new Category('Test Category');
+      const testCategory = { description: 'Test Category' };
       const errorResponse = new HttpErrorResponse({
         error: 'Internal Server Error',
         status: 500,
@@ -256,7 +252,7 @@ describe('CategoryInsertService', () => {
     });
 
     it('should handle validation errors', async () => {
-      const testCategory = new Category('Invalid Category');
+      const testCategory = { description: 'Invalid Category' };
       const errorResponse = new HttpErrorResponse({
         error: { message: 'Validation failed' },
         status: 422,
@@ -283,7 +279,7 @@ describe('CategoryInsertService', () => {
   describe('Edge Cases', () => {
     it('should handle very long descriptions', async () => {
       const longDescription = 'A'.repeat(1000);
-      const categoryWithLongDesc = new Category(longDescription);
+      const categoryWithLongDesc = { description: longDescription };
       const mockResponse = { description: longDescription };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
@@ -299,7 +295,7 @@ describe('CategoryInsertService', () => {
     });
 
     it('should handle Unicode characters', async () => {
-      const unicodeCategory = new Category('Categoría 🏦 カテゴリー');
+      const unicodeCategory = { description: 'Categoría 🏦 カテゴリー' };
       const mockResponse = { description: 'Categoría 🏦 カテゴリー' };
 
       (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));

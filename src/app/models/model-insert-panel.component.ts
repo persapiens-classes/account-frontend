@@ -1,16 +1,15 @@
 import { Router } from '@angular/router';
-import { Bean } from './bean';
 import { catchError, of, tap } from 'rxjs';
 import { FieldTree } from '@angular/forms/signals';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
-import { BeanInsertService } from './bean-insert-service';
+import { ModelInsertService } from './model-insert-service';
 import { AppMessageService } from '../app-message-service';
 
 @Component({
-  selector: 'app-bean-insert-panel',
+  selector: 'app-model-insert-panel',
   imports: [ButtonModule, PanelModule, CommonModule],
   template: `
     <form (submit)="onSubmit($event)">
@@ -35,14 +34,16 @@ import { AppMessageService } from '../app-message-service';
     </form>
   `,
 })
-export class BeanInsertPanelComponent<F, T extends Bean, I> {
+export class ModelInsertPanelComponent<F, T, I> {
   form = input.required<FieldTree<F>>();
 
-  createBean = input.required<() => I>();
+  createModel = input.required<() => I>();
 
-  beanInsertService = input.required<BeanInsertService<T, I>>();
+  modelIdFn = input.required<(t: T) => string>();
 
-  beanName = input.required<string>();
+  modelInsertService = input.required<ModelInsertService<T, I>>();
+
+  modelName = input.required<string>();
 
   routerName = input.required<string>();
 
@@ -51,20 +52,20 @@ export class BeanInsertPanelComponent<F, T extends Bean, I> {
 
   insert() {
     if (this.form()().valid()) {
-      this.beanInsertService()
-        .insert(this.createBean()())
+      this.modelInsertService()
+        .insert(this.createModel()())
         .pipe(
           catchError((error) => {
-            this.appMessageService.addErrorMessage(error, `${this.beanName()} not inserted`);
+            this.appMessageService.addErrorMessage(error, `${this.modelName()} not inserted`);
             return of();
           }),
-          tap((bean) => {
+          tap((model) => {
             this.appMessageService.addSuccessMessage(
-              `${this.beanName()} inserted`,
-              `${this.beanName()} ${bean.getId()} inserted ok.`,
+              `${this.modelName()} inserted`,
+              `${this.modelName()} ${this.modelIdFn()(model)} inserted ok.`,
             );
             this.router.navigate([`${this.routerName()}/detail`], {
-              state: { bean: bean },
+              state: { model: model },
             });
           }),
         )
