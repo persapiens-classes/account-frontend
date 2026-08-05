@@ -61,7 +61,7 @@
   "devDependencies": {
     "@analogjs/platform": "2.6.4",
     "@angular/build": "22.0.8",
-    "@angular/cli": "22.0.8",
+    "@angular/cli": "22.1.2",
     "@angular/compiler-cli": "22.0.8",
     "@cypress/code-coverage": "4.0.3",
     "@cypress/schematic": "5.0.0",
