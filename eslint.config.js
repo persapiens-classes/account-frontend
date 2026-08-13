@@ -1,5 +1,6 @@
 // @ts-check
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import angular from 'angular-eslint';
 import prettierPlugin from 'eslint-plugin-prettier';
@@ -9,8 +10,15 @@ import sonarjs from 'eslint-plugin-sonarjs';
 import eslintPluginCypress from 'eslint-plugin-cypress';
 
 const securityPluginRecommended = securityPlugin.configs.recommended;
+const sonarjsRecommendedRules =
+  sonarjs.configs?.recommended &&
+  !Array.isArray(sonarjs.configs.recommended) &&
+  'rules' in sonarjs.configs.recommended &&
+  sonarjs.configs.recommended.rules
+    ? sonarjs.configs.recommended.rules
+    : {};
 
-export default tseslint.config(
+export default defineConfig(
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -27,12 +35,14 @@ export default tseslint.config(
     ],
     plugins: {
       prettier: prettierPlugin,
-      security: securityPlugin,
+      security: /** @type {import('eslint').ESLint.Plugin} */ (
+        /** @type {unknown} */ (securityPlugin)
+      ),
       sonarjs,
     },
     processor: angular.processInlineTemplates,
     rules: {
-      ...sonarjs.configs.recommended.rules,
+      ...sonarjsRecommendedRules,
       ...prettierDisableRules.rules,
       'prettier/prettier': 'error',
       '@angular-eslint/directive-selector': [
