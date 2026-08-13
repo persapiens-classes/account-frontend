@@ -6,6 +6,7 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import securityPlugin from 'eslint-plugin-security';
 import prettierDisableRules from 'eslint-config-prettier';
 import sonarjs from 'eslint-plugin-sonarjs';
+import eslintPluginCypress from 'eslint-plugin-cypress';
 
 const securityPluginRecommended = securityPlugin.configs.recommended;
 
@@ -68,9 +69,13 @@ export default tseslint.config(
   {
     // Specific configuration for Cypress files
     files: ['cypress/**/*.ts'],
+    plugins: {
+      cypress: eslintPluginCypress,
+    },
     rules: {
       // Cypress requires namespace for custom command type definitions
       '@typescript-eslint/no-namespace': 'off',
+      ...eslintPluginCypress.configs.recommended.rules,
     },
   },
   {
