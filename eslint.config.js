@@ -9,7 +9,6 @@ import prettierDisableRules from 'eslint-config-prettier';
 import sonarjs from 'eslint-plugin-sonarjs';
 import eslintPluginCypress from 'eslint-plugin-cypress';
 
-const securityPluginRecommended = securityPlugin.configs.recommended;
 const sonarjsRecommendedRules =
   sonarjs.configs?.recommended &&
   !Array.isArray(sonarjs.configs.recommended) &&
@@ -18,7 +17,14 @@ const sonarjsRecommendedRules =
     ? sonarjs.configs.recommended.rules
     : {};
 
-export default defineConfig(
+export default defineConfig([
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...tseslint.configs.stylistic,
+
+  securityPlugin.configs.recommended,
+  ...angular.configs.tsRecommended,
+
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -27,44 +33,30 @@ export default defineConfig(
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    extends: [
-      eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
-    ],
     plugins: {
       prettier: prettierPlugin,
-      security: /** @type {import('eslint').ESLint.Plugin} */ (
-        /** @type {unknown} */ (securityPlugin)
-      ),
       sonarjs,
     },
-    processor: angular.processInlineTemplates,
     rules: {
       ...sonarjsRecommendedRules,
-      ...prettierDisableRules.rules,
       'prettier/prettier': 'error',
+      '@typescript-eslint/no-deprecated': 'error',
+      // General configuration: maximum 4 nesting levels
+      'max-depth': ['error', 4],
+    },
+  },
+  {
+    files: ['src/**/*.component.ts'],
+    processor: angular.processInlineTemplates,
+    rules: {
       '@angular-eslint/directive-selector': [
         'error',
-        {
-          type: 'attribute',
-          prefix: 'app',
-          style: 'camelCase',
-        },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
       ],
       '@angular-eslint/component-selector': [
         'error',
-        {
-          type: 'element',
-          prefix: 'app',
-          style: 'kebab-case',
-        },
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
       ],
-      '@typescript-eslint/no-deprecated': 'error',
-      ...securityPluginRecommended.rules,
-      // General configuration: maximum 4 nesting levels
-      'max-depth': ['error', 4],
     },
   },
   {
@@ -93,4 +85,6 @@ export default defineConfig(
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {},
   },
-);
+
+  prettierDisableRules,
+]);
