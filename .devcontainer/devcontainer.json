@@ -31,7 +31,7 @@
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": [
     "corepack enable",
-    "corepack prepare pnpm@11.20.0 --activate",
+    "corepack prepare pnpm@12.0.0-rc.6 --activate",
     "pnpm install"
   ]
   // Configure tool-specific properties.
