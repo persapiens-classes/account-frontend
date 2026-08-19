@@ -51,6 +51,13 @@ minimumReleaseAgeExclude:
   - jscpd-linux-x64-musl@5.0.14
   - jscpd-windows-x64-msvc@5.0.14
   - jsdom@30.0.0
+  - '@openng/optimus-ui-motion@2.0.0'
+  - '@openng/optimus-ui-styled@2.0.0'
+  - '@openng/optimus-ui-styles@2.0.0'
+  - '@openng/optimus-ui-tailwindcss@2.0.0'
+  - '@openng/optimus-ui-themes@2.0.0'
+  - '@openng/optimus-ui-utils@2.0.0'
+  - '@openng/optimus-ui@2.0.0'
 
 onlyBuiltDependencies:
   - cypress

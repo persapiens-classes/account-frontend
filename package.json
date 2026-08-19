@@ -2,7 +2,7 @@
   "name": "account",
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@12.0.0-rc.6",
+  "packageManager": "pnpm@12.0.0-rc.7",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -53,8 +53,8 @@
     "@angular/platform-browser": "22.1.1",
     "@angular/router": "22.1.1",
     "@openng/icons": "1.0.0",
-    "@openng/optimus-ui": "2.0.0-rc.0",
-    "@openng/optimus-ui-themes": "2.0.0-rc.0",
+    "@openng/optimus-ui": "2.0.0",
+    "@openng/optimus-ui-themes": "2.0.0",
     "rxjs": "7.8.2",
     "tslib": "2.8.1"
   },
@@ -66,7 +66,7 @@
     "@cypress/code-coverage": "4.0.3",
     "@cypress/schematic": "5.0.0",
     "@eslint/js": "10.0.1",
-    "@openng/optimus-ui-tailwindcss": "2.0.0-rc.0",
+    "@openng/optimus-ui-tailwindcss": "2.0.0",
     "@tailwindcss/postcss": "4.3.3",
     "@types/jsdom": "30.0.0",
     "@types/node": "26.2.0",
