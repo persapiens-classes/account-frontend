@@ -1,3 +1,5 @@
+import { submitOwnerNameAndVerifyDetailRoute } from './owner-helpers';
+
 describe('Owner Remove Page', () => {
   const validOwnerName = Cypress._.uniqueId('fabiana_'); // unique name
   const createdOwnerName = validOwnerName;
@@ -12,10 +14,7 @@ describe('Owner Remove Page', () => {
   it('should create a new Owner for removal test', () => {
     cy.navigateToOwnersNew();
 
-    cy.get('[data-cy="input-name"]').type(validOwnerName);
-    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-    cy.get('[data-cy="app-toast"]').should('be.visible');
-    cy.url().should('include', '/owners/detail');
+    submitOwnerNameAndVerifyDetailRoute(() => validOwnerName, false);
   });
 
   // Reason: not working yet

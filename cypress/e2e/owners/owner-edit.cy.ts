@@ -1,4 +1,4 @@
-import { submitOwnerAndVerifyDetailRoute } from './owner-helpers';
+import { submitOwnerNameAndVerifyDetailRoute } from './owner-helpers';
 
 function captureLastOwner(): void {
   cy.get('[data-cy="owners-table"] tbody tr')
@@ -114,21 +114,14 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
-        const testCase = ownersData.boundaryValues['OW-02'];
-        const uniqueName = Cypress._.uniqueId(testCase.name + '_');
-
-        cy.get('[data-cy="input-name"]').clear();
-        cy.get('[data-cy="input-name"]').type(uniqueName);
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-
-        cy.get('[data-cy="app-toast"]').should('be.visible');
-        cy.url().should('include', '/owners/detail');
-      });
+      submitOwnerNameAndVerifyDetailRoute(
+        (ownersData) => Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name + '_'),
+        true,
+      );
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
-      submitOwnerAndVerifyDetailRoute(
+      submitOwnerNameAndVerifyDetailRoute(
         (ownersData) =>
           Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
         true,

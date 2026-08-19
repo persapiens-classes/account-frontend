@@ -1,4 +1,4 @@
-import { submitOwnerAndVerifyDetailRoute, typeTestCaseNameAndSubmitButton } from './owner-helpers';
+import { submitOwnerNameAndVerifyDetailRoute, typeInputNameAndSubmitButton } from './owner-helpers';
 
 describe('Owner Insert Page', () => {
   const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
@@ -18,10 +18,7 @@ describe('Owner Insert Page', () => {
   });
 
   it('should create a new Owner successfully', () => {
-    cy.get('[data-cy="input-name"]').type(validOwnerName);
-    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-    cy.get('[data-cy="app-toast"]').should('be.visible');
-    cy.url().should('include', '/owners/detail');
+    submitOwnerNameAndVerifyDetailRoute(() => validOwnerName, false);
   });
 
   describe('Validation Tests', () => {
@@ -29,21 +26,21 @@ describe('Owner Insert Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-01'];
 
-        typeTestCaseNameAndSubmitButton(testCase.name);
+        typeInputNameAndSubmitButton(testCase.name);
 
         cy.url().should('include', '/owners/new');
       });
     });
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
-      submitOwnerAndVerifyDetailRoute(
+      submitOwnerNameAndVerifyDetailRoute(
         (ownersData) => Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name),
         false,
       );
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
-      submitOwnerAndVerifyDetailRoute(
+      submitOwnerNameAndVerifyDetailRoute(
         (ownersData) =>
           Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
         false,
@@ -55,7 +52,7 @@ describe('Owner Insert Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-04'];
 
-        typeTestCaseNameAndSubmitButton(testCase.name);
+        typeInputNameAndSubmitButton(testCase.name);
 
         cy.url().should('include', '/owners/new');
       });

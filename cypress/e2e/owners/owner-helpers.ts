@@ -1,11 +1,11 @@
 import { OwnersData } from './owner-fixture-models';
 
-export function typeTestCaseNameAndSubmitButton(testCaseName: string) {
+export function typeInputNameAndSubmitButton(testCaseName: string) {
   cy.get('[data-cy="input-name"]').type(testCaseName);
   cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 }
 
-export function submitOwnerAndVerifyDetailRoute(
+export function submitOwnerNameAndVerifyDetailRoute(
   testCaseNameFn: (ownersData: OwnersData) => string,
   clearInputName: boolean,
 ): void {
@@ -16,7 +16,7 @@ export function submitOwnerAndVerifyDetailRoute(
       cy.get('[data-cy="input-name"]').clear();
     }
 
-    typeTestCaseNameAndSubmitButton(testCaseName);
+    typeInputNameAndSubmitButton(testCaseName);
 
     cy.get('[data-cy="app-toast"]').should('be.visible');
     cy.url().should('include', '/owners/detail');
