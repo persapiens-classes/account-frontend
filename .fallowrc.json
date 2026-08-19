@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/fallow/schema.json",
+  "ignoreDependencies": [
+    "@cypress/schematic",
+    "angular-cli-ghpages",
+    "baseline-browser-mapping",
+    "istanbul-lib-coverage",
+    "@openng/optimus-ui-tailwindcss",
+    "tailwindcss"
+  ]
+}
