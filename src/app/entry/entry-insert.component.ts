@@ -104,8 +104,7 @@ export class EntryInsertComponent {
     const type = activatedRoute.snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Entries`;
     this.modelName = `${type} Entry`;
-    const http = inject(HttpClient);
-    this.modelInsertService = new EntryInsertService(http, type);
+    this.modelInsertService = new EntryInsertService(inject(HttpClient), type);
 
     this.inAccounts = new AccountListService(
       inject(AppMessageService),

@@ -8,12 +8,10 @@ export interface ModelListService<T> {
   findAll(): WritableSignal<T[]>;
 }
 
-export type ModelArrayResource<T> = HttpResourceRef<T[]>;
-
-export function findAllModels<T>(
+function findAllModels<T>(
   routerName: string,
   jsonToModelFunction: (t: T) => T = defaultJsonToModel,
-): ModelArrayResource<T> {
+): HttpResourceRef<T[]> {
   const apiUrl = () => `${environment.apiUrl}/${routerName}`;
 
   return httpResource<T[]>(apiUrl, {
@@ -26,7 +24,7 @@ export function findAllModels<T>(
       }
       return [];
     },
-  }) as unknown as ModelArrayResource<T>;
+  });
 }
 
 export function loadModels<T>(

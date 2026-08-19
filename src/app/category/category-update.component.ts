@@ -51,12 +51,10 @@ export class CategoryUpdateComponent {
   modelIdFn = categoryId;
 
   constructor() {
-    const activatedRoute = inject(ActivatedRoute);
-    const type = activatedRoute.snapshot.data['type'];
+    const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Categories`;
     this.modelName = `${type} Category`;
-    const http = inject(HttpClient);
-    this.modelUpdateService = new CategoryUpdateService(http, type);
+    this.modelUpdateService = new CategoryUpdateService(inject(HttpClient), type);
   }
 
   createModel(): Category {

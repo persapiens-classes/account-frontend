@@ -18,7 +18,8 @@
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "SonarSource.sonarlint-vscode",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "Fallow-rs.fallow-vscode"
       ]
     }
   },

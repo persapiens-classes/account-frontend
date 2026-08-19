@@ -29,7 +29,7 @@
     "check-duplication:production": "jscpd --config .jscpdrc.json ./src",
     "check-duplication:tests": "jscpd --config .jscpdrc.test.json ./src",
     "check-duplication:all": "pnpm run check-duplication:production && echo '\\n=== Testing duplication in test files ===' && pnpm run check-duplication:tests",
-    "quality": "prettier . --check && pnpm run lint && pnpm run test:unit:coverage && pnpm run check-duplication && pnpm run lint:sonar",
+    "quality": "prettier . --check && pnpm run lint && pnpm run test:unit:coverage && pnpm run check-duplication && pnpm run lint:sonar && pnpm run test:e2e:coverage",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:mock:open": "cross-env CYPRESS_USE_MOCK=true cypress open",

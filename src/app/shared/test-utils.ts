@@ -104,47 +104,6 @@ export class TestUtils {
     }
   }
 
-  /**
-   * Tests basic input properties
-   */
-  static testBasicInputProperties<T>(
-    component: T,
-    fixture: ComponentFixture<T>,
-    properties: TestProperty<T>[],
-  ): void {
-    for (const { key, testValue } of properties) {
-      (component as Record<string, unknown>)[key as string] = testValue;
-      fixture.detectChanges();
-      expect((component as Record<string, unknown>)[key as string]).toBe(testValue);
-    }
-  }
-
-  /**
-   * Tests basic input properties (async version for zoneless)
-   */
-  static async testBasicInputPropertiesAsync<T>(
-    component: T,
-    fixture: ComponentFixture<T>,
-    properties: TestProperty<T>[],
-  ): Promise<void> {
-    for (const { key, testValue } of properties) {
-      (component as Record<string, unknown>)[key as string] = testValue;
-      await TestUtils.stabilize(fixture);
-      expect((component as Record<string, unknown>)[key as string]).toBe(testValue);
-    }
-  }
-
-  /**
-   * Tests p-float-label component presence
-   */
-  static testFloatLabelPresence<T>(fixture: ComponentFixture<T>): void {
-    fixture.detectChanges();
-
-    const floatLabel = fixture.nativeElement.querySelector('p-float-label');
-    expect(floatLabel).toBeTruthy();
-    expect(floatLabel.classList.contains('mb-2.5')).toBe(true);
-  }
-
   private static assertRequiredError<T>(
     fixture: ComponentFixture<T>,
     mockNgControl: MockNgControl,
@@ -216,24 +175,6 @@ export class TestUtils {
   }
 
   /**
-   * Tests event handling with DebugElement
-   */
-  static testEventHandling<T>(
-    fixture: ComponentFixture<T>,
-    selector: string,
-    eventName: string,
-    eventData: unknown,
-    mockCallback: MockCallback,
-  ): void {
-    fixture.detectChanges();
-
-    const element = fixture.debugElement.query(By.css(selector));
-    element.triggerEventHandler(eventName, eventData);
-
-    expect(mockCallback).toHaveBeenCalled();
-  }
-
-  /**
    * Tests that a service is a singleton (same instance when injected multiple times)
    */
   static testServiceSingleton<T>(serviceType: Type<T>): void {
@@ -279,19 +220,4 @@ export class TestUtils {
       expect(method?.length).toBe(parameterCount);
     }
   }
-}
-
-/**
- * Mock NgControl for testing
- */
-export function createMockNgControl(): MockNgControl {
-  return {
-    invalid: false,
-    dirty: false,
-    touched: false,
-    errors: null,
-    control: {
-      markAsTouched: vi.fn(),
-    },
-  };
 }
