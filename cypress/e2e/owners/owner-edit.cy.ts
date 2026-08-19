@@ -31,7 +31,7 @@ describe('Owner Edit Page', () => {
     cy.navigateToOwnersList();
   });
 
-  it('clicking pencil on last owner opens edit', () => {
+  function clickEditButtonInOwnersTableAndCheckEditRoute() {
     cy.get('[data-cy="owners-table"] tbody tr')
       .last()
       .within(() => {
@@ -39,16 +39,14 @@ describe('Owner Edit Page', () => {
       });
 
     cy.url().should('include', '/owners/edit');
+  }
+
+  it('clicking pencil on last owner opens edit', () => {
+    clickEditButtonInOwnersTableAndCheckEditRoute();
   });
 
   it('go back to list using list icon', () => {
-    cy.get('[data-cy="owners-table"] tbody tr')
-      .last()
-      .within(() => {
-        cy.get('[data-cy="edit-button"]').should('be.visible').click();
-      });
-
-    cy.url().should('include', '/owners/edit');
+    clickEditButtonInOwnersTableAndCheckEditRoute();
 
     cy.get('[data-cy="list-button"]').should('be.visible').click();
     cy.url().should('include', '/owners/list');
@@ -68,13 +66,7 @@ describe('Owner Edit Page', () => {
     captureLastOwner();
 
     cy.get<string>('@lastOwnerName').then((originalName) => {
-      cy.get('[data-cy="owners-table"] tbody tr')
-        .last()
-        .within(() => {
-          cy.get('[data-cy="edit-button"]').should('be.visible').click();
-        });
-
-      cy.url().should('include', '/owners/edit');
+      clickEditButtonInOwnersTableAndCheckEditRoute();
 
       const newName = `${originalName}_edited`;
 
@@ -136,7 +128,10 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
-      submitOwnerAndVerifyDetailRoute(true);
+      submitOwnerAndVerifyDetailRoute(
+        (ownersData) => ownersData.boundaryValues['OW-03'].name.substring(0, 245),
+        true,
+      );
     });
 
     // Reason: not working yet

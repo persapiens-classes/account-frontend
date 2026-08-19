@@ -1,7 +1,12 @@
-export function submitOwnerAndVerifyDetailRoute(clearInputName: boolean): void {
+import { OwnersData } from './owner-fixture-models';
+
+export function submitOwnerAndVerifyDetailRoute(
+  testCaseNameFn: (ownersData: OwnersData) => string,
+  clearInputName: boolean,
+): void {
   cy.fixture('owners').then((ownersData) => {
-    const testCase = ownersData.boundaryValues['OW-03'];
-    const uniqueName = Cypress._.uniqueId(testCase.name.substring(0, 245));
+    const testCaseName = testCaseNameFn(ownersData);
+    const uniqueName = Cypress._.uniqueId(testCaseName);
 
     if (clearInputName) {
       cy.get('[data-cy="input-name"]').clear();
@@ -52,20 +57,17 @@ describe('Owner Insert Page', () => {
     });
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
-        const testCase = ownersData.boundaryValues['OW-02'];
-        const uniqueName = Cypress._.uniqueId(testCase.name);
-
-        cy.get('[data-cy="input-name"]').type(uniqueName);
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-
-        cy.get('[data-cy="app-toast"]').should('be.visible');
-        cy.url().should('include', '/owners/detail');
-      });
+      submitOwnerAndVerifyDetailRoute(
+        (ownersData) => ownersData.boundaryValues['OW-02'].name,
+        false,
+      );
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
-      submitOwnerAndVerifyDetailRoute(false);
+      submitOwnerAndVerifyDetailRoute(
+        (ownersData) => ownersData.boundaryValues['OW-03'].name.substring(0, 245),
+        false,
+      );
     });
 
     // Reason: not working yet
