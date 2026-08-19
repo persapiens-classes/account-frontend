@@ -1,3 +1,20 @@
+export function submitOwnerAndVerifyDetailRoute(clearInputName: boolean): void {
+  cy.fixture('owners').then((ownersData) => {
+    const testCase = ownersData.boundaryValues['OW-03'];
+    const uniqueName = Cypress._.uniqueId(testCase.name.substring(0, 245));
+
+    if (clearInputName) {
+      cy.get('[data-cy="input-name"]').clear();
+    }
+
+    cy.get('[data-cy="input-name"]').type(uniqueName);
+    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+
+    cy.get('[data-cy="app-toast"]').should('be.visible');
+    cy.url().should('include', '/owners/detail');
+  });
+}
+
 describe('Owner Insert Page', () => {
   const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
 
@@ -48,16 +65,7 @@ describe('Owner Insert Page', () => {
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
-        const testCase = ownersData.boundaryValues['OW-03'];
-        const uniqueName = Cypress._.uniqueId(testCase.name.substring(0, 245));
-
-        cy.get('[data-cy="input-name"]').type(uniqueName);
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-
-        cy.get('[data-cy="app-toast"]').should('be.visible');
-        cy.url().should('include', '/owners/detail');
-      });
+      submitOwnerAndVerifyDetailRoute(false);
     });
 
     // Reason: not working yet

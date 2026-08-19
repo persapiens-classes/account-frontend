@@ -1,3 +1,5 @@
+import { submitOwnerAndVerifyDetailRoute } from './owner-insert.cy';
+
 function captureLastOwner(): void {
   cy.get('[data-cy="owners-table"] tbody tr')
     .last()
@@ -6,6 +8,18 @@ function captureLastOwner(): void {
     .invoke('text')
     .then((text) => text.trim())
     .as('lastOwnerName');
+}
+
+function goToOwnersListAndOpenEditPage(validOwnerName: string): void {
+  // Go to owners list and open the edit page for the created owner
+  cy.navigateToOwnersList();
+
+  cy.get('[data-cy="filter-name"] input').clear();
+  cy.get('[data-cy="filter-name"] input').type(`${validOwnerName}{enter}`);
+
+  cy.contains('tr', validOwnerName).within(() => {
+    cy.get('[data-cy="edit-button"]').should('be.visible').click();
+  });
 }
 
 describe('Owner Edit Page', () => {
@@ -85,22 +99,15 @@ describe('Owner Edit Page', () => {
       cy.get('[data-cy="app-toast"]').should('be.visible');
       cy.url().should('include', '/owners/detail');
 
-      // Go to owners list and open the edit page for the created owner
-      cy.navigateToOwnersList();
-
-      cy.get('[data-cy="filter-name"] input').clear();
-      cy.get('[data-cy="filter-name"] input').type(`${validOwnerName}{enter}`);
-
-      cy.contains('tr', validOwnerName).within(() => {
-        cy.get('[data-cy="edit-button"]').should('be.visible').click();
-      });
+      goToOwnersListAndOpenEditPage(validOwnerName);
 
       cy.url().should('include', '/owners/edit');
     });
 
-    it('OW-01: should fail when trying to edit owner with name containing only whitespace', () => {
+    function submitInvalidName(testCaseName: string): void {
       cy.fixture('owners').then((ownersData) => {
-        const testCase = ownersData.boundaryValues['OW-01'];
+        // eslint-disable-next-line security/detect-object-injection
+        const testCase = ownersData.boundaryValues[testCaseName];
 
         cy.get('[data-cy="input-name"]').clear();
         cy.get('[data-cy="input-name"]').type(testCase.name);
@@ -108,6 +115,10 @@ describe('Owner Edit Page', () => {
 
         cy.url().should('include', '/owners/edit');
       });
+    }
+
+    it('OW-01: should fail when trying to edit owner with name containing only whitespace', () => {
+      submitInvalidName('OW-01');
     });
 
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
@@ -125,30 +136,12 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
-        const testCase = ownersData.boundaryValues['OW-03'];
-        const uniqueName = Cypress._.uniqueId(testCase.name.substring(0, 245));
-
-        cy.get('[data-cy="input-name"]').clear();
-        cy.get('[data-cy="input-name"]').type(uniqueName);
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-
-        cy.get('[data-cy="app-toast"]').should('be.visible');
-        cy.url().should('include', '/owners/detail');
-      });
+      submitOwnerAndVerifyDetailRoute(true);
     });
 
     // Reason: not working yet
     it.skip('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
-        const testCase = ownersData.boundaryValues['OW-04'];
-
-        cy.get('[data-cy="input-name"]').clear();
-        cy.get('[data-cy="input-name"]').type(testCase.name);
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-
-        cy.url().should('include', '/owners/edit');
-      });
+      submitInvalidName('OW-04');
     });
 
     it('OW-05: should fail when trying to edit owner with existing name', () => {
@@ -161,12 +154,7 @@ describe('Owner Edit Page', () => {
       cy.get('[data-cy="app-toast"]').should('be.visible');
 
       // Go back to edit the original owner with duplicate name
-      cy.navigateToOwnersList();
-      cy.get('[data-cy="filter-name"] input').clear();
-      cy.get('[data-cy="filter-name"] input').type(`${validOwnerName}{enter}`);
-      cy.contains('tr', validOwnerName).within(() => {
-        cy.get('[data-cy="edit-button"]').should('be.visible').click();
-      });
+      goToOwnersListAndOpenEditPage(validOwnerName);
 
       cy.get('[data-cy="input-name"]').clear();
       cy.get('[data-cy="input-name"]').type(duplicateName);
