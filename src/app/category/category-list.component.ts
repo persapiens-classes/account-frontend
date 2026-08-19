@@ -86,12 +86,10 @@ export class CategoryListComponent {
   modelIdFn = categoryId;
 
   constructor() {
-    const http = inject(HttpClient);
-    const activatedRoute = inject(ActivatedRoute);
-    const type = activatedRoute.snapshot.data['type'];
+    const type = inject(ActivatedRoute).snapshot.data['type'];
     this.modelName = `${type} Category`;
     this.routerName = `${type.toLowerCase()}Categories`;
-    this.modelRemoveService = new CategoryRemoveService(http, type);
+    this.modelRemoveService = new CategoryRemoveService(inject(HttpClient), type);
 
     this.modelsList = new CategoryListService(inject(AppMessageService), type).findAll();
   }

@@ -96,12 +96,10 @@ export class AccountListComponent {
   modelIdFn = accountId;
 
   constructor() {
-    const http = inject(HttpClient);
-    const activatedRoute = inject(ActivatedRoute);
-    const type = activatedRoute.snapshot.data['type'];
+    const type = inject(ActivatedRoute).snapshot.data['type'];
     this.modelName = `${type} Account`;
     this.routerName = `${type.toLowerCase()}Accounts`;
-    this.modelRemoveService = new AccountRemoveService(http, type);
+    this.modelRemoveService = new AccountRemoveService(inject(HttpClient), type);
 
     this.modelsList = new AccountListService(inject(AppMessageService), type).findAll();
   }

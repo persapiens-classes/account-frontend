@@ -128,13 +128,11 @@ export class EntryListComponent {
   modelIdFn = entryId;
 
   constructor() {
-    const http = inject(HttpClient);
-    const activatedRoute = inject(ActivatedRoute);
-    const type = activatedRoute.snapshot.data['type'];
+    const type = inject(ActivatedRoute).snapshot.data['type'];
     this.modelName = `${type} Entry`;
     this.routerName = `${type.toLowerCase()}Entries`;
 
-    this.modelRemoveService = new EntryRemoveService(http, type);
+    this.modelRemoveService = new EntryRemoveService(inject(HttpClient), type);
 
     this.modelsList = new EntryListService(inject(AppMessageService), type).findAll();
   }
