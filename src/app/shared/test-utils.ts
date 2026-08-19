@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Type, provideZonelessChangeDetection, ChangeDetectorRef } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { NgControl } from '@angular/forms';
 import { expect, vi } from 'vitest';
 
@@ -15,13 +14,6 @@ interface MockNgControl {
     markAsTouched: () => void;
   };
 }
-
-interface TestProperty<T> {
-  key: keyof T;
-  testValue: unknown;
-}
-
-type MockCallback = ReturnType<typeof vi.fn>;
 
 /**
  * Utilities for testing components to reduce code duplication

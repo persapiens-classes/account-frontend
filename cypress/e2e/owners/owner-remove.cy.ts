@@ -22,7 +22,8 @@ describe('Owner Remove Page', () => {
   it.skip('should remove the recently created Owner successfully', () => {
     cy.navigateToOwnersList();
 
-    cy.get('[data-cy="filter-name"]').should('exist').clear().type(`${createdOwnerName}{enter}`);
+    cy.get('[data-cy="filter-name"]').should('exist').clear();
+    cy.get('[data-cy="filter-name"]').type(`${createdOwnerName}{enter}`);
 
     cy.contains('td', createdOwnerName).should('be.visible');
 

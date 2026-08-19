@@ -14,6 +14,16 @@ declare global {
 
 let isAuthenticated = false;
 
+function interceptPostLogout(logoutEndpoint: string) {
+  cy.intercept('POST', logoutEndpoint, (req) => {
+    isAuthenticated = false;
+    req.reply({
+      statusCode: 200,
+      body: {},
+    });
+  }).as('logoutRequest');
+}
+
 /**
  * Setup authentication mock intercepts based on scenario
  * @param scenario - 'success' for valid login, 'invalid' for failed login
@@ -47,13 +57,7 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
         });
       }).as('meRequest');
 
-      cy.intercept('POST', logoutEndpoint, (req) => {
-        isAuthenticated = false;
-        req.reply({
-          statusCode: 200,
-          body: {},
-        });
-      }).as('logoutRequest');
+      interceptPostLogout(logoutEndpoint);
 
       // Mock the balances API endpoint
       cy.intercept('GET', '**/balances', {
@@ -71,13 +75,7 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
         body: authData.login.invalid,
       }).as('meRequest');
 
-      cy.intercept('POST', logoutEndpoint, (req) => {
-        isAuthenticated = false;
-        req.reply({
-          statusCode: 200,
-          body: {},
-        });
-      }).as('logoutRequest');
+      interceptPostLogout(logoutEndpoint);
     }
   });
 });

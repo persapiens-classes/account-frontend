@@ -64,7 +64,8 @@ describe('Owner Edit Page', () => {
 
       const newName = `${originalName}_edited`;
 
-      cy.get('[data-cy="input-name"]').should('be.visible').clear().type(newName);
+      cy.get('[data-cy="input-name"]').should('be.visible').clear();
+      cy.get('[data-cy="input-name"]').type(newName);
 
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
@@ -87,7 +88,8 @@ describe('Owner Edit Page', () => {
       // Go to owners list and open the edit page for the created owner
       cy.navigateToOwnersList();
 
-      cy.get('[data-cy="filter-name"] input').clear().type(`${validOwnerName}{enter}`);
+      cy.get('[data-cy="filter-name"] input').clear();
+      cy.get('[data-cy="filter-name"] input').type(`${validOwnerName}{enter}`);
 
       cy.contains('tr', validOwnerName).within(() => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
@@ -100,7 +102,8 @@ describe('Owner Edit Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-01'];
 
-        cy.get('[data-cy="input-name"]').clear().type(testCase.name);
+        cy.get('[data-cy="input-name"]').clear();
+        cy.get('[data-cy="input-name"]').type(testCase.name);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
         cy.url().should('include', '/owners/edit');
@@ -112,7 +115,8 @@ describe('Owner Edit Page', () => {
         const testCase = ownersData.boundaryValues['OW-02'];
         const uniqueName = Cypress._.uniqueId(testCase.name + '_');
 
-        cy.get('[data-cy="input-name"]').clear().type(uniqueName);
+        cy.get('[data-cy="input-name"]').clear();
+        cy.get('[data-cy="input-name"]').type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
         cy.get('[data-cy="app-toast"]').should('be.visible');
@@ -125,7 +129,8 @@ describe('Owner Edit Page', () => {
         const testCase = ownersData.boundaryValues['OW-03'];
         const uniqueName = Cypress._.uniqueId(testCase.name.substring(0, 245));
 
-        cy.get('[data-cy="input-name"]').clear().type(uniqueName);
+        cy.get('[data-cy="input-name"]').clear();
+        cy.get('[data-cy="input-name"]').type(uniqueName);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
         cy.get('[data-cy="app-toast"]').should('be.visible');
@@ -138,7 +143,8 @@ describe('Owner Edit Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-04'];
 
-        cy.get('[data-cy="input-name"]').clear().type(testCase.name);
+        cy.get('[data-cy="input-name"]').clear();
+        cy.get('[data-cy="input-name"]').type(testCase.name);
         cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
         cy.url().should('include', '/owners/edit');
@@ -156,12 +162,14 @@ describe('Owner Edit Page', () => {
 
       // Go back to edit the original owner with duplicate name
       cy.navigateToOwnersList();
-      cy.get('[data-cy="filter-name"] input').clear().type(`${validOwnerName}{enter}`);
+      cy.get('[data-cy="filter-name"] input').clear();
+      cy.get('[data-cy="filter-name"] input').type(`${validOwnerName}{enter}`);
       cy.contains('tr', validOwnerName).within(() => {
         cy.get('[data-cy="edit-button"]').should('be.visible').click();
       });
 
-      cy.get('[data-cy="input-name"]').clear().type(duplicateName);
+      cy.get('[data-cy="input-name"]').clear();
+      cy.get('[data-cy="input-name"]').type(duplicateName);
       cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
 
       cy.url().should('include', '/owners/edit');
