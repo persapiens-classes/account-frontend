@@ -1,4 +1,4 @@
-import { submitOwnerAndVerifyDetailRoute } from './owner-insert.cy';
+import { submitOwnerAndVerifyDetailRoute } from './owner-helpers';
 
 function captureLastOwner(): void {
   cy.get('[data-cy="owners-table"] tbody tr')
@@ -129,7 +129,8 @@ describe('Owner Edit Page', () => {
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
       submitOwnerAndVerifyDetailRoute(
-        (ownersData) => ownersData.boundaryValues['OW-03'].name.substring(0, 245),
+        (ownersData) =>
+          Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
         true,
       );
     });

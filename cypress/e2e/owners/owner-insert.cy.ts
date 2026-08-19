@@ -1,24 +1,4 @@
-import { OwnersData } from './owner-fixture-models';
-
-export function submitOwnerAndVerifyDetailRoute(
-  testCaseNameFn: (ownersData: OwnersData) => string,
-  clearInputName: boolean,
-): void {
-  cy.fixture('owners').then((ownersData) => {
-    const testCaseName = testCaseNameFn(ownersData);
-    const uniqueName = Cypress._.uniqueId(testCaseName);
-
-    if (clearInputName) {
-      cy.get('[data-cy="input-name"]').clear();
-    }
-
-    cy.get('[data-cy="input-name"]').type(uniqueName);
-    cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-
-    cy.get('[data-cy="app-toast"]').should('be.visible');
-    cy.url().should('include', '/owners/detail');
-  });
-}
+import { submitOwnerAndVerifyDetailRoute, typeTestCaseNameAndSubmitButton } from './owner-helpers';
 
 describe('Owner Insert Page', () => {
   const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
@@ -49,8 +29,7 @@ describe('Owner Insert Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-01'];
 
-        cy.get('[data-cy="input-name"]').type(testCase.name);
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+        typeTestCaseNameAndSubmitButton(testCase.name);
 
         cy.url().should('include', '/owners/new');
       });
@@ -58,14 +37,15 @@ describe('Owner Insert Page', () => {
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
       submitOwnerAndVerifyDetailRoute(
-        (ownersData) => ownersData.boundaryValues['OW-02'].name,
+        (ownersData) => Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name),
         false,
       );
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
       submitOwnerAndVerifyDetailRoute(
-        (ownersData) => ownersData.boundaryValues['OW-03'].name.substring(0, 245),
+        (ownersData) =>
+          Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
         false,
       );
     });
@@ -75,8 +55,7 @@ describe('Owner Insert Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-04'];
 
-        cy.get('[data-cy="input-name"]').type(testCase.name);
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+        typeTestCaseNameAndSubmitButton(testCase.name);
 
         cy.url().should('include', '/owners/new');
       });
