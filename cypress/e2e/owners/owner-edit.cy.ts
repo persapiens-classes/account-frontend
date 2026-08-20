@@ -1,4 +1,7 @@
-import { submitOwnerNameAndVerifyDetailRoute } from './owner-helpers';
+import {
+  goToOwnersListAndFilterOwnerNameAndClickButton,
+  submitOwnerNameAndVerifyDetailRoute,
+} from './owner-helpers';
 
 function captureLastOwner(): void {
   cy.getDataCy('owners-table-row')
@@ -10,18 +13,8 @@ function captureLastOwner(): void {
     .as('lastOwnerName');
 }
 
-function goToOwnersListAndOpenEditPage(validOwnerName: string): void {
-  // Go to owners list and open the edit page for the created owner
-  cy.navigateToOwnersList();
-
-  cy.getDataCy('filter-name-input').clear();
-  cy.getDataCy('filter-name-input').type(`${validOwnerName}{enter}`);
-
-  cy.getDataCy('owners-table-row')
-    .first()
-    .within(() => {
-      cy.getDataCy('edit-button').should('be.visible').click();
-    });
+function goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName: string): void {
+  goToOwnersListAndFilterOwnerNameAndClickButton(validOwnerName, 'edit');
 }
 
 describe('Owner Edit Page', () => {
@@ -93,7 +86,7 @@ describe('Owner Edit Page', () => {
       cy.getDataCy('app-toast').should('be.visible');
       cy.url().should('include', '/owners/detail');
 
-      goToOwnersListAndOpenEditPage(validOwnerName);
+      goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName);
 
       cy.url().should('include', '/owners/edit');
     });
@@ -145,7 +138,7 @@ describe('Owner Edit Page', () => {
       cy.getDataCy('app-toast').should('be.visible');
 
       // Go back to edit the original owner with duplicate name
-      goToOwnersListAndOpenEditPage(validOwnerName);
+      goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName);
 
       cy.getDataCy('input-name').clear();
       cy.getDataCy('input-name').type(duplicateName);

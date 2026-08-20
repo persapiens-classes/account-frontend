@@ -1,4 +1,8 @@
-import { submitOwnerNameAndVerifyDetailRoute, typeInputNameAndSubmitButton } from './owner-helpers';
+import {
+  submitOwnerNameAndVerifyDetailRoute,
+  typeInputNameAndSubmitButtonFail,
+  typeInputNameAndSubmitButtonOk,
+} from './owner-helpers';
 
 describe('Owner Insert Page', () => {
   const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
@@ -26,7 +30,7 @@ describe('Owner Insert Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-01'];
 
-        typeInputNameAndSubmitButton(testCase.name);
+        typeInputNameAndSubmitButtonFail(testCase.name);
 
         cy.url().should('include', '/owners/new');
       });
@@ -52,7 +56,7 @@ describe('Owner Insert Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-04'];
 
-        typeInputNameAndSubmitButton(testCase.name);
+        typeInputNameAndSubmitButtonFail(testCase.name);
 
         cy.url().should('include', '/owners/new');
       });
@@ -63,17 +67,12 @@ describe('Owner Insert Page', () => {
       const uniqueDuplicateName = Cypress._.uniqueId('dup_owner_');
 
       // First create an owner with the unique name
-      cy.getDataCy('input-name').type(uniqueDuplicateName);
-      cy.getDataCy('save-button').should('not.be.disabled').click();
-
-      cy.getDataCy('app-toast').should('be.visible');
-      cy.url().should('include', '/owners/detail');
+      typeInputNameAndSubmitButtonOk(uniqueDuplicateName);
 
       // Navigate back to create another with the same name
       cy.navigateToOwnersNew();
 
-      cy.getDataCy('input-name').type(uniqueDuplicateName);
-      cy.getDataCy('save-button').should('not.be.disabled').click();
+      typeInputNameAndSubmitButtonFail(uniqueDuplicateName);
 
       // Validate that it stays on the creation page due to duplicate error
       cy.url().should('include', '/owners/new');

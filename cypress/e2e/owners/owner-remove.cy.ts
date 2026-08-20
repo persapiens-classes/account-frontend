@@ -1,4 +1,7 @@
-import { submitOwnerNameAndVerifyDetailRoute } from './owner-helpers';
+import {
+  goToOwnersListAndFilterOwnerNameAndClickButton,
+  submitOwnerNameAndVerifyDetailRoute,
+} from './owner-helpers';
 
 describe('Owner Remove Page', () => {
   const validOwnerName = Cypress._.uniqueId('fabiana_'); // unique name
@@ -19,17 +22,7 @@ describe('Owner Remove Page', () => {
 
   // Reason: not working yet
   it.skip('should remove the recently created Owner successfully', () => {
-    cy.navigateToOwnersList();
-
-    cy.getDataCy('filter-name-input').should('exist').clear();
-    cy.getDataCy('filter-name-input').type(`${createdOwnerName}{enter}`);
-
-    cy.getDataCy('owners-table-row')
-      .first()
-      .within(() => {
-        cy.contains('td', createdOwnerName).should('be.visible');
-        cy.getDataCy('delete-button').should('be.visible').click();
-      });
+    goToOwnersListAndFilterOwnerNameAndClickButton(validOwnerName, 'delete');
 
     // Wait for confirmation dialog
     cy.getDataCy('remove-confirm-dialog').should('be.visible');
