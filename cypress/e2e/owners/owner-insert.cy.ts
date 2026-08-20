@@ -1,3 +1,4 @@
+import { OwnersData } from './owner-fixture-models';
 import {
   typeInputNameAndSubmitSaveButtonFail,
   typeInputNameAndSubmitSaveButtonOk,
@@ -26,7 +27,7 @@ describe('Owner Insert Page', () => {
 
   describe('Validation Tests', () => {
     it('OW-01: should fail when trying to create owner with name containing only whitespace', () => {
-      cy.fixture('owners').then((ownersData) => {
+      cy.fixture<OwnersData>('owners').then((ownersData) => {
         typeInputNameAndSubmitSaveButtonFail(ownersData.boundaryValues['OW-01'].name);
 
         cy.url().should('include', '/owners/new');
@@ -34,7 +35,7 @@ describe('Owner Insert Page', () => {
     });
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
+      cy.fixture<OwnersData>('owners').then((ownersData) => {
         typeInputNameAndSubmitSaveButtonOk(
           Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name),
           false,
@@ -43,7 +44,7 @@ describe('Owner Insert Page', () => {
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
+      cy.fixture<OwnersData>('owners').then((ownersData) => {
         typeInputNameAndSubmitSaveButtonOk(
           Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
           false,
@@ -53,7 +54,7 @@ describe('Owner Insert Page', () => {
 
     // Reason: not working yet
     it.skip('OW-04: should fail when trying to create owner with 256 characters (exceeds upper limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
+      cy.fixture<OwnersData>('owners').then((ownersData) => {
         typeInputNameAndSubmitSaveButtonFail(ownersData.boundaryValues['OW-04'].name);
 
         cy.url().should('include', '/owners/new');

@@ -1,3 +1,4 @@
+import { OwnersData } from './owner-fixture-models';
 import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
   typeInputNameAndSubmitSaveButtonFail,
@@ -85,7 +86,7 @@ describe('Owner Edit Page', () => {
     });
 
     function submitInvalidName(testCaseName: string): void {
-      cy.fixture('owners').then((ownersData) => {
+      cy.fixture<OwnersData>('owners').then((ownersData) => {
         // eslint-disable-next-line security/detect-object-injection
         const testCase = ownersData.boundaryValues[testCaseName];
 
@@ -100,7 +101,7 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
+      cy.fixture<OwnersData>('owners').then((ownersData) => {
         typeInputNameAndSubmitSaveButtonOk(
           Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name + '_'),
           true,
@@ -109,7 +110,7 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
-      cy.fixture('owners').then((ownersData) => {
+      cy.fixture<OwnersData>('owners').then((ownersData) => {
         typeInputNameAndSubmitSaveButtonOk(
           Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
           true,

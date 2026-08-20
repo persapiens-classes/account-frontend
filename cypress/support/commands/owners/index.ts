@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { OwnersData } from '../../../e2e/owners/owner-fixture-models';
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -20,7 +22,7 @@ interface Owner {
  * Includes validation for boundary value test cases (OW-01 through OW-06)
  */
 Cypress.Commands.add('setupOwnersMock', () => {
-  cy.fixture('owners').then((ownersData) => {
+  cy.fixture<OwnersData>('owners').then((ownersData) => {
     const ownersEndpoint = '**/owners';
 
     // Create a list of existing owners for duplicate check
