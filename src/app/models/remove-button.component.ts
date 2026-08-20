@@ -14,13 +14,39 @@ import { HttpErrorResponse } from '@angular/common/http';
   providers: [ConfirmationService],
   template: `
     <p-confirmdialog
+      #cd
       header="Confirm"
-      acceptButtonStyleClass="p-button-danger"
-      rejectButtonStyleClass="p-button-text"
       [modal]="true"
       [appendTo]="'body'"
       data-cy="remove-confirm-dialog"
-    />
+    >
+      <!-- Mensagem dinâmica -->
+      <ng-template pTemplate="message" let-message>
+        <span data-cy="remove-confirm-dialog-message">{{ message.message }}</span>
+      </ng-template>
+
+      <!-- Botões com texto interno (corrige o ESLint) -->
+      <ng-template pTemplate="footer">
+        <button
+          type="button"
+          pButton
+          class="p-button-text"
+          data-cy="remove-confirm-dialog-reject-btn"
+          (click)="cd.onReject()"
+        >
+          No
+        </button>
+        <button
+          type="button"
+          pButton
+          class="p-button-danger"
+          data-cy="remove-confirm-dialog-accept-btn"
+          (click)="cd.onAccept()"
+        >
+          Yes
+        </button>
+      </ng-template>
+    </p-confirmdialog>
     <p-button
       icon="pi pi-trash"
       (onClick)="remove($event)"
