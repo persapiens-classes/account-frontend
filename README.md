@@ -35,6 +35,7 @@ This frontend application is built with Angular and leverages the following tech
 - **[Vitest](https://vitest.dev/)** (Unit testing framework)
 - **[Happy-DOM](https://github.com/capricorn86/happy-dom)** (DOM implementation for testing)
 - **[ESLint](https://eslint.org/)** (Code linting)
+- **[Fallow](https://docs.fallow.tools/)** (Code linting)
 - **[Prettier](https://prettier.io/)** (Code formatting)
 - **[JSCPD](https://github.com/kucherenko/jscpd)** (Copy-paste detection)
 - **[SonarCloud](https://sonarcloud.io/)** (Code quality and coverage)
