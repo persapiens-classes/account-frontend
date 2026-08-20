@@ -74,6 +74,40 @@ jobs:
       - name: ESLint run
         run: pnpm lint
 
+      - name: Fallow gate (unused code)
+        uses: fallow-rs/fallow@v3.17.0
+        with:
+          command: dead-code
+          fail-on-issues: true
+          format: github-annotations
+
+      - name: Fallow gate (duplicates)
+        uses: fallow-rs/fallow@v3.17.0
+        with:
+          command: dupes
+          fail-on-issues: true
+          format: github-annotations
+
+      - name: Fallow report (non-blocking)
+        if: ${{ always() }}
+        continue-on-error: true
+        uses: fallow-rs/fallow@v3.17.0
+        with:
+          fail-on-issues: false
+          format: github-summary
+
+      - name: Fallow HTML report generate
+        if: ${{ always() }}
+        run: pnpm exec fallow viz --no-open --out fallow-viz.html
+
+      - name: Fallow HTML report upload artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: fallow-html-report
+          path: |
+            fallow-viz.html
+
       - name: Tests (Unit and Integration with Angular CLI) run
         run: pnpm clean:unit:ng:coverage && pnpm test:unit:ng:coverage
 
