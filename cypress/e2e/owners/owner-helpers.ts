@@ -1,37 +1,36 @@
 import { OwnersData } from './owner-fixture-models';
 
-function typeInputNameAndSubmitButton(testCaseName: string) {
+function typeInputNameAndSubmitSaveButton(testCaseName: string, clearInputName = false) {
+  cy.getDataCy('input-name').should('be.visible');
+  if (clearInputName) {
+    cy.getDataCy('input-name').clear();
+  }
   cy.getDataCy('input-name').type(testCaseName);
   cy.getDataCy('save-button').should('not.be.disabled').click();
 }
 
-export function typeInputNameAndSubmitButtonOk(testCaseName: string) {
-  typeInputNameAndSubmitButton(testCaseName);
+export function typeInputNameAndSubmitSaveButtonOk(testCaseName: string, clearInputName = false) {
+  typeInputNameAndSubmitSaveButton(testCaseName, clearInputName);
 
   cy.getDataCy('app-toast').should('be.visible');
   cy.url().should('include', '/owners/detail');
+  cy.getDataCy('detail-name').should('have.text', testCaseName);
 }
 
-export function typeInputNameAndSubmitButtonFail(testCaseName: string) {
-  typeInputNameAndSubmitButton(testCaseName);
+export function typeInputNameAndSubmitSaveButtonFail(testCaseName: string, clearInputName = false) {
+  typeInputNameAndSubmitSaveButton(testCaseName, clearInputName);
 
   cy.getDataCy('app-toast').should('not.be.visible');
 }
 
-export function submitOwnerNameAndVerifyDetailRoute(
+export function typeInputNameAndSubmitSaveButtonOkFn(
   testCaseNameFn: (ownersData: OwnersData) => string,
   clearInputName: boolean,
 ): void {
   cy.fixture('owners').then((ownersData) => {
     const testCaseName = testCaseNameFn(ownersData);
 
-    if (clearInputName) {
-      cy.getDataCy('input-name').clear();
-    }
-
-    typeInputNameAndSubmitButtonOk(testCaseName);
-
-    cy.url().should('include', '/owners/detail');
+    typeInputNameAndSubmitSaveButtonOk(testCaseName, clearInputName);
   });
 }
 

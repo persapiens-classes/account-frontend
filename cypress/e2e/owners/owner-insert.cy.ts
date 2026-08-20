@@ -1,7 +1,7 @@
 import {
-  submitOwnerNameAndVerifyDetailRoute,
-  typeInputNameAndSubmitButtonFail,
-  typeInputNameAndSubmitButtonOk,
+  typeInputNameAndSubmitSaveButtonOkFn,
+  typeInputNameAndSubmitSaveButtonFail,
+  typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
 
 describe('Owner Insert Page', () => {
@@ -22,7 +22,7 @@ describe('Owner Insert Page', () => {
   });
 
   it('should create a new Owner successfully', () => {
-    submitOwnerNameAndVerifyDetailRoute(() => validOwnerName, false);
+    typeInputNameAndSubmitSaveButtonOkFn(() => validOwnerName, false);
   });
 
   describe('Validation Tests', () => {
@@ -30,21 +30,21 @@ describe('Owner Insert Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-01'];
 
-        typeInputNameAndSubmitButtonFail(testCase.name);
+        typeInputNameAndSubmitSaveButtonFail(testCase.name);
 
         cy.url().should('include', '/owners/new');
       });
     });
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
-      submitOwnerNameAndVerifyDetailRoute(
+      typeInputNameAndSubmitSaveButtonOkFn(
         (ownersData) => Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name),
         false,
       );
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
-      submitOwnerNameAndVerifyDetailRoute(
+      typeInputNameAndSubmitSaveButtonOkFn(
         (ownersData) =>
           Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
         false,
@@ -56,7 +56,7 @@ describe('Owner Insert Page', () => {
       cy.fixture('owners').then((ownersData) => {
         const testCase = ownersData.boundaryValues['OW-04'];
 
-        typeInputNameAndSubmitButtonFail(testCase.name);
+        typeInputNameAndSubmitSaveButtonFail(testCase.name);
 
         cy.url().should('include', '/owners/new');
       });
@@ -67,12 +67,12 @@ describe('Owner Insert Page', () => {
       const uniqueDuplicateName = Cypress._.uniqueId('dup_owner_');
 
       // First create an owner with the unique name
-      typeInputNameAndSubmitButtonOk(uniqueDuplicateName);
+      typeInputNameAndSubmitSaveButtonOk(uniqueDuplicateName);
 
       // Navigate back to create another with the same name
       cy.navigateToOwnersNew();
 
-      typeInputNameAndSubmitButtonFail(uniqueDuplicateName);
+      typeInputNameAndSubmitSaveButtonFail(uniqueDuplicateName);
 
       // Validate that it stays on the creation page due to duplicate error
       cy.url().should('include', '/owners/new');

@@ -1,6 +1,8 @@
 import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
-  submitOwnerNameAndVerifyDetailRoute,
+  typeInputNameAndSubmitSaveButtonOkFn,
+  typeInputNameAndSubmitSaveButtonFail,
+  typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
 
 function captureLastOwner(): void {
@@ -65,13 +67,7 @@ describe('Owner Edit Page', () => {
 
       const newName = `${originalName}_edited`;
 
-      cy.getDataCy('input-name').should('be.visible').clear();
-      cy.getDataCy('input-name').type(newName);
-
-      cy.getDataCy('save-button').should('not.be.disabled').click();
-
-      cy.url().should('include', '/owners/detail');
-      cy.getDataCy('detail-name').should('have.text', newName);
+      typeInputNameAndSubmitSaveButtonOk(newName, true);
     });
   });
 
@@ -81,10 +77,8 @@ describe('Owner Edit Page', () => {
     beforeEach(() => {
       // Create an owner first that will be edited in tests
       cy.navigateToOwnersNew();
-      cy.getDataCy('input-name').type(validOwnerName);
-      cy.getDataCy('save-button').should('not.be.disabled').click();
-      cy.getDataCy('app-toast').should('be.visible');
-      cy.url().should('include', '/owners/detail');
+
+      typeInputNameAndSubmitSaveButtonOk(validOwnerName);
 
       goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName);
 
@@ -96,9 +90,7 @@ describe('Owner Edit Page', () => {
         // eslint-disable-next-line security/detect-object-injection
         const testCase = ownersData.boundaryValues[testCaseName];
 
-        cy.getDataCy('input-name').clear();
-        cy.getDataCy('input-name').type(testCase.name);
-        cy.getDataCy('save-button').should('not.be.disabled').click();
+        typeInputNameAndSubmitSaveButtonFail(testCase.name, true);
 
         cy.url().should('include', '/owners/edit');
       });
@@ -109,14 +101,14 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
-      submitOwnerNameAndVerifyDetailRoute(
+      typeInputNameAndSubmitSaveButtonOkFn(
         (ownersData) => Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name + '_'),
         true,
       );
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
-      submitOwnerNameAndVerifyDetailRoute(
+      typeInputNameAndSubmitSaveButtonOkFn(
         (ownersData) =>
           Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
         true,
@@ -133,16 +125,11 @@ describe('Owner Edit Page', () => {
 
       // Create another owner first
       cy.navigateToOwnersNew();
-      cy.getDataCy('input-name').type(duplicateName);
-      cy.getDataCy('save-button').should('not.be.disabled').click();
-      cy.getDataCy('app-toast').should('be.visible');
+      typeInputNameAndSubmitSaveButtonOk(duplicateName);
 
       // Go back to edit the original owner with duplicate name
       goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName);
-
-      cy.getDataCy('input-name').clear();
-      cy.getDataCy('input-name').type(duplicateName);
-      cy.getDataCy('save-button').should('not.be.disabled').click();
+      typeInputNameAndSubmitSaveButtonFail(duplicateName, true);
 
       cy.url().should('include', '/owners/edit');
     });
