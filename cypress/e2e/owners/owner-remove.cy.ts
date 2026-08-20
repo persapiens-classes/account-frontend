@@ -21,23 +21,23 @@ describe('Owner Remove Page', () => {
   it.skip('should remove the recently created Owner successfully', () => {
     cy.navigateToOwnersList();
 
-    cy.get('[data-cy="filter-name"]').should('exist').clear();
-    cy.get('[data-cy="filter-name"]').type(`${createdOwnerName}{enter}`);
+    cy.getDataCy('filter-name').should('exist').clear();
+    cy.getDataCy('filter-name').type(`${createdOwnerName}{enter}`);
 
     cy.contains('td', createdOwnerName).should('be.visible');
 
     cy.contains('tr', createdOwnerName).within(() => {
-      cy.get('[data-cy="delete-button"]').should('be.visible').click();
+      cy.getDataCy('delete-button').should('be.visible').click();
     });
 
     // Wait for confirmation dialog
-    cy.get('[data-cy="remove-confirm-dialog"]').should('be.visible');
+    cy.getDataCy('remove-confirm-dialog').should('be.visible');
 
     // Click accept button on the dialog
     cy.get('.p-dialog .p-button-danger').click();
 
     // Confirm that the success message appears
-    cy.get('[data-cy="app-toast"]').should('be.visible');
+    cy.getDataCy('app-toast').should('be.visible');
 
     // Confirm removal
     cy.contains('td', createdOwnerName).should('not.exist');

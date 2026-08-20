@@ -13,7 +13,7 @@ describe('Owner Insert Page', () => {
   });
 
   it('should allow going back to the list', () => {
-    cy.get('[data-cy="list-button"]').should('be.visible').click();
+    cy.getDataCy('list-button').should('be.visible').click();
     cy.url().should('include', '/owners/list');
   });
 
@@ -63,17 +63,17 @@ describe('Owner Insert Page', () => {
       const uniqueDuplicateName = Cypress._.uniqueId('dup_owner_');
 
       // First create an owner with the unique name
-      cy.get('[data-cy="input-name"]').type(uniqueDuplicateName);
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+      cy.getDataCy('input-name').type(uniqueDuplicateName);
+      cy.getDataCy('save-button').should('not.be.disabled').click();
 
-      cy.get('[data-cy="app-toast"]').should('be.visible');
+      cy.getDataCy('app-toast').should('be.visible');
       cy.url().should('include', '/owners/detail');
 
       // Navigate back to create another with the same name
       cy.navigateToOwnersNew();
 
-      cy.get('[data-cy="input-name"]').type(uniqueDuplicateName);
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+      cy.getDataCy('input-name').type(uniqueDuplicateName);
+      cy.getDataCy('save-button').should('not.be.disabled').click();
 
       // Validate that it stays on the creation page due to duplicate error
       cy.url().should('include', '/owners/new');

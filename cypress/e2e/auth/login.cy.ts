@@ -24,10 +24,10 @@ describe('LoginPage', () => {
       }
     });
 
-    cy.get('[data-cy="login-username"]').type('wronguser');
-    cy.get('[data-cy="login-password"]').type('123');
-    cy.get('[data-cy="login-button"]').click();
+    cy.getDataCy('login-username').type('wronguser');
+    cy.getDataCy('login-password').type('123');
+    cy.getDataCy('login-button').click();
 
-    cy.get('[data-cy="error-toast"]').should('be.visible');
+    cy.getDataCy('error-toast').should('be.visible');
   });
 });

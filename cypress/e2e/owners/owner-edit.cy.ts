@@ -18,7 +18,7 @@ function goToOwnersListAndOpenEditPage(validOwnerName: string): void {
   cy.get('[data-cy="filter-name"] input').type(`${validOwnerName}{enter}`);
 
   cy.contains('tr', validOwnerName).within(() => {
-    cy.get('[data-cy="edit-button"]').should('be.visible').click();
+    cy.getDataCy('edit-button').should('be.visible').click();
   });
 }
 
@@ -35,7 +35,7 @@ describe('Owner Edit Page', () => {
     cy.get('[data-cy="owners-table"] tbody tr')
       .last()
       .within(() => {
-        cy.get('[data-cy="edit-button"]').should('be.visible').click();
+        cy.getDataCy('edit-button').should('be.visible').click();
       });
 
     cy.url().should('include', '/owners/edit');
@@ -48,7 +48,7 @@ describe('Owner Edit Page', () => {
   it('go back to list using list icon', () => {
     clickEditButtonInOwnersTableAndCheckEditRoute();
 
-    cy.get('[data-cy="list-button"]').should('be.visible').click();
+    cy.getDataCy('list-button').should('be.visible').click();
     cy.url().should('include', '/owners/list');
   });
 
@@ -70,13 +70,13 @@ describe('Owner Edit Page', () => {
 
       const newName = `${originalName}_edited`;
 
-      cy.get('[data-cy="input-name"]').should('be.visible').clear();
-      cy.get('[data-cy="input-name"]').type(newName);
+      cy.getDataCy('input-name').should('be.visible').clear();
+      cy.getDataCy('input-name').type(newName);
 
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+      cy.getDataCy('save-button').should('not.be.disabled').click();
 
       cy.url().should('include', '/owners/detail');
-      cy.get('[data-cy="detail-name"]').should('have.text', newName);
+      cy.getDataCy('detail-name').should('have.text', newName);
     });
   });
 
@@ -86,9 +86,9 @@ describe('Owner Edit Page', () => {
     beforeEach(() => {
       // Create an owner first that will be edited in tests
       cy.navigateToOwnersNew();
-      cy.get('[data-cy="input-name"]').type(validOwnerName);
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-      cy.get('[data-cy="app-toast"]').should('be.visible');
+      cy.getDataCy('input-name').type(validOwnerName);
+      cy.getDataCy('save-button').should('not.be.disabled').click();
+      cy.getDataCy('app-toast').should('be.visible');
       cy.url().should('include', '/owners/detail');
 
       goToOwnersListAndOpenEditPage(validOwnerName);
@@ -101,9 +101,9 @@ describe('Owner Edit Page', () => {
         // eslint-disable-next-line security/detect-object-injection
         const testCase = ownersData.boundaryValues[testCaseName];
 
-        cy.get('[data-cy="input-name"]').clear();
-        cy.get('[data-cy="input-name"]').type(testCase.name);
-        cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+        cy.getDataCy('input-name').clear();
+        cy.getDataCy('input-name').type(testCase.name);
+        cy.getDataCy('save-button').should('not.be.disabled').click();
 
         cy.url().should('include', '/owners/edit');
       });
@@ -138,16 +138,16 @@ describe('Owner Edit Page', () => {
 
       // Create another owner first
       cy.navigateToOwnersNew();
-      cy.get('[data-cy="input-name"]').type(duplicateName);
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
-      cy.get('[data-cy="app-toast"]').should('be.visible');
+      cy.getDataCy('input-name').type(duplicateName);
+      cy.getDataCy('save-button').should('not.be.disabled').click();
+      cy.getDataCy('app-toast').should('be.visible');
 
       // Go back to edit the original owner with duplicate name
       goToOwnersListAndOpenEditPage(validOwnerName);
 
-      cy.get('[data-cy="input-name"]').clear();
-      cy.get('[data-cy="input-name"]').type(duplicateName);
-      cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+      cy.getDataCy('input-name').clear();
+      cy.getDataCy('input-name').type(duplicateName);
+      cy.getDataCy('save-button').should('not.be.disabled').click();
 
       cy.url().should('include', '/owners/edit');
     });

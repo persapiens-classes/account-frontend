@@ -1,8 +1,8 @@
 import { OwnersData } from './owner-fixture-models';
 
 export function typeInputNameAndSubmitButton(testCaseName: string) {
-  cy.get('[data-cy="input-name"]').type(testCaseName);
-  cy.get('[data-cy="save-button"]').should('not.be.disabled').click();
+  cy.getDataCy('input-name').type(testCaseName);
+  cy.getDataCy('save-button').should('not.be.disabled').click();
 }
 
 export function submitOwnerNameAndVerifyDetailRoute(
@@ -13,12 +13,12 @@ export function submitOwnerNameAndVerifyDetailRoute(
     const testCaseName = testCaseNameFn(ownersData);
 
     if (clearInputName) {
-      cy.get('[data-cy="input-name"]').clear();
+      cy.getDataCy('input-name').clear();
     }
 
     typeInputNameAndSubmitButton(testCaseName);
 
-    cy.get('[data-cy="app-toast"]').should('be.visible');
+    cy.getDataCy('app-toast').should('be.visible');
     cy.url().should('include', '/owners/detail');
   });
 }
