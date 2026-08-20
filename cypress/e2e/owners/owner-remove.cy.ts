@@ -34,7 +34,7 @@ describe('Owner Remove Page', () => {
     cy.getDataCy('remove-confirm-dialog').should('be.visible');
 
     // Click accept button on the dialog
-    cy.get('.p-dialog .p-button-danger').click();
+    cy.getDataCy('remove-confirm-accept').click();
 
     // Confirm that the success message appears
     cy.getDataCy('app-toast').should('be.visible');

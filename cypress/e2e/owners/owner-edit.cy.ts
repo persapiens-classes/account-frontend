@@ -1,7 +1,7 @@
 import { submitOwnerNameAndVerifyDetailRoute } from './owner-helpers';
 
 function captureLastOwner(): void {
-  cy.get('[data-cy="owners-table"] tbody tr')
+  cy.getDataCy('owners-table-row')
     .last()
     .find('td')
     .first()
@@ -32,7 +32,7 @@ describe('Owner Edit Page', () => {
   });
 
   function clickEditButtonInOwnersTableAndCheckEditRoute() {
-    cy.get('[data-cy="owners-table"] tbody tr')
+    cy.getDataCy('owners-table-row')
       .last()
       .within(() => {
         cy.getDataCy('edit-button').should('be.visible').click();
@@ -53,7 +53,7 @@ describe('Owner Edit Page', () => {
   });
 
   it('navigation: clicking magnifying glass on last owner goes to details', () => {
-    cy.get('[data-cy="owners-table"] tbody tr')
+    cy.getDataCy('owners-table-row')
       .last()
       .within(() => {
         cy.getDataCy('detail-button').should('be.visible').click();

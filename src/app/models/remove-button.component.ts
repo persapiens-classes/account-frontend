@@ -44,6 +44,7 @@ export class RemoveButtonComponent<T> {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Are you sure you want to remove?',
+      acceptButtonProps: { 'data-cy': 'remove-confirm-accept' },
       accept: () => this.handleRemove(),
     });
   }

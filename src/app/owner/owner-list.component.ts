@@ -54,7 +54,7 @@ import { ownerId } from './owner';
           </tr>
         </ng-template>
         <ng-template #body let-item>
-          <tr>
+          <tr data-cy="owners-table-row">
             <td data-label="Name">{{ item.name }}</td>
             <td data-label="Detail">
               <app-start-detail-button [item]="item" [routerName]="routerName" />
