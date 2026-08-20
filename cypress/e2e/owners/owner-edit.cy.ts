@@ -14,8 +14,8 @@ function goToOwnersListAndOpenEditPage(validOwnerName: string): void {
   // Go to owners list and open the edit page for the created owner
   cy.navigateToOwnersList();
 
-  cy.get('[data-cy="filter-name"] input').clear();
-  cy.get('[data-cy="filter-name"] input').type(`${validOwnerName}{enter}`);
+  cy.getDataCy('filter-name-input').clear();
+  cy.getDataCy('filter-name-input').type(`${validOwnerName}{enter}`);
 
   cy.contains('tr', validOwnerName).within(() => {
     cy.getDataCy('edit-button').should('be.visible').click();

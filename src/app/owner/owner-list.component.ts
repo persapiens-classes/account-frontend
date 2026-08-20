@@ -44,11 +44,15 @@ import { ownerId } from './owner';
           <tr>
             <th>
               <p-columnFilter
-                data-cy="filter-name"
                 type="text"
                 field="name"
                 placeholder="name"
                 ariaLabel="Filter Name"
+                [pt]="{
+                  pcFilterInputText: {
+                    root: { 'data-cy': 'filter-name-input' },
+                  },
+                }"
               />
             </th>
           </tr>
