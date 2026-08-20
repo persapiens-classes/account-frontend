@@ -193,7 +193,7 @@ Cypress.Commands.add('maybeSetupOwnersMock', () => {
  */
 Cypress.Commands.add('navigateToOwnersList', () => {
   // Navigate to owners list
-  cy.get('[data-cy="menu-owner"]').should('be.visible').click();
+  cy.getDataCy('menu-owner').should('be.visible').click();
   cy.url().should('include', '/owners/list');
 });
 
@@ -203,7 +203,7 @@ Cypress.Commands.add('navigateToOwnersList', () => {
 Cypress.Commands.add('navigateToOwnersNew', () => {
   // Path to owner creation page
   cy.navigateToOwnersList();
-  cy.get('[data-cy="create-button"]').should('be.visible').click();
+  cy.getDataCy('create-button').should('be.visible').click();
   cy.url().should('include', '/owners/new');
 });
 

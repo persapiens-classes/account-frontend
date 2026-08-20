@@ -106,10 +106,10 @@ Cypress.Commands.add('login', (username?: string, password?: string) => {
     const user = username ?? validUsername;
     const pass = password ?? validPassword;
 
-    cy.get('[data-cy="login-username"]').type(user);
-    cy.get('[data-cy="login-password"]').type(pass);
+    cy.getDataCy('login-username').type(user);
+    cy.getDataCy('login-password').type(pass);
   });
-  cy.get('[data-cy="login-button"]').click();
+  cy.getDataCy('login-button').click();
   cy.url().should('include', '/balances/list');
 });
 

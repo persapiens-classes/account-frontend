@@ -56,7 +56,7 @@ describe('Owner Edit Page', () => {
     cy.get('[data-cy="owners-table"] tbody tr')
       .last()
       .within(() => {
-        cy.get('[data-cy="detail-button"]').should('be.visible').click();
+        cy.getDataCy('detail-button').should('be.visible').click();
       });
 
     cy.url().should('include', '/owners/detail');
