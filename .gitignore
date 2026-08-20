@@ -38,6 +38,7 @@ yarn-error.log
 testem.log
 /typings
 /.nyc_output
+/.fallow
 
 # System files
 .DS_Store
