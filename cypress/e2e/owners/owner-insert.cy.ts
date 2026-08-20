@@ -1,5 +1,4 @@
 import {
-  typeInputNameAndSubmitSaveButtonOkFn,
   typeInputNameAndSubmitSaveButtonFail,
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
@@ -22,41 +21,40 @@ describe('Owner Insert Page', () => {
   });
 
   it('should create a new Owner successfully', () => {
-    typeInputNameAndSubmitSaveButtonOkFn(() => validOwnerName, false);
+    typeInputNameAndSubmitSaveButtonOk(validOwnerName, false);
   });
 
   describe('Validation Tests', () => {
     it('OW-01: should fail when trying to create owner with name containing only whitespace', () => {
       cy.fixture('owners').then((ownersData) => {
-        const testCase = ownersData.boundaryValues['OW-01'];
-
-        typeInputNameAndSubmitSaveButtonFail(testCase.name);
+        typeInputNameAndSubmitSaveButtonFail(ownersData.boundaryValues['OW-01'].name);
 
         cy.url().should('include', '/owners/new');
       });
     });
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
-      typeInputNameAndSubmitSaveButtonOkFn(
-        (ownersData) => Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name),
-        false,
-      );
+      cy.fixture('owners').then((ownersData) => {
+        typeInputNameAndSubmitSaveButtonOk(
+          Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name),
+          false,
+        );
+      });
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
-      typeInputNameAndSubmitSaveButtonOkFn(
-        (ownersData) =>
+      cy.fixture('owners').then((ownersData) => {
+        typeInputNameAndSubmitSaveButtonOk(
           Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
-        false,
-      );
+          false,
+        );
+      });
     });
 
     // Reason: not working yet
     it.skip('OW-04: should fail when trying to create owner with 256 characters (exceeds upper limit)', () => {
       cy.fixture('owners').then((ownersData) => {
-        const testCase = ownersData.boundaryValues['OW-04'];
-
-        typeInputNameAndSubmitSaveButtonFail(testCase.name);
+        typeInputNameAndSubmitSaveButtonFail(ownersData.boundaryValues['OW-04'].name);
 
         cy.url().should('include', '/owners/new');
       });

@@ -1,6 +1,6 @@
 import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
-  typeInputNameAndSubmitSaveButtonOkFn,
+  typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
 
 describe('Owner Remove Page', () => {
@@ -17,7 +17,7 @@ describe('Owner Remove Page', () => {
   it('should create a new Owner for removal test', () => {
     cy.navigateToOwnersNew();
 
-    typeInputNameAndSubmitSaveButtonOkFn(() => validOwnerName, false);
+    typeInputNameAndSubmitSaveButtonOk(validOwnerName, false);
   });
 
   // Reason: not working yet

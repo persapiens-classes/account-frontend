@@ -1,6 +1,5 @@
 import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
-  typeInputNameAndSubmitSaveButtonOkFn,
   typeInputNameAndSubmitSaveButtonFail,
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
@@ -101,18 +100,21 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
-      typeInputNameAndSubmitSaveButtonOkFn(
-        (ownersData) => Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name + '_'),
-        true,
-      );
+      cy.fixture('owners').then((ownersData) => {
+        typeInputNameAndSubmitSaveButtonOk(
+          Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name + '_'),
+          true,
+        );
+      });
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
-      typeInputNameAndSubmitSaveButtonOkFn(
-        (ownersData) =>
+      cy.fixture('owners').then((ownersData) => {
+        typeInputNameAndSubmitSaveButtonOk(
           Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
-        true,
-      );
+          true,
+        );
+      });
     });
 
     // Reason: not working yet

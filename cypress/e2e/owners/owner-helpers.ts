@@ -1,5 +1,3 @@
-import { OwnersData } from './owner-fixture-models';
-
 function typeInputNameAndSubmitSaveButton(testCaseName: string, clearInputName = false) {
   cy.getDataCy('input-name').should('be.visible');
   if (clearInputName) {
@@ -21,17 +19,6 @@ export function typeInputNameAndSubmitSaveButtonFail(testCaseName: string, clear
   typeInputNameAndSubmitSaveButton(testCaseName, clearInputName);
 
   cy.getDataCy('app-toast').should('not.be.visible');
-}
-
-export function typeInputNameAndSubmitSaveButtonOkFn(
-  testCaseNameFn: (ownersData: OwnersData) => string,
-  clearInputName: boolean,
-): void {
-  cy.fixture('owners').then((ownersData) => {
-    const testCaseName = testCaseNameFn(ownersData);
-
-    typeInputNameAndSubmitSaveButtonOk(testCaseName, clearInputName);
-  });
 }
 
 export function goToOwnersListAndFilterOwnerNameAndClickButton(
