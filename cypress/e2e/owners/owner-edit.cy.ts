@@ -17,9 +17,11 @@ function goToOwnersListAndOpenEditPage(validOwnerName: string): void {
   cy.getDataCy('filter-name-input').clear();
   cy.getDataCy('filter-name-input').type(`${validOwnerName}{enter}`);
 
-  cy.contains('tr', validOwnerName).within(() => {
-    cy.getDataCy('edit-button').should('be.visible').click();
-  });
+  cy.getDataCy('owners-table-row')
+    .first()
+    .within(() => {
+      cy.getDataCy('edit-button').should('be.visible').click();
+    });
 }
 
 describe('Owner Edit Page', () => {

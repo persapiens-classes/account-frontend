@@ -24,11 +24,12 @@ describe('Owner Remove Page', () => {
     cy.getDataCy('filter-name-input').should('exist').clear();
     cy.getDataCy('filter-name-input').type(`${createdOwnerName}{enter}`);
 
-    cy.contains('td', createdOwnerName).should('be.visible');
-
-    cy.contains('tr', createdOwnerName).within(() => {
-      cy.getDataCy('delete-button').should('be.visible').click();
-    });
+    cy.getDataCy('owners-table-row')
+      .first()
+      .within(() => {
+        cy.contains('td', createdOwnerName).should('be.visible');
+        cy.getDataCy('delete-button').should('be.visible').click();
+      });
 
     // Wait for confirmation dialog
     cy.getDataCy('remove-confirm-dialog').should('be.visible');
@@ -40,6 +41,6 @@ describe('Owner Remove Page', () => {
     cy.getDataCy('app-toast').should('be.visible');
 
     // Confirm removal
-    cy.contains('td', createdOwnerName).should('not.exist');
+    cy.getDataCy('owners-table-row').contains('td', createdOwnerName).should('not.exist');
   });
 });
