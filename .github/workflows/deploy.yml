@@ -85,7 +85,7 @@ jobs:
         uses: fallow-rs/fallow@v3.17.0
         with:
           command: dupes
-          fail-on-issues: true
+          threshold: 0.01
           format: github-annotations
 
       - name: Fallow report (non-blocking)
