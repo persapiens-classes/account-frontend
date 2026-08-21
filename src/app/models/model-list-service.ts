@@ -18,8 +18,6 @@ function findAllModels<T>(
     defaultValue: [],
     parse: (data: unknown) => {
       if (Array.isArray(data)) {
-        console.log(`Parsing ${data.length} models for routerName: ${routerName}`);
-        console.log(`${JSON.stringify(data)}`);
         return data.map((model) => toModel(model, jsonToModelFunction));
       }
       return [];
