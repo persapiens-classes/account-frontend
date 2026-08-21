@@ -1,0 +1,4 @@
+pnpm format:fix
+pnpm fallow:dead-code
+pnpm fallow:dupes
+pnpm check-duplication
