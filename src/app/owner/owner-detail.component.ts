@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Owner } from './owner';
+import { Owner, OwnerSchema } from './owner';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { toModelFromHistory } from '../models/models';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
@@ -18,6 +18,6 @@ export class OwnerDetailComponent {
   model: Owner;
 
   constructor() {
-    this.model = toModelFromHistory();
+    this.model = toModelFromHistory(OwnerSchema);
   }
 }

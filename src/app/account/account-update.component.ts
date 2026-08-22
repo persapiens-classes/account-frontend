@@ -4,7 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { Account, accountFormToModel, accountId, accountModelToForm } from './account';
+import {
+  Account,
+  accountFormToModel,
+  accountId,
+  accountModelToForm,
+  AccountSchema,
+} from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
@@ -52,7 +58,7 @@ import { AppMessageService } from '../app-message-service';
   `,
 })
 export class AccountUpdateComponent {
-  modelFromHistory = toModelFromHistory<Account>();
+  modelFromHistory = toModelFromHistory<Account>(AccountSchema);
   modelIdFn = accountId;
   form = form(signal(accountModelToForm(this.modelFromHistory)), (f) => {
     required(f.description);

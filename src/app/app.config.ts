@@ -10,6 +10,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authIntercept } from './auth/auth.interceptor';
 import { MessageService } from '@openng/optimus-ui/api';
+import { modelValidationInterceptor } from './models/model-validator-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +30,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideHttpClient(withInterceptors([authIntercept])),
+    provideHttpClient(withInterceptors([authIntercept, modelValidationInterceptor])),
   ],
 };

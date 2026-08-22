@@ -5,6 +5,7 @@ import { PanelModule } from '@openng/optimus-ui/panel';
 import {
   OwnerEquityAccountInitialValue,
   ownerEquityAccountInitialValueId,
+  OwnerEquityAccountInitialValueSchema,
 } from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
@@ -47,7 +48,9 @@ import { form, required } from '@angular/forms/signals';
   `,
 })
 export class OwnerEquityAccountInitialValueUpdateComponent {
-  modelFromHistory = toModelFromHistory<OwnerEquityAccountInitialValue>();
+  modelFromHistory = toModelFromHistory<OwnerEquityAccountInitialValue>(
+    OwnerEquityAccountInitialValueSchema,
+  );
   form = form(signal(this.modelFromHistory), (f) => {
     required(f.initialValue);
   });

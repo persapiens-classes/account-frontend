@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { Owner, ownerId } from './owner';
+import { Owner, ownerId, OwnerSchema } from './owner';
 import { InputFieldComponent } from '../field/input-field.component';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { OwnerUpdateService } from './owner-update-service';
@@ -38,7 +38,7 @@ import { form, minLength, required, maxLength } from '@angular/forms/signals';
   `,
 })
 export class OwnerUpdateComponent {
-  form = form(signal(toModelFromHistory<Owner>()), (f) => {
+  form = form(signal(toModelFromHistory<Owner>(OwnerSchema)), (f) => {
     required(f.name);
     minLength(f.name, 3);
     maxLength(f.name, 255);
@@ -46,7 +46,7 @@ export class OwnerUpdateComponent {
 
   modelUpdateService = inject(OwnerUpdateService);
 
-  modelFromHistory = toModelFromHistory<Owner>();
+  modelFromHistory = toModelFromHistory<Owner>(OwnerSchema);
 
   modelIdFn = ownerId;
 

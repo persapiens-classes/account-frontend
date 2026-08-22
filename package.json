@@ -62,7 +62,8 @@
     "@openng/optimus-ui": "2.0.1",
     "@openng/optimus-ui-themes": "2.0.1",
     "rxjs": "7.8.2",
-    "tslib": "2.8.1"
+    "tslib": "2.8.1",
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@analogjs/platform": "2.7.0",

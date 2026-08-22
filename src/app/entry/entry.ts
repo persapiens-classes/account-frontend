@@ -1,16 +1,20 @@
-import { Account, createAccount } from '../account/account';
+import { Account, AccountSchema, createAccount } from '../account/account';
 import { Owner } from '../owner/owner';
 
-export interface Entry {
-  id: number;
-  inOwner: string;
-  outOwner: string;
-  date: Date;
-  inAccount: Account;
-  outAccount: Account;
-  value: number;
-  note: string;
-}
+import { z } from 'zod';
+
+export const EntrySchema = z.object({
+  id: z.number(),
+  inOwner: z.string(),
+  outOwner: z.string(),
+  date: z.coerce.date(),
+  inAccount: AccountSchema,
+  outAccount: AccountSchema,
+  value: z.number(),
+  note: z.string(),
+});
+
+export type Entry = z.infer<typeof EntrySchema>;
 
 export function entryId(entry: Entry): string {
   return entry.id.toString();
@@ -37,11 +41,6 @@ export function createEntry(): Entry {
     value: 0,
     note: '',
   };
-}
-
-export function jsonToEntry(result: Entry): Entry {
-  result.date = new Date(result.date);
-  return result;
 }
 
 export enum EntryType {

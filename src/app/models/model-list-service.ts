@@ -1,6 +1,5 @@
 import { HttpErrorResponse, httpResource, HttpResourceRef } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { defaultJsonToModel, toModel } from './models';
 import { AppMessageService } from '../app-message-service';
 import { effect, WritableSignal } from '@angular/core';
 
@@ -8,20 +7,11 @@ export interface ModelListService<T> {
   findAll(): WritableSignal<T[]>;
 }
 
-function findAllModels<T>(
-  routerName: string,
-  jsonToModelFunction: (t: T) => T = defaultJsonToModel,
-): HttpResourceRef<T[]> {
+function findAllModels<T>(routerName: string): HttpResourceRef<T[]> {
   const apiUrl = () => `${environment.apiUrl}/${routerName}`;
 
   return httpResource<T[]>(apiUrl, {
     defaultValue: [],
-    parse: (data: unknown) => {
-      if (Array.isArray(data)) {
-        return data.map((model) => toModel(model, jsonToModelFunction));
-      }
-      return [];
-    },
   });
 }
 
@@ -29,9 +19,8 @@ export function loadModels<T>(
   appMessageService: AppMessageService,
   modelName: string,
   routerName: string,
-  jsonToModelFunction: (t: T) => T = defaultJsonToModel,
 ): WritableSignal<T[]> {
-  const modelsResource = findAllModels(routerName, jsonToModelFunction);
+  const modelsResource = findAllModels<T>(routerName);
 
   effect(() => {
     if (modelsResource.error()) {

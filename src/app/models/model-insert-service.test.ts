@@ -3,7 +3,6 @@ import { Observable, of, throwError } from 'rxjs';
 
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelInsertService, insertModel } from './model-insert-service';
-import { toModel, defaultJsonToModel } from './models';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -119,7 +118,7 @@ describe('ModelInsertService', () => {
 
       const inputModel: TestModelInput = { name: 'Test Model', value: 42 };
 
-      insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe();
+      insertModel(inputModel, mockHttpClient, routerName).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(expectedUrl, inputModel);
     });
@@ -131,7 +130,7 @@ describe('ModelInsertService', () => {
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
-      insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe();
+      insertModel(inputModel, mockHttpClient, routerName).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
         `${environment.apiUrl}/${routerName}`,
@@ -153,29 +152,6 @@ describe('ModelInsertService', () => {
           expect((result as TestModel).value).toBe(50);
           resolve();
         });
-      });
-    });
-
-    it('should use custom jsonToModelFunction when provided', () => {
-      const customJsonToModel = vi.fn((model: TestModel): TestModel => {
-        model.name = `Inserted ${model.name}`;
-        return model;
-      });
-
-      const routerName = 'custom-models';
-      const inputModel: TestModelInput = { name: 'Custom', value: 25 };
-      const mockResponse = { id: '789', name: 'Custom', value: 25 };
-
-      vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
-
-      return new Promise<void>((resolve) => {
-        insertModel(inputModel, mockHttpClient, routerName, customJsonToModel).subscribe(
-          (result) => {
-            expect(customJsonToModel).toHaveBeenCalled();
-            expect(result.name).toBe('Inserted Custom');
-            resolve();
-          },
-        );
       });
     });
 
@@ -207,7 +183,7 @@ describe('ModelInsertService', () => {
       vi.mocked(mockHttpClient.post).mockReturnValue(throwError(() => httpError));
 
       return new Promise<void>((resolve) => {
-        insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe({
+        insertModel(inputModel, mockHttpClient, routerName).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -233,7 +209,7 @@ describe('ModelInsertService', () => {
       vi.mocked(mockHttpClient.post).mockReturnValue(throwError(() => serverError));
 
       return new Promise<void>((resolve) => {
-        insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe({
+        insertModel(inputModel, mockHttpClient, routerName).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -248,15 +224,6 @@ describe('ModelInsertService', () => {
   });
 
   describe('Integration with Model utility functions', () => {
-    it('should work with toModel function', () => {
-      const jsonData = { id: '1', name: 'Integration Test', value: 200 };
-      const model = toModel(jsonData, defaultJsonToModel);
-
-      expect(model.id).toBe('1');
-      expect(model.name).toBe('Integration Test');
-      expect(model.value).toBe(200);
-    });
-
     it('should work with different Model implementations', () => {
       interface MinimalModel {
         id: string;
@@ -289,7 +256,7 @@ describe('ModelInsertService', () => {
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of({}));
 
-      insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe();
+      insertModel(inputModel, mockHttpClient, routerName).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(expectedUrl, inputModel);
     });
@@ -305,7 +272,7 @@ describe('ModelInsertService', () => {
         const inputModel: TestModelInput = { name: 'Test', value: 1 };
         vi.mocked(mockHttpClient.post).mockReturnValue(of({}));
 
-        insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe();
+        insertModel(inputModel, mockHttpClient, routerName).subscribe();
 
         expect(mockHttpClient.post).toHaveBeenCalledWith(expected, inputModel);
       });
@@ -376,7 +343,7 @@ describe('ModelInsertService', () => {
       vi.mocked(mockHttpClient.post).mockReturnValue(throwError(() => timeoutError));
 
       return new Promise<void>((resolve) => {
-        insertModel(inputModel, mockHttpClient, routerName, createTestModel).subscribe({
+        insertModel(inputModel, mockHttpClient, routerName).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -505,7 +472,7 @@ describe('ModelInsertService', () => {
       const startTime = performance.now();
 
       return new Promise<void>((resolve) => {
-        insertModel(largeData, mockHttpClient, routerName, createTestModel).subscribe(() => {
+        insertModel(largeData, mockHttpClient, routerName).subscribe(() => {
           const endTime = performance.now();
           const duration = endTime - startTime;
 

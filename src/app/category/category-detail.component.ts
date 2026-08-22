@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Category } from './category';
+import { Category, CategorySchema } from './category';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { toModelFromHistory } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
@@ -21,6 +21,6 @@ export class CategoryDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Categories`;
-    this.model = toModelFromHistory<Category>();
+    this.model = toModelFromHistory<Category>(CategorySchema);
   }
 }

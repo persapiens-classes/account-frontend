@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Entry, jsonToEntry } from './entry';
+import { Entry, EntrySchema } from './entry';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 import { ActivatedRoute } from '@angular/router';
@@ -36,6 +36,6 @@ export class EntryDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}Entries`;
-    this.model = toModelFromHistory(jsonToEntry);
+    this.model = toModelFromHistory(EntrySchema);
   }
 }

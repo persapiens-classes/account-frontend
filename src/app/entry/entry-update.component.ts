@@ -6,9 +6,9 @@ import { PanelModule } from '@openng/optimus-ui/panel';
 import {
   entryModelToForm,
   EntryInsertUpdate,
-  jsonToEntry,
   entryFormToModel,
   entryId,
+  EntrySchema,
 } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
@@ -86,7 +86,7 @@ import { form, required } from '@angular/forms/signals';
   `,
 })
 export class EntryUpdateComponent {
-  modelFromHistory = toModelFromHistory(jsonToEntry);
+  modelFromHistory = toModelFromHistory(EntrySchema);
   form = form(signal(entryModelToForm(this.modelFromHistory)), (f) => {
     required(f.date);
     required(f.inAccount);

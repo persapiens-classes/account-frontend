@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { Category, categoryId } from './category';
+import { Category, categoryId, CategorySchema } from './category';
 import { InputFieldComponent } from '../field/input-field.component';
 import { toModelFromHistory } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
@@ -40,11 +40,11 @@ import { form, minLength, required } from '@angular/forms/signals';
   `,
 })
 export class CategoryUpdateComponent {
-  form = form(signal(toModelFromHistory<Category>()), (f) => {
+  form = form(signal(toModelFromHistory<Category>(CategorySchema)), (f) => {
     required(f.description);
     minLength(f.description, 3);
   });
-  modelFromHistory = toModelFromHistory<Category>();
+  modelFromHistory = toModelFromHistory<Category>(CategorySchema);
   routerName: string;
   modelName: string;
   modelUpdateService: CategoryUpdateService;

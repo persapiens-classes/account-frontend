@@ -1,10 +1,13 @@
-import { Account, createAccount } from '../account/account';
+import { AccountSchema, createAccount } from '../account/account';
+import { z } from 'zod';
 
-export interface OwnerEquityAccountInitialValue {
-  owner: string;
-  equityAccount: Account;
-  initialValue: number;
-}
+export const OwnerEquityAccountInitialValueSchema = z.object({
+  owner: z.string(),
+  equityAccount: AccountSchema,
+  initialValue: z.number(),
+});
+
+export type OwnerEquityAccountInitialValue = z.infer<typeof OwnerEquityAccountInitialValueSchema>;
 
 export function ownerEquityAccountInitialValueId(
   ownerEquityAccountInitialValue: OwnerEquityAccountInitialValue,

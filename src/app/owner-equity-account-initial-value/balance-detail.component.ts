@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { Balance } from './balance';
+import { Balance, BalanceSchema } from './balance';
 import { PreviousRouteService } from './previous-route-service';
 import { BalanceFilterService } from './balance-filter-service';
 import { firstValueFrom } from 'rxjs';
@@ -28,7 +28,7 @@ export class BalanceDetailComponent implements OnInit {
   private readonly previousRouteService = inject(PreviousRouteService);
   private readonly balanceFilterService = inject(BalanceFilterService);
   constructor() {
-    this.model = toModelFromHistory<Balance>();
+    this.model = toModelFromHistory<Balance>(BalanceSchema);
   }
 
   ngOnInit(): void {
