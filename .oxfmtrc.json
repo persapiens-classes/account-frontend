@@ -1,0 +1,15 @@
+// waiting https://github.com/oxc-project/oxc/issues/25841
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "sortPackageJson": false,
+  "sortTailwindcss": {},
+  "ignorePatterns": ["pnpm-lock.yaml"]
+}
