@@ -4,6 +4,7 @@ import { of, throwError } from 'rxjs';
 
 import { CategoryRemoveService } from './category-remove-service';
 import { CategoryType } from './category';
+import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { environment } from '../../environments/environment';
 
 describe('CategoryRemoveService', () => {
@@ -11,13 +12,28 @@ describe('CategoryRemoveService', () => {
   let mockHttpClient: HttpClient;
   let categoryType: CategoryType;
 
+  const expectRemoveError = async (
+    categoryId: string,
+    errorResponse: HttpErrorResponse,
+  ): Promise<void> => {
+    (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(
+      throwError(() => errorResponse),
+    );
+
+    await expect(
+      new Promise((resolve, reject) => {
+        service.remove(categoryId).subscribe({
+          next: resolve,
+          error: reject,
+        });
+      }),
+    ).rejects.toMatchObject({
+      status: errorResponse.status,
+    });
+  };
+
   beforeEach(() => {
-    mockHttpClient = {
-      post: vi.fn(),
-      get: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    } as unknown as HttpClient;
+    mockHttpClient = createHttpClientTestMock();
 
     categoryType = CategoryType.DEBIT;
     service = new CategoryRemoveService(mockHttpClient, categoryType);
@@ -222,75 +238,36 @@ describe('CategoryRemoveService', () => {
 
   describe('Error Handling', () => {
     it('should handle 403 forbidden error', async () => {
-      const categoryId = 'Protected Category';
-      const errorResponse = new HttpErrorResponse({
-        error: 'Forbidden',
-        status: 403,
-        statusText: 'Forbidden',
-      });
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.remove(categoryId).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectRemoveError(
+        'Protected Category',
+        new HttpErrorResponse({
+          error: 'Forbidden',
+          status: 403,
+          statusText: 'Forbidden',
         }),
-      ).rejects.toMatchObject({
-        status: 403,
-      });
+      );
     });
 
     it('should handle 500 server error', async () => {
-      const categoryId = 'Test Category';
-      const errorResponse = new HttpErrorResponse({
-        error: 'Internal Server Error',
-        status: 500,
-        statusText: 'Internal Server Error',
-      });
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.remove(categoryId).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectRemoveError(
+        'Test Category',
+        new HttpErrorResponse({
+          error: 'Internal Server Error',
+          status: 500,
+          statusText: 'Internal Server Error',
         }),
-      ).rejects.toMatchObject({
-        status: 500,
-      });
+      );
     });
 
     it('should handle 409 conflict error (category in use)', async () => {
-      const categoryId = 'Category In Use';
-      const errorResponse = new HttpErrorResponse({
-        error: { message: 'Category is in use' },
-        status: 409,
-        statusText: 'Conflict',
-      });
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.remove(categoryId).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectRemoveError(
+        'Category In Use',
+        new HttpErrorResponse({
+          error: { message: 'Category is in use' },
+          status: 409,
+          statusText: 'Conflict',
         }),
-      ).rejects.toMatchObject({
-        status: 409,
-      });
+      );
     });
   });
 

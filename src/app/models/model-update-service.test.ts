@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, firstValueFrom, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelUpdateService, updateModel } from './model-update-service';
-import { expectObservableValue, MinimalModel, ValidModel } from './model-test-helpers';
+import { MinimalModel, ValidModel } from './model-test-helpers';
 import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
@@ -103,6 +103,20 @@ describe('ModelUpdateService', () => {
   });
 
   describe('updateModel Function', () => {
+    const expectUpdateHttpError = async (
+      routerName: string,
+      id: string,
+      updateData: TestModelUpdate,
+      expectedStatus: number,
+      errorResponse: HttpErrorResponse,
+    ): Promise<void> => {
+      vi.mocked(mockHttpClient.put).mockReturnValue(throwError(() => errorResponse));
+
+      await expect(
+        firstValueFrom(updateModel(updateData, mockHttpClient, routerName, id, '/')),
+      ).rejects.toMatchObject({ status: expectedStatus });
+    };
+
     it('should construct correct API URL with simple ID', () => {
       const routerName = 'test-models';
       const id = '123';
@@ -191,63 +205,36 @@ describe('ModelUpdateService', () => {
     });
 
     it('should handle HTTP errors correctly', () => {
-      const routerName = 'error-updates';
-      const id = 'error-123';
-      const idSeparator = '/';
-      const updateData: TestModelUpdate = { name: 'Error Update', value: 400 };
-      const httpError = new HttpErrorResponse({
-        status: 404,
-        statusText: 'Not Found',
-        error: 'Entity not found for update',
-      });
-
-      vi.mocked(mockHttpClient.put).mockReturnValue(throwError(() => httpError));
-
-      return new Promise<void>((resolve) => {
-        updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe({
-          next: () => {
-            throw new Error('Should not reach success handler');
-          },
-          error: (error) => {
-            expect(error).toBeInstanceOf(HttpErrorResponse);
-            expect(error.status).toBe(404);
-            expect(error.statusText).toBe('Not Found');
-            resolve();
-          },
-        });
-      });
+      return expectUpdateHttpError(
+        'error-updates',
+        'error-123',
+        { name: 'Error Update', value: 400 },
+        404,
+        new HttpErrorResponse({
+          status: 404,
+          statusText: 'Not Found',
+          error: 'Entity not found for update',
+        }),
+      );
     });
 
     it('should handle different HTTP status errors', () => {
-      const routerName = 'server-error-updates';
-      const id = 'server-error-456';
-      const idSeparator = '/';
-      const updateData: TestModelUpdate = { name: 'Server Error', value: 500 };
-      const serverError = new HttpErrorResponse({
-        status: 500,
-        statusText: 'Internal Server Error',
-        error: 'Database update failed',
-      });
-
-      vi.mocked(mockHttpClient.put).mockReturnValue(throwError(() => serverError));
-
-      return new Promise<void>((resolve) => {
-        updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe({
-          next: () => {
-            throw new Error('Should not reach success handler');
-          },
-          error: (error) => {
-            expect(error.status).toBe(500);
-            expect(error.statusText).toBe('Internal Server Error');
-            resolve();
-          },
-        });
-      });
+      return expectUpdateHttpError(
+        'server-error-updates',
+        'server-error-456',
+        { name: 'Server Error', value: 500 },
+        500,
+        new HttpErrorResponse({
+          status: 500,
+          statusText: 'Internal Server Error',
+          error: 'Database update failed',
+        }),
+      );
     });
   });
 
   describe('Integration with Model utility functions', () => {
-    it('should work with different Model implementations', () => {
+    it('should work with different Model implementations', async () => {
       const routerName = 'minimal-updates';
       const id = 'minimal-123';
       const idSeparator = '/';
@@ -256,13 +243,11 @@ describe('ModelUpdateService', () => {
 
       vi.mocked(mockHttpClient.put).mockReturnValue(of(mockResponse));
 
-      return expectObservableValue(
+      const result = (await firstValueFrom(
         updateModel(updateData, mockHttpClient, routerName, id, idSeparator),
-        (result) => {
-          expect((result as MinimalModel).id).toBe('minimal-123');
-          expect((result as MinimalModel).data).toBe('updated minimal data');
-        },
-      );
+      )) as MinimalModel;
+
+      expect(result).toMatchObject({ id: 'minimal-123', data: 'updated minimal data' });
     });
   });
 

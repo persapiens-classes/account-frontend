@@ -4,6 +4,7 @@ import { of, throwError } from 'rxjs';
 
 import { CategoryUpdateService } from './category-update-service';
 import { Category, categoryId, CategoryType } from './category';
+import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { environment } from '../../environments/environment';
 
 describe('CategoryUpdateService', () => {
@@ -11,13 +12,29 @@ describe('CategoryUpdateService', () => {
   let mockHttpClient: HttpClient;
   let categoryType: CategoryType;
 
+  const expectUpdateError = async (
+    categoryId: string,
+    updatedCategory: { description: string },
+    errorResponse: HttpErrorResponse,
+  ): Promise<void> => {
+    (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(
+      throwError(() => errorResponse),
+    );
+
+    await expect(
+      new Promise((resolve, reject) => {
+        service.update(categoryId, updatedCategory).subscribe({
+          next: resolve,
+          error: reject,
+        });
+      }),
+    ).rejects.toMatchObject({
+      status: errorResponse.status,
+    });
+  };
+
   beforeEach(() => {
-    mockHttpClient = {
-      post: vi.fn(),
-      get: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    } as unknown as HttpClient;
+    mockHttpClient = createHttpClientTestMock();
 
     categoryType = CategoryType.DEBIT;
     service = new CategoryUpdateService(mockHttpClient, categoryType);
@@ -258,103 +275,51 @@ describe('CategoryUpdateService', () => {
 
   describe('Error Handling', () => {
     it('should handle 404 not found error', async () => {
-      const testCategoryId = 'Non-existent Category';
-      const updatedCategory = { description: 'Updated Category' };
-      const errorResponse = new HttpErrorResponse({
-        error: 'Category not found',
-        status: 404,
-        statusText: 'Not Found',
-      });
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.update(testCategoryId, updatedCategory).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectUpdateError(
+        'Non-existent Category',
+        { description: 'Updated Category' },
+        new HttpErrorResponse({
+          error: 'Category not found',
+          status: 404,
+          statusText: 'Not Found',
         }),
-      ).rejects.toMatchObject({
-        status: 404,
-      });
+      );
     });
 
     it('should handle 500 server error', async () => {
-      const testCategoryId = 'Test Category';
-      const updatedCategory = { description: 'Updated Category' };
-      const errorResponse = new HttpErrorResponse({
-        error: 'Internal Server Error',
-        status: 500,
-        statusText: 'Internal Server Error',
-      });
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.update(testCategoryId, updatedCategory).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectUpdateError(
+        'Test Category',
+        { description: 'Updated Category' },
+        new HttpErrorResponse({
+          error: 'Internal Server Error',
+          status: 500,
+          statusText: 'Internal Server Error',
         }),
-      ).rejects.toMatchObject({
-        status: 500,
-      });
+      );
     });
 
     it('should handle validation errors', async () => {
-      const testCategoryId = 'Test Category';
-      const invalidCategory = { description: 'Invalid' };
-      const errorResponse = new HttpErrorResponse({
-        error: { message: 'Validation failed' },
-        status: 422,
-        statusText: 'Unprocessable Entity',
-      });
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.update(testCategoryId, invalidCategory).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectUpdateError(
+        'Test Category',
+        { description: 'Invalid' },
+        new HttpErrorResponse({
+          error: { message: 'Validation failed' },
+          status: 422,
+          statusText: 'Unprocessable Entity',
         }),
-      ).rejects.toMatchObject({
-        status: 422,
-      });
+      );
     });
 
     it('should handle 409 conflict error (duplicate category)', async () => {
-      const testCategoryId = 'Original Category';
-      const updatedCategory = { description: 'Duplicate Category' };
-      const errorResponse = new HttpErrorResponse({
-        error: { message: 'Category already exists' },
-        status: 409,
-        statusText: 'Conflict',
-      });
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.update(testCategoryId, updatedCategory).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectUpdateError(
+        'Original Category',
+        { description: 'Duplicate Category' },
+        new HttpErrorResponse({
+          error: { message: 'Category already exists' },
+          status: 409,
+          statusText: 'Conflict',
         }),
-      ).rejects.toMatchObject({
-        status: 409,
-      });
+      );
     });
   });
 

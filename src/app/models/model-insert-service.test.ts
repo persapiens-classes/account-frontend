@@ -343,16 +343,15 @@ describe('ModelInsertService', () => {
     });
 
     it('should support transformation function pattern', () => {
-      const customTransform = (model: TestModel): TestModel => {
-        model.name = model.name.toUpperCase();
-        return model;
-      };
+      const customTransform = (model: TestModel): TestModel => ({
+        ...model,
+        name: model.name.toUpperCase(),
+      });
 
-      const testModel = { id: '1', name: 'test', value: 100 };
-      const transformed = customTransform(testModel);
+      const transformed = customTransform({ id: '1', name: 'test', value: 100 });
 
       expect(transformed.name).toBe('TEST');
-      expect(transformed).toBe(testModel); // Same reference
+      expect(transformed.id).toBe('1');
     });
 
     it('should support service composition', () => {

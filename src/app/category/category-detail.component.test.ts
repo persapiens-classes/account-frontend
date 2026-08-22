@@ -5,20 +5,8 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { CategoryDetailComponent } from './category-detail.component';
 import { TestUtils } from '../shared/test-utils';
 import { CategoryType } from './category';
+import { categoryRouterNameMap, categoryTypeNameMap } from './category-test-helpers';
 import { AppMessageService } from '../app-message-service';
-import { PATHS } from '../app.paths';
-
-const typeNameMap: Record<CategoryType, string> = {
-  [CategoryType.DEBIT]: 'DEBIT',
-  [CategoryType.CREDIT]: 'CREDIT',
-  [CategoryType.EQUITY]: 'EQUITY',
-};
-
-const routerNameMap: Record<CategoryType, string> = {
-  [CategoryType.DEBIT]: `debit${PATHS.CATEGORY_PATH}`,
-  [CategoryType.CREDIT]: `credit${PATHS.CATEGORY_PATH}`,
-  [CategoryType.EQUITY]: `equity${PATHS.CATEGORY_PATH}`,
-};
 
 function createTestBed(type: CategoryType, testId: number) {
   const mockAppMessageService = {
@@ -43,7 +31,7 @@ function createTestBed(type: CategoryType, testId: number) {
   // Mock history.state with a category model
   window.history.replaceState(
     // eslint-disable-next-line security/detect-object-injection
-    { model: { id: testId, description: `Test ${typeNameMap[type]} Category` } },
+    { model: { id: testId, description: `Test ${categoryTypeNameMap[type]} Category` } },
     '',
     window.location.href,
   );
@@ -57,9 +45,9 @@ function createTestBed(type: CategoryType, testId: number) {
 
 function describeDetailComponentTests(type: CategoryType, testId: number) {
   // eslint-disable-next-line security/detect-object-injection
-  const typeName = typeNameMap[type];
+  const typeName = categoryTypeNameMap[type];
   // eslint-disable-next-line security/detect-object-injection
-  const expectedRouterName = routerNameMap[type];
+  const expectedRouterName = categoryRouterNameMap[type];
 
   describe(`CategoryDetailComponent for ${typeName}`, () => {
     let fixture: ComponentFixture<CategoryDetailComponent>;

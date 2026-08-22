@@ -12,6 +12,26 @@ describe('CategoryInsertService', () => {
   let mockHttpClient: HttpClient;
   let categoryType: CategoryType;
 
+  const expectInsertError = async (
+    testCategory: { description: string },
+    errorResponse: HttpErrorResponse,
+  ): Promise<void> => {
+    (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(
+      throwError(() => errorResponse),
+    );
+
+    await expect(
+      new Promise((resolve, reject) => {
+        service.insert(testCategory).subscribe({
+          next: resolve,
+          error: reject,
+        });
+      }),
+    ).rejects.toMatchObject({
+      status: errorResponse.status,
+    });
+  };
+
   beforeEach(() => {
     mockHttpClient = {
       post: vi.fn(),
@@ -229,51 +249,25 @@ describe('CategoryInsertService', () => {
 
   describe('Error Handling', () => {
     it('should handle 500 server error', async () => {
-      const testCategory = { description: 'Test Category' };
-      const errorResponse = new HttpErrorResponse({
-        error: 'Internal Server Error',
-        status: 500,
-        statusText: 'Internal Server Error',
-      });
-
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.insert(testCategory).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectInsertError(
+        { description: 'Test Category' },
+        new HttpErrorResponse({
+          error: 'Internal Server Error',
+          status: 500,
+          statusText: 'Internal Server Error',
         }),
-      ).rejects.toMatchObject({
-        status: 500,
-      });
+      );
     });
 
     it('should handle validation errors', async () => {
-      const testCategory = { description: 'Invalid Category' };
-      const errorResponse = new HttpErrorResponse({
-        error: { message: 'Validation failed' },
-        status: 422,
-        statusText: 'Unprocessable Entity',
-      });
-
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.insert(testCategory).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectInsertError(
+        { description: 'Invalid Category' },
+        new HttpErrorResponse({
+          error: { message: 'Validation failed' },
+          status: 422,
+          statusText: 'Unprocessable Entity',
         }),
-      ).rejects.toMatchObject({
-        status: 422,
-      });
+      );
     });
   });
 

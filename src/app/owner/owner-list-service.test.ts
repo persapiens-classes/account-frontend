@@ -47,41 +47,22 @@ describe('OwnerListService', () => {
     });
   });
 
-  describe('Service Configuration', () => {
-    it('should be injectable service', () => {
-      expect(service).toBeTruthy();
-    });
-
-    it('should maintain service instance', () => {
-      const service1 = TestBed.inject(OwnerListService);
-      const service2 = TestBed.inject(OwnerListService);
-
-      expect(service1).toBe(service2); // Should be singleton
-    });
+  it('should maintain singleton service instance', () => {
+    const service1 = TestBed.inject(OwnerListService);
+    const service2 = TestBed.inject(OwnerListService);
+    expect(service1).toBe(service2);
   });
 
-  describe('Service Dependencies', () => {
-    it('should use createOwner factory function', () => {
-      // Test that createOwner is used correctly
-      const testOwner = createOwner();
-      expect(testOwner).toBeDefined();
-      expect(testOwner.name).toBe('');
-    });
-
-    it('should have proper service structure', () => {
-      expect(service).toBeDefined();
-      expect(service.constructor).toBeDefined();
-      expect(service.findAll).toBeDefined();
-    });
+  it('should use createOwner factory function', () => {
+    const testOwner = createOwner();
+    expect(testOwner).toBeDefined();
+    expect(testOwner.name).toBe('');
   });
 
   describe('Method Signatures', () => {
-    it('should have correct findAll return type expectation', () => {
-      // We can't test the actual return due to injection context issues,
-      // but we can test that the method exists and is callable
-      expect(service.findAll).toBeDefined();
-      expect(typeof service.findAll).toBe('function');
-      expect(service.findAll).toHaveLength(0); // Should take no parameters
+    it('should declare findAll with zero parameters', () => {
+      expect(service.findAll).toHaveLength(0);
+      expect(service.findAll).toBeTypeOf('function');
     });
   });
 });

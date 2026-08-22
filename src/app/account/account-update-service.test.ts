@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { AccountUpdateService } from './account-update-service';
-import { Account, accountId, AccountType, createAccount } from './account';
+import { Account, accountId, AccountType } from './account';
 import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
@@ -370,31 +370,11 @@ describe('AccountUpdateService', () => {
     });
   });
 
-  // Test createAccount factory function integration
-  describe('createAccount integration', () => {
-    it('should work with createAccount factory', () => {
-      const newAccount = createAccount();
-      expect(newAccount.description).toBe('');
-      expect(newAccount.category).toBe('');
-      expect(accountId(newAccount)).toBe('');
-    });
-  });
-
   describe('Constructor', () => {
     it('should initialize with HttpClient and AccountType', () => {
       const customService = new AccountUpdateService(mockHttpClient, AccountType.CREDIT);
       expect(customService).toBeDefined();
       expect(customService).toBeInstanceOf(AccountUpdateService);
-    });
-
-    it('should accept different AccountType values', () => {
-      const debitService = new AccountUpdateService(mockHttpClient, AccountType.DEBIT);
-      const creditService = new AccountUpdateService(mockHttpClient, AccountType.CREDIT);
-      const equityService = new AccountUpdateService(mockHttpClient, AccountType.EQUITY);
-
-      expect(debitService).toBeInstanceOf(AccountUpdateService);
-      expect(creditService).toBeInstanceOf(AccountUpdateService);
-      expect(equityService).toBeInstanceOf(AccountUpdateService);
     });
   });
 });

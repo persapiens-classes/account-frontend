@@ -37,14 +37,10 @@ describe('OwnerRemoveService', () => {
     expect(service).toBeInstanceOf(OwnerRemoveService);
   });
 
-  it('should implement required methods', () => {
+  it('should expose remove method with expected signature', () => {
     TestUtils.testServiceMethods(service, ['remove']);
-    expect(typeof service.remove).toBe('function');
-  });
-
-  it('should have correct method signatures', () => {
     TestUtils.testServiceMethodSignatures(service, [{ methodName: 'remove', parameterCount: 1 }]);
-    expect(service.remove).toBeDefined();
+    expect(service.remove).toBeTypeOf('function');
   });
 
   // Functional tests

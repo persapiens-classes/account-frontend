@@ -311,15 +311,5 @@ describe('AccountInsertService', () => {
       expect(customService).toBeDefined();
       expect(customService).toBeInstanceOf(AccountInsertService);
     });
-
-    it('should accept different AccountType values', () => {
-      const debitService = new AccountInsertService(mockHttpClient, AccountType.DEBIT);
-      const creditService = new AccountInsertService(mockHttpClient, AccountType.CREDIT);
-      const equityService = new AccountInsertService(mockHttpClient, AccountType.EQUITY);
-
-      expect(debitService).toBeInstanceOf(AccountInsertService);
-      expect(creditService).toBeInstanceOf(AccountInsertService);
-      expect(equityService).toBeInstanceOf(AccountInsertService);
-    });
   });
 });

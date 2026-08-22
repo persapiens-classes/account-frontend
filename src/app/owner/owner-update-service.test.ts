@@ -38,14 +38,10 @@ describe('OwnerUpdateService', () => {
     expect(service).toBeInstanceOf(OwnerUpdateService);
   });
 
-  it('should implement required methods', () => {
+  it('should expose update method with expected signature', () => {
     TestUtils.testServiceMethods(service, ['update']);
-    expect(typeof service.update).toBe('function');
-  });
-
-  it('should have correct method signatures', () => {
     TestUtils.testServiceMethodSignatures(service, [{ methodName: 'update', parameterCount: 2 }]);
-    expect(service.update).toBeDefined();
+    expect(service.update).toBeTypeOf('function');
   });
 
   // Functional tests

@@ -38,14 +38,10 @@ describe('OwnerInsertService', () => {
     expect(service).toBeInstanceOf(OwnerInsertService);
   });
 
-  it('should implement required methods', () => {
+  it('should expose insert method with expected signature', () => {
     TestUtils.testServiceMethods(service, ['insert']);
-    expect(typeof service.insert).toBe('function');
-  });
-
-  it('should have correct method signatures', () => {
     TestUtils.testServiceMethodSignatures(service, [{ methodName: 'insert', parameterCount: 1 }]);
-    expect(service.insert).toBeDefined();
+    expect(service.insert).toBeTypeOf('function');
   });
 
   // Functional tests

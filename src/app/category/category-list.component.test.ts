@@ -6,20 +6,8 @@ import { of } from 'rxjs';
 import { CategoryListComponent } from './category-list.component';
 import { TestUtils } from '../shared/test-utils';
 import { CategoryType } from './category';
+import { categoryRouterNameMap, categoryTypeNameMap } from './category-test-helpers';
 import { AppMessageService } from '../app-message-service';
-import { PATHS } from '../app.paths';
-
-const typeNameMap: Record<CategoryType, string> = {
-  [CategoryType.DEBIT]: 'DEBIT',
-  [CategoryType.CREDIT]: 'CREDIT',
-  [CategoryType.EQUITY]: 'EQUITY',
-};
-
-const routerNameMap: Record<CategoryType, string> = {
-  [CategoryType.DEBIT]: `debit${PATHS.CATEGORY_PATH}`,
-  [CategoryType.CREDIT]: `credit${PATHS.CATEGORY_PATH}`,
-  [CategoryType.EQUITY]: `equity${PATHS.CATEGORY_PATH}`,
-};
 
 function createTestBed(type: CategoryType) {
   const mockAppMessageService = {
@@ -50,9 +38,9 @@ function createTestBed(type: CategoryType) {
 
 function describeListComponentTests(type: CategoryType) {
   // eslint-disable-next-line security/detect-object-injection
-  const typeName = typeNameMap[type];
+  const typeName = categoryTypeNameMap[type];
   // eslint-disable-next-line security/detect-object-injection
-  const expectedRouterName = routerNameMap[type];
+  const expectedRouterName = categoryRouterNameMap[type];
 
   describe(`CategoryListComponent for ${typeName}`, () => {
     let fixture: ComponentFixture<CategoryListComponent>;
