@@ -237,15 +237,12 @@ describe('ModelListService', () => {
     });
 
     it('should support transformation function pattern', () => {
-      const customTransform = (model: TestModel): TestModel => {
-        model.name = model.name.toUpperCase();
-        return model;
-      };
+      const toUppercaseName = ({ name, ...rest }: TestModel): TestModel => ({
+        ...rest,
+        name: name.toUpperCase(),
+      });
 
-      const model = { ...createTestModel(), id: '1', name: 'test' };
-      const transformed = customTransform(model);
-
-      expect(transformed.name).toBe('TEST');
+      expect(toUppercaseName({ ...createTestModel(), id: '1', name: 'test' }).name).toBe('TEST');
     });
   });
 });

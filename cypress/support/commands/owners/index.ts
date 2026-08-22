@@ -17,6 +17,14 @@ interface Owner {
   name: string;
 }
 
+interface OwnerValidationError {
+  statusCode: 400;
+  body: {
+    error: 'Bad Request';
+    message: string;
+  };
+}
+
 /**
  * Setup owners mock intercepts for CRUD operations and boundary value analysis
  * Includes validation for boundary value test cases (OW-01 through OW-06)
@@ -24,6 +32,34 @@ interface Owner {
 Cypress.Commands.add('setupOwnersMock', () => {
   cy.fixture<OwnersData>('owners').then((ownersData) => {
     const ownersEndpoint = '**/owners';
+
+    const getOwnerValidationError = (
+      ownerName: string | undefined,
+    ): OwnerValidationError | null => {
+      // OW-01: Only whitespace (check first)
+      if (!ownerName || ownerName.trim() === '') {
+        return {
+          statusCode: 400,
+          body: {
+            error: 'Bad Request',
+            message: 'Owner name cannot contain only whitespace',
+          },
+        };
+      }
+
+      // OW-04: Exceeds max length (256+ characters)
+      if (ownerName.length > 255) {
+        return {
+          statusCode: 400,
+          body: {
+            error: 'Bad Request',
+            message: 'Owner name must not exceed 255 characters',
+          },
+        };
+      }
+
+      return null;
+    };
 
     // Create a list of existing owners for duplicate check
     const existingOwners = new Set(['Duplicate Owner']);
@@ -34,26 +70,9 @@ Cypress.Commands.add('setupOwnersMock', () => {
       const requestBody = req.body;
       const ownerName = requestBody.name;
 
-      // OW-01: Only whitespace (check first)
-      if (!ownerName || ownerName.trim() === '') {
-        return req.reply({
-          statusCode: 400,
-          body: {
-            error: 'Bad Request',
-            message: 'Owner name cannot contain only whitespace',
-          },
-        });
-      }
-
-      // OW-04: Exceeds max length (256+ characters)
-      if (ownerName.length > 255) {
-        return req.reply({
-          statusCode: 400,
-          body: {
-            error: 'Bad Request',
-            message: 'Owner name must not exceed 255 characters',
-          },
-        });
+      const ownerValidationError = getOwnerValidationError(ownerName);
+      if (ownerValidationError) {
+        return req.reply(ownerValidationError);
       }
 
       // OW-05: Duplicate name
@@ -104,26 +123,9 @@ Cypress.Commands.add('setupOwnersMock', () => {
       const urlParts = req.url.split('/');
       const currentOwnerId = urlParts.at(-1) ?? '';
 
-      // OW-01: Only whitespace (check first)
-      if (!ownerName || ownerName.trim() === '') {
-        return req.reply({
-          statusCode: 400,
-          body: {
-            error: 'Bad Request',
-            message: 'Owner name cannot contain only whitespace',
-          },
-        });
-      }
-
-      // OW-04: Exceeds max length (256+ characters)
-      if (ownerName.length > 255) {
-        return req.reply({
-          statusCode: 400,
-          body: {
-            error: 'Bad Request',
-            message: 'Owner name must not exceed 255 characters',
-          },
-        });
+      const ownerValidationError = getOwnerValidationError(ownerName);
+      if (ownerValidationError) {
+        return req.reply(ownerValidationError);
       }
 
       // OW-05: Duplicate name (excluding current owner being edited)

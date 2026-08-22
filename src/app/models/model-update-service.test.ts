@@ -301,23 +301,17 @@ describe('ModelUpdateService', () => {
 
   describe('ID Separator Handling', () => {
     it('should handle different ID separators', () => {
-      const testCases = [
-        { separator: '/', expected: `${environment.apiUrl}/test-router/test-id` },
-        { separator: '-', expected: `${environment.apiUrl}/test-router-test-id` },
-        { separator: '_', expected: `${environment.apiUrl}/test-router_test-id` },
-      ];
+      const routerName = 'test-router';
+      const id = 'test-id';
+      const updateData: TestModelUpdate = { name: 'Separator Test', value: 1 };
+      const separators = ['/', '-', '_'];
 
-      testCases.forEach(({ separator, expected }) => {
-        const routerName = 'test-router';
-        const id = 'test-id';
-        const updateData: TestModelUpdate = { name: 'Separator Test', value: 1 };
-
+      for (const separator of separators) {
+        const expected = `${environment.apiUrl}/${routerName}${separator}${id}`;
         vi.mocked(mockHttpClient.put).mockReturnValue(of({}));
-
         updateModel(updateData, mockHttpClient, routerName, id, separator).subscribe();
-
         expect(mockHttpClient.put).toHaveBeenCalledWith(expected, updateData);
-      });
+      }
     });
 
     it('should handle empty ID separator', () => {

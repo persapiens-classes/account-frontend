@@ -6,6 +6,7 @@ import { CategoryUpdateService } from './category-update-service';
 import { Category, categoryId, CategoryType } from './category';
 import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { environment } from '../../environments/environment';
+import { PATHS } from '../app.paths';
 
 describe('CategoryUpdateService', () => {
   let service: CategoryUpdateService;
@@ -30,6 +31,21 @@ describe('CategoryUpdateService', () => {
       }),
     ).rejects.toMatchObject({
       status: errorResponse.status,
+    });
+  };
+
+  const expectUpdatedDescription = async (
+    categoryId: string,
+    description: string,
+  ): Promise<Category> => {
+    const updatedCategory = { description };
+    (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(updatedCategory));
+
+    return new Promise<Category>((resolve, reject) => {
+      service.update(categoryId, updatedCategory).subscribe({
+        next: resolve,
+        error: reject,
+      });
     });
   };
 
@@ -79,47 +95,22 @@ describe('CategoryUpdateService', () => {
     });
 
     it('should return transformed Category on successful update', async () => {
-      const testCategoryId = 'Original Category';
-      const updatedCategory = { description: 'Modified Category' };
-      const mockResponse = { description: 'Modified Category' };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
-      const result = await new Promise<Category>((resolve, reject) => {
-        service.update(testCategoryId, updatedCategory).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
+      const result = await expectUpdatedDescription('Original Category', 'Modified Category');
 
       expect(result.description).toBe('Modified Category');
       expect(categoryId(result)).toBe('Modified Category');
     });
 
     it('should handle HTTP errors correctly', async () => {
-      const testCategoryId = 'Test Category';
-      const updatedCategory = { description: 'Updated Category' };
-      const errorResponse = new HttpErrorResponse({
-        error: 'Update failed',
-        status: 400,
-        statusText: 'Bad Request',
-      });
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.update(testCategoryId, updatedCategory).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectUpdateError(
+        'Test Category',
+        { description: 'Updated Category' },
+        new HttpErrorResponse({
+          error: 'Update failed',
+          status: 400,
+          statusText: 'Bad Request',
         }),
-      ).rejects.toMatchObject({
-        status: 400,
-        statusText: 'Bad Request',
-      });
+      );
     });
 
     it('should handle network errors', async () => {
@@ -142,35 +133,16 @@ describe('CategoryUpdateService', () => {
     });
 
     it('should preserve special characters in description', async () => {
-      const testCategoryId = 'Original Category';
-      const categoryWithSpecialChars = { description: 'Category & <Special> "Characters"' };
-      const mockResponse = { description: 'Category & <Special> "Characters"' };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
-      const result = await new Promise<Category>((resolve, reject) => {
-        service.update(testCategoryId, categoryWithSpecialChars).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
+      const result = await expectUpdatedDescription(
+        'Original Category',
+        'Category & <Special> "Characters"',
+      );
 
       expect(result.description).toBe('Category & <Special> "Characters"');
     });
 
     it('should handle empty description', async () => {
-      const testCategoryId = 'Original Category';
-      const emptyCategory = { description: '' };
-      const mockResponse = { description: '' };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
-      const result = await new Promise<Category>((resolve, reject) => {
-        service.update(testCategoryId, emptyCategory).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
+      const result = await expectUpdatedDescription('Original Category', '');
 
       expect(result.description).toBe('');
     });
@@ -197,79 +169,46 @@ describe('CategoryUpdateService', () => {
     });
   });
 
-  describe('update method - CREDIT category', () => {
-    beforeEach(() => {
-      service = new CategoryUpdateService(mockHttpClient, CategoryType.CREDIT);
-    });
+  describe('update method - non-debit categories', () => {
+    it.each([
+      {
+        type: CategoryType.CREDIT,
+        prefix: 'credit',
+        requestId: 'Old Credit Category',
+        requestDescription: 'New Credit Category',
+        successId: 'Revenue',
+        successDescription: 'Sales Revenue',
+      },
+      {
+        type: CategoryType.EQUITY,
+        prefix: 'equity',
+        requestId: 'Old Equity Category',
+        requestDescription: 'New Equity Category',
+        successId: 'Capital',
+        successDescription: 'Share Capital',
+      },
+    ])('should support $type update flow', async (scenario) => {
+      const typedService = new CategoryUpdateService(mockHttpClient, scenario.type);
+      const requestPayload = { description: scenario.requestDescription };
 
-    it('should use correct URL for CREDIT category', () => {
-      const testCategoryId = 'Old Credit Category';
-      const updatedCategory = { description: 'New Credit Category' };
-      const expectedResponse = { description: 'New Credit Category' };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
-
-      service.update(testCategoryId, updatedCategory).subscribe();
+      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(requestPayload));
+      typedService.update(scenario.requestId, requestPayload).subscribe();
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(
-        `${environment.apiUrl}/creditCategories/Old Credit Category`,
-        updatedCategory,
+        `${environment.apiUrl}/${scenario.prefix}${PATHS.CATEGORY_PATH}/${scenario.requestId}`,
+        requestPayload,
       );
-    });
 
-    it('should update CREDIT category successfully', async () => {
-      const testCategoryId = 'Revenue';
-      const updatedCategory = { description: 'Sales Revenue' };
-      const mockResponse = { description: 'Sales Revenue' };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
+      const successPayload = { description: scenario.successDescription };
+      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(successPayload));
       const result = await new Promise<Category>((resolve, reject) => {
-        service.update(testCategoryId, updatedCategory).subscribe({
+        typedService.update(scenario.successId, successPayload).subscribe({
           next: resolve,
           error: reject,
         });
       });
 
-      expect(result.description).toBe('Sales Revenue');
-    });
-  });
-
-  describe('update method - EQUITY category', () => {
-    beforeEach(() => {
-      service = new CategoryUpdateService(mockHttpClient, CategoryType.EQUITY);
-    });
-
-    it('should use correct URL for EQUITY category', () => {
-      const testCategoryId = 'Old Equity Category';
-      const updatedCategory = { description: 'New Equity Category' };
-      const expectedResponse = { description: 'New Equity Category' };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
-
-      service.update(testCategoryId, updatedCategory).subscribe();
-
-      expect(mockHttpClient.put).toHaveBeenCalledWith(
-        `${environment.apiUrl}/equityCategories/Old Equity Category`,
-        updatedCategory,
-      );
-    });
-
-    it('should update EQUITY category successfully', async () => {
-      const testCategoryId = 'Capital';
-      const updatedCategory = { description: 'Share Capital' };
-      const mockResponse = { description: 'Share Capital' };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
-      const result = await new Promise<Category>((resolve, reject) => {
-        service.update(testCategoryId, updatedCategory).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
-
-      expect(result.description).toBe('Share Capital');
+      expect(result.description).toBe(scenario.successDescription);
     });
   });
 

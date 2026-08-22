@@ -156,48 +156,31 @@ describe('AccountUpdateService', () => {
       ).rejects.toThrow('Network error');
     });
 
-    it('should work with empty description and category', async () => {
-      const testAccountId = 'test-account';
-      const emptyAccount = { description: '', category: '' };
-      const mockResponse = { description: '', category: '' };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
+    it.each([
+      {
+        id: 'test-account',
+        account: { description: '', category: '' },
+      },
+      {
+        id: 'special-account',
+        account: {
+          description: 'Account & Co. Ltd. (Updated)',
+          category: 'Category <Special> "Test"',
+        },
+      },
+    ])('should update account payload variants ($id)', async ({ id, account }) => {
+      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(account));
 
       const result = await new Promise<Account>((resolve, reject) => {
-        service.update(testAccountId, emptyAccount).subscribe({
+        service.update(id, account).subscribe({
           next: resolve,
           error: reject,
         });
       });
 
-      expect(result.description).toBe('');
-      expect(result.category).toBe('');
-      expect(accountId(result)).toBe('');
-    });
-
-    it('should work with special characters in description and category', async () => {
-      const testAccountId = 'special-account';
-      const specialAccount = {
-        description: 'Account & Co. Ltd. (Updated)',
-        category: 'Category <Special> "Test"',
-      };
-      const mockResponse = {
-        description: 'Account & Co. Ltd. (Updated)',
-        category: 'Category <Special> "Test"',
-      };
-
-      (mockHttpClient.put as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
-      const result = await new Promise<Account>((resolve, reject) => {
-        service.update(testAccountId, specialAccount).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
-
-      expect(result.description).toBe('Account & Co. Ltd. (Updated)');
-      expect(result.category).toBe('Category <Special> "Test"');
-      expect(accountId(result)).toBe('Account & Co. Ltd. (Updated)');
+      expect(result.description).toBe(account.description);
+      expect(result.category).toBe(account.category);
+      expect(accountId(result)).toBe(account.description);
     });
 
     it('should handle server validation errors', async () => {

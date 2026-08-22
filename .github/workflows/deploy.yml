@@ -58,11 +58,8 @@ jobs:
       - name: Prettier run
         run: pnpm format:check
 
-      - name: Jscpd run (Production Code)
-        run: pnpm check-duplication:production
-
-      - name: Jscpd run (Test Files)
-        run: pnpm check-duplication:tests
+      - name: Jscpd run
+        run: pnpm check-duplication
 
       - name: Jscpd upload artifacts
         uses: actions/upload-artifact@v7.0.1
@@ -70,9 +67,6 @@ jobs:
           name: jscpd-reports
           path: |
             report/jscpd/
-
-      - name: ESLint run
-        run: pnpm lint
 
       - name: Fallow gate (unused code)
         uses: fallow-rs/fallow@v3.17.0
@@ -107,6 +101,9 @@ jobs:
           name: fallow-html-report
           path: |
             fallow-viz.html
+
+      - name: ESLint run
+        run: pnpm lint
 
       - name: Tests (Unit and Integration with Angular CLI) run
         run: pnpm clean:unit:ng:coverage && pnpm test:unit:ng:coverage

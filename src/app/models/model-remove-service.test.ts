@@ -244,26 +244,15 @@ describe('ModelRemoveService', () => {
     });
 
     it('should construct URLs correctly with different router names', () => {
-      const testCases = [
-        {
-          routerName: 'users',
-          id: 'user-1',
-          expected: `${environment.apiUrl}/users/user-1`,
-        },
-        {
-          routerName: 'products',
-          id: 'product-2',
-          expected: `${environment.apiUrl}/products/product-2`,
-        },
-        {
-          routerName: 'categories',
-          id: 'cat-3',
-          expected: `${environment.apiUrl}/categories/cat-3`,
-        },
+      const pathCases: [string, string][] = [
+        ['users', 'user-1'],
+        ['products', 'product-2'],
+        ['categories', 'cat-3'],
       ];
 
-      testCases.forEach(({ routerName, id, expected }) => {
+      pathCases.forEach(([routerName, id]) => {
         const idSeparator = '/';
+        const expected = `${environment.apiUrl}/${routerName}/${id}`;
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
         removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
@@ -273,49 +262,41 @@ describe('ModelRemoveService', () => {
     });
 
     it('should handle complex composite IDs with environment URLs', () => {
-      const testCases = [
-        {
-          routerName: 'composite-entities',
-          id: 'parent-1,child-2',
-          expected: `${environment.apiUrl}/composite-entities/parent-1,child-2`,
-        },
-        {
-          routerName: 'nested-resources',
-          id: 'level1-a,level2-b,level3-c',
-          expected: `${environment.apiUrl}/nested-resources/level1-a,level2-b,level3-c`,
-        },
-      ];
+      const firstRouter = 'composite-entities';
+      const firstId = 'parent-1,child-2';
+      const secondRouter = 'nested-resources';
+      const secondId = 'level1-a,level2-b,level3-c';
 
-      testCases.forEach(({ routerName, id, expected }) => {
-        const idSeparator = '/';
-        vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
+      vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
 
-        removeModel(mockHttpClient, routerName, id, idSeparator).subscribe();
+      removeModel(mockHttpClient, firstRouter, firstId, '/').subscribe();
+      expect(mockHttpClient.delete).toHaveBeenCalledWith(
+        `${environment.apiUrl}/${firstRouter}/${firstId}`,
+      );
 
-        expect(mockHttpClient.delete).toHaveBeenCalledWith(expected);
-      });
+      removeModel(mockHttpClient, secondRouter, secondId, '/').subscribe();
+      expect(mockHttpClient.delete).toHaveBeenCalledWith(
+        `${environment.apiUrl}/${secondRouter}/${secondId}`,
+      );
     });
   });
 
   describe('ID Separator Handling', () => {
     it('should handle different ID separators', () => {
-      const testCases = [
-        { separator: '/', expected: `${environment.apiUrl}/test-router/test-id` },
-        { separator: '-', expected: `${environment.apiUrl}/test-router-test-id` },
-        { separator: '_', expected: `${environment.apiUrl}/test-router_test-id` },
-        { separator: '?id=', expected: `${environment.apiUrl}/test-router?id=test-id` },
-      ];
+      const routerName = 'test-router';
+      const id = 'test-id';
+      const separatorCases: Record<string, string> = {
+        '/': `${environment.apiUrl}/test-router/test-id`,
+        '-': `${environment.apiUrl}/test-router-test-id`,
+        _: `${environment.apiUrl}/test-router_test-id`,
+        '?id=': `${environment.apiUrl}/test-router?id=test-id`,
+      };
 
-      testCases.forEach(({ separator, expected }) => {
-        const routerName = 'test-router';
-        const id = 'test-id';
-
+      for (const [separator, expected] of Object.entries(separatorCases)) {
         vi.mocked(mockHttpClient.delete).mockReturnValue(of(undefined));
-
         removeModel(mockHttpClient, routerName, id, separator).subscribe();
-
         expect(mockHttpClient.delete).toHaveBeenCalledWith(expected);
-      });
+      }
     });
 
     it('should handle empty ID separator', () => {

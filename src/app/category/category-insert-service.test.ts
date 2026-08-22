@@ -32,6 +32,17 @@ describe('CategoryInsertService', () => {
     });
   };
 
+  const expectInsertedDescription = async (description: string): Promise<void> => {
+    const payload = { description };
+    (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(payload));
+
+    const result = await new Promise<Category>((resolve, reject) => {
+      service.insert(payload).subscribe({ next: resolve, error: reject });
+    });
+
+    expect(result.description).toBe(description);
+  };
+
   beforeEach(() => {
     mockHttpClient = {
       post: vi.fn(),
@@ -82,45 +93,19 @@ describe('CategoryInsertService', () => {
     });
 
     it('should return transformed Category on successful insert', async () => {
-      const inputCategory = { description: 'New Category' };
-      const mockResponse = { description: 'New Category' };
-
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
-      const result = await new Promise<Category>((resolve, reject) => {
-        service.insert(inputCategory).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
-
-      expect(result.description).toBe('New Category');
-      expect(categoryId(result)).toBe('New Category');
+      await expectInsertedDescription('New Category');
+      expect(categoryId({ description: 'New Category' } as Category)).toBe('New Category');
     });
 
     it('should handle HTTP errors correctly', async () => {
-      const testCategory = { description: 'Test Category' };
-      const errorResponse = new HttpErrorResponse({
-        error: 'Insert failed',
-        status: 400,
-        statusText: 'Bad Request',
-      });
-
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.insert(testCategory).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectInsertError(
+        { description: 'Test Category' },
+        new HttpErrorResponse({
+          error: 'Insert failed',
+          status: 400,
+          statusText: 'Bad Request',
         }),
-      ).rejects.toMatchObject({
-        status: 400,
-        statusText: 'Bad Request',
-      });
+      );
     });
 
     it('should handle network errors', async () => {
@@ -176,74 +161,38 @@ describe('CategoryInsertService', () => {
   });
 
   describe('insert method - CREDIT category', () => {
-    beforeEach(() => {
-      service = new CategoryInsertService(mockHttpClient, CategoryType.CREDIT);
-    });
+    it.each([
+      {
+        type: CategoryType.CREDIT,
+        routePrefix: 'credit',
+        requestDescription: 'Credit Category',
+        successDescription: 'Revenue Category',
+      },
+      {
+        type: CategoryType.EQUITY,
+        routePrefix: 'equity',
+        requestDescription: 'Equity Category',
+        successDescription: 'Capital Category',
+      },
+    ])('should support $type category flow', async (scenario) => {
+      const typedService = new CategoryInsertService(mockHttpClient, scenario.type);
+      const urlCategory = { description: scenario.requestDescription };
+      const successCategory = { description: scenario.successDescription };
 
-    it('should use correct URL for CREDIT category', () => {
-      const testCategory = { description: 'Credit Category' };
-      const expectedResponse = { description: 'Credit Category' };
-
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
-
-      service.insert(testCategory).subscribe();
-
-      expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/credit${PATHS.CATEGORY_PATH}`,
-        testCategory,
-      );
-    });
-
-    it('should insert CREDIT category successfully', async () => {
-      const inputCategory = { description: 'Revenue Category' };
-      const mockResponse = { description: 'Revenue Category' };
-
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
-      const result = await new Promise<Category>((resolve, reject) => {
-        service.insert(inputCategory).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
-
-      expect(result.description).toBe('Revenue Category');
-    });
-  });
-
-  describe('insert method - EQUITY category', () => {
-    beforeEach(() => {
-      service = new CategoryInsertService(mockHttpClient, CategoryType.EQUITY);
-    });
-
-    it('should use correct URL for EQUITY category', () => {
-      const testCategory = { description: 'Equity Category' };
-      const expectedResponse = { description: 'Equity Category' };
-
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(expectedResponse));
-
-      service.insert(testCategory).subscribe();
+      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(urlCategory));
+      typedService.insert(urlCategory).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/equity${PATHS.CATEGORY_PATH}`,
-        testCategory,
+        `${environment.apiUrl}/${scenario.routePrefix}${PATHS.CATEGORY_PATH}`,
+        urlCategory,
       );
-    });
 
-    it('should insert EQUITY category successfully', async () => {
-      const inputCategory = { description: 'Capital Category' };
-      const mockResponse = { description: 'Capital Category' };
-
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(mockResponse));
-
+      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(successCategory));
       const result = await new Promise<Category>((resolve, reject) => {
-        service.insert(inputCategory).subscribe({
-          next: resolve,
-          error: reject,
-        });
+        typedService.insert(successCategory).subscribe({ next: resolve, error: reject });
       });
 
-      expect(result.description).toBe('Capital Category');
+      expect(result.description).toBe(scenario.successDescription);
     });
   });
 

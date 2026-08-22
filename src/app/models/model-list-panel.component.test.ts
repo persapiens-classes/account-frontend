@@ -7,15 +7,10 @@ import { ModelListPanelComponent } from './model-list-panel.component';
 describe('ModelListPanelComponent', () => {
   let component: ModelListPanelComponent;
   let fixture: ComponentFixture<ModelListPanelComponent>;
-  let mockRouter: {
-    navigate: ReturnType<typeof vi.fn>;
-  };
+  const mockRouter = { navigate: vi.fn() };
 
   beforeEach(async () => {
-    // Create router mock
-    mockRouter = {
-      navigate: vi.fn(),
-    };
+    vi.clearAllMocks();
 
     await TestUtils.setupComponentTestBed(ModelListPanelComponent, [
       { provide: Router, useValue: mockRouter },
@@ -34,7 +29,6 @@ describe('ModelListPanelComponent', () => {
     });
 
     it('should inject Router service', () => {
-      expect(component['router']).toBeDefined();
       expect(component['router']).toBe(mockRouter);
     });
   });

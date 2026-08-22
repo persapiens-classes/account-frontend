@@ -1,5 +1,5 @@
 {
-  "threshold": 0.1,
+  "threshold": 0.01,
   "reporters": ["console", "json", "html"],
   "absolute": true,
   "ignore": [
@@ -7,11 +7,9 @@
     "**/dist/**",
     "**/.angular/**",
     "**/coverage/**",
-    "test-setup.ts",
-    "**/*.test.ts",
-    "**/*.spec.ts"
+    "**/pnpm-lock.yaml"
   ],
-  "output": "./report/jscpd/production",
+  "output": "./report/jscpd",
   "min-lines": 5,
   "min-tokens": 70
 }

@@ -40,28 +40,12 @@ describe('AccountListService', () => {
     expect(typeof service.findAll).toBe('function');
   });
 
-  describe('ModelListService Interface Implementation', () => {
-    it('should implement ModelListService interface', () => {
-      expect(service.findAll).toBeDefined();
-      expect(typeof service.findAll).toBe('function');
-    });
-  });
-
   describe('Service Configuration', () => {
-    it('should be instantiable with different AccountTypes', () => {
-      const debitService = new AccountListService(mockAppMessageService, AccountType.DEBIT);
-      const creditService = new AccountListService(mockAppMessageService, AccountType.CREDIT);
-      const equityService = new AccountListService(mockAppMessageService, AccountType.EQUITY);
-
-      expect(debitService).toBeTruthy();
-      expect(creditService).toBeTruthy();
-      expect(equityService).toBeTruthy();
-    });
-
-    it('should accept AppMessageService and AccountType in constructor', () => {
-      const customService = new AccountListService(mockAppMessageService, AccountType.CREDIT);
-      expect(customService).toBeDefined();
-      expect(customService).toBeInstanceOf(AccountListService);
+    it('should be instantiable with each AccountType', () => {
+      for (const type of [AccountType.DEBIT, AccountType.CREDIT, AccountType.EQUITY]) {
+        const listService = new AccountListService(mockAppMessageService, type);
+        expect(listService).toBeInstanceOf(AccountListService);
+      }
     });
   });
 
@@ -92,22 +76,11 @@ describe('AccountListService', () => {
   });
 
   describe('AccountType Integration', () => {
-    it('should work with DEBIT type', () => {
-      const debitService = new AccountListService(mockAppMessageService, AccountType.DEBIT);
-      expect(debitService).toBeDefined();
-      expect(debitService.findAll).toBeDefined();
-    });
-
-    it('should work with CREDIT type', () => {
-      const creditService = new AccountListService(mockAppMessageService, AccountType.CREDIT);
-      expect(creditService).toBeDefined();
-      expect(creditService.findAll).toBeDefined();
-    });
-
-    it('should work with EQUITY type', () => {
-      const equityService = new AccountListService(mockAppMessageService, AccountType.EQUITY);
-      expect(equityService).toBeDefined();
-      expect(equityService.findAll).toBeDefined();
+    it('should expose findAll for all account types', () => {
+      for (const type of [AccountType.DEBIT, AccountType.CREDIT, AccountType.EQUITY]) {
+        const listService = new AccountListService(mockAppMessageService, type);
+        expect(listService.findAll).toBeDefined();
+      }
     });
   });
 
@@ -119,13 +92,11 @@ describe('AccountListService', () => {
     });
 
     it('should accept different AccountType values', () => {
-      const debitService = new AccountListService(mockAppMessageService, AccountType.DEBIT);
-      const creditService = new AccountListService(mockAppMessageService, AccountType.CREDIT);
-      const equityService = new AccountListService(mockAppMessageService, AccountType.EQUITY);
-
-      expect(debitService).toBeInstanceOf(AccountListService);
-      expect(creditService).toBeInstanceOf(AccountListService);
-      expect(equityService).toBeInstanceOf(AccountListService);
+      const accountTypes = [AccountType.DEBIT, AccountType.CREDIT, AccountType.EQUITY];
+      const services = accountTypes.map(
+        (type) => new AccountListService(mockAppMessageService, type),
+      );
+      services.forEach((instance) => expect(instance).toBeInstanceOf(AccountListService));
     });
   });
 });

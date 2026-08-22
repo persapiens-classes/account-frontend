@@ -6,6 +6,7 @@ import { CategoryRemoveService } from './category-remove-service';
 import { CategoryType } from './category';
 import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { environment } from '../../environments/environment';
+import { PATHS } from '../app.paths';
 
 describe('CategoryRemoveService', () => {
   let service: CategoryRemoveService;
@@ -30,6 +31,14 @@ describe('CategoryRemoveService', () => {
     ).rejects.toMatchObject({
       status: errorResponse.status,
     });
+  };
+
+  const expectRemoveSuccess = async (categoryId: string): Promise<void> => {
+    (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(of(undefined));
+    const result = await new Promise<void>((resolve, reject) => {
+      service.remove(categoryId).subscribe({ next: resolve, error: reject });
+    });
+    expect(result).toBeUndefined();
   };
 
   beforeEach(() => {
@@ -76,45 +85,21 @@ describe('CategoryRemoveService', () => {
 
     it('should complete successfully on valid removal', async () => {
       const categoryId = 'Category to Remove';
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(of(undefined));
-
-      const result = await new Promise<void>((resolve, reject) => {
-        service.remove(categoryId).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
-
-      expect(result).toBeUndefined();
+      await expectRemoveSuccess(categoryId);
       expect(mockHttpClient.delete).toHaveBeenCalledWith(
         `${environment.apiUrl}/debitCategories/Category to Remove`,
       );
     });
 
     it('should handle HTTP errors correctly', async () => {
-      const categoryId = 'Test Category';
-      const errorResponse = new HttpErrorResponse({
-        error: 'Delete failed',
-        status: 404,
-        statusText: 'Not Found',
-      });
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => errorResponse),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.remove(categoryId).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectRemoveError(
+        'Test Category',
+        new HttpErrorResponse({
+          error: 'Delete failed',
+          status: 404,
+          statusText: 'Not Found',
         }),
-      ).rejects.toMatchObject({
-        status: 404,
-        statusText: 'Not Found',
-      });
+      );
     });
 
     it('should handle network errors', async () => {
@@ -137,99 +122,44 @@ describe('CategoryRemoveService', () => {
 
     it('should handle categories with special characters in ID', async () => {
       const categoryId = 'Category & <Special> "Characters"';
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(of(undefined));
-
-      const result = await new Promise<void>((resolve, reject) => {
-        service.remove(categoryId).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
-
-      expect(result).toBeUndefined();
+      await expectRemoveSuccess(categoryId);
       expect(mockHttpClient.delete).toHaveBeenCalledWith(
         `${environment.apiUrl}/debitCategories/Category & <Special> "Characters"`,
       );
     });
 
     it('should handle empty category ID', async () => {
-      const categoryId = '';
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(of(undefined));
-
-      const result = await new Promise<void>((resolve, reject) => {
-        service.remove(categoryId).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
-
-      expect(result).toBeUndefined();
+      await expectRemoveSuccess('');
       expect(mockHttpClient.delete).toHaveBeenCalledWith(`${environment.apiUrl}/debitCategories/`);
     });
   });
 
-  describe('remove method - CREDIT category', () => {
-    beforeEach(() => {
-      service = new CategoryRemoveService(mockHttpClient, CategoryType.CREDIT);
-    });
-
-    it('should use correct URL for CREDIT category', () => {
-      const categoryId = 'Credit Category';
+  describe('remove method - non-debit categories', () => {
+    it.each([
+      {
+        type: CategoryType.CREDIT,
+        prefix: 'credit',
+        urlId: 'Credit Category',
+        successId: 'Revenue Category',
+      },
+      {
+        type: CategoryType.EQUITY,
+        prefix: 'equity',
+        urlId: 'Equity Category',
+        successId: 'Capital Category',
+      },
+    ])('should support $type removal flow', async ({ type, prefix, urlId, successId }) => {
+      const typedService = new CategoryRemoveService(mockHttpClient, type);
 
       (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(of(undefined));
-
-      service.remove(categoryId).subscribe();
+      typedService.remove(urlId).subscribe();
 
       expect(mockHttpClient.delete).toHaveBeenCalledWith(
-        `${environment.apiUrl}/creditCategories/Credit Category`,
+        `${environment.apiUrl}/${prefix}${PATHS.CATEGORY_PATH}/${urlId}`,
       );
-    });
-
-    it('should remove CREDIT category successfully', async () => {
-      const categoryId = 'Revenue Category';
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(of(undefined));
 
       const result = await new Promise<void>((resolve, reject) => {
-        service.remove(categoryId).subscribe({
-          next: resolve,
-          error: reject,
-        });
-      });
-
-      expect(result).toBeUndefined();
-    });
-  });
-
-  describe('remove method - EQUITY category', () => {
-    beforeEach(() => {
-      service = new CategoryRemoveService(mockHttpClient, CategoryType.EQUITY);
-    });
-
-    it('should use correct URL for EQUITY category', () => {
-      const categoryId = 'Equity Category';
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(of(undefined));
-
-      service.remove(categoryId).subscribe();
-
-      expect(mockHttpClient.delete).toHaveBeenCalledWith(
-        `${environment.apiUrl}/equityCategories/Equity Category`,
-      );
-    });
-
-    it('should remove EQUITY category successfully', async () => {
-      const categoryId = 'Capital Category';
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(of(undefined));
-
-      const result = await new Promise<void>((resolve, reject) => {
-        service.remove(categoryId).subscribe({
-          next: resolve,
-          error: reject,
-        });
+        typedService.remove(successId).subscribe({ next: resolve, error: reject });
       });
 
       expect(result).toBeUndefined();
