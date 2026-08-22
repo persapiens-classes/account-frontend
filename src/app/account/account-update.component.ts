@@ -20,6 +20,7 @@ import { AccountUpdateService } from './account-update-service';
 import { toModelFromHistory } from '../models/models';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { AppMessageService } from '../app-message-service';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-account-update',
@@ -76,7 +77,7 @@ export class AccountUpdateComponent {
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
     this.modelName = `${type} Account`;
-    this.routerName = `${type.toLowerCase()}Accounts`;
+    this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
     const http = inject(HttpClient);
     this.modelUpdateService = new AccountUpdateService(http, type);
 

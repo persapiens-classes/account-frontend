@@ -24,6 +24,7 @@ import { EntryUpdateService } from './entry-update-service';
 import { toModelFromHistory } from '../models/models';
 import { AppMessageService } from '../app-message-service';
 import { form, required } from '@angular/forms/signals';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-entry-update',
@@ -109,7 +110,7 @@ export class EntryUpdateComponent {
     const http = inject(HttpClient);
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}Entries`;
+    this.routerName = `${type.toLowerCase()}${PATHS.ENTRY_PATH}`;
     this.modelName = `${type} Entry`;
     this.modelUpdateService = new EntryUpdateService(http, type);
 

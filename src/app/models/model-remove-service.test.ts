@@ -4,6 +4,7 @@ import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelRemoveService, removeModel } from './model-remove-service';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
+import { PATHS } from '../app.paths';
 
 describe('ModelRemoveService', () => {
   let mockHttpClient: HttpClient;
@@ -87,7 +88,7 @@ describe('ModelRemoveService', () => {
     });
 
     it('should construct correct API URL with composite ID using comma separator', () => {
-      const routerName = 'owners';
+      const routerName = PATHS.OWNER_PATH;
       const id = 'parent-123,child-456';
       const idSeparator = '/';
       const expectedUrl = `${environment.apiUrl}/${routerName}/${id}`;

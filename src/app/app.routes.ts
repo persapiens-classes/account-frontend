@@ -25,11 +25,12 @@ import { CategoryType } from './category/category';
 import { AccountType } from './account/account';
 import { EntryType } from './entry/entry';
 import { TitleColor } from './layout/layout.component';
+import { PATHS } from './app.paths';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   createCrudRoutes({
-    path: 'balances',
+    path: PATHS.BALANCE_PATH,
     title: 'Balances',
     titleColor: TitleColor.BLUE,
     listComponent: BalanceListComponent,
@@ -38,7 +39,7 @@ export const routes: Routes = [
     detailComponent: BalanceDetailComponent,
   }),
   createCrudRoutes({
-    path: 'creditEntries',
+    path: `credit${PATHS.ENTRY_PATH}`,
     title: `${EntryType.CREDIT} Entries`,
     titleColor: TitleColor.GREEN,
     listComponent: EntryListComponent,
@@ -50,7 +51,7 @@ export const routes: Routes = [
     outAccountType: AccountType.CREDIT,
   }),
   createCrudRoutes({
-    path: 'debitEntries',
+    path: `debit${PATHS.ENTRY_PATH}`,
     title: `${EntryType.DEBIT} Entries`,
     titleColor: TitleColor.RED,
     listComponent: EntryListComponent,
@@ -62,7 +63,7 @@ export const routes: Routes = [
     outAccountType: AccountType.EQUITY,
   }),
   createCrudRoutes({
-    path: 'transferEntries',
+    path: `transfer${PATHS.ENTRY_PATH}`,
     title: `${EntryType.TRANSFER} Entries`,
     titleColor: TitleColor.BLUE,
     listComponent: EntryListComponent,
@@ -74,7 +75,7 @@ export const routes: Routes = [
     outAccountType: AccountType.EQUITY,
   }),
   createCrudRoutes({
-    path: 'creditAccounts',
+    path: `credit${PATHS.ACCOUNT_PATH}`,
     title: `${AccountType.CREDIT} Accounts`,
     titleColor: TitleColor.GREEN,
     listComponent: AccountListComponent,
@@ -85,7 +86,7 @@ export const routes: Routes = [
     categoryType: CategoryType.CREDIT,
   }),
   createCrudRoutes({
-    path: 'debitAccounts',
+    path: `debit${PATHS.ACCOUNT_PATH}`,
     title: `${AccountType.DEBIT} Accounts`,
     titleColor: TitleColor.RED,
     listComponent: AccountListComponent,
@@ -96,7 +97,7 @@ export const routes: Routes = [
     categoryType: CategoryType.DEBIT,
   }),
   createCrudRoutes({
-    path: 'equityAccounts',
+    path: `equity${PATHS.ACCOUNT_PATH}`,
     title: `${AccountType.EQUITY} Accounts`,
     titleColor: TitleColor.BLUE,
     listComponent: AccountListComponent,
@@ -107,7 +108,7 @@ export const routes: Routes = [
     categoryType: CategoryType.EQUITY,
   }),
   createCrudRoutes({
-    path: 'creditCategories',
+    path: 'credit${PATHS.CATEGORY_PATH}',
     title: `${CategoryType.CREDIT} Categories`,
     titleColor: TitleColor.GREEN,
     listComponent: CategoryListComponent,
@@ -117,7 +118,7 @@ export const routes: Routes = [
     type: CategoryType.CREDIT,
   }),
   createCrudRoutes({
-    path: 'debitCategories',
+    path: 'debit${PATHS.CATEGORY_PATH}',
     title: `${CategoryType.DEBIT} Categories`,
     titleColor: TitleColor.RED,
     listComponent: CategoryListComponent,
@@ -127,7 +128,7 @@ export const routes: Routes = [
     type: CategoryType.DEBIT,
   }),
   createCrudRoutes({
-    path: 'equityCategories',
+    path: `equity${PATHS.CATEGORY_PATH}`,
     title: `${CategoryType.EQUITY} Categories`,
     titleColor: TitleColor.BLUE,
     listComponent: CategoryListComponent,
@@ -137,7 +138,7 @@ export const routes: Routes = [
     type: CategoryType.EQUITY,
   }),
   createCrudRoutes({
-    path: 'owners',
+    path: PATHS.OWNER_PATH,
     title: 'Owners',
     titleColor: TitleColor.BLUE,
     listComponent: OwnerListComponent,
@@ -146,11 +147,15 @@ export const routes: Routes = [
     detailComponent: OwnerDetailComponent,
   }),
   {
-    path: 'ownerEquityAccountInitialValues/detail',
-    redirectTo: 'balances/detail',
+    path: `${PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH}/detail`,
+    redirectTo: `${PATHS.BALANCE_PATH}/detail`,
     pathMatch: 'full',
   },
-  { path: 'ownerEquityAccountInitialValues', redirectTo: 'balances', pathMatch: 'full' },
+  {
+    path: PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH,
+    redirectTo: PATHS.BALANCE_PATH,
+    pathMatch: 'full',
+  },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },
 ];

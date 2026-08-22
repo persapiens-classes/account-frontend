@@ -5,6 +5,7 @@ import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelInsertService, insertModel } from './model-insert-service';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
+import { PATHS } from '../app.paths';
 
 // Mock implementation of Model for testing
 interface TestModel {
@@ -124,7 +125,7 @@ describe('ModelInsertService', () => {
     });
 
     it('should send POST request with correct data', () => {
-      const routerName = 'owners';
+      const routerName = PATHS.OWNER_PATH;
       const inputModel: TestModelInput = { name: 'John Doe', value: 100 };
       const mockResponse = { id: '123', name: 'John Doe', value: 100 };
 

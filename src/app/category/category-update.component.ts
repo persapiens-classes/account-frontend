@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { CategoryUpdateService } from './category-update-service';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { form, minLength, required } from '@angular/forms/signals';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-category-update',
@@ -52,7 +53,7 @@ export class CategoryUpdateComponent {
 
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}Categories`;
+    this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
     this.modelName = `${type} Category`;
     this.modelUpdateService = new CategoryUpdateService(inject(HttpClient), type);
   }

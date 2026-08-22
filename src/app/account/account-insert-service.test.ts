@@ -6,6 +6,7 @@ import { AccountInsertService } from './account-insert-service';
 import { Account, accountId, AccountType, createAccount } from './account';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
+import { PATHS } from '../app.paths';
 
 describe('AccountInsertService', () => {
   let service: AccountInsertService;
@@ -63,7 +64,7 @@ describe('AccountInsertService', () => {
       service.insert(testAccount).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/debitAccounts`,
+        `${environment.apiUrl}/debit${PATHS.ACCOUNT_PATH}`,
         testAccount,
       );
     });
@@ -78,7 +79,7 @@ describe('AccountInsertService', () => {
       creditService.insert(testAccount).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/creditAccounts`,
+        `${environment.apiUrl}/credit${PATHS.ACCOUNT_PATH}`,
         testAccount,
       );
     });
@@ -93,7 +94,7 @@ describe('AccountInsertService', () => {
       equityService.insert(testAccount).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/equityAccounts`,
+        `${environment.apiUrl}/equity${PATHS.ACCOUNT_PATH}`,
         testAccount,
       );
     });
@@ -247,7 +248,7 @@ describe('AccountInsertService', () => {
       debitService.insert(testAccount).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/debitAccounts`,
+        `${environment.apiUrl}/debit${PATHS.ACCOUNT_PATH}`,
         testAccount,
       );
     });
@@ -262,7 +263,7 @@ describe('AccountInsertService', () => {
       creditService.insert(testAccount).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/creditAccounts`,
+        `${environment.apiUrl}/credit${PATHS.ACCOUNT_PATH}`,
         testAccount,
       );
     });
@@ -277,7 +278,7 @@ describe('AccountInsertService', () => {
       equityService.insert(testAccount).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/equityAccounts`,
+        `${environment.apiUrl}/equity${PATHS.ACCOUNT_PATH}`,
         testAccount,
       );
     });

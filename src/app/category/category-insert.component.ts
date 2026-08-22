@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
 import { form, minLength, required } from '@angular/forms/signals';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-category-insert',
@@ -42,7 +43,7 @@ export class CategoryInsertComponent {
     const activatedRoute = inject(ActivatedRoute);
     const http = inject(HttpClient);
     const type = activatedRoute.snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}Categories`;
+    this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
     this.modelName = `${type} Category`;
     this.modelInsertService = new CategoryInsertService(http, type);
   }

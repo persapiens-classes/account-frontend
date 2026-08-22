@@ -10,6 +10,7 @@ import { OwnerRemoveService } from './owner-remove-service';
 import { ModelListPanelComponent } from '../models/model-list-panel.component';
 import { OwnerListService } from './owner-list-service';
 import { ownerId } from './owner';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-owner-list',
@@ -83,7 +84,7 @@ import { ownerId } from './owner';
 })
 export class OwnerListComponent {
   modelName = 'Owner';
-  routerName = 'owners';
+  routerName = PATHS.OWNER_PATH;
   modelRemoveService = inject(OwnerRemoveService);
 
   modelsList = inject(OwnerListService).findAll();

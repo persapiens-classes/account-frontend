@@ -17,6 +17,7 @@ import { SelectFieldComponent } from '../field/select-field.component';
 import { AccountInsertService } from './account-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { form, minLength, required } from '@angular/forms/signals';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-account-insert',
@@ -70,7 +71,7 @@ export class AccountInsertComponent {
     ).findAll();
 
     const type = activatedRoute.snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}Accounts`;
+    this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
     this.modelName = `${type} Account`;
     this.modelInsertService = new AccountInsertService(http, type);
   }

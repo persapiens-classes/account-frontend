@@ -5,6 +5,7 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
 import { OwnerInsertService } from './owner-insert-service';
 import { form, minLength, required, maxLength } from '@angular/forms/signals';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-owner-insert',
@@ -16,7 +17,7 @@ import { form, minLength, required, maxLength } from '@angular/forms/signals';
       [modelInsertService]="modelInsertService"
       [modelIdFn]="modelIdFn"
       [modelName]="'Owner'"
-      [routerName]="'owners'"
+      [routerName]="routerName"
     >
       <app-input-field
         label="Name"
@@ -28,6 +29,8 @@ import { form, minLength, required, maxLength } from '@angular/forms/signals';
   `,
 })
 export class OwnerInsertComponent {
+  routerName = PATHS.OWNER_PATH;
+
   form = form(signal(createOwner()), (f) => {
     required(f.name);
     minLength(f.name, 3);

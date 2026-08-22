@@ -8,14 +8,15 @@ import { EntrySchema } from '../entry/entry';
 import { BalanceSchema } from '../owner-equity-account-initial-value/balance';
 import { OwnerEquityAccountInitialValueSchema } from '../owner-equity-account-initial-value/owner-equity-account-initial-value';
 import { safeModelWithZod } from './models';
+import { API_PATHS } from '../app.api-paths';
 
 const schemaCache = new Map<string, ZodType>([
-  ['owners', OwnerSchema],
-  ['Categories', CategorySchema],
-  ['Accounts', AccountSchema],
-  ['Entries', EntrySchema],
-  ['balances', BalanceSchema],
-  ['ownerEquityAccountInitialValues', OwnerEquityAccountInitialValueSchema],
+  [API_PATHS.OWNER_API_PATH, OwnerSchema],
+  [API_PATHS.CATEGORY_API_PATH, CategorySchema],
+  [API_PATHS.ACCOUNT_API_PATH, AccountSchema],
+  [API_PATHS.ENTRY_API_PATH, EntrySchema],
+  [API_PATHS.BALANCE_API_PATH, BalanceSchema],
+  [API_PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_API_PATH, OwnerEquityAccountInitialValueSchema],
 ]);
 
 function getSchemaForUrl(url: string): ZodType | null {

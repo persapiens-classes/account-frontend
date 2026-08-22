@@ -12,6 +12,7 @@ import { AppMessageService } from '../app-message-service';
 import { AccountListService } from './account-list-service';
 import { AccountRemoveService } from './account-remove-service';
 import { ModelListPanelComponent } from '../models/model-list-panel.component';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-account-list',
@@ -98,7 +99,7 @@ export class AccountListComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.modelName = `${type} Account`;
-    this.routerName = `${type.toLowerCase()}Accounts`;
+    this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
     this.modelRemoveService = new AccountRemoveService(inject(HttpClient), type);
 
     this.modelsList = new AccountListService(inject(AppMessageService), type).findAll();

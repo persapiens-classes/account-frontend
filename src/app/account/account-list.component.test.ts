@@ -9,6 +9,7 @@ import { AccountType } from './account';
 import { TestUtils } from '../shared/test-utils';
 import { AppMessageService } from '../app-message-service';
 import { HttpClient } from '@angular/common/http';
+import { PATHS } from '../app.paths';
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -79,7 +80,7 @@ describe('AccountListComponent', () => {
     });
 
     it('should set routerName based on account type', () => {
-      expect(component.routerName).toBe('debitAccounts');
+      expect(component.routerName).toBe(`debit${PATHS.ACCOUNT_PATH}`);
     });
 
     it('should set modelName based on account type', () => {
@@ -94,7 +95,7 @@ describe('AccountListComponent', () => {
       const newFixture = TestUtils.createFixture(AccountListComponent);
       const newComponent = newFixture.componentInstance;
 
-      expect(newComponent.routerName).toBe('creditAccounts');
+      expect(newComponent.routerName).toBe(`credit${PATHS.ACCOUNT_PATH}`);
       expect(newComponent.modelName).toBe('Credit Account');
     });
 
@@ -104,7 +105,7 @@ describe('AccountListComponent', () => {
       const newFixture = TestUtils.createFixture(AccountListComponent);
       const newComponent = newFixture.componentInstance;
 
-      expect(newComponent.routerName).toBe('equityAccounts');
+      expect(newComponent.routerName).toBe(`equity${PATHS.ACCOUNT_PATH}`);
       expect(newComponent.modelName).toBe('Equity Account');
     });
 

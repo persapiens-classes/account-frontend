@@ -9,6 +9,7 @@ import { TestUtils } from '../shared/test-utils';
 
 // Mock component for router testing
 import { Component } from '@angular/core';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-mock',
@@ -42,17 +43,17 @@ describe('MenuComponent', () => {
       providers: [
         provideZonelessChangeDetection(),
         provideRouter([
-          { path: 'balances', component: MockComponent },
-          { path: 'creditEntries', component: MockComponent },
-          { path: 'debitEntries', component: MockComponent },
-          { path: 'transferEntries', component: MockComponent },
-          { path: 'creditAccounts', component: MockComponent },
-          { path: 'debitAccounts', component: MockComponent },
-          { path: 'equityAccounts', component: MockComponent },
-          { path: 'creditCategories', component: MockComponent },
-          { path: 'debitCategories', component: MockComponent },
-          { path: 'equityCategories', component: MockComponent },
-          { path: 'owners', component: MockComponent },
+          { path: PATHS.BALANCE_PATH, component: MockComponent },
+          { path: `credit${PATHS.ENTRY_PATH}`, component: MockComponent },
+          { path: `debit${PATHS.ENTRY_PATH}`, component: MockComponent },
+          { path: `transfer${PATHS.ENTRY_PATH}`, component: MockComponent },
+          { path: `credit${PATHS.ACCOUNT_PATH}`, component: MockComponent },
+          { path: `debit${PATHS.ACCOUNT_PATH}`, component: MockComponent },
+          { path: `equity${PATHS.ACCOUNT_PATH}`, component: MockComponent },
+          { path: `credit${PATHS.CATEGORY_PATH}`, component: MockComponent },
+          { path: `debit${PATHS.CATEGORY_PATH}`, component: MockComponent },
+          { path: `equity${PATHS.CATEGORY_PATH}`, component: MockComponent },
+          { path: PATHS.OWNER_PATH, component: MockComponent },
         ]),
       ],
     }).compileComponents();
@@ -83,11 +84,23 @@ describe('MenuComponent', () => {
 
     it('should have main navigation items with correct properties', () => {
       const expectedMainItems = [
-        { label: 'Balance', icon: 'pi pi-arrow-up', routerLink: ['/balances'] },
-        { label: 'Credit Entry', icon: 'pi pi-arrow-up', routerLink: ['/creditEntries'] },
-        { label: 'Debit Entry', icon: 'pi pi-arrow-down', routerLink: ['/debitEntries'] },
-        { label: 'Transfer Entry', icon: 'pi pi-arrow-right', routerLink: ['/transferEntries'] },
-        { label: 'Owner', icon: 'pi pi-users', routerLink: ['/owners'] },
+        { label: 'Balance', icon: 'pi pi-arrow-up', routerLink: [`/${PATHS.BALANCE_PATH}`] },
+        {
+          label: 'Credit Entry',
+          icon: 'pi pi-arrow-up',
+          routerLink: [`/credit${PATHS.ENTRY_PATH}`],
+        },
+        {
+          label: 'Debit Entry',
+          icon: 'pi pi-arrow-down',
+          routerLink: [`/debit${PATHS.ENTRY_PATH}`],
+        },
+        {
+          label: 'Transfer Entry',
+          icon: 'pi pi-arrow-right',
+          routerLink: [`/transfer${PATHS.ENTRY_PATH}`],
+        },
+        { label: 'Owner', icon: 'pi pi-users', routerLink: [`/${PATHS.OWNER_PATH}`] },
       ];
 
       expectedMainItems.forEach((expectedItem) => {
@@ -116,9 +129,21 @@ describe('MenuComponent', () => {
 
     it('should have Account submenu items with correct properties', () => {
       const expectedSubItems = [
-        { label: 'Credit Account', icon: 'pi pi-graduation-cap', routerLink: ['/creditAccounts'] },
-        { label: 'Debit Account', icon: 'pi pi-shopping-cart', routerLink: ['/debitAccounts'] },
-        { label: 'Equity Account', icon: 'pi pi-wallet', routerLink: ['/equityAccounts'] },
+        {
+          label: 'Credit Account',
+          icon: 'pi pi-graduation-cap',
+          routerLink: [`/credit${PATHS.ACCOUNT_PATH}`],
+        },
+        {
+          label: 'Debit Account',
+          icon: 'pi pi-shopping-cart',
+          routerLink: [`/debit${PATHS.ACCOUNT_PATH}`],
+        },
+        {
+          label: 'Equity Account',
+          icon: 'pi pi-wallet',
+          routerLink: [`/equity${PATHS.ACCOUNT_PATH}`],
+        },
       ];
 
       expectedSubItems.forEach((expectedSubItem) => {
@@ -150,10 +175,18 @@ describe('MenuComponent', () => {
         {
           label: 'Credit Category',
           icon: 'pi pi-graduation-cap',
-          routerLink: ['/creditCategories'],
+          routerLink: [`/credit${PATHS.CATEGORY_PATH}`],
         },
-        { label: 'Debit Category', icon: 'pi pi-folder', routerLink: ['/debitCategories'] },
-        { label: 'Equity Category', icon: 'pi pi-wallet', routerLink: ['/equityCategories'] },
+        {
+          label: 'Debit Category',
+          icon: 'pi pi-folder',
+          routerLink: [`/debit${PATHS.CATEGORY_PATH}`],
+        },
+        {
+          label: 'Equity Category',
+          icon: 'pi pi-wallet',
+          routerLink: [`/equity${PATHS.CATEGORY_PATH}`],
+        },
       ];
 
       expectedSubItems.forEach((expectedSubItem) => {

@@ -7,6 +7,7 @@ import { CategoryListComponent } from './category-list.component';
 import { TestUtils } from '../shared/test-utils';
 import { CategoryType } from './category';
 import { AppMessageService } from '../app-message-service';
+import { PATHS } from '../app.paths';
 
 const typeNameMap: Record<CategoryType, string> = {
   [CategoryType.DEBIT]: 'DEBIT',
@@ -15,9 +16,9 @@ const typeNameMap: Record<CategoryType, string> = {
 };
 
 const routerNameMap: Record<CategoryType, string> = {
-  [CategoryType.DEBIT]: 'debitCategories',
-  [CategoryType.CREDIT]: 'creditCategories',
-  [CategoryType.EQUITY]: 'equityCategories',
+  [CategoryType.DEBIT]: `debit${PATHS.CATEGORY_PATH}`,
+  [CategoryType.CREDIT]: `credit${PATHS.CATEGORY_PATH}`,
+  [CategoryType.EQUITY]: `equity${PATHS.CATEGORY_PATH}`,
 };
 
 function createTestBed(type: CategoryType) {

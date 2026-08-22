@@ -5,6 +5,7 @@ import { DetailFieldComponent } from '../field/detail-field.component';
 import { toModelFromHistory } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-category-detail',
@@ -20,7 +21,7 @@ export class CategoryDetailComponent {
   routerName: string;
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}Categories`;
+    this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
     this.model = toModelFromHistory<Category>(CategorySchema);
   }
 }
