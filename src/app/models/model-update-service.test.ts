@@ -2,6 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelUpdateService, updateModel } from './model-update-service';
+import { expectObservableValue, MinimalModel, ValidModel } from './model-test-helpers';
+import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -29,17 +31,7 @@ describe('ModelUpdateService', () => {
   let mockHttpClient: HttpClient;
 
   beforeEach(async () => {
-    // Setup mock for HttpClient
-    mockHttpClient = {
-      post: vi.fn(),
-      get: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-      patch: vi.fn(),
-      head: vi.fn(),
-      options: vi.fn(),
-      request: vi.fn(),
-    } as unknown as HttpClient;
+    mockHttpClient = createHttpClientTestMock();
 
     await TestUtils.setupServiceTestBed(Object, [
       { provide: HttpClient, useValue: mockHttpClient },
@@ -256,11 +248,6 @@ describe('ModelUpdateService', () => {
 
   describe('Integration with Model utility functions', () => {
     it('should work with different Model implementations', () => {
-      interface MinimalModel {
-        id: string;
-        data: string;
-      }
-
       const routerName = 'minimal-updates';
       const id = 'minimal-123';
       const idSeparator = '/';
@@ -269,13 +256,13 @@ describe('ModelUpdateService', () => {
 
       vi.mocked(mockHttpClient.put).mockReturnValue(of(mockResponse));
 
-      return new Promise<void>((resolve) => {
-        updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe((result) => {
+      return expectObservableValue(
+        updateModel(updateData, mockHttpClient, routerName, id, idSeparator),
+        (result) => {
           expect((result as MinimalModel).id).toBe('minimal-123');
           expect((result as MinimalModel).data).toBe('updated minimal data');
-          resolve();
-        });
-      });
+        },
+      );
     });
   });
 
@@ -297,53 +284,27 @@ describe('ModelUpdateService', () => {
     });
 
     it('should construct URLs correctly with different router names', () => {
-      const testCases = [
-        {
-          routerName: 'users',
-          id: 'user-1',
-          expected: `${environment.apiUrl}/users/user-1`,
-        },
-        {
-          routerName: 'products',
-          id: 'product-2',
-          expected: `${environment.apiUrl}/products/product-2`,
-        },
-        {
-          routerName: 'categories',
-          id: 'cat-3',
-          expected: `${environment.apiUrl}/categories/cat-3`,
-        },
+      const routeCases: [string, string][] = [
+        ['users', 'user-1'],
+        ['products', 'product-2'],
+        ['categories', 'cat-3'],
       ];
 
-      testCases.forEach(({ routerName, id, expected }) => {
+      for (const [routerName, id] of routeCases) {
         const updateData: TestModelUpdate = { name: 'Test', value: 1 };
-        const idSeparator = '/';
+        const expectedUrl = `${environment.apiUrl}/${routerName}/${id}`;
+
         vi.mocked(mockHttpClient.put).mockReturnValue(of({}));
 
-        updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe();
+        updateModel(updateData, mockHttpClient, routerName, id, '/').subscribe();
 
-        expect(mockHttpClient.put).toHaveBeenCalledWith(expected, updateData);
-      });
+        expect(mockHttpClient.put).toHaveBeenCalledWith(expectedUrl, updateData);
+      }
     });
   });
 
   describe('Type Safety and Generic Constraints', () => {
     it('should enforce Model constraint on generic types', () => {
-      interface ValidModelType {
-        title: string;
-      }
-
-      class ValidModel implements ValidModelType {
-        constructor(
-          public id = '',
-          public title = '',
-        ) {}
-
-        getId(): string {
-          return this.id;
-        }
-      }
-
       const service: ModelUpdateService<ValidModel, { title?: string }> = {
         update: (): Observable<ValidModel> => of(new ValidModel()),
       };

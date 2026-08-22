@@ -1,8 +1,7 @@
 {
-  "threshold": 25,
+  "threshold": 4,
   "reporters": ["console", "json", "html"],
   "absolute": true,
-  "gitignore": true,
   "ignore": [
     "**/node_modules/**",
     "**/dist/**",
@@ -13,6 +12,6 @@
     "**/*.html"
   ],
   "output": "./report/jscpd/tests",
-  "min-lines": 12,
-  "min-tokens": 80
+  "min-lines": 5,
+  "min-tokens": 70
 }

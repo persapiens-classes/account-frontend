@@ -5,6 +5,7 @@ import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { OwnerUpdateService } from './owner-update-service';
 import { Owner, createOwner, ownerId } from './owner';
+import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -13,17 +14,7 @@ describe('OwnerUpdateService', () => {
   let mockHttpClient: HttpClient;
 
   beforeEach(async () => {
-    // Setup mock for HttpClient
-    mockHttpClient = {
-      post: vi.fn(),
-      get: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-      patch: vi.fn(),
-      head: vi.fn(),
-      options: vi.fn(),
-      request: vi.fn(),
-    } as unknown as HttpClient;
+    mockHttpClient = createHttpClientTestMock();
 
     await TestUtils.setupServiceTestBed(OwnerUpdateService, [
       { provide: HttpClient, useValue: mockHttpClient },

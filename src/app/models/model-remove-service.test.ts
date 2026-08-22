@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError, firstValueFrom } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelRemoveService, removeModel } from './model-remove-service';
+import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 import { PATHS } from '../app.paths';
@@ -10,17 +11,7 @@ describe('ModelRemoveService', () => {
   let mockHttpClient: HttpClient;
 
   beforeEach(async () => {
-    // Setup mock for HttpClient
-    mockHttpClient = {
-      post: vi.fn(),
-      get: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-      patch: vi.fn(),
-      head: vi.fn(),
-      options: vi.fn(),
-      request: vi.fn(),
-    } as unknown as HttpClient;
+    mockHttpClient = createHttpClientTestMock();
 
     await TestUtils.setupServiceTestBed(Object, [
       { provide: HttpClient, useValue: mockHttpClient },

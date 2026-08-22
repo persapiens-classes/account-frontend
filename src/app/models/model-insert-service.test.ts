@@ -3,6 +3,8 @@ import { Observable, of, throwError } from 'rxjs';
 
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelInsertService, insertModel } from './model-insert-service';
+import { expectObservableValue, MinimalModel, ValidModel } from './model-test-helpers';
+import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 import { PATHS } from '../app.paths';
@@ -29,17 +31,7 @@ describe('ModelInsertService', () => {
   let mockHttpClient: HttpClient;
 
   beforeEach(async () => {
-    // Setup mock for HttpClient
-    mockHttpClient = {
-      post: vi.fn(),
-      get: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-      patch: vi.fn(),
-      head: vi.fn(),
-      options: vi.fn(),
-      request: vi.fn(),
-    } as unknown as HttpClient;
+    mockHttpClient = createHttpClientTestMock();
 
     await TestUtils.setupServiceTestBed(Object, [
       { provide: HttpClient, useValue: mockHttpClient },
@@ -226,23 +218,15 @@ describe('ModelInsertService', () => {
 
   describe('Integration with Model utility functions', () => {
     it('should work with different Model implementations', () => {
-      interface MinimalModel {
-        id: string;
-        data: string;
-      }
-
       const routerName = 'minimal-models';
       const inputData = { data: 'minimal data' };
       const mockResponse = { id: 'min-1', data: 'minimal data' };
 
       vi.mocked(mockHttpClient.post).mockReturnValue(of(mockResponse));
 
-      return new Promise<void>((resolve) => {
-        insertModel(inputData, mockHttpClient, routerName).subscribe((result) => {
-          expect((result as MinimalModel).id).toBe('min-1');
-          expect((result as MinimalModel).data).toBe('minimal data');
-          resolve();
-        });
+      return expectObservableValue(insertModel(inputData, mockHttpClient, routerName), (result) => {
+        expect((result as MinimalModel).id).toBe('min-1');
+        expect((result as MinimalModel).data).toBe('minimal data');
       });
     });
   });
@@ -282,21 +266,6 @@ describe('ModelInsertService', () => {
 
   describe('Type Safety and Generic Constraints', () => {
     it('should enforce Model constraint on generic types', () => {
-      interface ValidModelType {
-        title: string;
-      }
-
-      class ValidModel implements ValidModelType {
-        constructor(
-          public id = '',
-          public title = '',
-        ) {}
-
-        getId(): string {
-          return this.id;
-        }
-      }
-
       const service: ModelInsertService<ValidModel, { title: string }> = {
         insert: (): Observable<ValidModel> => of(new ValidModel()),
       };

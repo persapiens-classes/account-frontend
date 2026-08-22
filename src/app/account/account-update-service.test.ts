@@ -4,6 +4,7 @@ import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { AccountUpdateService } from './account-update-service';
 import { Account, accountId, AccountType, createAccount } from './account';
+import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -13,17 +14,7 @@ describe('AccountUpdateService', () => {
   const testAccountType = AccountType.DEBIT;
 
   beforeEach(async () => {
-    // Setup mock for HttpClient
-    mockHttpClient = {
-      post: vi.fn(),
-      get: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-      patch: vi.fn(),
-      head: vi.fn(),
-      options: vi.fn(),
-      request: vi.fn(),
-    } as unknown as HttpClient;
+    mockHttpClient = createHttpClientTestMock();
 
     await TestUtils.setupServiceTestBed(AccountUpdateService, [
       { provide: HttpClient, useValue: mockHttpClient },

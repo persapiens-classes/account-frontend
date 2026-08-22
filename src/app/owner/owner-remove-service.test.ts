@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { OwnerRemoveService } from './owner-remove-service';
+import { createHttpClientTestMock } from '../shared/http-client-test-mock';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -12,17 +13,7 @@ describe('OwnerRemoveService', () => {
   let mockHttpClient: HttpClient;
 
   beforeEach(async () => {
-    // Setup mock for HttpClient
-    mockHttpClient = {
-      post: vi.fn(),
-      get: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-      patch: vi.fn(),
-      head: vi.fn(),
-      options: vi.fn(),
-      request: vi.fn(),
-    } as unknown as HttpClient;
+    mockHttpClient = createHttpClientTestMock();
 
     await TestUtils.setupServiceTestBed(OwnerRemoveService, [
       { provide: HttpClient, useValue: mockHttpClient },
@@ -58,6 +49,19 @@ describe('OwnerRemoveService', () => {
 
   // Functional tests
   describe('remove method', () => {
+    const expectRemoveError = async (id: string, error: unknown): Promise<void> => {
+      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(throwError(() => error));
+
+      await expect(
+        new Promise((resolve, reject) => {
+          service.remove(id).subscribe({
+            next: resolve,
+            error: reject,
+          });
+        }),
+      ).rejects.toMatchObject(error as object);
+    };
+
     it('should call HTTP DELETE with correct parameters', () => {
       const ownerId = 'owner-to-delete';
 
@@ -127,53 +131,25 @@ describe('OwnerRemoveService', () => {
     });
 
     it('should handle owner not found errors', async () => {
-      const nonExistentId = 'non-existent-owner';
-      const notFoundError = new HttpErrorResponse({
-        error: 'Owner not found',
-        status: 404,
-        statusText: 'Not Found',
-      });
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => notFoundError),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.remove(nonExistentId).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectRemoveError(
+        'non-existent-owner',
+        new HttpErrorResponse({
+          error: 'Owner not found',
+          status: 404,
+          statusText: 'Not Found',
         }),
-      ).rejects.toMatchObject({
-        status: 404,
-        statusText: 'Not Found',
-      });
+      );
     });
 
     it('should handle constraint violation errors', async () => {
-      const ownerId = 'owner-with-dependencies';
-      const constraintError = new HttpErrorResponse({
-        error: { message: 'Cannot delete owner with existing accounts' },
-        status: 409,
-        statusText: 'Conflict',
-      });
-
-      (mockHttpClient.delete as ReturnType<typeof vi.fn>).mockReturnValue(
-        throwError(() => constraintError),
-      );
-
-      await expect(
-        new Promise((resolve, reject) => {
-          service.remove(ownerId).subscribe({
-            next: resolve,
-            error: reject,
-          });
+      await expectRemoveError(
+        'owner-with-dependencies',
+        new HttpErrorResponse({
+          error: { message: 'Cannot delete owner with existing accounts' },
+          status: 409,
+          statusText: 'Conflict',
         }),
-      ).rejects.toMatchObject({
-        status: 409,
-        error: { message: 'Cannot delete owner with existing accounts' },
-      });
+      );
     });
 
     it('should return Observable<void>', () => {
