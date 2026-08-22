@@ -7,7 +7,7 @@ console.log('--- DEBUG ---');
 console.log('VITE_COVERAGE:', process.env['VITE_COVERAGE']);
 console.log('--- DEBUG ---');
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   const isCoverage = process.env['VITE_COVERAGE'] === 'true';
 
   return {

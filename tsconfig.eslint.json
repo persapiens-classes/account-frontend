@@ -9,8 +9,10 @@
     "src/test-setup.ts",
     "cypress/**/*.ts",
     "vitest-unit.config.ts",
+    "vite-cypress.config.ts",
     "cypress.config.js",
-    "eslint.config.js"
+    "eslint.config.js",
+    "commitlint.config.js"
   ],
   "exclude": ["node_modules"]
 }
