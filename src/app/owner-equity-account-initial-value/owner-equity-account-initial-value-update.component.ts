@@ -5,6 +5,7 @@ import { PanelModule } from '@openng/optimus-ui/panel';
 import {
   OwnerEquityAccountInitialValue,
   ownerEquityAccountInitialValueId,
+  OwnerEquityAccountInitialValueSchema,
 } from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
@@ -12,6 +13,7 @@ import { ModelUpdatePanelComponent } from '../models/model-update-panel.componen
 import { OwnerEquityAccountInitialValueUpdateService } from './owner-equity-account-initial-value-update-service';
 import { toModelFromHistory } from '../models/models';
 import { form, required } from '@angular/forms/signals';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-update',
@@ -31,7 +33,7 @@ import { form, required } from '@angular/forms/signals';
       [createModel]="createModel.bind(this)"
       [modelUpdateService]="modelUpdateService"
       [modelName]="'Balances'"
-      [routerName]="'ownerEquityAccountInitialValues'"
+      [routerName]="routerName"
     >
       <app-detail-field strong="Owner" value="{{ modelFromHistory.owner }}" />
 
@@ -47,7 +49,10 @@ import { form, required } from '@angular/forms/signals';
   `,
 })
 export class OwnerEquityAccountInitialValueUpdateComponent {
-  modelFromHistory = toModelFromHistory<OwnerEquityAccountInitialValue>();
+  routerName = PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH;
+  modelFromHistory = toModelFromHistory<OwnerEquityAccountInitialValue>(
+    OwnerEquityAccountInitialValueSchema,
+  );
   form = form(signal(this.modelFromHistory), (f) => {
     required(f.initialValue);
   });

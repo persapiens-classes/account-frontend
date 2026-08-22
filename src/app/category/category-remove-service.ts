@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ModelRemoveService, removeModel } from '../models/model-remove-service';
 import { Observable } from 'rxjs';
 import { CategoryType } from './category';
+import { API_PATHS } from '../app.api-paths';
 
 export class CategoryRemoveService implements ModelRemoveService {
   constructor(
@@ -10,6 +11,11 @@ export class CategoryRemoveService implements ModelRemoveService {
   ) {}
 
   remove(id: string): Observable<void> {
-    return removeModel(this.http, `${this.type.toLowerCase()}Categories`, id, '/');
+    return removeModel(
+      this.http,
+      `${this.type.toLowerCase()}${API_PATHS.CATEGORY_API_PATH}`,
+      id,
+      '/',
+    );
   }
 }

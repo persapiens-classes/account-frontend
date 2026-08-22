@@ -9,6 +9,7 @@ import { OwnerRemoveService } from './owner-remove-service';
 import { Owner } from './owner';
 import { TestUtils } from '../shared/test-utils';
 import { AppMessageService } from '../app-message-service';
+import { PATHS } from '../app.paths';
 
 describe('OwnerListComponent', () => {
   let component: OwnerListComponent;
@@ -63,12 +64,13 @@ describe('OwnerListComponent', () => {
   });
 
   describe('Component Initialization', () => {
+    const routerName = PATHS.OWNER_PATH;
     it('should create component successfully', () => {
       TestUtils.testBasicInitialization(
         component,
         {
           modelName: 'Owner',
-          routerName: 'owners',
+          routerName: routerName,
         },
         OwnerListComponent,
       );
@@ -77,7 +79,7 @@ describe('OwnerListComponent', () => {
 
     it('should have correct default properties', () => {
       expect(component.modelName).toBe('Owner');
-      expect(component.routerName).toBe('owners');
+      expect(component.routerName).toBe(PATHS.OWNER_PATH);
       expect(component.modelRemoveService).toBe(mockOwnerRemoveService);
       expect(component.modelsList).toBe(mockOwnersSignal);
     });
@@ -117,7 +119,7 @@ describe('OwnerListComponent', () => {
   describe('Component Structure', () => {
     it('should have correct model configuration', () => {
       expect(component.modelName).toBe('Owner');
-      expect(component.routerName).toBe('owners');
+      expect(component.routerName).toBe(PATHS.OWNER_PATH);
     });
 
     it('should implement required component interface', () => {

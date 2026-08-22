@@ -11,6 +11,7 @@ import { OwnerEquityAccountInitialValueRemoveService } from './owner-equity-acco
 import { ModelListPanelComponent } from '../models/model-list-panel.component';
 
 import { BalanceListService } from './balance-list-service';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-balance-list',
@@ -122,7 +123,7 @@ import { BalanceListService } from './balance-list-service';
 })
 export class BalanceListComponent {
   modelName = 'Balance';
-  routerName = 'balances';
+  routerName = PATHS.BALANCE_PATH;
   modelRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
   modelIdFn = balanceId;
 

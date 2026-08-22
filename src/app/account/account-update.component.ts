@@ -4,7 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { Account, accountFormToModel, accountId, accountModelToForm } from './account';
+import {
+  Account,
+  accountFormToModel,
+  accountId,
+  accountModelToForm,
+  AccountSchema,
+} from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
@@ -14,6 +20,7 @@ import { AccountUpdateService } from './account-update-service';
 import { toModelFromHistory } from '../models/models';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { AppMessageService } from '../app-message-service';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-account-update',
@@ -52,7 +59,7 @@ import { AppMessageService } from '../app-message-service';
   `,
 })
 export class AccountUpdateComponent {
-  modelFromHistory = toModelFromHistory<Account>();
+  modelFromHistory = toModelFromHistory<Account>(AccountSchema);
   modelIdFn = accountId;
   form = form(signal(accountModelToForm(this.modelFromHistory)), (f) => {
     required(f.description);
@@ -70,7 +77,7 @@ export class AccountUpdateComponent {
     const activatedRoute = inject(ActivatedRoute);
     const type = activatedRoute.snapshot.data['type'];
     this.modelName = `${type} Account`;
-    this.routerName = `${type.toLowerCase()}Accounts`;
+    this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
     const http = inject(HttpClient);
     this.modelUpdateService = new AccountUpdateService(http, type);
 

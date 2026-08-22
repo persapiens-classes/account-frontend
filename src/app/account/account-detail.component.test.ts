@@ -4,6 +4,7 @@ import { expect, describe, it, beforeEach, vi } from 'vitest';
 import { TestUtils } from '../shared/test-utils';
 import { AccountDetailComponent } from './account-detail.component';
 import { accountId, AccountType } from './account';
+import { PATHS } from '../app.paths';
 
 describe('AccountDetailComponent', () => {
   let component: AccountDetailComponent;
@@ -60,19 +61,19 @@ describe('AccountDetailComponent', () => {
     });
 
     it('should set routerName based on account type from ActivatedRoute', () => {
-      expect(component.routerName).toBe('debitAccounts');
+      expect(component.routerName).toBe(`debit${PATHS.ACCOUNT_PATH}`);
     });
 
     it('should handle different account types correctly', () => {
       // Test Credit type
       mockActivatedRoute.snapshot.data['type'] = AccountType.CREDIT;
       const creditFixture = TestUtils.createFixture(AccountDetailComponent);
-      expect(creditFixture.componentInstance.routerName).toBe('creditAccounts');
+      expect(creditFixture.componentInstance.routerName).toBe(`credit${PATHS.ACCOUNT_PATH}`);
 
       // Test Equity type
       mockActivatedRoute.snapshot.data['type'] = AccountType.EQUITY;
       const equityFixture = TestUtils.createFixture(AccountDetailComponent);
-      expect(equityFixture.componentInstance.routerName).toBe('equityAccounts');
+      expect(equityFixture.componentInstance.routerName).toBe(`equity${PATHS.ACCOUNT_PATH}`);
 
       // Reset to default
       mockActivatedRoute.snapshot.data['type'] = AccountType.DEBIT;
@@ -113,7 +114,7 @@ describe('AccountDetailComponent', () => {
     it('should initialize routerName in constructor', () => {
       expect(component.routerName).toBeDefined();
       expect(typeof component.routerName).toBe('string');
-      expect(component.routerName).toBe('debitAccounts');
+      expect(component.routerName).toBe(`debit${PATHS.ACCOUNT_PATH}`);
     });
 
     it('should maintain model reference throughout component lifecycle', () => {
@@ -126,19 +127,19 @@ describe('AccountDetailComponent', () => {
     it('should format routerName correctly for debit accounts', () => {
       mockActivatedRoute.snapshot.data['type'] = AccountType.DEBIT;
       const debitFixture = TestUtils.createFixture(AccountDetailComponent);
-      expect(debitFixture.componentInstance.routerName).toBe('debitAccounts');
+      expect(debitFixture.componentInstance.routerName).toBe(`debit${PATHS.ACCOUNT_PATH}`);
     });
 
     it('should format routerName correctly for credit accounts', () => {
       mockActivatedRoute.snapshot.data['type'] = AccountType.CREDIT;
       const creditFixture = TestUtils.createFixture(AccountDetailComponent);
-      expect(creditFixture.componentInstance.routerName).toBe('creditAccounts');
+      expect(creditFixture.componentInstance.routerName).toBe(`credit${PATHS.ACCOUNT_PATH}`);
     });
 
     it('should format routerName correctly for equity accounts', () => {
       mockActivatedRoute.snapshot.data['type'] = AccountType.EQUITY;
       const equityFixture = TestUtils.createFixture(AccountDetailComponent);
-      expect(equityFixture.componentInstance.routerName).toBe('equityAccounts');
+      expect(equityFixture.componentInstance.routerName).toBe(`equity${PATHS.ACCOUNT_PATH}`);
     });
   });
 });

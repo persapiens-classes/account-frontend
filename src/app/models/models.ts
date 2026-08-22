@@ -1,11 +1,16 @@
-export function toModel<T>(json: T, jsonToModelFn: (t: T) => T = defaultJsonToModel): T {
-  return jsonToModelFn(json);
+import z from 'zod';
+
+export function toModelFromHistory<T>(schema: z.ZodType<T>): T {
+  return safeModelWithZod(history.state.model, schema);
 }
 
-export function defaultJsonToModel<T>(result: T): T {
-  return result;
-}
+export function safeModelWithZod<T>(data: unknown, schema: z.ZodType<T>): T {
+  const validated = schema.safeParse(data);
 
-export function toModelFromHistory<T>(jsonToModelFn: (t: T) => T = defaultJsonToModel): T {
-  return toModel(history.state.model, jsonToModelFn);
+  if (!validated.success) {
+    console.error('Validation backend error:', validated.error);
+    throw new Error(`Invalid data returned from the server: ${validated.error.message}`);
+  }
+
+  return validated.data;
 }

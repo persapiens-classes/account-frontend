@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { signal, WritableSignal } from '@angular/core';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelListService, handleHttpResourceError } from './model-list-service';
-import { toModel, defaultJsonToModel } from './models';
 import { AppMessageService } from '../app-message-service';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
@@ -148,14 +147,6 @@ describe('ModelListService', () => {
   });
 
   describe('Integration with Model utility functions', () => {
-    it('should work with toModel function', () => {
-      const jsonData = { id: '1', name: 'Test Model' };
-      const model = toModel(jsonData, defaultJsonToModel);
-
-      expect(model.id).toBe('1');
-      expect(model.name).toBe('Test Model');
-    });
-
     it('should work with custom Model implementations', () => {
       interface CustomModel {
         id: string;

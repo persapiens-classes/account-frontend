@@ -5,6 +5,7 @@ import { of, throwError } from 'rxjs';
 import { CategoryInsertService } from './category-insert-service';
 import { Category, categoryId, CategoryType } from './category';
 import { environment } from '../../environments/environment';
+import { PATHS } from '../app.paths';
 
 describe('CategoryInsertService', () => {
   let service: CategoryInsertService;
@@ -55,7 +56,7 @@ describe('CategoryInsertService', () => {
       service.insert(testCategory).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/debitCategories`,
+        `${environment.apiUrl}/debit${PATHS.CATEGORY_PATH}`,
         testCategory,
       );
     });
@@ -168,7 +169,7 @@ describe('CategoryInsertService', () => {
       service.insert(testCategory).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/creditCategories`,
+        `${environment.apiUrl}/credit${PATHS.CATEGORY_PATH}`,
         testCategory,
       );
     });
@@ -204,7 +205,7 @@ describe('CategoryInsertService', () => {
       service.insert(testCategory).subscribe();
 
       expect(mockHttpClient.post).toHaveBeenCalledWith(
-        `${environment.apiUrl}/equityCategories`,
+        `${environment.apiUrl}/equity${PATHS.CATEGORY_PATH}`,
         testCategory,
       );
     });

@@ -12,6 +12,7 @@ import { RemoveButtonComponent } from '../models/remove-button.component';
 import { AppMessageService } from '../app-message-service';
 import { CategoryRemoveService } from './category-remove-service';
 import { ModelListPanelComponent } from '../models/model-list-panel.component';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-category-list',
@@ -88,7 +89,7 @@ export class CategoryListComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.modelName = `${type} Category`;
-    this.routerName = `${type.toLowerCase()}Categories`;
+    this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
     this.modelRemoveService = new CategoryRemoveService(inject(HttpClient), type);
 
     this.modelsList = new CategoryListService(inject(AppMessageService), type).findAll();

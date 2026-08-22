@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ModelInsertService, insertModel } from '../models/model-insert-service';
 import { Category, CategoryType } from './category';
 import { Observable } from 'rxjs';
+import { API_PATHS } from '../app.api-paths';
 
 export class CategoryInsertService implements ModelInsertService<Category, Category> {
   constructor(
@@ -10,6 +11,10 @@ export class CategoryInsertService implements ModelInsertService<Category, Categ
   ) {}
 
   insert(category: Category): Observable<Category> {
-    return insertModel(category, this.http, `${this.type.toLowerCase()}Categories`);
+    return insertModel(
+      category,
+      this.http,
+      `${this.type.toLowerCase()}${API_PATHS.CATEGORY_API_PATH}`,
+    );
   }
 }

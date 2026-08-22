@@ -1,11 +1,14 @@
-import { Account } from '../account/account';
+import { AccountSchema } from '../account/account';
+import { z } from 'zod';
 
-export interface Balance {
-  owner: string;
-  equityAccount: Account;
-  initialValue: number;
-  balance: number;
-}
+export const BalanceSchema = z.object({
+  owner: z.string(),
+  equityAccount: AccountSchema,
+  initialValue: z.number(),
+  balance: z.number(),
+});
+
+export type Balance = z.infer<typeof BalanceSchema>;
 
 export function balanceId(balance: Balance): string {
   return `owner=${balance.owner}&equityAccount=${balance.equityAccount.description}`;

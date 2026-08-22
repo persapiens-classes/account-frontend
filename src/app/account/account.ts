@@ -1,9 +1,12 @@
 import { Category } from '../category/category';
+import { z } from 'zod';
 
-export interface Account {
-  description: string;
-  category: string;
-}
+export const AccountSchema = z.object({
+  description: z.string(),
+  category: z.string(),
+});
+
+export type Account = z.infer<typeof AccountSchema>;
 
 export function accountId(account: Account): string {
   return account.description;

@@ -4,6 +4,7 @@ import { TooltipModule } from '@openng/optimus-ui/tooltip';
 import { MenubarModule } from '@openng/optimus-ui/menubar';
 import { MenuItem, PassThroughContext } from '@openng/optimus-ui/api';
 import { MenubarPassThrough } from '@openng/optimus-ui/types/menubar';
+import { PATHS } from '../app.paths';
 
 interface MenuItemWithDataCy extends MenuItem {
   dataCy?: string;
@@ -23,25 +24,25 @@ export class MenuComponent {
       {
         label: 'Balance',
         icon: 'pi pi-arrow-up',
-        routerLink: ['/balances'],
+        routerLink: [`/${PATHS.BALANCE_PATH}`],
         dataCy: 'menu-balance',
       },
       {
         label: 'Credit Entry',
         icon: 'pi pi-arrow-up',
-        routerLink: ['/creditEntries'],
+        routerLink: [`/credit${PATHS.ENTRY_PATH}`],
         dataCy: 'menu-credit-entry',
       },
       {
         label: 'Debit Entry',
         icon: 'pi pi-arrow-down',
-        routerLink: ['/debitEntries'],
+        routerLink: [`/debit${PATHS.ENTRY_PATH}`],
         dataCy: 'menu-debit-entry',
       },
       {
         label: 'Transfer Entry',
         icon: 'pi pi-arrow-right',
-        routerLink: ['/transferEntries'],
+        routerLink: [`/transfer${PATHS.ENTRY_PATH}`],
         dataCy: 'menu-transfer-entry',
       },
       {
@@ -52,19 +53,19 @@ export class MenuComponent {
           {
             label: 'Credit Account',
             icon: 'pi pi-graduation-cap',
-            routerLink: ['/creditAccounts'],
+            routerLink: [`/credit${PATHS.ACCOUNT_PATH}`],
             dataCy: 'menu-account-credit',
           },
           {
             label: 'Debit Account',
             icon: 'pi pi-shopping-cart',
-            routerLink: ['/debitAccounts'],
+            routerLink: [`/debit${PATHS.ACCOUNT_PATH}`],
             dataCy: 'menu-account-debit',
           },
           {
             label: 'Equity Account',
             icon: 'pi pi-wallet',
-            routerLink: ['/equityAccounts'],
+            routerLink: [`/equity${PATHS.ACCOUNT_PATH}`],
             dataCy: 'menu-account-equity',
           },
         ],
@@ -77,19 +78,19 @@ export class MenuComponent {
           {
             label: 'Credit Category',
             icon: 'pi pi-graduation-cap',
-            routerLink: ['/creditCategories'],
+            routerLink: [`/credit${PATHS.CATEGORY_PATH}`],
             dataCy: 'menu-category-credit',
           },
           {
             label: 'Debit Category',
             icon: 'pi pi-folder',
-            routerLink: ['/debitCategories'],
+            routerLink: [`/debit${PATHS.CATEGORY_PATH}`],
             dataCy: 'menu-category-debit',
           },
           {
             label: 'Equity Category',
             icon: 'pi pi-wallet',
-            routerLink: ['/equityCategories'],
+            routerLink: [`/equity${PATHS.CATEGORY_PATH}`],
             dataCy: 'menu-category-equity',
           },
         ],
@@ -97,7 +98,7 @@ export class MenuComponent {
       {
         label: 'Owner',
         icon: 'pi pi-users',
-        routerLink: ['/owners'],
+        routerLink: [`/${PATHS.OWNER_PATH}`],
         dataCy: 'menu-owner',
       },
     ];

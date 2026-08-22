@@ -1,6 +1,10 @@
-export interface Category {
-  description: string;
-}
+import { z } from 'zod';
+
+export const CategorySchema = z.object({
+  description: z.string(),
+});
+
+export type Category = z.infer<typeof CategorySchema>;
 
 export function categoryId(category: Category): string {
   return category.description;

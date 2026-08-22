@@ -6,6 +6,7 @@ import { CategoryDetailComponent } from './category-detail.component';
 import { TestUtils } from '../shared/test-utils';
 import { CategoryType } from './category';
 import { AppMessageService } from '../app-message-service';
+import { PATHS } from '../app.paths';
 
 const typeNameMap: Record<CategoryType, string> = {
   [CategoryType.DEBIT]: 'DEBIT',
@@ -14,9 +15,9 @@ const typeNameMap: Record<CategoryType, string> = {
 };
 
 const routerNameMap: Record<CategoryType, string> = {
-  [CategoryType.DEBIT]: 'debitCategories',
-  [CategoryType.CREDIT]: 'creditCategories',
-  [CategoryType.EQUITY]: 'equityCategories',
+  [CategoryType.DEBIT]: `debit${PATHS.CATEGORY_PATH}`,
+  [CategoryType.CREDIT]: `credit${PATHS.CATEGORY_PATH}`,
+  [CategoryType.EQUITY]: `equity${PATHS.CATEGORY_PATH}`,
 };
 
 function createTestBed(type: CategoryType, testId: number) {
@@ -143,7 +144,7 @@ describe('CategoryDetailComponent for DEBIT', () => {
   });
 
   it('should set routerName to "debitCategories"', () => {
-    expect(component.routerName).toBe('debitCategories');
+    expect(component.routerName).toBe(`debit${PATHS.CATEGORY_PATH}`);
   });
 
   it('should have model property', () => {
@@ -204,7 +205,7 @@ describe('CategoryDetailComponent for CREDIT', () => {
   });
 
   it('should set routerName to "creditCategories"', () => {
-    expect(component.routerName).toBe('creditCategories');
+    expect(component.routerName).toBe(`credit${PATHS.CATEGORY_PATH}`);
   });
 
   it('should have model property', () => {
@@ -258,7 +259,7 @@ describe('CategoryDetailComponent for EQUITY', () => {
   });
 
   it('should set routerName to "equityCategories"', () => {
-    expect(component.routerName).toBe('equityCategories');
+    expect(component.routerName).toBe(`equity${PATHS.CATEGORY_PATH}`);
   });
 
   it('should have model property', () => {

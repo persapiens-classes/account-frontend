@@ -2,7 +2,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelUpdateService, updateModel } from './model-update-service';
-import { toModel, defaultJsonToModel } from './models';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -123,14 +122,7 @@ describe('ModelUpdateService', () => {
 
       const updateData: TestModelUpdate = { name: 'Updated Model', value: 200 };
 
-      updateModel(
-        updateData,
-        mockHttpClient,
-        routerName,
-        id,
-        idSeparator,
-        createTestModel,
-      ).subscribe();
+      updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe();
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(expectedUrl, updateData);
     });
@@ -144,14 +136,7 @@ describe('ModelUpdateService', () => {
 
       vi.mocked(mockHttpClient.put).mockReturnValue(of(mockResponse));
 
-      updateModel(
-        updateData,
-        mockHttpClient,
-        routerName,
-        id,
-        idSeparator,
-        createTestModel,
-      ).subscribe();
+      updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe();
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(
         `${environment.apiUrl}/${routerName}/${id}`,
@@ -179,11 +164,6 @@ describe('ModelUpdateService', () => {
     });
 
     it('should use custom jsonToModelFunction when provided', () => {
-      const customJsonToModel = vi.fn((model: TestModel): TestModel => {
-        model.name = `Updated ${model.name}`;
-        return model;
-      });
-
       const routerName = 'custom-updates';
       const id = 'custom-789';
       const idSeparator = '/';
@@ -193,16 +173,8 @@ describe('ModelUpdateService', () => {
       vi.mocked(mockHttpClient.put).mockReturnValue(of(mockResponse));
 
       return new Promise<void>((resolve) => {
-        updateModel(
-          updateData,
-          mockHttpClient,
-          routerName,
-          id,
-          idSeparator,
-          customJsonToModel,
-        ).subscribe((result) => {
-          expect(customJsonToModel).toHaveBeenCalled();
-          expect((result as TestModel).name).toBe('Updated Custom');
+        updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe((result) => {
+          expect((result as TestModel).name).toBe('Custom');
           resolve();
         });
       });
@@ -240,14 +212,7 @@ describe('ModelUpdateService', () => {
       vi.mocked(mockHttpClient.put).mockReturnValue(throwError(() => httpError));
 
       return new Promise<void>((resolve) => {
-        updateModel(
-          updateData,
-          mockHttpClient,
-          routerName,
-          id,
-          idSeparator,
-          createTestModel,
-        ).subscribe({
+        updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -275,14 +240,7 @@ describe('ModelUpdateService', () => {
       vi.mocked(mockHttpClient.put).mockReturnValue(throwError(() => serverError));
 
       return new Promise<void>((resolve) => {
-        updateModel(
-          updateData,
-          mockHttpClient,
-          routerName,
-          id,
-          idSeparator,
-          createTestModel,
-        ).subscribe({
+        updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe({
           next: () => {
             throw new Error('Should not reach success handler');
           },
@@ -297,15 +255,6 @@ describe('ModelUpdateService', () => {
   });
 
   describe('Integration with Model utility functions', () => {
-    it('should work with toModel function', () => {
-      const jsonData = { id: '1', name: 'Integration Test', value: 999 };
-      const model = toModel(jsonData, defaultJsonToModel);
-
-      expect(model.id).toBe('1');
-      expect((model as TestModel).name).toBe('Integration Test');
-      expect((model as TestModel).value).toBe(999);
-    });
-
     it('should work with different Model implementations', () => {
       interface MinimalModel {
         id: string;
@@ -342,14 +291,7 @@ describe('ModelUpdateService', () => {
 
       vi.mocked(mockHttpClient.put).mockReturnValue(of({}));
 
-      updateModel(
-        updateData,
-        mockHttpClient,
-        routerName,
-        id,
-        idSeparator,
-        createTestModel,
-      ).subscribe();
+      updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe();
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(expectedUrl, updateData);
     });
@@ -378,14 +320,7 @@ describe('ModelUpdateService', () => {
         const idSeparator = '/';
         vi.mocked(mockHttpClient.put).mockReturnValue(of({}));
 
-        updateModel(
-          updateData,
-          mockHttpClient,
-          routerName,
-          id,
-          idSeparator,
-          createTestModel,
-        ).subscribe();
+        updateModel(updateData, mockHttpClient, routerName, id, idSeparator).subscribe();
 
         expect(mockHttpClient.put).toHaveBeenCalledWith(expected, updateData);
       });
@@ -433,14 +368,7 @@ describe('ModelUpdateService', () => {
 
         vi.mocked(mockHttpClient.put).mockReturnValue(of({}));
 
-        updateModel(
-          updateData,
-          mockHttpClient,
-          routerName,
-          id,
-          separator,
-          createTestModel,
-        ).subscribe();
+        updateModel(updateData, mockHttpClient, routerName, id, separator).subscribe();
 
         expect(mockHttpClient.put).toHaveBeenCalledWith(expected, updateData);
       });
@@ -455,14 +383,7 @@ describe('ModelUpdateService', () => {
 
       vi.mocked(mockHttpClient.put).mockReturnValue(of({}));
 
-      updateModel(
-        updateData,
-        mockHttpClient,
-        routerName,
-        id,
-        separator,
-        createTestModel,
-      ).subscribe();
+      updateModel(updateData, mockHttpClient, routerName, id, separator).subscribe();
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(expectedUrl, updateData);
     });

@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Account } from './account';
+import { Account, AccountSchema } from './account';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { toModelFromHistory } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-account-detail',
@@ -21,7 +22,7 @@ export class AccountDetailComponent {
   routerName: string;
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}Accounts`;
-    this.model = toModelFromHistory();
+    this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
+    this.model = toModelFromHistory(AccountSchema);
   }
 }

@@ -13,6 +13,7 @@ import { AppMessageService } from '../app-message-service';
 import { EntryListService } from './entry-list-service';
 import { EntryRemoveService } from './entry-remove-service';
 import { ModelListPanelComponent } from '../models/model-list-panel.component';
+import { PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-entry-list',
@@ -130,7 +131,7 @@ export class EntryListComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.modelName = `${type} Entry`;
-    this.routerName = `${type.toLowerCase()}Entries`;
+    this.routerName = `${type.toLowerCase()}${PATHS.ENTRY_PATH}`;
 
     this.modelRemoveService = new EntryRemoveService(inject(HttpClient), type);
 
