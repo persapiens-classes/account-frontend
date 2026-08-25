@@ -1,7 +1,6 @@
 /// <reference types="cypress" />
 
 import { Owner } from '../../../../src/app/owner/owner';
-import { OwnersData } from '../../../e2e/owners/owner-fixture-models';
 import { ModelApiMock } from '../../mock-api-model';
 
 declare global {
@@ -20,38 +19,34 @@ declare global {
  * Includes validation for boundary value test cases (OW-01 through OW-06)
  */
 Cypress.Commands.add('setupOwnersMock', () => {
-  cy.fixture<OwnersData>('owners').then((ownersData: OwnersData) => {
-    const ownersEndpoint = '**/owners';
+  const ownersEndpoint = '**/owners';
 
-    const idFn = (model: Owner): string => model.name;
+  const idFn = (model: Owner): string => model.name;
 
-    const validateOwner = (owner: Owner | undefined): string | null => {
-      console.log('VALIDATING owner:', owner);
-      const ownerName = owner?.name;
+  const validateOwner = (owner: Owner | undefined): string | null => {
+    console.log('VALIDATING owner:', owner);
+    const ownerName = owner?.name;
 
-      console.log('VALIDATING owner name:', ownerName);
-      // OW-01: Only whitespace (check first)
-      if (!ownerName || ownerName.trim() === '') {
-        return 'Owner name cannot contain only whitespace';
-      }
+    console.log('VALIDATING owner name:', ownerName);
+    // OW-01: Only whitespace (check first)
+    if (!ownerName || ownerName.trim() === '') {
+      return 'Owner name cannot contain only whitespace';
+    }
 
-      console.log('VALIDATING owner name length:', ownerName.length);
-      // OW-04: Exceeds max length (256+ characters)
-      if (ownerName.length > 255) {
-        return 'Owner name must not exceed 255 characters';
-      }
+    console.log('VALIDATING owner name length:', ownerName.length);
+    // OW-04: Exceeds max length (256+ characters)
+    if (ownerName.length > 255) {
+      return 'Owner name must not exceed 255 characters';
+    }
 
-      return null;
-    };
+    return null;
+  };
 
-    const modelApiMock = new ModelApiMock<Owner, string>(
-      ownersEndpoint,
-      idFn,
-      validateOwner,
-      ownersData.owners.list,
-    );
-    modelApiMock.mock();
-  });
+  const owners = [{ name: 'Owner 1' }, { name: 'Owner 2' }, { name: 'Owner 3' }];
+
+  const modelApiMock = new ModelApiMock<Owner, string>(ownersEndpoint, idFn, validateOwner, owners);
+
+  modelApiMock.mock();
 });
 
 /**

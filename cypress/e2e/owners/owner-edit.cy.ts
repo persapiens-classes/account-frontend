@@ -1,4 +1,4 @@
-import { OwnersData } from './owner-fixture-models';
+import { ownerNameBoundaryTestCases } from './owner-boundary-test-cases';
 import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
   typeInputNameAndSubmitSaveButtonFail,
@@ -86,14 +86,12 @@ describe('Owner Edit Page', () => {
     });
 
     function submitInvalidName(testCaseName: string): void {
-      cy.fixture<OwnersData>('owners').then((ownersData) => {
-        // eslint-disable-next-line security/detect-object-injection
-        const testCase = ownersData.boundaryValues[testCaseName];
+      // eslint-disable-next-line security/detect-object-injection
+      const testCase = ownerNameBoundaryTestCases[testCaseName];
 
-        typeInputNameAndSubmitSaveButtonFail(testCase.name, true);
+      typeInputNameAndSubmitSaveButtonFail(testCase.name, true);
 
-        cy.url().should('include', '/owners/edit');
-      });
+      cy.url().should('include', '/owners/edit');
     }
 
     it('OW-01: should fail when trying to edit owner with name containing only whitespace', () => {
@@ -101,21 +99,17 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
-      cy.fixture<OwnersData>('owners').then((ownersData) => {
-        typeInputNameAndSubmitSaveButtonOk(
-          Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name + '_'),
-          true,
-        );
-      });
+      typeInputNameAndSubmitSaveButtonOk(
+        Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'].name + '_'),
+        true,
+      );
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
-      cy.fixture<OwnersData>('owners').then((ownersData) => {
-        typeInputNameAndSubmitSaveButtonOk(
-          Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
-          true,
-        );
-      });
+      typeInputNameAndSubmitSaveButtonOk(
+        Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-03'].name.substring(0, 245)),
+        true,
+      );
     });
 
     // Reason: maxLength does not allow more than 255 characters to be typed in the input, so this test is not applicable

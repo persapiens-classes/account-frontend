@@ -1,4 +1,4 @@
-import { OwnersData } from './owner-fixture-models';
+import { ownerNameBoundaryTestCases } from './owner-boundary-test-cases';
 import {
   typeInputNameAndSubmitSaveButtonFail,
   typeInputNameAndSubmitSaveButtonOk,
@@ -27,38 +27,30 @@ describe('Owner Insert Page', () => {
 
   describe('Validation Tests', () => {
     it('OW-01: should fail when trying to create owner with name containing only whitespace', () => {
-      cy.fixture<OwnersData>('owners').then((ownersData) => {
-        typeInputNameAndSubmitSaveButtonFail(ownersData.boundaryValues['OW-01'].name);
+      typeInputNameAndSubmitSaveButtonFail(ownerNameBoundaryTestCases['OW-01'].name);
 
-        cy.url().should('include', '/owners/new');
-      });
+      cy.url().should('include', '/owners/new');
     });
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
-      cy.fixture<OwnersData>('owners').then((ownersData) => {
-        typeInputNameAndSubmitSaveButtonOk(
-          Cypress._.uniqueId(ownersData.boundaryValues['OW-02'].name),
-          false,
-        );
-      });
+      typeInputNameAndSubmitSaveButtonOk(
+        Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'].name),
+        false,
+      );
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
-      cy.fixture<OwnersData>('owners').then((ownersData) => {
-        typeInputNameAndSubmitSaveButtonOk(
-          Cypress._.uniqueId(ownersData.boundaryValues['OW-03'].name.substring(0, 245)),
-          false,
-        );
-      });
+      typeInputNameAndSubmitSaveButtonOk(
+        Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-03'].name.substring(0, 245)),
+        false,
+      );
     });
 
     // Reason: maxLength does not allow more than 255 characters to be typed in the input, so this test is not applicable
     it.skip('OW-04: should fail when trying to create owner with 256 characters (exceeds upper limit)', () => {
-      cy.fixture<OwnersData>('owners').then((ownersData) => {
-        typeInputNameAndSubmitSaveButtonFail(ownersData.boundaryValues['OW-04'].name);
+      typeInputNameAndSubmitSaveButtonFail(ownerNameBoundaryTestCases['OW-04'].name);
 
-        cy.url().should('include', '/owners/new');
-      });
+      cy.url().should('include', '/owners/new');
     });
 
     it('OW-05: should fail when trying to create owner with duplicate name', () => {
