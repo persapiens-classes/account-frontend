@@ -61,12 +61,6 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
       }).as('meRequest');
 
       interceptPostLogout(logoutEndpoint);
-
-      // Mock the balances API endpoint
-      cy.intercept('GET', '**/balances', {
-        statusCode: StatusCodes.OK,
-        body: authData.balances.list,
-      }).as('getBalances');
     } else {
       cy.intercept('POST', loginEndpoint, {
         statusCode: StatusCodes.UNAUTHORIZED,

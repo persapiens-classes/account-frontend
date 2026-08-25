@@ -1,8 +1,76 @@
 /// <reference types="cypress" />
 
 import { StatusCodes } from 'http-status-codes';
+import { Owner } from '../../src/app/owner/owner';
+import { Balance } from '../../src/app/owner-equity-account-initial-value/balance';
 
-export class ModelApiMock<T, ID> {
+export class AppApiMock {
+  private ownerApiMock(): ModelApiMock<Owner, string> {
+    const ownersEndpoint = '**/owners';
+
+    const idFn = (model: Owner): string => model.name;
+
+    const validateOwner = (owner: Owner | undefined): string | null => {
+      const ownerName = owner?.name;
+
+      // OW-01: Only whitespace (check first)
+      if (!ownerName || ownerName.trim() === '') {
+        return 'Owner name cannot contain only whitespace';
+      }
+
+      // OW-04: Exceeds max length (256+ characters)
+      if (ownerName.length > 255) {
+        return 'Owner name must not exceed 255 characters';
+      }
+
+      return null;
+    };
+
+    const owners = [{ name: 'Owner 1' }, { name: 'Owner 2' }, { name: 'Owner 3' }];
+
+    return new ModelApiMock<Owner, string>(ownersEndpoint, idFn, validateOwner, owners);
+  }
+
+  private balanceApiMock(): ModelApiMock<Balance, string> {
+    const balancesEndpoint = '**/balances';
+
+    const idFn = (model: Balance): string => `${model.owner}-${model.equityAccount.description}`;
+
+    const validateBalance = (balance: Balance | undefined): string | null => {
+      return null;
+    };
+
+    const balances = [
+      {
+        owner: 'Owner 1',
+        equityAccount: {
+          description: 'Equity Account 1',
+          category: 'Category 1',
+        },
+        initialValue: 500.0,
+        balance: 1000.0,
+      },
+      {
+        owner: 'Owner 2',
+        equityAccount: {
+          description: 'Equity Account 2',
+          category: 'Category 2',
+        },
+        initialValue: 1000.0,
+        balance: 2000.0,
+      },
+    ];
+
+    return new ModelApiMock<Balance, string>(balancesEndpoint, idFn, validateBalance, balances);
+  }
+
+  mock() {
+    this.ownerApiMock().mock();
+    this.balanceApiMock().mock();
+  }
+}
+
+class ModelApiMock<T, ID> {
   private readonly endpoint: string;
   private readonly idFn: (model: T) => ID;
   private readonly validateFn: (model: T) => string | null;

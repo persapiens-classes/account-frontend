@@ -22,9 +22,10 @@ function goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName: stri
 describe('Owner Edit Page', () => {
   beforeEach(() => {
     cy.maybeSetupAuthMock();
+    cy.maybeSetupApiMock();
+
     cy.login();
 
-    cy.maybeSetupOwnersMock();
     cy.navigateToOwnersList();
   });
 

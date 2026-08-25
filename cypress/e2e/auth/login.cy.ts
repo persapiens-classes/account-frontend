@@ -2,6 +2,7 @@ describe('LoginPage', () => {
   beforeEach(() => {
     // Setup mock if configured
     cy.maybeSetupAuthMock();
+    cy.maybeSetupApiMock();
     cy.visit('/login');
   });
 

@@ -7,9 +7,10 @@ function accessOwnerDetail(): void {
 describe('Owner Detail Page', () => {
   beforeEach(() => {
     cy.maybeSetupAuthMock();
+    cy.maybeSetupApiMock();
+
     cy.login();
 
-    cy.maybeSetupOwnersMock();
     cy.navigateToOwnersList();
   });
 

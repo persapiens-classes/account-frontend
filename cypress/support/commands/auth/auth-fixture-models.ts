@@ -1,5 +1,3 @@
-import { Balance } from '../../../../src/app/owner-equity-account-initial-value/balance';
-
 export interface Credentials {
   username: string;
   password: string;
@@ -20,8 +18,5 @@ export interface AuthData {
   credentials: {
     valid: Credentials;
     invalid: Credentials;
-  };
-  balances: {
-    list: Balance[];
   };
 }

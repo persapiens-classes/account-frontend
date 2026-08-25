@@ -6,9 +6,9 @@ import {
 describe('Owner Remove Page', () => {
   beforeEach(() => {
     cy.maybeSetupAuthMock();
-    cy.login();
+    cy.maybeSetupApiMock();
 
-    cy.maybeSetupOwnersMock();
+    cy.login();
   });
 
   // Reason: not working yet
