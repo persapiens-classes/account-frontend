@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { AuthData } from './auth-fixture-models';
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -29,7 +31,7 @@ function interceptPostLogout(logoutEndpoint: string) {
  * @param scenario - 'success' for valid login, 'invalid' for failed login
  */
 Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'success') => {
-  cy.fixture('auth').then((authData) => {
+  cy.fixture('auth').then((authData: AuthData) => {
     const loginEndpoint = '**/auth/login';
     const meEndpoint = '**/auth/me';
     const logoutEndpoint = '**/auth/logout';
