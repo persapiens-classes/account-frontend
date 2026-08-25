@@ -118,7 +118,7 @@ describe('Owner Edit Page', () => {
       });
     });
 
-    // Reason: not working yet
+    // Reason: maxLength does not allow more than 255 characters to be typed in the input, so this test is not applicable
     it.skip('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
       submitInvalidName('OW-04');
     });

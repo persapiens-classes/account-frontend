@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
+import { Owner } from '../../../../src/app/owner/owner';
 import { OwnersData } from '../../../e2e/owners/owner-fixture-models';
+import { ModelApiMock } from '../../mock-api-model';
 
 declare global {
   namespace Cypress {
@@ -13,166 +15,42 @@ declare global {
   }
 }
 
-interface Owner {
-  name: string;
-}
-
-interface OwnerValidationError {
-  statusCode: 400;
-  body: {
-    error: 'Bad Request';
-    message: string;
-  };
-}
-
 /**
  * Setup owners mock intercepts for CRUD operations and boundary value analysis
  * Includes validation for boundary value test cases (OW-01 through OW-06)
  */
 Cypress.Commands.add('setupOwnersMock', () => {
-  cy.fixture<OwnersData>('owners').then((ownersData) => {
+  cy.fixture<OwnersData>('owners').then((ownersData: OwnersData) => {
     const ownersEndpoint = '**/owners';
 
-    const getOwnerValidationError = (
-      ownerName: string | undefined,
-    ): OwnerValidationError | null => {
+    const idFn = (model: Owner): string => model.name;
+
+    const validateOwner = (owner: Owner | undefined): string | null => {
+      console.log('VALIDATING owner:', owner);
+      const ownerName = owner?.name;
+
+      console.log('VALIDATING owner name:', ownerName);
       // OW-01: Only whitespace (check first)
       if (!ownerName || ownerName.trim() === '') {
-        return {
-          statusCode: 400,
-          body: {
-            error: 'Bad Request',
-            message: 'Owner name cannot contain only whitespace',
-          },
-        };
+        return 'Owner name cannot contain only whitespace';
       }
 
+      console.log('VALIDATING owner name length:', ownerName.length);
       // OW-04: Exceeds max length (256+ characters)
       if (ownerName.length > 255) {
-        return {
-          statusCode: 400,
-          body: {
-            error: 'Bad Request',
-            message: 'Owner name must not exceed 255 characters',
-          },
-        };
+        return 'Owner name must not exceed 255 characters';
       }
 
       return null;
     };
 
-    // Create a list of existing owners for duplicate check
-    const existingOwners = new Set(['Duplicate Owner']);
-    const createdOwners: Owner[] = [];
-
-    // Mock POST /owners - create a new owner with boundary value validation
-    cy.intercept('POST', ownersEndpoint, (req) => {
-      const requestBody = req.body;
-      const ownerName = requestBody.name;
-
-      const ownerValidationError = getOwnerValidationError(ownerName);
-      if (ownerValidationError) {
-        return req.reply(ownerValidationError);
-      }
-
-      // OW-05: Duplicate name
-      if (existingOwners.has(ownerName) || createdOwners.some((o: Owner) => o.name === ownerName)) {
-        return req.reply({
-          statusCode: 409,
-          body: {
-            error: 'Conflict',
-            message: 'Owner with this name already exists',
-          },
-        });
-      }
-
-      // OW-03: Valid names (3-255 characters)
-      // Track the created owner
-      createdOwners.push(requestBody);
-
-      req.reply({
-        statusCode: 201,
-        body: requestBody,
-      });
-    }).as('createOwner');
-
-    // Mock GET /owners - list all owners (including created ones)
-    cy.intercept('GET', ownersEndpoint, (req) => {
-      const allOwners = [...ownersData.owners.list, ...createdOwners];
-      req.reply({
-        statusCode: 200,
-        body: allOwners,
-      });
-    }).as('getOwners');
-
-    // Mock GET /owners/:id - get owner detail (only numeric IDs)
-    cy.intercept('GET', /\/owners\/\d+$/, (req) => {
-      const ownerId = req.url.split('/').pop();
-      req.reply({
-        statusCode: 200,
-        body: {
-          name: ownerId,
-        },
-      });
-    }).as('getOwnerDetail');
-
-    // Mock PUT /owners/:id - update owner
-    cy.intercept('PUT', `${ownersEndpoint}/*`, (req) => {
-      const requestBody = req.body;
-      const ownerName = requestBody.name;
-      const urlParts = req.url.split('/');
-      const currentOwnerId = urlParts.at(-1) ?? '';
-
-      const ownerValidationError = getOwnerValidationError(ownerName);
-      if (ownerValidationError) {
-        return req.reply(ownerValidationError);
-      }
-
-      // OW-05: Duplicate name (excluding current owner being edited)
-      if (
-        (existingOwners.has(ownerName) && ownerName !== currentOwnerId) ||
-        createdOwners.some((o: Owner) => o.name === ownerName && o.name !== currentOwnerId)
-      ) {
-        return req.reply({
-          statusCode: 409,
-          body: {
-            error: 'Conflict',
-            message: 'Owner with this name already exists',
-          },
-        });
-      }
-
-      // Update the owner in createdOwners list
-      const ownerExists = createdOwners.some((o: Owner) => o.name === currentOwnerId);
-      if (ownerExists) {
-        const updatedOwners = createdOwners.map((o: Owner) =>
-          o.name === currentOwnerId ? requestBody : o,
-        );
-        createdOwners.splice(0, createdOwners.length, ...updatedOwners);
-      }
-
-      req.reply({
-        statusCode: 200,
-        body: req.body,
-      });
-    }).as('updateOwner');
-
-    // Mock DELETE /owners/:id - delete owner
-    cy.intercept('DELETE', `${ownersEndpoint}/*`, (req) => {
-      // Remove from created owners list if it exists
-      const urlParts = req.url.split('/');
-      const ownerId = urlParts.at(-1) ?? '';
-
-      const index = createdOwners.findIndex((o: Owner) => o.name === ownerId);
-      if (index > -1) {
-        createdOwners.splice(index, 1);
-      }
-
-      req.reply({
-        statusCode: 204,
-        body: {},
-      });
-    }).as('deleteOwner');
+    const modelApiMock = new ModelApiMock<Owner, string>(
+      ownersEndpoint,
+      idFn,
+      validateOwner,
+      ownersData.owners.list,
+    );
+    modelApiMock.mock();
   });
 });
 

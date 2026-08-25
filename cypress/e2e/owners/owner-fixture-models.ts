@@ -1,6 +1,4 @@
-export interface Owner {
-  name: string;
-}
+import { Owner } from '../../../src/app/owner/owner';
 
 export interface BoundaryTestCase {
   name: string;
