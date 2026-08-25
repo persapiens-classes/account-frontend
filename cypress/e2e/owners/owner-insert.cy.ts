@@ -52,7 +52,7 @@ describe('Owner Insert Page', () => {
       });
     });
 
-    // Reason: not working yet
+    // Reason: maxLength does not allow more than 255 characters to be typed in the input, so this test is not applicable
     it.skip('OW-04: should fail when trying to create owner with 256 characters (exceeds upper limit)', () => {
       cy.fixture<OwnersData>('owners').then((ownersData) => {
         typeInputNameAndSubmitSaveButtonFail(ownersData.boundaryValues['OW-04'].name);
