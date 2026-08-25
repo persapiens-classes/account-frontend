@@ -25,15 +25,53 @@ interface OwnerValidationError {
   };
 }
 
-/**
- * Setup owners mock intercepts for CRUD operations and boundary value analysis
- * Includes validation for boundary value test cases (OW-01 through OW-06)
- */
-Cypress.Commands.add('setupOwnersMock', () => {
-  cy.fixture<OwnersData>('owners').then((ownersData) => {
-    const ownersEndpoint = '**/owners';
+class ModelApiMock<T, ID> {
+  private endpoint: string;
+  private idFn: (model: T) => ID;
+  private models: T[];
+  private idBlockInsertUpdate: boolean;
+  constructor(
+    endpoint: string,
+    idFn: (model: T) => ID,
+    idBlockInsertUpdate: boolean,
+    models?: T[],
+  ) {
+    this.endpoint = endpoint;
+    this.idFn = idFn;
+    this.models = models || [];
+    this.idBlockInsertUpdate = idBlockInsertUpdate;
+  }
 
-    const getOwnerValidationError = (
+  private mockGetAll() {
+    // Mock GET /owners - list all owners (including created ones)
+    cy.intercept('GET', `**/${this.endpoint}`, (req) => {
+      req.reply({
+        statusCode: 200,
+        body: this.models,
+      });
+    }).as(`${this.endpoint}-getAll`);
+  }
+
+  private mockDelete() {
+    // Mock DELETE /owners/:id - delete owner
+    cy.intercept('DELETE', `${this.endpoint}/*`, (req) => {
+      // Remove from created models list if it exists
+      const urlParts = req.url.split('/');
+      const modelId = urlParts.at(-1) ?? '';
+
+      const index = this.models.findIndex((model) => this.idFn(model) === modelId);
+      if (index > -1) {
+        this.models.splice(index, 1);
+      }
+
+      req.reply({
+        statusCode: 204,
+        body: {},
+      });
+    }).as(`${this.endpoint}-delete`);
+  }
+
+  private getOwnerValidationError = (
       ownerName: string | undefined,
     ): OwnerValidationError | null => {
       // OW-01: Only whitespace (check first)
@@ -61,77 +99,58 @@ Cypress.Commands.add('setupOwnersMock', () => {
       return null;
     };
 
-    // Create a list of existing owners for duplicate check
-    const existingOwners = new Set(['Duplicate Owner']);
-    const createdOwners: Owner[] = [];
-
+  private mockPost() {
     // Mock POST /owners - create a new owner with boundary value validation
-    cy.intercept('POST', ownersEndpoint, (req) => {
+    cy.intercept('POST', `${this.endpoint}`, (req) => {
       const requestBody = req.body;
       const ownerName = requestBody.name;
 
-      const ownerValidationError = getOwnerValidationError(ownerName);
+      const ownerValidationError = this.getOwnerValidationError(ownerName);
       if (ownerValidationError) {
         return req.reply(ownerValidationError);
       }
 
       // OW-05: Duplicate name
-      if (existingOwners.has(ownerName) || createdOwners.some((o: Owner) => o.name === ownerName)) {
-        return req.reply({
-          statusCode: 409,
-          body: {
-            error: 'Conflict',
-            message: 'Owner with this name already exists',
-          },
-        });
+      if (this.idBlockInsertUpdate) {
+        if (this.models.some((o: T) => this.idFn(o) === this.idFn(requestBody))) {
+          return req.reply({
+            statusCode: 409,
+            body: {
+              error: 'Conflict',
+              message: 'Owner with this name already exists',
+            },
+          });
+        }
       }
 
       // OW-03: Valid names (3-255 characters)
       // Track the created owner
-      createdOwners.push(requestBody);
+      this.models.push(requestBody);
 
       req.reply({
         statusCode: 201,
         body: requestBody,
       });
-    }).as('createOwner');
+    }).as(`${this.endpoint}-post`);
+  }
 
-    // Mock GET /owners - list all owners (including created ones)
-    cy.intercept('GET', ownersEndpoint, (req) => {
-      const allOwners = [...ownersData.owners.list, ...createdOwners];
-      req.reply({
-        statusCode: 200,
-        body: allOwners,
-      });
-    }).as('getOwners');
-
-    // Mock GET /owners/:id - get owner detail (only numeric IDs)
-    cy.intercept('GET', /\/owners\/\d+$/, (req) => {
-      const ownerId = req.url.split('/').pop();
-      req.reply({
-        statusCode: 200,
-        body: {
-          name: ownerId,
-        },
-      });
-    }).as('getOwnerDetail');
-
+  private mockPut() {
     // Mock PUT /owners/:id - update owner
-    cy.intercept('PUT', `${ownersEndpoint}/*`, (req) => {
+    cy.intercept('PUT', `${this.endpoint}/*`, (req) => {
       const requestBody = req.body;
       const ownerName = requestBody.name;
       const urlParts = req.url.split('/');
       const currentOwnerId = urlParts.at(-1) ?? '';
 
-      const ownerValidationError = getOwnerValidationError(ownerName);
+      const ownerValidationError = this.getOwnerValidationError(ownerName);
       if (ownerValidationError) {
         return req.reply(ownerValidationError);
       }
 
       // OW-05: Duplicate name (excluding current owner being edited)
+      if (this.idBlockInsertUpdate) {
       if (
-        (existingOwners.has(ownerName) && ownerName !== currentOwnerId) ||
-        createdOwners.some((o: Owner) => o.name === ownerName && o.name !== currentOwnerId)
+        this.models.some((o: T) => this.idFn(o) === this.idFn(requestBody) && o.name === ownerName && o.name !== currentOwnerId)
       ) {
         return req.reply({
           statusCode: 409,
@@ -143,36 +162,44 @@ Cypress.Commands.add('setupOwnersMock', () => {
       }
 
       // Update the owner in createdOwners list
-      const ownerExists = createdOwners.some((o: Owner) => o.name === currentOwnerId);
+      const ownerExists = this.models.some((o: T) => o.name === currentOwnerId);
       if (ownerExists) {
-        const updatedOwners = createdOwners.map((o: Owner) =>
+        const updatedOwners = this.models.map((o: T) =>
           o.name === currentOwnerId ? requestBody : o,
         );
-        createdOwners.splice(0, createdOwners.length, ...updatedOwners);
+        this.models.splice(0, this.models.length, ...updatedOwners);
       }
 
       req.reply({
         statusCode: 200,
         body: req.body,
       });
-    }).as('updateOwner');
+    }).as(`${this.endpoint}-put`);
+  }
 
-    // Mock DELETE /owners/:id - delete owner
-    cy.intercept('DELETE', `${ownersEndpoint}/*`, (req) => {
-      // Remove from created owners list if it exists
-      const urlParts = req.url.split('/');
-      const ownerId = urlParts.at(-1) ?? '';
+  mock() {
+    this.mockGetAll();
+    this.mockDelete();
+    this.mockPost();
+    this.mockPut();
+  }
+}
 
-      const index = createdOwners.findIndex((o: Owner) => o.name === ownerId);
-      if (index > -1) {
-        createdOwners.splice(index, 1);
-      }
+/**
+ * Setup owners mock intercepts for CRUD operations and boundary value analysis
+ * Includes validation for boundary value test cases (OW-01 through OW-06)
+ */
+Cypress.Commands.add('setupOwnersMock', () => {
+  cy.fixture<OwnersData>('owners').then((ownersData) => {
+    const ownersEndpoint = '**/owners';
 
-      req.reply({
-        statusCode: 204,
-        body: {},
-      });
-    }).as('deleteOwner');
+    const modelApiMock = new ModelApiMock<Owner, string>(
+      ownersEndpoint,
+      (model) => model.name,
+      true,
+      ownersData.owners.list,
+    );
+    modelApiMock.mock();
   });
 });
 
