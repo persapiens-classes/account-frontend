@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { Owner } from '../../src/app/owner/owner';
 import { Balance } from '../../src/app/owner-equity-account-initial-value/balance';
 import { ModelCrudApiMock } from './model-crud-api-mock';
+import { Category, CategoryType } from '../../src/app/category/category';
 
 export class AppApiMock {
   private isAuthenticated = false;
@@ -83,7 +84,7 @@ export class AppApiMock {
 
     const idFn = (model: Owner): string => model.name;
 
-    const validateOwner = (owner: Owner | undefined): string | null => {
+    const validateFn = (owner: Owner | undefined): string | null => {
       const ownerName = owner?.name;
 
       // OW-01: Only whitespace (check first)
@@ -101,7 +102,37 @@ export class AppApiMock {
 
     const owners = [{ name: 'Owner 1' }, { name: 'Owner 2' }, { name: 'Owner 3' }];
 
-    return new ModelCrudApiMock<Owner, string>(ownersEndpoint, idFn, owners, validateOwner);
+    return new ModelCrudApiMock<Owner, string>(ownersEndpoint, idFn, owners, validateFn);
+  }
+
+  private categoryApiMock(type: CategoryType): ModelCrudApiMock<Category, string> {
+    const categoriesEndpoint = `**/${type.toLowerCase()}Categories`;
+
+    const idFn = (model: Category): string => model.description;
+
+    const validateFn = (category: Category | undefined): string | null => {
+      const categoryDescription = category?.description;
+
+      // OW-01: Only whitespace (check first)
+      if (!categoryDescription || categoryDescription.trim() === '') {
+        return 'Category description cannot contain only whitespace';
+      }
+
+      // OW-04: Exceeds max length (256+ characters)
+      if (categoryDescription.length > 255) {
+        return 'Category description must not exceed 255 characters';
+      }
+
+      return null;
+    };
+
+    const categories = [
+      { description: `${type} Category 1` },
+      { description: `${type} Category 2` },
+      { description: `${type} Category 3` },
+    ];
+
+    return new ModelCrudApiMock<Category, string>(categoriesEndpoint, idFn, categories, validateFn);
   }
 
   private balanceApiMock(): ModelCrudApiMock<Balance, string> {
@@ -136,6 +167,9 @@ export class AppApiMock {
   mock() {
     this.authMock();
     this.ownerApiMock().mock();
+    this.categoryApiMock(CategoryType.CREDIT).mock();
+    this.categoryApiMock(CategoryType.DEBIT).mock();
+    this.categoryApiMock(CategoryType.EQUITY).mock();
     this.balanceApiMock().mock();
   }
 }
