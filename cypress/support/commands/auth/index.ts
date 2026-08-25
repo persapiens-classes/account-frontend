@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import { StatusCodes } from 'http-status-codes';
 import { AuthData } from './auth-fixture-models';
 
 declare global {
@@ -20,7 +21,7 @@ function interceptPostLogout(logoutEndpoint: string) {
   cy.intercept('POST', logoutEndpoint, (req) => {
     isAuthenticated = false;
     req.reply({
-      statusCode: 200,
+      statusCode: StatusCodes.OK,
       body: {},
     });
   }).as('logoutRequest');
@@ -40,7 +41,7 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
       cy.intercept('POST', loginEndpoint, (req) => {
         isAuthenticated = true;
         req.reply({
-          statusCode: 200,
+          statusCode: StatusCodes.OK,
           body: authData.login.success,
         });
       }).as('loginRequest');
@@ -48,13 +49,13 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
       cy.intercept('GET', meEndpoint, (req) => {
         if (!isAuthenticated) {
           return req.reply({
-            statusCode: 401,
+            statusCode: StatusCodes.UNAUTHORIZED,
             body: authData.login.invalid,
           });
         }
 
         return req.reply({
-          statusCode: 200,
+          statusCode: StatusCodes.OK,
           body: authData.login.success,
         });
       }).as('meRequest');
@@ -63,17 +64,17 @@ Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'succes
 
       // Mock the balances API endpoint
       cy.intercept('GET', '**/balances', {
-        statusCode: 200,
+        statusCode: StatusCodes.OK,
         body: authData.balances.list,
       }).as('getBalances');
     } else {
       cy.intercept('POST', loginEndpoint, {
-        statusCode: 401,
+        statusCode: StatusCodes.UNAUTHORIZED,
         body: authData.login.invalid,
       }).as('loginRequest');
 
       cy.intercept('GET', meEndpoint, {
-        statusCode: 401,
+        statusCode: StatusCodes.UNAUTHORIZED,
         body: authData.login.invalid,
       }).as('meRequest');
 

@@ -60,7 +60,7 @@ export class ModelApiMock<T, ID> {
       const validationError = this.validateFn(model);
       if (validationError) {
         return req.reply({
-          statusCode: 409,
+          statusCode: StatusCodes.BAD_REQUEST,
           body: {
             error: StatusCodes.BAD_REQUEST,
             message: validationError,
@@ -71,7 +71,7 @@ export class ModelApiMock<T, ID> {
       // OW-05: Duplicate model
       if (this.models.some((o: T) => this.idFn(o) === this.idFn(model))) {
         return req.reply({
-          statusCode: 409,
+          statusCode: StatusCodes.CONFLICT,
           body: {
             error: StatusCodes.CONFLICT,
             message: `${this.endpoint} Model already exists`,
