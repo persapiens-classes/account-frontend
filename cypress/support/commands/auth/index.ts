@@ -1,7 +1,6 @@
 /// <reference types="cypress" />
 
 import { StatusCodes } from 'http-status-codes';
-import { AuthData } from './auth-fixture-models';
 
 declare global {
   namespace Cypress {
@@ -32,49 +31,58 @@ function interceptPostLogout(logoutEndpoint: string) {
  * @param scenario - 'success' for valid login, 'invalid' for failed login
  */
 Cypress.Commands.add('setupAuthMock', (scenario: 'success' | 'invalid' = 'success') => {
-  cy.fixture('auth').then((authData: AuthData) => {
-    const loginEndpoint = '**/auth/login';
-    const meEndpoint = '**/auth/me';
-    const logoutEndpoint = '**/auth/logout';
+  const loginEndpoint = '**/auth/login';
+  const meEndpoint = '**/auth/me';
+  const logoutEndpoint = '**/auth/logout';
 
-    if (scenario === 'success') {
-      cy.intercept('POST', loginEndpoint, (req) => {
-        isAuthenticated = true;
-        req.reply({
-          statusCode: StatusCodes.OK,
-          body: authData.login.success,
-        });
-      }).as('loginRequest');
+  const responseInvalid = {
+    message: 'Invalid credentials',
+    statusCode: 401,
+  };
 
-      cy.intercept('GET', meEndpoint, (req) => {
-        if (!isAuthenticated) {
-          return req.reply({
-            statusCode: StatusCodes.UNAUTHORIZED,
-            body: authData.login.invalid,
-          });
-        }
+  if (scenario === 'success') {
+    const responseSuccess = {
+      login: 'persapiens',
+      token: 'mock-jwt-token',
+      expiresIn: 3600,
+    };
 
+    cy.intercept('POST', loginEndpoint, (req) => {
+      isAuthenticated = true;
+      req.reply({
+        statusCode: StatusCodes.OK,
+        body: responseSuccess,
+      });
+    }).as('loginRequest');
+
+    cy.intercept('GET', meEndpoint, (req) => {
+      if (!isAuthenticated) {
         return req.reply({
-          statusCode: StatusCodes.OK,
-          body: authData.login.success,
+          statusCode: StatusCodes.UNAUTHORIZED,
+          body: responseInvalid,
         });
-      }).as('meRequest');
+      }
 
-      interceptPostLogout(logoutEndpoint);
-    } else {
-      cy.intercept('POST', loginEndpoint, {
-        statusCode: StatusCodes.UNAUTHORIZED,
-        body: authData.login.invalid,
-      }).as('loginRequest');
+      return req.reply({
+        statusCode: StatusCodes.OK,
+        body: responseSuccess,
+      });
+    }).as('meRequest');
 
-      cy.intercept('GET', meEndpoint, {
-        statusCode: StatusCodes.UNAUTHORIZED,
-        body: authData.login.invalid,
-      }).as('meRequest');
+    interceptPostLogout(logoutEndpoint);
+  } else {
+    cy.intercept('POST', loginEndpoint, {
+      statusCode: StatusCodes.UNAUTHORIZED,
+      body: responseInvalid,
+    }).as('loginRequest');
 
-      interceptPostLogout(logoutEndpoint);
-    }
-  });
+    cy.intercept('GET', meEndpoint, {
+      statusCode: StatusCodes.UNAUTHORIZED,
+      body: responseInvalid,
+    }).as('meRequest');
+
+    interceptPostLogout(logoutEndpoint);
+  }
 });
 
 /**
