@@ -4,9 +4,7 @@ export interface NameBoundaryTestCase {
   description: string;
 }
 
-export interface NameBoundaryTestCases {
-  [key: string]: NameBoundaryTestCase;
-}
+export type NameBoundaryTestCases = Record<string, NameBoundaryTestCase>;
 
 export const ownerNameBoundaryTestCases: NameBoundaryTestCases = {
   'OW-01': {

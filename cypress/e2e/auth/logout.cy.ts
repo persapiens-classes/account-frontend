@@ -1,6 +1,5 @@
 describe('Logout Page', () => {
   beforeEach(() => {
-    cy.maybeSetupAuthMock();
     cy.maybeSetupApiMock();
     cy.login();
   });

@@ -3,9 +3,82 @@
 import { StatusCodes } from 'http-status-codes';
 import { Owner } from '../../src/app/owner/owner';
 import { Balance } from '../../src/app/owner-equity-account-initial-value/balance';
+import { ModelCrudApiMock } from './model-crud-api-mock';
 
 export class AppApiMock {
-  private ownerApiMock(): ModelApiMock<Owner, string> {
+  private isAuthenticated = false;
+  private readonly scenario: 'success' | 'invalid';
+
+  public constructor(scenario: 'success' | 'invalid' = 'success') {
+    this.scenario = scenario;
+  }
+
+  private interceptPostLogout(logoutEndpoint: string) {
+    cy.intercept('POST', logoutEndpoint, (req) => {
+      this.isAuthenticated = false;
+      req.reply({
+        statusCode: StatusCodes.OK,
+        body: {},
+      });
+    }).as('logoutRequest');
+  }
+
+  private authMock() {
+    const loginEndpoint = '**/auth/login';
+    const meEndpoint = '**/auth/me';
+    const logoutEndpoint = '**/auth/logout';
+
+    const responseInvalid = {
+      message: 'Invalid credentials',
+      statusCode: 401,
+    };
+
+    if (this.scenario === 'success') {
+      const responseSuccess = {
+        login: 'persapiens',
+        token: 'mock-jwt-token',
+        expiresIn: 3600,
+      };
+
+      cy.intercept('POST', loginEndpoint, (req) => {
+        this.isAuthenticated = true;
+        req.reply({
+          statusCode: StatusCodes.OK,
+          body: responseSuccess,
+        });
+      }).as('loginRequest');
+
+      cy.intercept('GET', meEndpoint, (req) => {
+        if (!this.isAuthenticated) {
+          return req.reply({
+            statusCode: StatusCodes.UNAUTHORIZED,
+            body: responseInvalid,
+          });
+        }
+
+        return req.reply({
+          statusCode: StatusCodes.OK,
+          body: responseSuccess,
+        });
+      }).as('meRequest');
+
+      this.interceptPostLogout(logoutEndpoint);
+    } else {
+      cy.intercept('POST', loginEndpoint, {
+        statusCode: StatusCodes.UNAUTHORIZED,
+        body: responseInvalid,
+      }).as('loginRequest');
+
+      cy.intercept('GET', meEndpoint, {
+        statusCode: StatusCodes.UNAUTHORIZED,
+        body: responseInvalid,
+      }).as('meRequest');
+
+      this.interceptPostLogout(logoutEndpoint);
+    }
+  }
+
+  private ownerApiMock(): ModelCrudApiMock<Owner, string> {
     const ownersEndpoint = '**/owners';
 
     const idFn = (model: Owner): string => model.name;
@@ -28,17 +101,13 @@ export class AppApiMock {
 
     const owners = [{ name: 'Owner 1' }, { name: 'Owner 2' }, { name: 'Owner 3' }];
 
-    return new ModelApiMock<Owner, string>(ownersEndpoint, idFn, validateOwner, owners);
+    return new ModelCrudApiMock<Owner, string>(ownersEndpoint, idFn, owners, validateOwner);
   }
 
-  private balanceApiMock(): ModelApiMock<Balance, string> {
+  private balanceApiMock(): ModelCrudApiMock<Balance, string> {
     const balancesEndpoint = '**/balances';
 
     const idFn = (model: Balance): string => `${model.owner}-${model.equityAccount.description}`;
-
-    const validateBalance = (balance: Balance | undefined): string | null => {
-      return null;
-    };
 
     const balances = [
       {
@@ -61,153 +130,12 @@ export class AppApiMock {
       },
     ];
 
-    return new ModelApiMock<Balance, string>(balancesEndpoint, idFn, validateBalance, balances);
+    return new ModelCrudApiMock<Balance, string>(balancesEndpoint, idFn, balances);
   }
 
   mock() {
+    this.authMock();
     this.ownerApiMock().mock();
     this.balanceApiMock().mock();
-  }
-}
-
-class ModelApiMock<T, ID> {
-  private readonly endpoint: string;
-  private readonly idFn: (model: T) => ID;
-  private readonly validateFn: (model: T) => string | null;
-  private readonly models: T[];
-  constructor(
-    endpoint: string,
-    idFn: (model: T) => ID,
-    validateFn: (model: T) => string | null,
-    models?: T[],
-  ) {
-    this.endpoint = endpoint;
-    this.idFn = idFn;
-    this.validateFn = validateFn;
-    this.models = models || [];
-  }
-
-  // Mock GET /endpoint - list all models
-  private mockGetAll() {
-    cy.intercept('GET', `${this.endpoint}`, (req) => {
-      req.reply({
-        statusCode: StatusCodes.OK,
-        body: this.models,
-      });
-    }).as(`${this.endpoint}-getAll`);
-  }
-
-  // Mock DELETE /endpoint/:id - delete model
-  private mockDelete() {
-    cy.intercept('DELETE', `${this.endpoint}/*`, (req) => {
-      // Remove from created models list if it exists
-      const urlParts = req.url.split('/');
-      const modelId = decodeURIComponent(urlParts.at(-1) ?? '');
-
-      const index = this.models.findIndex((model) => this.idFn(model) === modelId);
-      if (index > -1) {
-        this.models.splice(index, 1);
-        req.reply({
-          statusCode: StatusCodes.NO_CONTENT,
-          body: {},
-        });
-      } else {
-        req.reply({
-          statusCode: StatusCodes.NOT_FOUND,
-          body: {},
-        });
-      }
-    }).as(`${this.endpoint}-delete`);
-  }
-
-  // Mock POST /endpoint - create a new model with boundary value validation
-  private mockPost() {
-    cy.intercept('POST', `${this.endpoint}`, (req) => {
-      const model = req.body;
-
-      const validationError = this.validateFn(model);
-      if (validationError) {
-        return req.reply({
-          statusCode: StatusCodes.BAD_REQUEST,
-          body: {
-            error: StatusCodes.BAD_REQUEST,
-            message: validationError,
-          },
-        });
-      }
-
-      // OW-05: Duplicate model
-      if (this.models.some((o: T) => this.idFn(o) === this.idFn(model))) {
-        return req.reply({
-          statusCode: StatusCodes.CONFLICT,
-          body: {
-            error: StatusCodes.CONFLICT,
-            message: `${this.endpoint} Model already exists`,
-          },
-        });
-      }
-
-      // OW-03: Valid model
-      // Track the created model
-      this.models.push(model);
-      req.reply({
-        statusCode: StatusCodes.CREATED,
-        body: model,
-      });
-    }).as(`${this.endpoint}-post`);
-  }
-
-  // Mock PUT /endpoint/:id - update model
-  private mockPut() {
-    cy.intercept('PUT', `${this.endpoint}/*`, (req) => {
-      const modelToUpdate = req.body;
-
-      const validationError = this.validateFn(modelToUpdate);
-      if (validationError) {
-        return req.reply({
-          statusCode: StatusCodes.BAD_REQUEST,
-          body: {
-            error: StatusCodes.BAD_REQUEST,
-            message: validationError,
-          },
-        });
-      }
-
-      const urlParts = req.url.split('/');
-      const modelId = decodeURIComponent(urlParts.at(-1) ?? '');
-
-      // Verify that the model exists before updating
-      const index = this.models.findIndex((model) => this.idFn(model) === modelId);
-      if (index > -1) {
-        // OW-05: Duplicate model
-        if (this.models.some((model: T) => this.idFn(model) === this.idFn(modelToUpdate))) {
-          return req.reply({
-            statusCode: StatusCodes.CONFLICT,
-            body: {
-              error: StatusCodes.CONFLICT,
-              message: `${this.endpoint} Model already exists`,
-            },
-          });
-        } else {
-          this.models.splice(index, 1, modelToUpdate);
-          req.reply({
-            statusCode: StatusCodes.OK,
-            body: req.body,
-          });
-        }
-      } else {
-        req.reply({
-          statusCode: StatusCodes.NOT_FOUND,
-          body: {},
-        });
-      }
-    }).as(`${this.endpoint}-put`);
-  }
-
-  mock() {
-    this.mockGetAll();
-    this.mockDelete();
-    this.mockPost();
-    this.mockPut();
   }
 }

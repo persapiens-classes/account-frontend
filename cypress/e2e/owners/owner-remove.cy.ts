@@ -5,7 +5,6 @@ import {
 
 describe('Owner Remove Page', () => {
   beforeEach(() => {
-    cy.maybeSetupAuthMock();
     cy.maybeSetupApiMock();
 
     cy.login();

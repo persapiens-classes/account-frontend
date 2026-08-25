@@ -8,7 +8,6 @@ describe('Owner Insert Page', () => {
   const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
 
   beforeEach(() => {
-    cy.maybeSetupAuthMock();
     cy.maybeSetupApiMock();
 
     cy.login();
