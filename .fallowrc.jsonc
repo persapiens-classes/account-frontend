@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/fallow/schema.json",
+  "ignoreDependencies": [
+    "@cypress/schematic",
+    "angular-cli-ghpages",
+    "baseline-browser-mapping",
+    "istanbul-lib-coverage",
+    "@openng/optimus-ui-tailwindcss",
+    "tailwindcss",
+  ],
+  "duplicates": {
+    // Keep this clone ignored for test readability (describe + before + beforeEach setup).
+    // Fingerprint source: `pnpm fallow dupes --format json --threshold 0.01`.
+    // Files: cypress/e2e/categories/category-detail.cy.ts and cypress/e2e/categories/category-edit.cy.ts.
+    "ignoredClones": ["dup:6f87acd9:2"],
+  },
+}
