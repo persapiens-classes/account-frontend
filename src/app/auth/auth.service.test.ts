@@ -153,7 +153,7 @@ describe('AuthService', () => {
       it('should call backend logout endpoint', () => {
         service.logout().subscribe();
 
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGOUT_PATH}`);
         expect(req.request.method).toBe('POST');
         expect(req.request.withCredentials).toBe(false);
         req.flush({});

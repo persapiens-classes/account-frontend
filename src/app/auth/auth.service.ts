@@ -17,7 +17,7 @@ export class LoginResponse {
 
 @Service()
 export class AuthService {
-  private readonly apiUrl = environment.apiUrl + '/auth';
+  private readonly apiUrl = environment.apiUrl;
 
   private readonly http = inject(HttpClient);
   private session: LoginResponse | null = null;
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/auth/logout`, {}).pipe(
+    return this.http.post<void>(`${this.apiUrl}/${API_PATHS.AUTH_LOGOUT_PATH}`, {}).pipe(
       tap(() => {
         this.clearSession();
       }),
