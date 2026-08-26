@@ -72,3 +72,8 @@ export function clickEditButtonInTableRowAndCheckEditRoute(tableRow: string, pat
 
   cy.url().should('include', editPath(path));
 }
+
+export function clickListButtonAndVerifyListUrl(path: string): void {
+  cy.getDataCy('list-button').should('be.visible').click();
+  cy.url().should('include', listPath(path));
+}

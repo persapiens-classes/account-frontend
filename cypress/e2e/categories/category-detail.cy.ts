@@ -1,16 +1,12 @@
-import { editPath } from '../../../src/app/app.paths';
+import { detailPath, editPath } from '../../../src/app/app.paths';
 import { CategoryType } from '../../../src/app/category/category';
-import { maybeSetupApiMockAndLogin } from '../cy-helpers';
-import {
-  categoryPath,
-  clickListButtonAndVerifyListUrl,
-  maybeSetupApiMockAndNatigateToCategoriesList,
-} from './category-helpers';
+import { clickListButtonAndVerifyListUrl, maybeSetupApiMockAndLogin } from '../cy-helpers';
+import { categoryPath, maybeSetupApiMockAndNatigateToCategoriesList } from './category-helpers';
 
 function accessCategoryDetail(type: CategoryType): void {
   cy.getDataCy('categories-table').should('exist');
   cy.getDataCy('detail-button').first().should('be.visible').click();
-  cy.url().should('include', `/${type.toLowerCase()}Categories/detail`);
+  cy.url().should('include', detailPath(categoryPath(type)));
 }
 
 describe(
@@ -26,13 +22,12 @@ describe(
     });
 
     it('should access detail page when clicking magnifying glass', () => {
-      console.log('Accessing category detail page...');
       accessCategoryDetail(type);
     });
 
     it('should go back to list when clicking list icon', () => {
       accessCategoryDetail(type);
-      clickListButtonAndVerifyListUrl(type);
+      clickListButtonAndVerifyListUrl(categoryPath(type));
     });
 
     it('should go to edit page when clicking pencil icon', () => {

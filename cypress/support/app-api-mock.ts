@@ -7,6 +7,8 @@ import { ModelCrudApiMock } from './model-crud-api-mock';
 import { Category, CategoryType } from '../../src/app/category/category';
 import { API_PATHS } from '../../src/app/app.api-paths';
 import { categoryApiPath } from '../e2e/categories/category-helpers';
+import { Account, AccountType } from '../../src/app/account/account';
+import { accountApiPath } from '../e2e/accounts/account-helpers';
 
 export class AppApiMock {
   private isAuthenticated = false;
@@ -117,6 +119,36 @@ export class AppApiMock {
     return new ModelCrudApiMock<Category, string>(categoriesEndpoint, idFn, categories, validateFn);
   }
 
+  private accountApiMock(type: AccountType): ModelCrudApiMock<Account, string> {
+    const accountsEndpoint = `/${accountApiPath(type)}`;
+
+    const idFn = (model: Account): string => model.description;
+
+    const validateFn = (account: Account | undefined): string | null => {
+      const accountDescription = account?.description;
+
+      // OW-01: Only whitespace (check first)
+      if (!accountDescription || accountDescription.trim() === '') {
+        return 'Account description cannot contain only whitespace';
+      }
+
+      // OW-04: Exceeds max length (256+ characters)
+      if (accountDescription.length > 255) {
+        return 'Account description must not exceed 255 characters';
+      }
+
+      return null;
+    };
+
+    const accounts = [
+      { description: `${type} Account 1`, category: `${type} Category 1` },
+      { description: `${type} Account 2`, category: `${type} Category 2` },
+      { description: `${type} Account 3`, category: `${type} Category 3` },
+    ];
+
+    return new ModelCrudApiMock<Account, string>(accountsEndpoint, idFn, accounts, validateFn);
+  }
+
   private balanceApiMock(): ModelCrudApiMock<Balance, string> {
     const balancesEndpoint = `/${API_PATHS.BALANCE_API_PATH}`;
 
@@ -152,6 +184,9 @@ export class AppApiMock {
     this.categoryApiMock(CategoryType.CREDIT).mock();
     this.categoryApiMock(CategoryType.DEBIT).mock();
     this.categoryApiMock(CategoryType.EQUITY).mock();
+    this.accountApiMock(AccountType.CREDIT).mock();
+    this.accountApiMock(AccountType.DEBIT).mock();
+    this.accountApiMock(AccountType.EQUITY).mock();
     this.balanceApiMock().mock();
   }
 }

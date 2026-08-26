@@ -17,7 +17,6 @@ declare global {
  * Navigate to categories list page
  */
 Cypress.Commands.add('navigateToCategoriesList', (type) => {
-  // Navigate to categories list
   cy.getDataCy(`menu-category`).should('be.visible').click();
   cy.getDataCy(`menu-category-${type.toLowerCase()}`).should('be.visible').click();
   cy.url().should('include', listPath(categoryPath(type)));

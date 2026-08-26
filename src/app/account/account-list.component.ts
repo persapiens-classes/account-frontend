@@ -29,6 +29,7 @@ import { PATHS } from '../app.paths';
   template: `
     <app-model-list-panel [routerName]="routerName">
       <p-table
+        data-cy="accounts-table"
         [value]="modelsList()"
         [rows]="5"
         [paginator]="true"
@@ -64,7 +65,7 @@ import { PATHS } from '../app.paths';
           </tr>
         </ng-template>
         <ng-template #body let-item>
-          <tr>
+          <tr data-cy="accounts-table-row">
             <td data-label="Description">{{ item.description }}</td>
             <td data-label="Category">{{ item.category }}</td>
             <td data-label="Detail">

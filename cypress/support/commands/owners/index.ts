@@ -15,7 +15,6 @@ declare global {
  * Navigate to owners list page
  */
 Cypress.Commands.add('navigateToOwnersList', () => {
-  // Navigate to owners list
   cy.getDataCy('menu-owner').should('be.visible').click();
   cy.url().should('include', listPath(PATHS.OWNER_PATH));
 });

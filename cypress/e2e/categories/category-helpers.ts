@@ -1,4 +1,4 @@
-import { listPath, PATHS } from '../../../src/app/app.paths';
+import { PATHS } from '../../../src/app/app.paths';
 import { API_PATHS } from '../../../src/app/app.api-paths';
 import { CategoryType } from '../../../src/app/category/category';
 import {
@@ -19,6 +19,7 @@ export function maybeSetupApiMockAndNatigateToCategoriesList(type: CategoryType)
   cy.maybeSetupApiMock();
   cy.navigateToCategoriesList(type);
 }
+
 export function typeInputDescriptionAndSubmitSaveButtonOk(
   type: CategoryType,
   inputValue: string,
@@ -53,9 +54,4 @@ export function goToCategoriesListAndFilterCategoryDescriptionAndClickButton(
   cy.getDataCy('filter-description-input').type(`${categoryDescription}{enter}`);
 
   clickButtonInFirstTableRow('categories-table-row', categoryDescription, action);
-}
-
-export function clickListButtonAndVerifyListUrl(type: CategoryType): void {
-  cy.getDataCy('list-button').should('be.visible').click();
-  cy.url().should('include', listPath(categoryPath(type)));
 }

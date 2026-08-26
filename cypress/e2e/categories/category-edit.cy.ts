@@ -2,12 +2,12 @@ import { detailPath, editPath } from '../../../src/app/app.paths';
 import { CategoryType } from '../../../src/app/category/category';
 import {
   clickEditButtonInTableRowAndCheckEditRoute,
+  clickListButtonAndVerifyListUrl,
   maybeSetupApiMockAndLogin,
 } from '../cy-helpers';
 import { categoryDescriptionBoundaryTestCases } from './category-boundary-test-cases';
 import {
   categoryPath,
-  clickListButtonAndVerifyListUrl,
   goToCategoriesListAndFilterCategoryDescriptionAndClickButton,
   maybeSetupApiMockAndNatigateToCategoriesList,
   typeInputDescriptionAndSubmitSaveButtonFail,
@@ -57,7 +57,7 @@ describe(
 
     it('go back to list using list icon', () => {
       clickEditButtonInCategoriesTableRowAndCheckEditRoute(type);
-      clickListButtonAndVerifyListUrl(type);
+      clickListButtonAndVerifyListUrl(categoryPath(type));
     });
 
     it('navigation: clicking magnifying glass on last category goes to details', () => {
