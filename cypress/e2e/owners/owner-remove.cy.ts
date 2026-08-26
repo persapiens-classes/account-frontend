@@ -2,6 +2,8 @@ import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
+import { PATHS } from '../../../src/app/app.paths';
+import { clickRemoveButtonAndConfirRemoval } from '../cy-helpers';
 
 describe('Owner Remove Page', () => {
   beforeEach(() => {
@@ -17,19 +19,11 @@ describe('Owner Remove Page', () => {
     cy.navigateToOwnersNew();
 
     // create validOwnerName to remove later
-    typeInputNameAndSubmitSaveButtonOk(validOwnerName, false);
+    typeInputNameAndSubmitSaveButtonOk(validOwnerName, validOwnerName, false);
 
     // select validOwnerName and click delete button
     goToOwnersListAndFilterOwnerNameAndClickButton(validOwnerName, 'delete');
 
-    // Click accept button on the dialog to confirm removal
-    cy.getDataCy('remove-confirm-dialog-accept-btn').click();
-
-    // Confirm that the success message appears
-    cy.getDataCy('app-toast').should('be.visible');
-
-    // Confirm removal
-    cy.url().should('include', '/owners/list');
-    cy.getDataCy('owners-table-row').should('not.exist');
+    clickRemoveButtonAndConfirRemoval('owners-table-row', PATHS.OWNER_PATH);
   });
 });

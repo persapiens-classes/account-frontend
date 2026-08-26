@@ -5,6 +5,8 @@ import { Owner } from '../../src/app/owner/owner';
 import { Balance } from '../../src/app/owner-equity-account-initial-value/balance';
 import { ModelCrudApiMock } from './model-crud-api-mock';
 import { Category, CategoryType } from '../../src/app/category/category';
+import { API_PATHS } from '../../src/app/app.api-paths';
+import { categoryApiPath } from '../e2e/categories/category-helpers';
 
 export class AppApiMock {
   private isAuthenticated = false;
@@ -25,9 +27,9 @@ export class AppApiMock {
   }
 
   private authMock() {
-    const loginEndpoint = '**/auth/login';
-    const meEndpoint = '**/auth/me';
-    const logoutEndpoint = '**/auth/logout';
+    const loginEndpoint = '/auth/login';
+    const meEndpoint = '/auth/me';
+    const logoutEndpoint = '/auth/logout';
 
     const responseInvalid = {
       message: 'Invalid credentials',
@@ -80,7 +82,7 @@ export class AppApiMock {
   }
 
   private ownerApiMock(): ModelCrudApiMock<Owner, string> {
-    const ownersEndpoint = '**/owners';
+    const ownersEndpoint = `/${API_PATHS.OWNER_API_PATH}`;
 
     const idFn = (model: Owner): string => model.name;
 
@@ -106,7 +108,7 @@ export class AppApiMock {
   }
 
   private categoryApiMock(type: CategoryType): ModelCrudApiMock<Category, string> {
-    const categoriesEndpoint = `**/${type.toLowerCase()}Categories`;
+    const categoriesEndpoint = `/${categoryApiPath(type)}`;
 
     const idFn = (model: Category): string => model.description;
 
@@ -136,7 +138,7 @@ export class AppApiMock {
   }
 
   private balanceApiMock(): ModelCrudApiMock<Balance, string> {
-    const balancesEndpoint = '**/balances';
+    const balancesEndpoint = `/${API_PATHS.BALANCE_API_PATH}`;
 
     const idFn = (model: Balance): string => `${model.owner}-${model.equityAccount.description}`;
 

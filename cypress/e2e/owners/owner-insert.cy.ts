@@ -1,3 +1,4 @@
+import { listPath, newPath, PATHS } from '../../../src/app/app.paths';
 import { ownerNameBoundaryTestCases } from './owner-boundary-test-cases';
 import {
   typeInputNameAndSubmitSaveButtonFail,
@@ -17,39 +18,37 @@ describe('Owner Insert Page', () => {
 
   it('should allow going back to the list', () => {
     cy.getDataCy('list-button').should('be.visible').click();
-    cy.url().should('include', '/owners/list');
+    cy.url().should('include', listPath(PATHS.OWNER_PATH));
   });
 
   it('should create a new Owner successfully', () => {
-    typeInputNameAndSubmitSaveButtonOk(validOwnerName, false);
+    typeInputNameAndSubmitSaveButtonOk(validOwnerName, validOwnerName, false);
   });
 
   describe('Validation Tests', () => {
     it('OW-01: should fail when trying to create owner with name containing only whitespace', () => {
       typeInputNameAndSubmitSaveButtonFail(ownerNameBoundaryTestCases['OW-01'].name);
 
-      cy.url().should('include', '/owners/new');
+      cy.url().should('include', newPath(PATHS.OWNER_PATH));
     });
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
-      typeInputNameAndSubmitSaveButtonOk(
-        Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'].name),
-        false,
-      );
+      const valueToSubmit = Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'].name);
+      typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, false);
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
-      typeInputNameAndSubmitSaveButtonOk(
-        Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-03'].name.substring(0, 245)),
-        false,
+      const valueToSubmit = Cypress._.uniqueId(
+        ownerNameBoundaryTestCases['OW-03'].name.substring(0, 245),
       );
+      typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, false);
     });
 
-    // Reason: maxLength does not allow more than 255 characters to be typed in the input, so this test is not applicable
-    it.skip('OW-04: should fail when trying to create owner with 256 characters (exceeds upper limit)', () => {
-      typeInputNameAndSubmitSaveButtonFail(ownerNameBoundaryTestCases['OW-04'].name);
-
-      cy.url().should('include', '/owners/new');
+    // Reason: maxLength does not allow more than 255 characters to be typed in the input
+    it('OW-04: maxLength should not fix when trying to create owner with 256 characters (exceeds upper limit)', () => {
+      const valueToSubmit = ownerNameBoundaryTestCases['OW-04'].name;
+      const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
+      typeInputNameAndSubmitSaveButtonOk(valueToSubmit, savedValue);
     });
 
     it('OW-05: should fail when trying to create owner with duplicate name', () => {
@@ -57,7 +56,7 @@ describe('Owner Insert Page', () => {
       const uniqueDuplicateName = Cypress._.uniqueId('dup_owner_');
 
       // First create an owner with the unique name
-      typeInputNameAndSubmitSaveButtonOk(uniqueDuplicateName);
+      typeInputNameAndSubmitSaveButtonOk(uniqueDuplicateName, uniqueDuplicateName);
 
       // Navigate back to create another with the same name
       cy.navigateToOwnersNew();
@@ -65,7 +64,7 @@ describe('Owner Insert Page', () => {
       typeInputNameAndSubmitSaveButtonFail(uniqueDuplicateName);
 
       // Validate that it stays on the creation page due to duplicate error
-      cy.url().should('include', '/owners/new');
+      cy.url().should('include', newPath(PATHS.OWNER_PATH));
     });
   });
 });

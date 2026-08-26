@@ -1,3 +1,4 @@
+import { detailPath, editPath, listPath, PATHS } from '../../../src/app/app.paths';
 import { ownerNameBoundaryTestCases } from './owner-boundary-test-cases';
 import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
@@ -35,7 +36,7 @@ describe('Owner Edit Page', () => {
         cy.getDataCy('edit-button').should('be.visible').click();
       });
 
-    cy.url().should('include', '/owners/edit');
+    cy.url().should('include', editPath(PATHS.OWNER_PATH));
   }
 
   it('clicking pencil on last owner opens edit', () => {
@@ -46,7 +47,7 @@ describe('Owner Edit Page', () => {
     clickEditButtonInOwnersTableAndCheckEditRoute();
 
     cy.getDataCy('list-button').should('be.visible').click();
-    cy.url().should('include', '/owners/list');
+    cy.url().should('include', listPath(PATHS.OWNER_PATH));
   });
 
   it('navigation: clicking magnifying glass on last owner goes to details', () => {
@@ -56,7 +57,7 @@ describe('Owner Edit Page', () => {
         cy.getDataCy('detail-button').should('be.visible').click();
       });
 
-    cy.url().should('include', '/owners/detail');
+    cy.url().should('include', detailPath(PATHS.OWNER_PATH));
   });
 
   it('edit last owner by adding _edited to the name', () => {
@@ -67,7 +68,7 @@ describe('Owner Edit Page', () => {
 
       const newName = `${originalName}_edited`;
 
-      typeInputNameAndSubmitSaveButtonOk(newName, true);
+      typeInputNameAndSubmitSaveButtonOk(newName, newName, true);
     });
   });
 
@@ -78,11 +79,11 @@ describe('Owner Edit Page', () => {
       // Create an owner first that will be edited in tests
       cy.navigateToOwnersNew();
 
-      typeInputNameAndSubmitSaveButtonOk(validOwnerName);
+      typeInputNameAndSubmitSaveButtonOk(validOwnerName, validOwnerName);
 
       goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName);
 
-      cy.url().should('include', '/owners/edit');
+      cy.url().should('include', editPath(PATHS.OWNER_PATH));
     });
 
     function submitInvalidName(testCaseName: string): void {
@@ -91,7 +92,7 @@ describe('Owner Edit Page', () => {
 
       typeInputNameAndSubmitSaveButtonFail(testCase.name, true);
 
-      cy.url().should('include', '/owners/edit');
+      cy.url().should('include', editPath(PATHS.OWNER_PATH));
     }
 
     it('OW-01: should fail when trying to edit owner with name containing only whitespace', () => {
@@ -99,22 +100,22 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
-      typeInputNameAndSubmitSaveButtonOk(
-        Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'].name + '_'),
-        true,
-      );
+      const valueToSubmit = Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'].name + '_');
+      typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, true);
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
-      typeInputNameAndSubmitSaveButtonOk(
-        Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-03'].name.substring(0, 245)),
-        true,
+      const valueToSubmit = Cypress._.uniqueId(
+        ownerNameBoundaryTestCases['OW-03'].name.substring(0, 245),
       );
+      typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, true);
     });
 
-    // Reason: maxLength does not allow more than 255 characters to be typed in the input, so this test is not applicable
-    it.skip('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
-      submitInvalidName('OW-04');
+    // Reason: maxLength does not allow more than 255 characters to be typed in the input
+    it('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
+      const valueToSubmit = ownerNameBoundaryTestCases['OW-04'].name;
+      const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
+      typeInputNameAndSubmitSaveButtonOk(valueToSubmit, savedValue, true);
     });
 
     it('OW-05: should fail when trying to edit owner with existing name', () => {
@@ -122,13 +123,13 @@ describe('Owner Edit Page', () => {
 
       // Create another owner first
       cy.navigateToOwnersNew();
-      typeInputNameAndSubmitSaveButtonOk(duplicateName);
+      typeInputNameAndSubmitSaveButtonOk(duplicateName, duplicateName);
 
       // Go back to edit the original owner with duplicate name
       goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName);
       typeInputNameAndSubmitSaveButtonFail(duplicateName, true);
 
-      cy.url().should('include', '/owners/edit');
+      cy.url().should('include', editPath(PATHS.OWNER_PATH));
     });
   });
 });

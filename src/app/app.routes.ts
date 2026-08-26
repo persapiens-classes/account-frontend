@@ -108,7 +108,7 @@ export const routes: Routes = [
     categoryType: CategoryType.EQUITY,
   }),
   createCrudRoutes({
-    path: 'credit${PATHS.CATEGORY_PATH}',
+    path: `credit${PATHS.CATEGORY_PATH}`,
     title: `${CategoryType.CREDIT} Categories`,
     titleColor: TitleColor.GREEN,
     listComponent: CategoryListComponent,
@@ -118,7 +118,7 @@ export const routes: Routes = [
     type: CategoryType.CREDIT,
   }),
   createCrudRoutes({
-    path: 'debit${PATHS.CATEGORY_PATH}',
+    path: `debit${PATHS.CATEGORY_PATH}`,
     title: `${CategoryType.DEBIT} Categories`,
     titleColor: TitleColor.RED,
     listComponent: CategoryListComponent,

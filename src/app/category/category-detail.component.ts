@@ -12,7 +12,11 @@ import { PATHS } from '../app.paths';
   imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
     <app-model-detail-panel [routerName]="routerName" [model]="model">
-      <app-detail-field strong="Description" value="{{ model.description }}" />
+      <app-detail-field
+        strong="Description"
+        value="{{ model.description }}"
+        dataCy="detail-description"
+      />
     </app-model-detail-panel>
   `,
 })

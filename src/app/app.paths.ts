@@ -6,3 +6,19 @@ export const PATHS = {
   BALANCE_PATH: 'balances',
   OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH: 'ownerEquityAccountInitialValues',
 };
+
+export function listPath(path: string): string {
+  return `/${path}/list`;
+}
+
+export function newPath(path: string): string {
+  return `/${path}/new`;
+}
+
+export function editPath(path: string): string {
+  return `/${path}/edit`;
+}
+
+export function detailPath(path: string): string {
+  return `/${path}/detail`;
+}
