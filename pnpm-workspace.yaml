@@ -11,5 +11,17 @@ ignoredBuiltDependencies:
   - lmdb
   - msgpackr-extract
 
+minimumReleaseAgeExclude:
+  - '@fallow-cli/darwin-arm64@3.19.0'
+  - '@fallow-cli/darwin-x64@3.19.0'
+  - '@fallow-cli/linux-arm64-gnu@3.19.0'
+  - '@fallow-cli/linux-arm64-musl@3.19.0'
+  - '@fallow-cli/linux-x64-gnu@3.19.0'
+  - '@fallow-cli/linux-x64-musl@3.19.0'
+  - '@fallow-cli/win32-arm64-msvc@3.19.0'
+  - '@fallow-cli/win32-x64-msvc@3.19.0'
+  - fallow-type-aware@3.19.0
+  - fallow@3.19.0
+
 onlyBuiltDependencies:
   - cypress
