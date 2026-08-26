@@ -1,4 +1,4 @@
-import { form, minLength, required } from '@angular/forms/signals';
+import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -64,7 +64,9 @@ export class AccountUpdateComponent {
   form = form(signal(accountModelToForm(this.modelFromHistory)), (f) => {
     required(f.description);
     minLength(f.description, 3);
+    maxLength(f.description, 255);
     required(f.category);
+    minLength(f.category.description, 3);
   });
 
   routerName: string;

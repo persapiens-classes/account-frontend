@@ -16,7 +16,7 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { AccountInsertService } from './account-insert-service';
 import { AppMessageService } from '../app-message-service';
-import { form, minLength, required } from '@angular/forms/signals';
+import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
 
 @Component({
@@ -52,7 +52,9 @@ export class AccountInsertComponent {
   form = form(signal(accountModelToForm(createAccount())), (f) => {
     required(f.description);
     minLength(f.description, 3);
+    maxLength(f.description, 255);
     required(f.category);
+    minLength(f.category.description, 3);
   });
   routerName: string;
   modelName: string;

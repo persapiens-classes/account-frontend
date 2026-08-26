@@ -27,7 +27,7 @@ export enum AccountType {
 
 export interface AccountForm {
   description: string;
-  category: Category | null;
+  category: Category;
 }
 
 export function accountFormToModel(accountForm: AccountForm): Account {

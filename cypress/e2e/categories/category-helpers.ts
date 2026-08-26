@@ -3,8 +3,9 @@ import { API_PATHS } from '../../../src/app/app.api-paths';
 import { CategoryType } from '../../../src/app/category/category';
 import {
   clickButtonInFirstTableRow,
-  typeInputAndSubmitSaveButtonFail,
-  typeInputAndSubmitSaveButtonOk,
+  submitSaveButtonFail,
+  submitSaveButtonOk,
+  typeInputDescription,
 } from '../cy-helpers';
 
 export function categoryPath(type: CategoryType) {
@@ -26,20 +27,16 @@ export function typeInputDescriptionAndSubmitSaveButtonOk(
   savedValue: string,
   clearInputName = false,
 ) {
-  typeInputAndSubmitSaveButtonOk(
-    categoryPath(type),
-    'description',
-    inputValue,
-    savedValue,
-    clearInputName,
-  );
+  typeInputDescription(inputValue, clearInputName);
+  submitSaveButtonOk(categoryPath(type), 'description', savedValue);
 }
 
 export function typeInputDescriptionAndSubmitSaveButtonFail(
   inputValue: string,
   clearInputName = false,
 ) {
-  typeInputAndSubmitSaveButtonFail('description', inputValue, clearInputName);
+  typeInputDescription(inputValue, clearInputName);
+  submitSaveButtonFail();
 }
 
 export function goToCategoriesListAndFilterCategoryDescriptionAndClickButton(

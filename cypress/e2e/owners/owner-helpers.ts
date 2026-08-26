@@ -1,8 +1,9 @@
 import { PATHS } from '../../../src/app/app.paths';
 import {
   clickButtonInFirstTableRow,
-  typeInputAndSubmitSaveButtonFail,
-  typeInputAndSubmitSaveButtonOk,
+  submitSaveButtonFail,
+  submitSaveButtonOk,
+  typeInput,
 } from '../cy-helpers';
 
 export function typeInputNameAndSubmitSaveButtonOk(
@@ -10,11 +11,13 @@ export function typeInputNameAndSubmitSaveButtonOk(
   savedValue: string,
   clearInputName = false,
 ) {
-  typeInputAndSubmitSaveButtonOk(PATHS.OWNER_PATH, 'name', inputValue, savedValue, clearInputName);
+  typeInput('name', inputValue, clearInputName);
+  submitSaveButtonOk(PATHS.OWNER_PATH, 'name', savedValue);
 }
 
 export function typeInputNameAndSubmitSaveButtonFail(inputValue: string, clearInputName = false) {
-  typeInputAndSubmitSaveButtonFail('name', inputValue, clearInputName);
+  typeInput('name', inputValue, clearInputName);
+  submitSaveButtonFail();
 }
 
 export function goToOwnersListAndFilterOwnerNameAndClickButton(

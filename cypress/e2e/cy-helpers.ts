@@ -1,44 +1,54 @@
 import { detailPath, editPath, listPath } from '../../src/app/app.paths';
 
+export type StringBoundaryTestCase = Record<string, string>;
+
+export const stringBoundaryTestCases: StringBoundaryTestCase = {
+  'OW-01': '   ', // Only whitespace
+  'OW-02': 'abc', // 3 characters (lower limit)
+  'OW-03': 'a'.repeat(255), // 255 characters (upper limit)
+  'OW-04': 'a'.repeat(256), // 256 characters (exceeds upper limit)
+};
+
 export function maybeSetupApiMockAndLogin() {
   cy.maybeSetupApiMock();
   cy.login();
 }
 
-function typeInputAndSubmitSaveButton(
-  inputName: string,
-  inputValue: string,
-  clearInputName = false,
-) {
+export function typeInput(inputName: string, inputValue: string, clearInputName = false) {
   cy.getDataCy(`input-${inputName}`).should('be.visible');
   if (clearInputName) {
     cy.getDataCy(`input-${inputName}`).clear();
   }
   cy.getDataCy(`input-${inputName}`).type(inputValue);
+}
+
+export function clickSelect(selectName: string) {
+  cy.getDataCy(`select-${selectName}`).should('be.visible');
+  cy.getDataCy(`select-${selectName}`).click();
+}
+
+export function clickSelectEq(selectName: string, selectIndex: number) {
+  clickSelect(selectName);
+  cy.get('[role="option"]').eq(selectIndex).click();
+}
+
+export function typeInputDescription(inputValue: string, clearInputName = false) {
+  typeInput('description', inputValue, clearInputName);
+}
+
+function submitSaveButton() {
   cy.getDataCy('save-button').should('not.be.disabled').click();
 }
 
-export function typeInputAndSubmitSaveButtonOk(
-  path: string,
-  inputName: string,
-  inputValue: string,
-  savedValue: string,
-  clearInputName = false,
-) {
-  typeInputAndSubmitSaveButton(inputName, inputValue, clearInputName);
-
+export function submitSaveButtonOk(path: string, inputName: string, savedValue: string) {
+  submitSaveButton();
   cy.getDataCy('app-toast').should('be.visible');
   cy.url().should('include', detailPath(path));
   cy.getDataCy(`detail-${inputName}`).should('have.text', savedValue);
 }
 
-export function typeInputAndSubmitSaveButtonFail(
-  inputName: string,
-  inputValue: string,
-  clearInputName = false,
-) {
-  typeInputAndSubmitSaveButton(inputName, inputValue, clearInputName);
-
+export function submitSaveButtonFail() {
+  submitSaveButton();
   cy.getDataCy('app-toast').should('not.be.visible');
 }
 
