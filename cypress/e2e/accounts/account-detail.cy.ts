@@ -9,31 +9,31 @@ function accessAccountDetail(type: AccountType): void {
   cy.url().should('include', detailPath(accountPath(type)));
 }
 
-describe(
-  `Account Detail Page - ${AccountType.CREDIT}`,
-  { testIsolation: false },
-  (type = AccountType.CREDIT) => {
-    before(() => {
-      maybeSetupApiMockAndLogin();
-    });
+describe('Account Detail Page', { testIsolation: false }, () => {
+  before(() => {
+    maybeSetupApiMockAndLogin();
+  });
 
-    beforeEach(() => {
-      maybeSetupApiMockAndNatigateToAccountsList(type);
-    });
+  [AccountType.CREDIT, AccountType.DEBIT, AccountType.EQUITY].forEach((type) => {
+    describe(`Type - ${type}`, () => {
+      beforeEach(() => {
+        maybeSetupApiMockAndNatigateToAccountsList(type);
+      });
 
-    it('should access detail page when clicking magnifying glass', () => {
-      accessAccountDetail(type);
-    });
+      it('should access detail page when clicking magnifying glass', () => {
+        accessAccountDetail(type);
+      });
 
-    it('should go back to list when clicking list icon', () => {
-      accessAccountDetail(type);
-      clickListButtonAndVerifyListUrl(accountPath(type));
-    });
+      it('should go back to list when clicking list icon', () => {
+        accessAccountDetail(type);
+        clickListButtonAndVerifyListUrl(accountPath(type));
+      });
 
-    it('should go to edit page when clicking pencil icon', () => {
-      accessAccountDetail(type);
-      cy.getDataCy('edit-button').should('be.visible').click();
-      cy.url().should('include', editPath(accountPath(type)));
+      it('should go to edit page when clicking pencil icon', () => {
+        accessAccountDetail(type);
+        cy.getDataCy('edit-button').should('be.visible').click();
+        cy.url().should('include', editPath(accountPath(type)));
+      });
     });
-  },
-);
+  });
+});
