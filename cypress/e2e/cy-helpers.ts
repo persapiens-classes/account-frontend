@@ -1,5 +1,10 @@
 import { detailPath, editPath, listPath } from '../../src/app/app.paths';
 
+export function maybeSetupApiMockAndLogin() {
+  cy.maybeSetupApiMock();
+  cy.login();
+}
+
 function typeInputAndSubmitSaveButton(
   inputName: string,
   inputValue: string,

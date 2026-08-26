@@ -1,5 +1,8 @@
 import { detailPath, editPath, listPath, PATHS } from '../../../src/app/app.paths';
-import { clickEditButtonInTableRowAndCheckEditRoute } from '../cy-helpers';
+import {
+  clickEditButtonInTableRowAndCheckEditRoute,
+  maybeSetupApiMockAndLogin,
+} from '../cy-helpers';
 import { ownerNameBoundaryTestCases } from './owner-boundary-test-cases';
 import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
@@ -21,12 +24,13 @@ function goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName: stri
   goToOwnersListAndFilterOwnerNameAndClickButton(validOwnerName, 'edit');
 }
 
-describe('Owner Edit Page', () => {
+describe('Owner Edit Page', { testIsolation: false }, () => {
+  before(() => {
+    maybeSetupApiMockAndLogin();
+  });
+
   beforeEach(() => {
     cy.maybeSetupApiMock();
-
-    cy.login();
-
     cy.navigateToOwnersList();
   });
 

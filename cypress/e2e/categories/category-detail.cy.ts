@@ -1,6 +1,11 @@
-import { editPath, listPath } from '../../../src/app/app.paths';
+import { editPath } from '../../../src/app/app.paths';
 import { CategoryType } from '../../../src/app/category/category';
-import { categoryPath } from './category-helpers';
+import { maybeSetupApiMockAndLogin } from '../cy-helpers';
+import {
+  categoryPath,
+  clickListButtonAndVerifyListUrl,
+  maybeSetupApiMockAndNatigateToCategoriesList,
+} from './category-helpers';
 
 function accessCategoryDetail(type: CategoryType): void {
   cy.getDataCy('categories-table').should('exist');
@@ -8,29 +13,32 @@ function accessCategoryDetail(type: CategoryType): void {
   cy.url().should('include', `/${type.toLowerCase()}Categories/detail`);
 }
 
-describe(`Category Detail Page - ${CategoryType.CREDIT}`, (type = CategoryType.CREDIT) => {
-  beforeEach(() => {
-    cy.maybeSetupApiMock();
+describe(
+  `Category Detail Page - ${CategoryType.CREDIT}`,
+  { testIsolation: false },
+  (type = CategoryType.CREDIT) => {
+    before(() => {
+      maybeSetupApiMockAndLogin();
+    });
 
-    cy.login();
+    beforeEach(() => {
+      maybeSetupApiMockAndNatigateToCategoriesList(type);
+    });
 
-    cy.navigateToCategoriesList(type);
-  });
+    it('should access detail page when clicking magnifying glass', () => {
+      console.log('Accessing category detail page...');
+      accessCategoryDetail(type);
+    });
 
-  it('should access detail page when clicking magnifying glass', () => {
-    console.log('Accessing category detail page...');
-    accessCategoryDetail(type);
-  });
+    it('should go back to list when clicking list icon', () => {
+      accessCategoryDetail(type);
+      clickListButtonAndVerifyListUrl(type);
+    });
 
-  it('should go back to list when clicking list icon', () => {
-    accessCategoryDetail(type);
-    cy.getDataCy('list-button').should('be.visible').click();
-    cy.url().should('include', listPath(categoryPath(type)));
-  });
-
-  it('should go to edit page when clicking pencil icon', () => {
-    accessCategoryDetail(type);
-    cy.getDataCy('edit-button').should('be.visible').click();
-    cy.url().should('include', editPath(categoryPath(type)));
-  });
-});
+    it('should go to edit page when clicking pencil icon', () => {
+      accessCategoryDetail(type);
+      cy.getDataCy('edit-button').should('be.visible').click();
+      cy.url().should('include', editPath(categoryPath(type)));
+    });
+  },
+);

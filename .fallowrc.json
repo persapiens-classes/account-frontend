@@ -7,5 +7,8 @@
     "istanbul-lib-coverage",
     "@openng/optimus-ui-tailwindcss",
     "tailwindcss"
-  ]
+  ],
+  "duplicates": {
+    "ignoredClones": ["dup:6f87acd9:2"]
+  }
 }

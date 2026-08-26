@@ -3,13 +3,15 @@ import {
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
 import { PATHS } from '../../../src/app/app.paths';
-import { clickRemoveButtonAndConfirRemoval } from '../cy-helpers';
+import { clickRemoveButtonAndConfirRemoval, maybeSetupApiMockAndLogin } from '../cy-helpers';
 
-describe('Owner Remove Page', () => {
+describe('Owner Remove Page', { testIsolation: false }, () => {
+  before(() => {
+    maybeSetupApiMockAndLogin();
+  });
+
   beforeEach(() => {
     cy.maybeSetupApiMock();
-
-    cy.login();
   });
 
   // Reason: not working yet

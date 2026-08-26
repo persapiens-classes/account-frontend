@@ -1,18 +1,18 @@
 import { listPath, newPath, PATHS } from '../../../src/app/app.paths';
+import { maybeSetupApiMockAndLogin } from '../cy-helpers';
 import { ownerNameBoundaryTestCases } from './owner-boundary-test-cases';
 import {
   typeInputNameAndSubmitSaveButtonFail,
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
 
-describe('Owner Insert Page', () => {
-  const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
+describe('Owner Insert Page', { testIsolation: false }, () => {
+  before(() => {
+    maybeSetupApiMockAndLogin();
+  });
 
   beforeEach(() => {
     cy.maybeSetupApiMock();
-
-    cy.login();
-
     cy.navigateToOwnersNew();
   });
 
@@ -22,6 +22,8 @@ describe('Owner Insert Page', () => {
   });
 
   it('should create a new Owner successfully', () => {
+    const validOwnerName = Cypress._.uniqueId('fabiana_'); // dynamic name to avoid duplicates
+
     typeInputNameAndSubmitSaveButtonOk(validOwnerName, validOwnerName, false);
   });
 
