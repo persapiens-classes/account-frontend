@@ -9,6 +9,7 @@ function accessCategoryDetail(type: CategoryType): void {
   cy.url().should('include', detailPath(categoryPath(type)));
 }
 
+// jscpd:ignore-start
 describe('Category Detail Page', { testIsolation: false }, () => {
   before(() => {
     maybeSetupApiMockAndLogin();
@@ -19,6 +20,7 @@ describe('Category Detail Page', { testIsolation: false }, () => {
       beforeEach(() => {
         maybeSetupApiMockAndNatigateToCategoriesList(type);
       });
+      //jscpd:ignore-end
 
       it('should access detail page when clicking magnifying glass', () => {
         accessCategoryDetail(type);
