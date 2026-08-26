@@ -6,7 +6,7 @@ import { CategoryInsertService } from './category-insert-service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
-import { form, minLength, required } from '@angular/forms/signals';
+import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
 
 @Component({
@@ -34,6 +34,7 @@ export class CategoryInsertComponent {
   form = form(signal(createCategory()), (f) => {
     required(f.description);
     minLength(f.description, 3);
+    maxLength(f.description, 255);
   });
   routerName: string;
   modelName: string;

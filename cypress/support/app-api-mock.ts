@@ -27,9 +27,8 @@ export class AppApiMock {
   }
 
   private authMock() {
-    const loginEndpoint = '/auth/login';
-    const meEndpoint = '/auth/me';
-    const logoutEndpoint = '/auth/logout';
+    const loginEndpoint = `/${API_PATHS.AUTH_LOGIN_PATH}`;
+    const logoutEndpoint = `/${API_PATHS.AUTH_LOGOUT_PATH}`;
 
     const responseInvalid = {
       message: 'Invalid credentials',
@@ -51,31 +50,12 @@ export class AppApiMock {
         });
       }).as('loginRequest');
 
-      cy.intercept('GET', meEndpoint, (req) => {
-        if (!this.isAuthenticated) {
-          return req.reply({
-            statusCode: StatusCodes.UNAUTHORIZED,
-            body: responseInvalid,
-          });
-        }
-
-        return req.reply({
-          statusCode: StatusCodes.OK,
-          body: responseSuccess,
-        });
-      }).as('meRequest');
-
       this.interceptPostLogout(logoutEndpoint);
     } else {
       cy.intercept('POST', loginEndpoint, {
         statusCode: StatusCodes.UNAUTHORIZED,
         body: responseInvalid,
       }).as('loginRequest');
-
-      cy.intercept('GET', meEndpoint, {
-        statusCode: StatusCodes.UNAUTHORIZED,
-        body: responseInvalid,
-      }).as('meRequest');
 
       this.interceptPostLogout(logoutEndpoint);
     }

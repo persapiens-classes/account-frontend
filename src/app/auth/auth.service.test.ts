@@ -6,6 +6,7 @@ import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest';
 import { AuthService, LoginResponse } from './auth.service';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
+import { API_PATHS } from '../app.api-paths';
 
 // Mock Date.now for consistent testing
 const mockDateNow = vi.fn();
@@ -109,7 +110,7 @@ describe('AuthService', () => {
 
         service.signin(username, password).subscribe();
 
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
         expect(req.request.method).toBe('POST');
         expect(req.request.withCredentials).toBe(false);
         expect(req.request.body).toEqual({ username, password });
@@ -127,7 +128,7 @@ describe('AuthService', () => {
           actualResponse = response;
         });
 
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
         req.flush(expectedResponse);
 
         expect(actualResponse!).toEqual(expectedResponse);
@@ -140,7 +141,7 @@ describe('AuthService', () => {
         mockDateNow.mockReturnValue(1703181600000);
         service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
 
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
         req.flush(MOCK_LOGIN_RESPONSE);
 
         expect(service.isAuthenticated()).toBe(true);
@@ -160,13 +161,13 @@ describe('AuthService', () => {
 
       it('should clear session after logout', () => {
         service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
-        const loginReq = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        const loginReq = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
         loginReq.flush(MOCK_LOGIN_RESPONSE);
 
         expect(service.isAuthenticated()).toBe(true);
 
         service.logout().subscribe();
-        const logoutReq = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
+        const logoutReq = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGOUT_PATH}`);
         logoutReq.flush({});
 
         expect(service.isAuthenticated()).toBe(false);
@@ -180,7 +181,7 @@ describe('AuthService', () => {
       it('should return true when session is valid', () => {
         mockDateNow.mockReturnValue(1703181600000);
         service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
         req.flush(MOCK_LOGIN_RESPONSE);
 
         expect(service.isAuthenticated()).toBe(true);
@@ -189,7 +190,7 @@ describe('AuthService', () => {
       it('should return false when session is expired', () => {
         mockDateNow.mockReturnValue(1703181600000);
         service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
         req.flush(MOCK_LOGIN_RESPONSE);
 
         mockDateNow.mockReturnValue(1703181600000 + 3600 * 1000 + 1);
@@ -201,7 +202,7 @@ describe('AuthService', () => {
     describe('ensureAuthenticated', () => {
       it('should return true when session is already loaded', () => {
         service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
-        const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
         req.flush(MOCK_LOGIN_RESPONSE);
 
         service.ensureAuthenticated().subscribe((result) => {
@@ -231,7 +232,7 @@ describe('AuthService', () => {
 
       // Sign in
       service.signin(username, password).subscribe();
-      const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+      const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
       req.flush(expectedResponse);
 
       // Now authenticated
@@ -240,7 +241,7 @@ describe('AuthService', () => {
 
       // Logout
       service.logout().subscribe();
-      const logoutReq = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
+      const logoutReq = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGOUT_PATH}`);
       logoutReq.flush({});
 
       // No longer authenticated
@@ -251,7 +252,7 @@ describe('AuthService', () => {
   describe('Performance Considerations', () => {
     it('should not make unnecessary HTTP calls on token checks', () => {
       service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
-      const loginReq = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+      const loginReq = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
       loginReq.flush(MOCK_LOGIN_RESPONSE);
 
       // Multiple authentication checks should not trigger HTTP requests

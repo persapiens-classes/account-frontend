@@ -5,7 +5,7 @@ export interface DescriptionBoundaryTestCase {
 
 export type DescriptionBoundaryTestCases = Record<string, DescriptionBoundaryTestCase>;
 
-export const categoryNameBoundaryTestCases: DescriptionBoundaryTestCases = {
+export const categoryDescriptionBoundaryTestCases: DescriptionBoundaryTestCases = {
   'OW-01': {
     description: '   ', // Only whitespace
     expectedStatus: 400,

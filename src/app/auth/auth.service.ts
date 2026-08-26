@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { API_PATHS } from '../app.api-paths';
 
 export class LoginResponse {
   login: string;
@@ -24,15 +25,17 @@ export class AuthService {
   private sessionExpiresAt: number | null = null;
 
   signin(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
-      tap((loginResponse) => {
-        this.setSession(loginResponse);
-      }),
-    );
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`, { username, password })
+      .pipe(
+        tap((loginResponse) => {
+          this.setSession(loginResponse);
+        }),
+      );
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
+    return this.http.post<void>(`${this.apiUrl}/auth/logout`, {}).pipe(
       tap(() => {
         this.clearSession();
       }),
