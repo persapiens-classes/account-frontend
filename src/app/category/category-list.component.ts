@@ -29,6 +29,7 @@ import { PATHS } from '../app.paths';
   template: `
     <app-model-list-panel [routerName]="routerName">
       <p-table
+        data-cy="categories-table"
         [value]="modelsList()"
         [rows]="5"
         [paginator]="true"
@@ -50,12 +51,17 @@ import { PATHS } from '../app.paths';
                 field="description"
                 placeholder="description"
                 ariaLabel="Filter Description"
+                [pt]="{
+                  pcFilterInputText: {
+                    root: { 'data-cy': 'filter-description-input' },
+                  },
+                }"
               />
             </th>
           </tr>
         </ng-template>
         <ng-template #body let-item>
-          <tr>
+          <tr data-cy="categories-table-row">
             <td data-label="Description">{{ item.description }}</td>
             <td data-label="Detail">
               <app-start-detail-button [item]="item" [routerName]="routerName" />

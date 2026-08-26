@@ -4,6 +4,9 @@ import { StatusCodes } from 'http-status-codes';
 import { Owner } from '../../src/app/owner/owner';
 import { Balance } from '../../src/app/owner-equity-account-initial-value/balance';
 import { ModelCrudApiMock } from './model-crud-api-mock';
+import { Category, CategoryType } from '../../src/app/category/category';
+import { API_PATHS } from '../../src/app/app.api-paths';
+import { categoryApiPath } from '../e2e/categories/category-helpers';
 
 export class AppApiMock {
   private isAuthenticated = false;
@@ -24,9 +27,8 @@ export class AppApiMock {
   }
 
   private authMock() {
-    const loginEndpoint = '**/auth/login';
-    const meEndpoint = '**/auth/me';
-    const logoutEndpoint = '**/auth/logout';
+    const loginEndpoint = `/${API_PATHS.AUTH_LOGIN_PATH}`;
+    const logoutEndpoint = `/${API_PATHS.AUTH_LOGOUT_PATH}`;
 
     const responseInvalid = {
       message: 'Invalid credentials',
@@ -48,20 +50,6 @@ export class AppApiMock {
         });
       }).as('loginRequest');
 
-      cy.intercept('GET', meEndpoint, (req) => {
-        if (!this.isAuthenticated) {
-          return req.reply({
-            statusCode: StatusCodes.UNAUTHORIZED,
-            body: responseInvalid,
-          });
-        }
-
-        return req.reply({
-          statusCode: StatusCodes.OK,
-          body: responseSuccess,
-        });
-      }).as('meRequest');
-
       this.interceptPostLogout(logoutEndpoint);
     } else {
       cy.intercept('POST', loginEndpoint, {
@@ -69,21 +57,16 @@ export class AppApiMock {
         body: responseInvalid,
       }).as('loginRequest');
 
-      cy.intercept('GET', meEndpoint, {
-        statusCode: StatusCodes.UNAUTHORIZED,
-        body: responseInvalid,
-      }).as('meRequest');
-
       this.interceptPostLogout(logoutEndpoint);
     }
   }
 
   private ownerApiMock(): ModelCrudApiMock<Owner, string> {
-    const ownersEndpoint = '**/owners';
+    const ownersEndpoint = `/${API_PATHS.OWNER_API_PATH}`;
 
     const idFn = (model: Owner): string => model.name;
 
-    const validateOwner = (owner: Owner | undefined): string | null => {
+    const validateFn = (owner: Owner | undefined): string | null => {
       const ownerName = owner?.name;
 
       // OW-01: Only whitespace (check first)
@@ -101,11 +84,41 @@ export class AppApiMock {
 
     const owners = [{ name: 'Owner 1' }, { name: 'Owner 2' }, { name: 'Owner 3' }];
 
-    return new ModelCrudApiMock<Owner, string>(ownersEndpoint, idFn, owners, validateOwner);
+    return new ModelCrudApiMock<Owner, string>(ownersEndpoint, idFn, owners, validateFn);
+  }
+
+  private categoryApiMock(type: CategoryType): ModelCrudApiMock<Category, string> {
+    const categoriesEndpoint = `/${categoryApiPath(type)}`;
+
+    const idFn = (model: Category): string => model.description;
+
+    const validateFn = (category: Category | undefined): string | null => {
+      const categoryDescription = category?.description;
+
+      // OW-01: Only whitespace (check first)
+      if (!categoryDescription || categoryDescription.trim() === '') {
+        return 'Category description cannot contain only whitespace';
+      }
+
+      // OW-04: Exceeds max length (256+ characters)
+      if (categoryDescription.length > 255) {
+        return 'Category description must not exceed 255 characters';
+      }
+
+      return null;
+    };
+
+    const categories = [
+      { description: `${type} Category 1` },
+      { description: `${type} Category 2` },
+      { description: `${type} Category 3` },
+    ];
+
+    return new ModelCrudApiMock<Category, string>(categoriesEndpoint, idFn, categories, validateFn);
   }
 
   private balanceApiMock(): ModelCrudApiMock<Balance, string> {
-    const balancesEndpoint = '**/balances';
+    const balancesEndpoint = `/${API_PATHS.BALANCE_API_PATH}`;
 
     const idFn = (model: Balance): string => `${model.owner}-${model.equityAccount.description}`;
 
@@ -136,6 +149,9 @@ export class AppApiMock {
   mock() {
     this.authMock();
     this.ownerApiMock().mock();
+    this.categoryApiMock(CategoryType.CREDIT).mock();
+    this.categoryApiMock(CategoryType.DEBIT).mock();
+    this.categoryApiMock(CategoryType.EQUITY).mock();
     this.balanceApiMock().mock();
   }
 }

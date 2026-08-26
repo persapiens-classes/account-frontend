@@ -14,7 +14,7 @@ export class CategoryListService implements ModelListService<Category> {
     return loadModels(
       this.appMessageService,
       `${this.type} Category`,
-      `${this.type.toLowerCase()}${API_PATHS.CATEGORY_API_PATH}}`,
+      `${this.type.toLowerCase()}${API_PATHS.CATEGORY_API_PATH}`,
     );
   }
 }

@@ -1,24 +1,20 @@
-function typeInputNameAndSubmitSaveButton(testCaseName: string, clearInputName = false) {
-  cy.getDataCy('input-name').should('be.visible');
-  if (clearInputName) {
-    cy.getDataCy('input-name').clear();
-  }
-  cy.getDataCy('input-name').type(testCaseName);
-  cy.getDataCy('save-button').should('not.be.disabled').click();
+import { PATHS } from '../../../src/app/app.paths';
+import {
+  clickButtonInFirstTableRow,
+  typeInputAndSubmitSaveButtonFail,
+  typeInputAndSubmitSaveButtonOk,
+} from '../cy-helpers';
+
+export function typeInputNameAndSubmitSaveButtonOk(
+  inputValue: string,
+  savedValue: string,
+  clearInputName = false,
+) {
+  typeInputAndSubmitSaveButtonOk(PATHS.OWNER_PATH, 'name', inputValue, savedValue, clearInputName);
 }
 
-export function typeInputNameAndSubmitSaveButtonOk(testCaseName: string, clearInputName = false) {
-  typeInputNameAndSubmitSaveButton(testCaseName, clearInputName);
-
-  cy.getDataCy('app-toast').should('be.visible');
-  cy.url().should('include', '/owners/detail');
-  cy.getDataCy('detail-name').should('have.text', testCaseName);
-}
-
-export function typeInputNameAndSubmitSaveButtonFail(testCaseName: string, clearInputName = false) {
-  typeInputNameAndSubmitSaveButton(testCaseName, clearInputName);
-
-  cy.getDataCy('app-toast').should('not.be.visible');
+export function typeInputNameAndSubmitSaveButtonFail(inputValue: string, clearInputName = false) {
+  typeInputAndSubmitSaveButtonFail('name', inputValue, clearInputName);
 }
 
 export function goToOwnersListAndFilterOwnerNameAndClickButton(
@@ -31,10 +27,5 @@ export function goToOwnersListAndFilterOwnerNameAndClickButton(
   cy.getDataCy('filter-name-input').clear();
   cy.getDataCy('filter-name-input').type(`${ownerName}{enter}`);
 
-  cy.getDataCy('owners-table-row')
-    .first()
-    .within(() => {
-      cy.contains('td', ownerName).should('be.visible');
-      cy.getDataCy(`${action}-button`).should('be.visible').click();
-    });
+  clickButtonInFirstTableRow('owners-table-row', ownerName, action);
 }
