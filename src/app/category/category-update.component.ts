@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CategoryUpdateService } from './category-update-service';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
-import { form, minLength, required } from '@angular/forms/signals';
+import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
 
 @Component({
@@ -44,6 +44,7 @@ export class CategoryUpdateComponent {
   form = form(signal(toModelFromHistory<Category>(CategorySchema)), (f) => {
     required(f.description);
     minLength(f.description, 3);
+    maxLength(f.description, 255);
   });
   modelFromHistory = toModelFromHistory<Category>(CategorySchema);
   routerName: string;

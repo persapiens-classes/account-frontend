@@ -30,9 +30,9 @@ describe('Category Remove Page', () => {
 
     // select validCategoryDescription and click delete button
     goToCategoriesListAndFilterCategoryDescriptionAndClickButton(
+      type,
       validCategoryDescription,
       'delete',
-      type,
     );
 
     clickRemoveButtonAndConfirRemoval('categories-table-row', categoryPath(type));

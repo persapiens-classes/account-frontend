@@ -38,9 +38,9 @@ export function typeInputDescriptionAndSubmitSaveButtonFail(
 }
 
 export function goToCategoriesListAndFilterCategoryDescriptionAndClickButton(
+  type: CategoryType,
   categoryDescription: string,
   action: string,
-  type: CategoryType,
 ): void {
   // Go to categories list and open the edit page for the created category
   cy.navigateToCategoriesList(type);

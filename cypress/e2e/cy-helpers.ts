@@ -1,4 +1,4 @@
-import { detailPath, listPath } from '../../src/app/app.paths';
+import { detailPath, editPath, listPath } from '../../src/app/app.paths';
 
 function typeInputAndSubmitSaveButton(
   inputName: string,
@@ -56,4 +56,14 @@ export function clickRemoveButtonAndConfirRemoval(tableRow: string, path: string
   // Confirm removal
   cy.url().should('include', listPath(path));
   cy.getDataCy(tableRow).should('not.exist');
+}
+
+export function clickEditButtonInTableRowAndCheckEditRoute(tableRow: string, path: string): void {
+  cy.getDataCy(tableRow)
+    .last()
+    .within(() => {
+      cy.getDataCy('edit-button').should('be.visible').click();
+    });
+
+  cy.url().should('include', editPath(path));
 }

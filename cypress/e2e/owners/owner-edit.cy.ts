@@ -1,4 +1,5 @@
 import { detailPath, editPath, listPath, PATHS } from '../../../src/app/app.paths';
+import { clickEditButtonInTableRowAndCheckEditRoute } from '../cy-helpers';
 import { ownerNameBoundaryTestCases } from './owner-boundary-test-cases';
 import {
   goToOwnersListAndFilterOwnerNameAndClickButton,
@@ -29,22 +30,16 @@ describe('Owner Edit Page', () => {
     cy.navigateToOwnersList();
   });
 
-  function clickEditButtonInOwnersTableAndCheckEditRoute() {
-    cy.getDataCy('owners-table-row')
-      .last()
-      .within(() => {
-        cy.getDataCy('edit-button').should('be.visible').click();
-      });
-
-    cy.url().should('include', editPath(PATHS.OWNER_PATH));
+  function clickEditButtonInOwnersTableRowAndCheckEditRoute() {
+    clickEditButtonInTableRowAndCheckEditRoute('owners-table-row', PATHS.OWNER_PATH);
   }
 
   it('clicking pencil on last owner opens edit', () => {
-    clickEditButtonInOwnersTableAndCheckEditRoute();
+    clickEditButtonInOwnersTableRowAndCheckEditRoute();
   });
 
   it('go back to list using list icon', () => {
-    clickEditButtonInOwnersTableAndCheckEditRoute();
+    clickEditButtonInOwnersTableRowAndCheckEditRoute();
 
     cy.getDataCy('list-button').should('be.visible').click();
     cy.url().should('include', listPath(PATHS.OWNER_PATH));
@@ -64,7 +59,7 @@ describe('Owner Edit Page', () => {
     captureLastOwner();
 
     cy.get<string>('@lastOwnerName').then((originalName) => {
-      clickEditButtonInOwnersTableAndCheckEditRoute();
+      clickEditButtonInOwnersTableRowAndCheckEditRoute();
 
       const newName = `${originalName}_edited`;
 
