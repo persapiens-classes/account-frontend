@@ -52,6 +52,11 @@ import { PATHS } from '../app.paths';
                 field="description"
                 placeholder="description"
                 ariaLabel="Filter Description"
+                [pt]="{
+                  pcFilterInputText: {
+                    root: { 'data-cy': 'filter-description-input' },
+                  },
+                }"
               />
             </th>
             <th>

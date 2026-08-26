@@ -1,7 +1,13 @@
 import { PATHS } from '../../../src/app/app.paths';
 import { API_PATHS } from '../../../src/app/app.api-paths';
 import { AccountType } from '../../../src/app/account/account';
-import { clickSelectEq, submitSaveButtonFail, submitSaveButtonOk, typeInput } from '../cy-helpers';
+import {
+  clickButtonInFirstTableRow,
+  clickSelectEq,
+  submitSaveButtonFail,
+  submitSaveButtonOk,
+  typeInput,
+} from '../cy-helpers';
 
 export function accountPath(type: AccountType) {
   return `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
@@ -36,4 +42,18 @@ export function typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
   typeInput('description', inputDescription, clearInputName);
   clickSelectEq('category', selectCategory);
   submitSaveButtonFail();
+}
+
+export function goToAccountsListAndFilterAccountDescriptionAndClickButton(
+  type: AccountType,
+  accountDescription: string,
+  action: string,
+): void {
+  // Go to accounts list and open the edit page for the created account
+  cy.navigateToAccountsList(type);
+
+  cy.getDataCy('filter-description-input').clear();
+  cy.getDataCy('filter-description-input').type(`${accountDescription}{enter}`);
+
+  clickButtonInFirstTableRow('accounts-table-row', accountDescription, action);
 }
