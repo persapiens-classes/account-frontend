@@ -34,30 +34,26 @@ describe('Category Insert Page', (type = CategoryType.CREDIT) => {
 
   describe('Validation Tests', () => {
     it('OW-01: should fail when trying to create category with description containing only whitespace', () => {
-      typeInputDescriptionAndSubmitSaveButtonFail(
-        categoryDescriptionBoundaryTestCases['OW-01'].description,
-      );
+      typeInputDescriptionAndSubmitSaveButtonFail(categoryDescriptionBoundaryTestCases['OW-01']);
 
       cy.url().should('include', newPath(categoryPath(type)));
     });
 
     it('OW-02: should create category successfully using 3 characters (lower limit)', () => {
-      const valueToSubmit = Cypress._.uniqueId(
-        categoryDescriptionBoundaryTestCases['OW-02'].description,
-      );
+      const valueToSubmit = Cypress._.uniqueId(categoryDescriptionBoundaryTestCases['OW-02']);
       typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, valueToSubmit, false);
     });
 
     it('OW-03: should create category successfully using 255 characters (upper limit)', () => {
       const valueToSubmit = Cypress._.uniqueId(
-        categoryDescriptionBoundaryTestCases['OW-03'].description.substring(0, 245),
+        categoryDescriptionBoundaryTestCases['OW-03'].substring(0, 245),
       );
       typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, valueToSubmit, false);
     });
 
     // Reason: maxLength does not allow more than 255 characters to be typed in the input
     it('OW-04: maxLength should not fix when trying to create category with 256 characters (exceeds upper limit)', () => {
-      const valueToSubmit = categoryDescriptionBoundaryTestCases['OW-04'].description;
+      const valueToSubmit = categoryDescriptionBoundaryTestCases['OW-04'];
       const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
       typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, savedValue);
     });

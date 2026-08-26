@@ -101,7 +101,7 @@ describe('Category Edit Page', (type = CategoryType.CREDIT) => {
       // eslint-disable-next-line security/detect-object-injection
       const testCase = categoryDescriptionBoundaryTestCases[testCaseDescription];
 
-      typeInputDescriptionAndSubmitSaveButtonFail(testCase.description, true);
+      typeInputDescriptionAndSubmitSaveButtonFail(testCase, true);
 
       cy.url().should('include', editPath(categoryPath(type)));
     }
@@ -111,22 +111,20 @@ describe('Category Edit Page', (type = CategoryType.CREDIT) => {
     });
 
     it('OW-02: should edit category successfully using 3 characters (lower limit)', () => {
-      const valueToSubmit = Cypress._.uniqueId(
-        categoryDescriptionBoundaryTestCases['OW-02'].description + '_',
-      );
+      const valueToSubmit = Cypress._.uniqueId(categoryDescriptionBoundaryTestCases['OW-02'] + '_');
       typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, valueToSubmit, true);
     });
 
     it('OW-03: should edit category successfully using 255 characters (upper limit)', () => {
       const valueToSubmit = Cypress._.uniqueId(
-        categoryDescriptionBoundaryTestCases['OW-03'].description.substring(0, 245),
+        categoryDescriptionBoundaryTestCases['OW-03'].substring(0, 245),
       );
       typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, valueToSubmit, true);
     });
 
     // Reason: maxLength does not allow more than 255 characters to be typed in the input
     it('OW-04: should fail when trying to edit category with 256 characters (exceeds upper limit)', () => {
-      const valueToSubmit = categoryDescriptionBoundaryTestCases['OW-04'].description;
+      const valueToSubmit = categoryDescriptionBoundaryTestCases['OW-04'];
       const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
       typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, savedValue, true);
     });

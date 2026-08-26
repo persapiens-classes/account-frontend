@@ -1,25 +1,8 @@
-export interface NameBoundaryTestCase {
-  name: string;
-  expectedStatus: number;
-}
-
-export type NameBoundaryTestCases = Record<string, NameBoundaryTestCase>;
+export type NameBoundaryTestCases = Record<string, string>;
 
 export const ownerNameBoundaryTestCases: NameBoundaryTestCases = {
-  'OW-01': {
-    name: '   ', // Only whitespace
-    expectedStatus: 400,
-  },
-  'OW-02': {
-    name: 'abc', // 3 characters (lower limit)
-    expectedStatus: 201,
-  },
-  'OW-03': {
-    name: 'a'.repeat(255), // 255 characters (upper limit)
-    expectedStatus: 201,
-  },
-  'OW-04': {
-    name: 'a'.repeat(256), // 256 characters (exceeds upper limit)
-    expectedStatus: 400,
-  },
+  'OW-01': '   ', // Only whitespace
+  'OW-02': 'abc', // 3 characters (lower limit)
+  'OW-03': 'a'.repeat(255), // 255 characters (upper limit)
+  'OW-04': 'a'.repeat(256), // 256 characters (exceeds upper limit)
 };

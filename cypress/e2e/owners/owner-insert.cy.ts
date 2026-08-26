@@ -27,26 +27,26 @@ describe('Owner Insert Page', () => {
 
   describe('Validation Tests', () => {
     it('OW-01: should fail when trying to create owner with name containing only whitespace', () => {
-      typeInputNameAndSubmitSaveButtonFail(ownerNameBoundaryTestCases['OW-01'].name);
+      typeInputNameAndSubmitSaveButtonFail(ownerNameBoundaryTestCases['OW-01']);
 
       cy.url().should('include', newPath(PATHS.OWNER_PATH));
     });
 
     it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
-      const valueToSubmit = Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'].name);
+      const valueToSubmit = Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02']);
       typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, false);
     });
 
     it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
       const valueToSubmit = Cypress._.uniqueId(
-        ownerNameBoundaryTestCases['OW-03'].name.substring(0, 245),
+        ownerNameBoundaryTestCases['OW-03'].substring(0, 245),
       );
       typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, false);
     });
 
     // Reason: maxLength does not allow more than 255 characters to be typed in the input
     it('OW-04: maxLength should not fix when trying to create owner with 256 characters (exceeds upper limit)', () => {
-      const valueToSubmit = ownerNameBoundaryTestCases['OW-04'].name;
+      const valueToSubmit = ownerNameBoundaryTestCases['OW-04'];
       const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
       typeInputNameAndSubmitSaveButtonOk(valueToSubmit, savedValue);
     });

@@ -85,7 +85,7 @@ describe('Owner Edit Page', () => {
       // eslint-disable-next-line security/detect-object-injection
       const testCase = ownerNameBoundaryTestCases[testCaseName];
 
-      typeInputNameAndSubmitSaveButtonFail(testCase.name, true);
+      typeInputNameAndSubmitSaveButtonFail(testCase, true);
 
       cy.url().should('include', editPath(PATHS.OWNER_PATH));
     }
@@ -95,20 +95,20 @@ describe('Owner Edit Page', () => {
     });
 
     it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
-      const valueToSubmit = Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'].name + '_');
+      const valueToSubmit = Cypress._.uniqueId(ownerNameBoundaryTestCases['OW-02'] + '_');
       typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, true);
     });
 
     it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
       const valueToSubmit = Cypress._.uniqueId(
-        ownerNameBoundaryTestCases['OW-03'].name.substring(0, 245),
+        ownerNameBoundaryTestCases['OW-03'].substring(0, 245),
       );
       typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, true);
     });
 
     // Reason: maxLength does not allow more than 255 characters to be typed in the input
     it('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
-      const valueToSubmit = ownerNameBoundaryTestCases['OW-04'].name;
+      const valueToSubmit = ownerNameBoundaryTestCases['OW-04'];
       const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
       typeInputNameAndSubmitSaveButtonOk(valueToSubmit, savedValue, true);
     });
