@@ -8,7 +8,7 @@ import {
 } from '../cy-helpers';
 import {
   accountPath,
-  goToAccountsListAndFilterAccountDescriptionAndClickButton,
+  goToAccountListAndFilterAccountDescriptionAndClickButton,
   maybeSetupApiMockAndNatigateToAccountsList,
   typeDescriptionSelectCategoryAndSubmitSaveButtonFail,
   typeDescriptionSelectCategoryAndSubmitSaveButtonOk,
@@ -28,7 +28,7 @@ function goToAccountsListAndFilterAccountDescriptionAndClickEditButton(
   type: AccountType,
   validAccountDescription: string,
 ): void {
-  goToAccountsListAndFilterAccountDescriptionAndClickButton(type, validAccountDescription, 'edit');
+  goToAccountListAndFilterAccountDescriptionAndClickButton(type, validAccountDescription, 'edit');
 }
 
 function clickEditButtonInAccountsTableRowAndCheckEditRoute(type: AccountType) {

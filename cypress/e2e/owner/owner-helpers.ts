@@ -20,7 +20,7 @@ export function typeInputNameAndSubmitSaveButtonFail(inputValue: string, clearIn
   submitSaveButtonFail();
 }
 
-export function goToOwnersListAndFilterOwnerNameAndClickButton(
+export function goToOwnerListAndFilterOwnerNameAndClickButton(
   ownerName: string,
   action: string,
 ): void {

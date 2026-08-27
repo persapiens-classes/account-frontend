@@ -44,7 +44,7 @@ export function typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
   submitSaveButtonFail();
 }
 
-export function goToAccountsListAndFilterAccountDescriptionAndClickButton(
+export function goToAccountListAndFilterAccountDescriptionAndClickButton(
   type: AccountType,
   accountDescription: string,
   action: string,

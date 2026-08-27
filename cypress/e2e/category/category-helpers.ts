@@ -39,7 +39,7 @@ export function typeInputDescriptionAndSubmitSaveButtonFail(
   submitSaveButtonFail();
 }
 
-export function goToCategoriesListAndFilterCategoryDescriptionAndClickButton(
+export function goToCategoryListAndFilterCategoryDescriptionAndClickButton(
   type: CategoryType,
   categoryDescription: string,
   action: string,

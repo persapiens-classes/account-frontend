@@ -2,7 +2,7 @@ import { CategoryType } from '../../../src/app/category/category';
 import { clickRemoveButtonAndConfirRemoval, maybeSetupApiMockAndLogin } from '../cy-helpers';
 import {
   categoryPath,
-  goToCategoriesListAndFilterCategoryDescriptionAndClickButton,
+  goToCategoryListAndFilterCategoryDescriptionAndClickButton,
   typeInputDescriptionAndSubmitSaveButtonOk,
 } from './category-helpers';
 
@@ -31,7 +31,7 @@ describe('Category Remove Page', { testIsolation: false }, () => {
         );
 
         // select validCategoryDescription and click delete button
-        goToCategoriesListAndFilterCategoryDescriptionAndClickButton(
+        goToCategoryListAndFilterCategoryDescriptionAndClickButton(
           type,
           validCategoryDescription,
           'delete',

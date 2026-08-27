@@ -8,7 +8,7 @@ import {
 } from '../cy-helpers';
 import {
   categoryPath,
-  goToCategoriesListAndFilterCategoryDescriptionAndClickButton,
+  goToCategoryListAndFilterCategoryDescriptionAndClickButton,
   maybeSetupApiMockAndNatigateToCategoriesList,
   typeInputDescriptionAndSubmitSaveButtonFail,
   typeInputDescriptionAndSubmitSaveButtonOk,
@@ -28,7 +28,7 @@ function goToCategoriesListAndFilterCategoryDescriptionAndClickEditButton(
   type: CategoryType,
   validCategoryDescription: string,
 ): void {
-  goToCategoriesListAndFilterCategoryDescriptionAndClickButton(
+  goToCategoryListAndFilterCategoryDescriptionAndClickButton(
     type,
     validCategoryDescription,
     'edit',

@@ -1,5 +1,5 @@
 import {
-  goToOwnersListAndFilterOwnerNameAndClickButton,
+  goToOwnerListAndFilterOwnerNameAndClickButton,
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
 import { PATHS } from '../../../src/app/app.paths';
@@ -24,7 +24,7 @@ describe('Owner Remove Page', { testIsolation: false }, () => {
     typeInputNameAndSubmitSaveButtonOk(validOwnerName, validOwnerName, false);
 
     // select validOwnerName and click delete button
-    goToOwnersListAndFilterOwnerNameAndClickButton(validOwnerName, 'delete');
+    goToOwnerListAndFilterOwnerNameAndClickButton(validOwnerName, 'delete');
 
     clickRemoveButtonAndConfirRemoval('owners-table-row', PATHS.OWNER_PATH);
   });

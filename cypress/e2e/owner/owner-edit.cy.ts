@@ -5,7 +5,7 @@ import {
   stringBoundaryTestCases,
 } from '../cy-helpers';
 import {
-  goToOwnersListAndFilterOwnerNameAndClickButton,
+  goToOwnerListAndFilterOwnerNameAndClickButton,
   typeInputNameAndSubmitSaveButtonFail,
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
@@ -21,7 +21,7 @@ function captureLastOwner(): void {
 }
 
 function goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName: string): void {
-  goToOwnersListAndFilterOwnerNameAndClickButton(validOwnerName, 'edit');
+  goToOwnerListAndFilterOwnerNameAndClickButton(validOwnerName, 'edit');
 }
 
 describe('Owner Edit Page', { testIsolation: false }, () => {

@@ -2,7 +2,7 @@ import { AccountType } from '../../../src/app/account/account';
 import { clickRemoveButtonAndConfirRemoval, maybeSetupApiMockAndLogin } from '../cy-helpers';
 import {
   accountPath,
-  goToAccountsListAndFilterAccountDescriptionAndClickButton,
+  goToAccountListAndFilterAccountDescriptionAndClickButton,
   typeDescriptionSelectCategoryAndSubmitSaveButtonOk,
 } from './account-helpers';
 
@@ -32,7 +32,7 @@ describe('Account Remove Page', { testIsolation: false }, () => {
         );
 
         // select validAccountDescription and click delete button
-        goToAccountsListAndFilterAccountDescriptionAndClickButton(
+        goToAccountListAndFilterAccountDescriptionAndClickButton(
           type,
           validAccountDescription,
           'delete',
