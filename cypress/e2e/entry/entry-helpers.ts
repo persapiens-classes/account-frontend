@@ -24,13 +24,15 @@ export function maybeSetupApiMockAndNatigateToEntriesList(type: EntryType) {
   cy.navigateToEntryList(type);
 }
 
-export function fillEntryFields(entry: Entry, clearInputName = false) {
-  typeDatePicker('date', entry.date, clearInputName);
-  clickSelectContains('in-owner', entry.inOwner);
+export function fillEntryFields(entry: Entry, clearInputName = false, skipInOwner = false) {
+  typeDatePicker('date', entry.date, true);
+  if (!skipInOwner) {
+    clickSelectContains('in-owner', entry.inOwner);
+  }
   clickSelectContains('in-account', entry.inAccount.description);
   clickSelectContains('out-owner', entry.outOwner);
   clickSelectContains('out-account', entry.outAccount.description);
-  typeInputNumber('value', entry.value, clearInputName);
+  typeInputNumber('value', entry.value);
   typeInput('note', entry.note, clearInputName);
 }
 
@@ -40,12 +42,12 @@ export function fillEntryFieldsAndSubmitSaveButtonOk(
   savedNote: string,
   clearInputName = false,
 ) {
-  fillEntryFields(entry, clearInputName);
+  fillEntryFields(entry, clearInputName, false);
   submitSaveButtonOk(entryPath(type), 'note', savedNote);
 }
 
 export function fillEntryFieldsAndSubmitSaveButtonFail(entry: Entry, clearInputName = false) {
-  fillEntryFields(entry, clearInputName);
+  fillEntryFields(entry, clearInputName, true);
   submitSaveButtonFail();
 }
 

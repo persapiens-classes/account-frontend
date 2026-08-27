@@ -22,38 +22,48 @@ export function typeInput(inputName: string, inputValue: string, clearInputName 
   cy.getDataCy(`input-${inputName}`).type(inputValue);
 }
 
-export function typeInputNumber(inputName: string, inputValue: number, clearInputName = false) {
+export function typeInputNumber(inputName: string, inputValue: number) {
   const valueToType = String(inputValue);
-  cy.getDataCy(`input-${inputName}`)
+
+  cy.getDataCy(`inputnumber-${inputName}`)
     .should('be.visible')
+    .find('input')
     .then(($input) => {
-      if (clearInputName) {
-        cy.wrap($input).type('{selectall}{backspace}');
-      }
-      cy.wrap($input).type(valueToType);
+      cy.wrap($input).focus();
+      // {selectall} in the same string replaces the current value without triggering the auto-reset of the mask
+      cy.wrap($input).type(`{selectall}${valueToType}`, { delay: 50 });
+      cy.wrap($input).trigger('input');
+      cy.wrap($input).trigger('change');
+      cy.wrap($input).blur();
     });
 }
-export function typeDatePicker(inputName: string, inputValue: Date, clearInputName = false) {
-  // Converte objeto Date em string no formato dd/mm/yyyy (pt-BR)
-  const formattedValue =
-    inputValue instanceof Date
-      ? inputValue.toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        })
-      : inputValue;
+
+export function typeDatePicker(
+  inputName: string,
+  inputValue: Date | string,
+  clearInputName = false,
+) {
+  let formattedValue: string;
+
+  if (inputValue instanceof Date) {
+    const month = String(inputValue.getMonth() + 1).padStart(2, '0');
+    const day = String(inputValue.getDate()).padStart(2, '0');
+    const year = inputValue.getFullYear();
+    formattedValue = `${month}/${day}/${year}`;
+  } else {
+    formattedValue = inputValue;
+  }
 
   cy.getDataCy(`input-${inputName}`)
     .should('be.visible')
     .find('input')
     .then(($input) => {
       if (clearInputName) {
-        cy.wrap($input).type('{selectall}{backspace}');
+        cy.wrap($input).clear();
       }
 
-      // Digita a data formatada e envia {enter} para confirmar e fechar o overlay
-      cy.wrap($input).type(`${formattedValue}{enter}`);
+      cy.wrap($input).type(formattedValue);
+      cy.wrap($input).type('{enter}');
     });
 }
 export function clickSelect(selectName: string) {
