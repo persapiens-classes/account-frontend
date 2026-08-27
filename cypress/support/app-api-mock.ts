@@ -9,6 +9,8 @@ import { API_PATHS } from '../../src/app/app.api-paths';
 import { categoryApiPath } from '../e2e/categories/category-helpers';
 import { Account, AccountType } from '../../src/app/account/account';
 import { accountApiPath } from '../e2e/accounts/account-helpers';
+import { Entry, EntryType } from '../../src/app/entry/entry';
+import { entryApiPath } from '../e2e/entries/entry-helpers';
 
 export class AppApiMock {
   private isAuthenticated = false;
@@ -149,6 +151,53 @@ export class AppApiMock {
     return new ModelCrudApiMock<Account, string>(accountsEndpoint, idFn, accounts, validateFn);
   }
 
+  private entryApiMock(type: EntryType): ModelCrudApiMock<Entry, string> {
+    const accountsEndpoint = `/${entryApiPath(type)}`;
+
+    const idFn = (model: Entry): string => model.id.toString();
+
+    const validateFn = (entry: Entry | undefined): string | null => {
+      const accountDescription = entry?.inAccount?.description;
+
+      // OW-01: Only whitespace (check first)
+      if (!accountDescription || accountDescription.trim() === '') {
+        return 'Account description cannot contain only whitespace';
+      }
+
+      // OW-04: Exceeds max length (256+ characters)
+      if (accountDescription.length > 255) {
+        return 'Account description must not exceed 255 characters';
+      }
+
+      return null;
+    };
+
+    const entries = [
+      {
+        id: 1,
+        date: new Date(),
+        inAccount: { description: `In ${type} Account 1`, category: `${type} Category 1` },
+        inOwner: 'In Owner 1',
+        outAccount: { description: `Out ${type} Account 1`, category: `${type} Category 1` },
+        outOwner: 'Out Owner 1',
+        value: 100,
+        note: `${type} Entry 1`,
+      },
+      {
+        id: 2,
+        date: new Date(),
+        inAccount: { description: `In ${type} Account 2`, category: `${type} Category 2` },
+        inOwner: 'In Owner 2',
+        outAccount: { description: `Out ${type} Account 2`, category: `${type} Category 2` },
+        outOwner: 'Out Owner 2',
+        value: 200,
+        note: `${type} Entry 2`,
+      },
+    ];
+
+    return new ModelCrudApiMock<Entry, string>(accountsEndpoint, idFn, entries, validateFn);
+  }
+
   private balanceApiMock(): ModelCrudApiMock<Balance, string> {
     const balancesEndpoint = `/${API_PATHS.BALANCE_API_PATH}`;
 
@@ -187,6 +236,9 @@ export class AppApiMock {
     this.accountApiMock(AccountType.CREDIT).mock();
     this.accountApiMock(AccountType.DEBIT).mock();
     this.accountApiMock(AccountType.EQUITY).mock();
+    this.entryApiMock(EntryType.CREDIT).mock();
+    this.entryApiMock(EntryType.DEBIT).mock();
+    this.entryApiMock(EntryType.TRANSFER).mock();
     this.balanceApiMock().mock();
   }
 }
