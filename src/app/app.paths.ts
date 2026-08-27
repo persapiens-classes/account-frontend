@@ -8,22 +8,26 @@ export const PATHS = {
   OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH: 'ownerEquityAccountInitialValues',
 };
 
+export function abs(path: string): string {
+  return `/${path}`;
+}
+
 export function loginPath(): string {
-  return `/${PATHS.LOGIN_PATH}`;
+  return `${PATHS.LOGIN_PATH}`;
 }
 
 export function listPath(path: string): string {
-  return `/${path}/list`;
+  return `${path}/list`;
 }
 
 export function newPath(path: string): string {
-  return `/${path}/new`;
+  return `${path}/new`;
 }
 
 export function editPath(path: string): string {
-  return `/${path}/edit`;
+  return `${path}/edit`;
 }
 
 export function detailPath(path: string): string {
-  return `/${path}/detail`;
+  return `${path}/detail`;
 }

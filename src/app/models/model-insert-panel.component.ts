@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { ModelInsertService } from './model-insert-service';
 import { AppMessageService } from '../app-message-service';
+import { detailPath } from '../app.paths';
 
 @Component({
   selector: 'app-model-insert-panel',
@@ -64,7 +65,7 @@ export class ModelInsertPanelComponent<F, T, I> {
               `${this.modelName()} inserted`,
               `${this.modelName()} ${this.modelIdFn()(model)} inserted ok.`,
             );
-            this.router.navigate([`${this.routerName()}/detail`], {
+            this.router.navigate([`${detailPath(this.routerName())}`], {
               state: { model: model },
             });
           }),

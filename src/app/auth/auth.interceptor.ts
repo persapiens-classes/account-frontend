@@ -4,7 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { loginPath } from '../app.paths';
+import { abs, loginPath } from '../app.paths';
 
 export function authIntercept(
   req: HttpRequest<unknown>,
@@ -32,7 +32,7 @@ export function authIntercept(
     catchError((error) => {
       if (error?.status === 401) {
         authService.clearSession();
-        router.navigate([loginPath()]);
+        router.navigate([abs(loginPath())]);
       }
       return throwError(() => error);
     }),

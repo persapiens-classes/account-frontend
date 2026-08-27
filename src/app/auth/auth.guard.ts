@@ -2,7 +2,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { map } from 'rxjs';
-import { loginPath } from '../app.paths';
+import { abs, loginPath } from '../app.paths';
 
 // https://angular.dev/guide/routing/route-guards#canactivate
 export const authGuard: CanActivateFn = () => {
@@ -11,5 +11,7 @@ export const authGuard: CanActivateFn = () => {
 
   return authService
     .ensureAuthenticated()
-    .pipe(map((isAuthenticated) => (isAuthenticated ? true : router.createUrlTree([loginPath()]))));
+    .pipe(
+      map((isAuthenticated) => (isAuthenticated ? true : router.createUrlTree([abs(loginPath())]))),
+    );
 };

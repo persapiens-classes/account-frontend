@@ -11,6 +11,7 @@ import { catchError, of, tap } from 'rxjs';
 import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
 import { AppMessageService } from '../app-message-service';
 import { InputFieldComponent } from '../field/input-field.component';
+import { listPath, PATHS } from '../app.paths';
 
 @Component({
   selector: 'app-login',
@@ -81,7 +82,7 @@ export class LoginPageComponent {
         .signin(this.form().value().username, this.form().value().password)
         .pipe(
           tap(() => {
-            this.router.navigate(['balances/list']);
+            this.router.navigate([`/${listPath(PATHS.BALANCE_PATH)}`]);
           }),
           catchError((error) => {
             this.appMessageService.addErrorMessage(

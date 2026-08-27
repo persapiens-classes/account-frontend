@@ -7,6 +7,7 @@ import { Component, inject, input } from '@angular/core';
 import { ModelUpdateService } from './model-update-service';
 import { AppMessageService } from '../app-message-service';
 import { FieldTree } from '@angular/forms/signals';
+import { detailPath } from '../app.paths';
 
 @Component({
   selector: 'app-model-update-panel',
@@ -69,7 +70,7 @@ export class ModelUpdatePanelComponent<F, T, U> {
               `${this.modelName()} edited`,
               `${this.modelName()} ${this.modelIdFn()(this.modelFromHistory())} edited ok.`,
             );
-            this.router.navigate([`${this.routerName()}/detail`], {
+            this.router.navigate([`${detailPath(this.routerName())}`], {
               state: { model: model },
             });
           }),
@@ -87,7 +88,7 @@ export class ModelUpdatePanelComponent<F, T, U> {
   }
 
   cancelToDetail() {
-    this.router.navigate([`${this.routerName()}/detail`], {
+    this.router.navigate([`${detailPath(this.routerName())}`], {
       state: { model: this.modelFromHistory() },
     });
   }

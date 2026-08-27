@@ -25,7 +25,7 @@ import { CategoryType } from './category/category';
 import { AccountType } from './account/account';
 import { EntryType } from './entry/entry';
 import { TitleColor } from './layout/layout.component';
-import { PATHS } from './app.paths';
+import { detailPath, PATHS } from './app.paths';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -147,8 +147,8 @@ export const routes: Routes = [
     detailComponent: OwnerDetailComponent,
   }),
   {
-    path: `${PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH}/detail`,
-    redirectTo: `${PATHS.BALANCE_PATH}/detail`,
+    path: `${detailPath(PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH)}`,
+    redirectTo: `${detailPath(PATHS.BALANCE_PATH)}`,
     pathMatch: 'full',
   },
   {

@@ -2,6 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { Router } from '@angular/router';
+import { editPath } from '../app.paths';
 
 @Component({
   selector: 'app-start-update-button',
@@ -23,6 +24,6 @@ export class StartUpdateButtonComponent<T> {
   private readonly router = inject(Router);
 
   startUpdate(item: T): void {
-    this.router.navigate([`${this.routerName()}/edit`], { state: { model: item } });
+    this.router.navigate([`${editPath(this.routerName())}`], { state: { model: item } });
   }
 }

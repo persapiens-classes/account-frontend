@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, inject, input } from '@angular/core';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { ButtonModule } from '@openng/optimus-ui/button';
+import { newPath } from '../app.paths';
 
 @Component({
   selector: 'app-model-list-panel',
@@ -30,6 +31,6 @@ export class ModelListPanelComponent {
   private readonly router = inject(Router);
 
   startInsert(): void {
-    this.router.navigate([`${this.routerName()}/new`]);
+    this.router.navigate([`${newPath(this.routerName())}`]);
   }
 }

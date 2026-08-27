@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { Component, inject, input } from '@angular/core';
+import { editPath } from '../app.paths';
 
 @Component({
   selector: 'app-model-detail-panel',
@@ -39,7 +40,7 @@ export class ModelDetailPanelComponent<T> {
   }
 
   startUpdate() {
-    this.router.navigate([`${this.routerName()}/edit`], {
+    this.router.navigate([`${editPath(this.routerName())}`], {
       state: { model: this.model() },
     });
   }
