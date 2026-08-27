@@ -41,7 +41,7 @@
     "test:start-server:run": "start-server-and-test vite:start:instrumented http://localhost:5173 cypress:run",
     "test:start-server:mock:open": "start-server-and-test vite:start:instrumented http://localhost:5173 cypress:mock:open",
     "test:start-server:mock:run": "start-server-and-test vite:start:instrumented http://localhost:5173 cypress:mock:run",
-    "merge:coverage": "shx mkdir -p .nyc_output/merged && shx cp coverage/e2e/coverage-final.json .nyc_output/merged/e2e.json && shx cp coverage/unit/coverage-final.json .nyc_output/merged/unit.json && npx nyc merge .nyc_output/merged .nyc_output/merged/coverage-final.json && npx nyc report --reporter=html --reporter=lcov --reporter=json --reporter=text --reporter=text-summary --report-dir=coverage/merged --temp-dir=.nyc_output/merged",
+    "merge:coverage": "shx mkdir -p .nyc_output/merged && shx cp coverage/e2e/coverage-final.json .nyc_output/merged/e2e.json && shx cp coverage/unit/coverage-final.json .nyc_output/merged/unit.json && pnpm exec nyc merge .nyc_output/merged .nyc_output/merged/coverage-final.json && pnpm exec nyc report --reporter=html --reporter=lcov --reporter=json --reporter=text --reporter=text-summary --report-dir=coverage/merged --temp-dir=.nyc_output/merged",
     "prepare": "husky",
     "commitlint": "commitlint --edit",
     "commit": "cz"

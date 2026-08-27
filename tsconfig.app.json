@@ -13,7 +13,7 @@
     "src/test-setup.ts",
     "src/app/shared/test-utils.ts",
     "src/app/shared/http-client-test-mock.ts",
-    "src/app/app/category/category-test-helpers.ts",
-    "src/app/app/models/model-test-helpers.ts"
+    "src/app/category/category-test-helpers.ts",
+    "src/app/models/model-test-helpers.ts"
   ]
 }
