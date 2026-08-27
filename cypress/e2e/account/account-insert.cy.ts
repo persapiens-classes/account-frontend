@@ -16,7 +16,7 @@ describe('Account Insert Page', { testIsolation: false }, () => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {
         cy.maybeSetupApiMock();
-        cy.navigateToAccountsNew(type);
+        cy.navigateToAccountNew(type);
       });
 
       it('should allow going back to the list', () => {
@@ -92,7 +92,7 @@ describe('Account Insert Page', { testIsolation: false }, () => {
           );
 
           // Navigate back to create another with the same description
-          cy.navigateToAccountsNew(type);
+          cy.navigateToAccountNew(type);
 
           typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
             uniqueDuplicateDescription,

@@ -5,26 +5,26 @@ import { listPath, newPath, PATHS } from '../../../../src/app/app.paths';
 declare global {
   namespace Cypress {
     interface Chainable {
-      navigateToOwnersList(): Chainable<void>;
-      navigateToOwnersNew(): Chainable<void>;
+      navigateToOwnerList(): Chainable<void>;
+      navigateToOwnerNew(): Chainable<void>;
     }
   }
 }
 
 /**
- * Navigate to owners list page
+ * Navigate to owner list page
  */
-Cypress.Commands.add('navigateToOwnersList', () => {
+Cypress.Commands.add('navigateToOwnerList', () => {
   cy.getDataCy('menu-owner').should('be.visible').click();
   cy.url().should('include', listPath(PATHS.OWNER_PATH));
 });
 
 /**
- * Navigate to owners new page
+ * Navigate to owner new page
  */
-Cypress.Commands.add('navigateToOwnersNew', () => {
+Cypress.Commands.add('navigateToOwnerNew', () => {
   // Path to owner creation page
-  cy.navigateToOwnersList();
+  cy.navigateToOwnerList();
   cy.getDataCy('create-button').should('be.visible').click();
   cy.url().should('include', newPath(PATHS.OWNER_PATH));
 });

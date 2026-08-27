@@ -20,7 +20,7 @@ describe('Account Remove Page', { testIsolation: false }, () => {
       it('should remove the recently created Account successfully', () => {
         const validAccountDescription = Cypress._.uniqueId('salary_'); // unique name
 
-        cy.navigateToAccountsNew(type);
+        cy.navigateToAccountNew(type);
 
         // create validAccountDescription to remove later
         typeDescriptionSelectCategoryAndSubmitSaveButtonOk(

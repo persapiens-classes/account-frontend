@@ -88,7 +88,7 @@ describe('Account Edit Page', { testIsolation: false }, () => {
 
         beforeEach(() => {
           // Create an account first that will be edited in tests
-          cy.navigateToAccountsNew(type);
+          cy.navigateToAccountNew(type);
 
           typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
             type,
@@ -159,7 +159,7 @@ describe('Account Edit Page', { testIsolation: false }, () => {
           const duplicateDescription = Cypress._.uniqueId('dup_');
 
           // Create another account first
-          cy.navigateToAccountsNew(type);
+          cy.navigateToAccountNew(type);
           typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
             type,
             duplicateDescription,

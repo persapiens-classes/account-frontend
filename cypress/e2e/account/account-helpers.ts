@@ -19,7 +19,7 @@ export function accountApiPath(type: AccountType) {
 
 export function maybeSetupApiMockAndNatigateToAccountsList(type: AccountType) {
   cy.maybeSetupApiMock();
-  cy.navigateToAccountsList(type);
+  cy.navigateToAccountList(type);
 }
 
 export function typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
@@ -49,8 +49,8 @@ export function goToAccountsListAndFilterAccountDescriptionAndClickButton(
   accountDescription: string,
   action: string,
 ): void {
-  // Go to accounts list and open the edit page for the created account
-  cy.navigateToAccountsList(type);
+  // Go to account list and open the edit page for the created account
+  cy.navigateToAccountList(type);
 
   cy.getDataCy('filter-description-input').clear();
   cy.getDataCy('filter-description-input').type(`${accountDescription}{enter}`);

@@ -2,32 +2,32 @@
 
 import { listPath, newPath } from '../../../../src/app/app.paths';
 import { CategoryType } from '../../../../src/app/category/category';
-import { categoryPath } from '../../../e2e/categories/category-helpers';
+import { categoryPath } from '../../../e2e/category/category-helpers';
 
 declare global {
   namespace Cypress {
     interface Chainable {
-      navigateToCategoriesList(type: CategoryType): Chainable<void>;
-      navigateToCategoriesNew(type: CategoryType): Chainable<void>;
+      navigateToCategoryList(type: CategoryType): Chainable<void>;
+      navigateToCategoryNew(type: CategoryType): Chainable<void>;
     }
   }
 }
 
 /**
- * Navigate to categories list page
+ * Navigate to category list page
  */
-Cypress.Commands.add('navigateToCategoriesList', (type) => {
+Cypress.Commands.add('navigateToCategoryList', (type) => {
   cy.getDataCy(`menu-category`).should('be.visible').click();
   cy.getDataCy(`menu-category-${type.toLowerCase()}`).should('be.visible').click();
   cy.url().should('include', listPath(categoryPath(type)));
 });
 
 /**
- * Navigate to categories new page
+ * Navigate to category new page
  */
-Cypress.Commands.add('navigateToCategoriesNew', (type) => {
+Cypress.Commands.add('navigateToCategoryNew', (type) => {
   // Path to category creation page
-  cy.navigateToCategoriesList(type);
+  cy.navigateToCategoryList(type);
   cy.getDataCy('create-button').should('be.visible').click();
   cy.url().should('include', newPath(categoryPath(type)));
 });

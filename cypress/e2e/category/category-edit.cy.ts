@@ -86,7 +86,7 @@ describe('Category Edit Page', { testIsolation: false }, () => {
 
         beforeEach(() => {
           // Create an category first that will be edited in tests
-          cy.navigateToCategoriesNew(type);
+          cy.navigateToCategoryNew(type);
 
           typeInputDescriptionAndSubmitSaveButtonOk(
             type,
@@ -138,7 +138,7 @@ describe('Category Edit Page', { testIsolation: false }, () => {
           const duplicateDescription = Cypress._.uniqueId('dup_');
 
           // Create another category first
-          cy.navigateToCategoriesNew(type);
+          cy.navigateToCategoryNew(type);
           typeInputDescriptionAndSubmitSaveButtonOk(
             type,
             duplicateDescription,

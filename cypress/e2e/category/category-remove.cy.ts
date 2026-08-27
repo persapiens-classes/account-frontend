@@ -20,7 +20,7 @@ describe('Category Remove Page', { testIsolation: false }, () => {
       it('should remove the recently created Category successfully', () => {
         const validCategoryDescription = Cypress._.uniqueId('salary_'); // unique name
 
-        cy.navigateToCategoriesNew(type);
+        cy.navigateToCategoryNew(type);
 
         // create validCategoryDescription to remove later
         typeInputDescriptionAndSubmitSaveButtonOk(

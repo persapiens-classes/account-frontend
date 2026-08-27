@@ -40,10 +40,10 @@ Cypress.Commands.add('maybeSetupApiMock', (scenario?: 'success' | 'invalid') => 
 
 // Import commands from each feature module
 import './commands/auth';
-import './commands/owners';
-import './commands/categories';
-import './commands/accounts';
-import './commands/entries';
+import './commands/owner';
+import './commands/category';
+import './commands/account';
+import './commands/entry';
 import { AppApiMock } from './app-api-mock';
 
 export {}; // NOSONAR - Required for TypeScript to treat file as module for global augmentation

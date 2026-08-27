@@ -2,31 +2,31 @@
 
 import { listPath, newPath } from '../../../../src/app/app.paths';
 import { EntryType } from '../../../../src/app/entry/entry';
-import { entryPath } from '../../../e2e/entries/entry-helpers';
+import { entryPath } from '../../../e2e/entry/entry-helpers';
 
 declare global {
   namespace Cypress {
     interface Chainable {
-      navigateToEntriesList(type: EntryType): Chainable<void>;
-      navigateToEntriesNew(type: EntryType): Chainable<void>;
+      navigateToEntryList(type: EntryType): Chainable<void>;
+      navigateToEntryNew(type: EntryType): Chainable<void>;
     }
   }
 }
 
 /**
- * Navigate to entries list page
+ * Navigate to entry list page
  */
-Cypress.Commands.add('navigateToEntriesList', (type) => {
+Cypress.Commands.add('navigateToEntryList', (type) => {
   cy.getDataCy(`menu-${type.toLowerCase()}-entry`).should('be.visible').click();
   cy.url().should('include', listPath(entryPath(type)));
 });
 
 /**
- * Navigate to entries new page
+ * Navigate to entry new page
  */
-Cypress.Commands.add('navigateToEntriesNew', (type) => {
+Cypress.Commands.add('navigateToEntryNew', (type) => {
   // Path to account creation page
-  cy.navigateToEntriesList(type);
+  cy.navigateToEntryList(type);
   cy.getDataCy('create-button').should('be.visible').click();
   cy.url().should('include', newPath(entryPath(type)));
 });

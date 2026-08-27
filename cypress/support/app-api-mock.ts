@@ -6,11 +6,11 @@ import { Balance } from '../../src/app/owner-equity-account-initial-value/balanc
 import { ModelCrudApiMock } from './model-crud-api-mock';
 import { Category, CategoryType } from '../../src/app/category/category';
 import { API_PATHS } from '../../src/app/app.api-paths';
-import { categoryApiPath } from '../e2e/categories/category-helpers';
+import { categoryApiPath } from '../e2e/category/category-helpers';
 import { Account, AccountType } from '../../src/app/account/account';
-import { accountApiPath } from '../e2e/accounts/account-helpers';
+import { accountApiPath } from '../e2e/account/account-helpers';
 import { Entry, EntryType } from '../../src/app/entry/entry';
-import { entryApiPath } from '../e2e/entries/entry-helpers';
+import { entryApiPath } from '../e2e/entry/entry-helpers';
 
 export class AppApiMock {
   private isAuthenticated = false;

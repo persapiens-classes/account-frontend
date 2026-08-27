@@ -12,7 +12,7 @@ describe('Owner Insert Page', { testIsolation: false }, () => {
 
   beforeEach(() => {
     cy.maybeSetupApiMock();
-    cy.navigateToOwnersNew();
+    cy.navigateToOwnerNew();
   });
 
   it('should allow going back to the list', () => {
@@ -58,7 +58,7 @@ describe('Owner Insert Page', { testIsolation: false }, () => {
       typeInputNameAndSubmitSaveButtonOk(uniqueDuplicateName, uniqueDuplicateName);
 
       // Navigate back to create another with the same name
-      cy.navigateToOwnersNew();
+      cy.navigateToOwnerNew();
 
       typeInputNameAndSubmitSaveButtonFail(uniqueDuplicateName);
 

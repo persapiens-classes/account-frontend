@@ -18,7 +18,7 @@ describe('Owner Remove Page', { testIsolation: false }, () => {
   it('should remove the recently created Owner successfully', () => {
     const validOwnerName = Cypress._.uniqueId('fabiana_'); // unique name
 
-    cy.navigateToOwnersNew();
+    cy.navigateToOwnerNew();
 
     // create validOwnerName to remove later
     typeInputNameAndSubmitSaveButtonOk(validOwnerName, validOwnerName, false);

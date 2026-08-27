@@ -16,7 +16,7 @@ describe('Category Insert Page', { testIsolation: false }, () => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {
         cy.maybeSetupApiMock();
-        cy.navigateToCategoriesNew(type);
+        cy.navigateToCategoryNew(type);
       });
 
       it('should allow going back to the list', () => {
@@ -73,7 +73,7 @@ describe('Category Insert Page', { testIsolation: false }, () => {
           );
 
           // Navigate back to create another with the same description
-          cy.navigateToCategoriesNew(type);
+          cy.navigateToCategoryNew(type);
 
           typeInputDescriptionAndSubmitSaveButtonFail(uniqueDuplicateDescription);
 

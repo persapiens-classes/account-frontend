@@ -31,7 +31,7 @@ describe('Owner Edit Page', { testIsolation: false }, () => {
 
   beforeEach(() => {
     cy.maybeSetupApiMock();
-    cy.navigateToOwnersList();
+    cy.navigateToOwnerList();
   });
 
   function clickEditButtonInOwnersTableRowAndCheckEditRoute() {
@@ -76,7 +76,7 @@ describe('Owner Edit Page', { testIsolation: false }, () => {
 
     beforeEach(() => {
       // Create an owner first that will be edited in tests
-      cy.navigateToOwnersNew();
+      cy.navigateToOwnerNew();
 
       typeInputNameAndSubmitSaveButtonOk(validOwnerName, validOwnerName);
 
@@ -119,7 +119,7 @@ describe('Owner Edit Page', { testIsolation: false }, () => {
       const duplicateName = Cypress._.uniqueId('dup_');
 
       // Create another owner first
-      cy.navigateToOwnersNew();
+      cy.navigateToOwnerNew();
       typeInputNameAndSubmitSaveButtonOk(duplicateName, duplicateName);
 
       // Go back to edit the original owner with duplicate name

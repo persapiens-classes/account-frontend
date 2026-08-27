@@ -19,7 +19,7 @@ export function entryApiPath(type: EntryType) {
 
 export function maybeSetupApiMockAndNatigateToEntriesList(type: EntryType) {
   cy.maybeSetupApiMock();
-  cy.navigateToEntriesList(type);
+  cy.navigateToEntryList(type);
 }
 
 export function typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
@@ -50,7 +50,7 @@ export function goToEntriesListAndFilterEntryDescriptionAndClickButton(
   action: string,
 ): void {
   // Go to entries list and open the edit page for the created entry
-  cy.navigateToEntriesList(type);
+  cy.navigateToEntryList(type);
 
   cy.getDataCy('filter-description-input').clear();
   cy.getDataCy('filter-description-input').type(`${entryDescription}{enter}`);

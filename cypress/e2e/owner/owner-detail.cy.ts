@@ -12,7 +12,7 @@ describe('Owner Detail Page', { testIsolation: false }, () => {
 
   beforeEach(() => {
     cy.maybeSetupApiMock();
-    cy.navigateToOwnersList();
+    cy.navigateToOwnerList();
   });
 
   it('should access detail page when clicking magnifying glass', () => {

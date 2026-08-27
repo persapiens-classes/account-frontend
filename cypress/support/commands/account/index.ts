@@ -2,32 +2,32 @@
 
 import { listPath, newPath } from '../../../../src/app/app.paths';
 import { AccountType } from '../../../../src/app/account/account';
-import { accountPath } from '../../../e2e/accounts/account-helpers';
+import { accountPath } from '../../../e2e/account/account-helpers';
 
 declare global {
   namespace Cypress {
     interface Chainable {
-      navigateToAccountsList(type: AccountType): Chainable<void>;
-      navigateToAccountsNew(type: AccountType): Chainable<void>;
+      navigateToAccountList(type: AccountType): Chainable<void>;
+      navigateToAccountNew(type: AccountType): Chainable<void>;
     }
   }
 }
 
 /**
- * Navigate to accounts list page
+ * Navigate to account list page
  */
-Cypress.Commands.add('navigateToAccountsList', (type) => {
+Cypress.Commands.add('navigateToAccountList', (type) => {
   cy.getDataCy(`menu-account`).should('be.visible').click();
   cy.getDataCy(`menu-account-${type.toLowerCase()}`).should('be.visible').click();
   cy.url().should('include', listPath(accountPath(type)));
 });
 
 /**
- * Navigate to accounts new page
+ * Navigate to account new page
  */
-Cypress.Commands.add('navigateToAccountsNew', (type) => {
+Cypress.Commands.add('navigateToAccountNew', (type) => {
   // Path to account creation page
-  cy.navigateToAccountsList(type);
+  cy.navigateToAccountList(type);
   cy.getDataCy('create-button').should('be.visible').click();
   cy.url().should('include', newPath(accountPath(type)));
 });
