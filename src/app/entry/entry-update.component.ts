@@ -81,7 +81,7 @@ import { PATHS } from '../app.paths';
         dataCy="select-out-account"
       />
 
-      <app-number-field label="Value" [formField]="form.value" dataCy="input-value" />
+      <app-number-field label="Value" [formField]="form.value" dataCy="inputnumber-value" />
       <app-input-field label="Note" [formField]="form.note" dataCy="input-note" />
     </app-model-update-panel>
   `,

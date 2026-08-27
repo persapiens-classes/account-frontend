@@ -1,12 +1,14 @@
 import { PATHS } from '../../../src/app/app.paths';
 import { API_PATHS } from '../../../src/app/app.api-paths';
-import { EntryType } from '../../../src/app/entry/entry';
+import { Entry, EntryType } from '../../../src/app/entry/entry';
 import {
   clickButtonInFirstTableRow,
-  clickSelectEq,
+  clickSelectContains,
   submitSaveButtonFail,
   submitSaveButtonOk,
+  typeDatePicker,
   typeInput,
+  typeInputNumber,
 } from '../cy-helpers';
 
 export function entryPath(type: EntryType) {
@@ -22,29 +24,34 @@ export function maybeSetupApiMockAndNatigateToEntriesList(type: EntryType) {
   cy.navigateToEntryList(type);
 }
 
-export function typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
-  type: EntryType,
-  inputDescription: string,
-  selectCategory: number,
-  savedValue: string,
-  clearInputName = false,
-) {
-  typeInput('description', inputDescription, clearInputName);
-  clickSelectEq('category', selectCategory);
-  submitSaveButtonOk(entryPath(type), 'description', savedValue);
+export function fillEntryFields(entry: Entry, clearInputName = false, skipInOwner = false) {
+  typeDatePicker('date', entry.date, true);
+  if (!skipInOwner) {
+    clickSelectContains('in-owner', entry.inOwner);
+  }
+  clickSelectContains('in-account', entry.inAccount.description);
+  clickSelectContains('out-owner', entry.outOwner);
+  clickSelectContains('out-account', entry.outAccount.description);
+  typeInputNumber('value', entry.value);
+  typeInput('note', entry.note, clearInputName);
 }
 
-export function typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
-  inputDescription: string,
-  selectCategory: number,
+export function fillEntryFieldsAndSubmitSaveButtonOk(
+  type: EntryType,
+  entry: Entry,
+  savedNote: string,
   clearInputName = false,
 ) {
-  typeInput('description', inputDescription, clearInputName);
-  clickSelectEq('category', selectCategory);
+  fillEntryFields(entry, clearInputName, false);
+  submitSaveButtonOk(entryPath(type), 'note', savedNote);
+}
+
+export function fillEntryFieldsAndSubmitSaveButtonFail(entry: Entry, clearInputName = false) {
+  fillEntryFields(entry, clearInputName, true);
   submitSaveButtonFail();
 }
 
-export function goToEntriesListAndFilterEntryDescriptionAndClickButton(
+export function goToEntryListAndFilterEntryDescriptionAndClickButton(
   type: EntryType,
   entryDescription: string,
   action: string,

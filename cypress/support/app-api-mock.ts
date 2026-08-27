@@ -9,8 +9,15 @@ import { API_PATHS } from '../../src/app/app.api-paths';
 import { categoryApiPath } from '../e2e/category/category-helpers';
 import { Account, AccountType } from '../../src/app/account/account';
 import { accountApiPath } from '../e2e/account/account-helpers';
-import { Entry, EntryType } from '../../src/app/entry/entry';
+import { Entry, EntryInsertUpdate, EntryType } from '../../src/app/entry/entry';
 import { entryApiPath } from '../e2e/entry/entry-helpers';
+import {
+  accountsDefault,
+  categoriesDefault,
+  entriesDefault,
+  ownersDefault,
+  balancesDefault,
+} from './fakers/models-fakers';
 
 export class AppApiMock {
   private isAuthenticated = false;
@@ -65,166 +72,160 @@ export class AppApiMock {
     }
   }
 
-  private ownerApiMock(): ModelCrudApiMock<Owner, string> {
+  private validate(name: string, value: string | undefined): string | null {
+    // OW-01: Only whitespace (check first)
+    if (!value || value.trim() === '') {
+      return `${name} cannot contain only whitespace`;
+    }
+
+    // OW-04: Exceeds max length (256+ characters)
+    if (value.length > 255) {
+      return `${name} must not exceed 255 characters`;
+    }
+
+    return null;
+  }
+
+  private ownerApiMock(): ModelCrudApiMock<Owner, Owner, Owner, string> {
     const ownersEndpoint = `/${API_PATHS.OWNER_API_PATH}`;
 
     const idFn = (model: Owner): string => model.name;
 
     const validateFn = (owner: Owner | undefined): string | null => {
-      const ownerName = owner?.name;
-
-      // OW-01: Only whitespace (check first)
-      if (!ownerName || ownerName.trim() === '') {
-        return 'Owner name cannot contain only whitespace';
-      }
-
-      // OW-04: Exceeds max length (256+ characters)
-      if (ownerName.length > 255) {
-        return 'Owner name must not exceed 255 characters';
-      }
-
-      return null;
+      return this.validate('Owner name', owner?.name);
     };
 
-    const owners = [{ name: 'Owner 1' }, { name: 'Owner 2' }, { name: 'Owner 3' }];
+    const owners = ownersDefault();
 
-    return new ModelCrudApiMock<Owner, string>(ownersEndpoint, idFn, owners, validateFn);
+    return new ModelCrudApiMock<Owner, Owner, Owner, string>(
+      ownersEndpoint,
+      idFn,
+      owners,
+      validateFn,
+      validateFn,
+    );
   }
 
-  private categoryApiMock(type: CategoryType): ModelCrudApiMock<Category, string> {
+  private categoryApiMock(
+    type: CategoryType,
+  ): ModelCrudApiMock<Category, Category, Category, string> {
     const categoriesEndpoint = `/${categoryApiPath(type)}`;
 
     const idFn = (model: Category): string => model.description;
 
     const validateFn = (category: Category | undefined): string | null => {
-      const categoryDescription = category?.description;
-
-      // OW-01: Only whitespace (check first)
-      if (!categoryDescription || categoryDescription.trim() === '') {
-        return 'Category description cannot contain only whitespace';
-      }
-
-      // OW-04: Exceeds max length (256+ characters)
-      if (categoryDescription.length > 255) {
-        return 'Category description must not exceed 255 characters';
-      }
-
-      return null;
+      return this.validate('Category description', category?.description);
     };
 
-    const categories = [
-      { description: `${type} Category 1` },
-      { description: `${type} Category 2` },
-      { description: `${type} Category 3` },
-    ];
+    const categories = categoriesDefault(type);
 
-    return new ModelCrudApiMock<Category, string>(categoriesEndpoint, idFn, categories, validateFn);
+    return new ModelCrudApiMock<Category, Category, Category, string>(
+      categoriesEndpoint,
+      idFn,
+      categories,
+      validateFn,
+      validateFn,
+    );
   }
 
-  private accountApiMock(type: AccountType): ModelCrudApiMock<Account, string> {
+  private accountApiMock(type: AccountType): ModelCrudApiMock<Account, Account, Account, string> {
     const accountsEndpoint = `/${accountApiPath(type)}`;
 
     const idFn = (model: Account): string => model.description;
 
     const validateFn = (account: Account | undefined): string | null => {
-      const accountDescription = account?.description;
+      let result = this.validate('Account description', account?.description);
 
-      // OW-01: Only whitespace (check first)
-      if (!accountDescription || accountDescription.trim() === '') {
-        return 'Account description cannot contain only whitespace';
+      if (!result) {
+        result = this.validate('Account category', account?.category);
       }
-
-      // OW-04: Exceeds max length (256+ characters)
-      if (accountDescription.length > 255) {
-        return 'Account description must not exceed 255 characters';
-      }
-
-      return null;
+      return result;
     };
 
-    const accounts = [
-      { description: `${type} Account 1`, category: `${type} Category 1` },
-      { description: `${type} Account 2`, category: `${type} Category 2` },
-      { description: `${type} Account 3`, category: `${type} Category 3` },
-    ];
+    const accounts = accountsDefault(type);
 
-    return new ModelCrudApiMock<Account, string>(accountsEndpoint, idFn, accounts, validateFn);
+    return new ModelCrudApiMock<Account, Account, Account, string>(
+      accountsEndpoint,
+      idFn,
+      accounts,
+      validateFn,
+      validateFn,
+    );
   }
 
-  private entryApiMock(type: EntryType): ModelCrudApiMock<Entry, string> {
-    const accountsEndpoint = `/${entryApiPath(type)}`;
+  private entryApiMock(
+    type: EntryType,
+  ): ModelCrudApiMock<EntryInsertUpdate, EntryInsertUpdate, Entry, string> {
+    const entriesEndpoint = `/${entryApiPath(type)}`;
 
     const idFn = (model: Entry): string => model.id.toString();
 
-    const validateFn = (entry: Entry | undefined): string | null => {
-      const accountDescription = entry?.inAccount?.description;
+    const validateFn = (entry: EntryInsertUpdate | undefined): string | null => {
+      console.log(`Validating entry: ${JSON.stringify(entry, null, 2)}`); // Debugging line
+      let result = this.validate('In Account description', entry?.inAccount);
 
-      // OW-01: Only whitespace (check first)
-      if (!accountDescription || accountDescription.trim() === '') {
-        return 'Account description cannot contain only whitespace';
+      if (!result) {
+        result = this.validate('Out Account description', entry?.outAccount);
+      }
+      if (!result) {
+        result = this.validate('In Owner', entry?.inOwner);
+      }
+      if (!result) {
+        result = this.validate('Out Owner', entry?.outOwner);
       }
 
-      // OW-04: Exceeds max length (256+ characters)
-      if (accountDescription.length > 255) {
-        return 'Account description must not exceed 255 characters';
-      }
-
-      return null;
+      return result;
     };
 
-    const entries = [
-      {
-        id: 1,
-        date: new Date(),
-        inAccount: { description: `In ${type} Account 1`, category: `${type} Category 1` },
-        inOwner: 'In Owner 1',
-        outAccount: { description: `Out ${type} Account 1`, category: `${type} Category 1` },
-        outOwner: 'Out Owner 1',
-        value: 100,
-        note: `${type} Entry 1`,
-      },
-      {
-        id: 2,
-        date: new Date(),
-        inAccount: { description: `In ${type} Account 2`, category: `${type} Category 2` },
-        inOwner: 'In Owner 2',
-        outAccount: { description: `Out ${type} Account 2`, category: `${type} Category 2` },
-        outOwner: 'Out Owner 2',
-        value: 200,
-        note: `${type} Entry 2`,
-      },
-    ];
+    const entries = entriesDefault(type);
+    const creditAccounts = accountsDefault(AccountType.CREDIT);
+    const debitAccounts = accountsDefault(AccountType.DEBIT);
+    const equityAccounts = accountsDefault(AccountType.EQUITY);
 
-    return new ModelCrudApiMock<Entry, string>(accountsEndpoint, idFn, entries, validateFn);
+    const insertToModelFn = (model: EntryInsertUpdate): Entry => {
+      const inAccount =
+        debitAccounts.find((a) => a.description === model.inAccount) ||
+        equityAccounts.find((a) => a.description === model.inAccount);
+
+      const outAccount =
+        creditAccounts.find((a) => a.description === model.outAccount) ||
+        equityAccounts.find((a) => a.description === model.outAccount);
+
+      return {
+        id: entries.length + 1, // Assign a new ID based on the current length of entries
+        date: model.date,
+        value: model.value,
+        note: model.note,
+        inAccount: inAccount!,
+        outAccount: outAccount!,
+        inOwner: model.inOwner,
+        outOwner: model.outOwner,
+      };
+    };
+
+    return new ModelCrudApiMock<EntryInsertUpdate, EntryInsertUpdate, Entry, string>(
+      entriesEndpoint,
+      idFn,
+      entries,
+      validateFn,
+      validateFn,
+      insertToModelFn,
+      insertToModelFn,
+    );
   }
 
-  private balanceApiMock(): ModelCrudApiMock<Balance, string> {
+  private balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance, string> {
     const balancesEndpoint = `/${API_PATHS.BALANCE_API_PATH}`;
 
     const idFn = (model: Balance): string => `${model.owner}-${model.equityAccount.description}`;
 
-    const balances = [
-      {
-        owner: 'Owner 1',
-        equityAccount: {
-          description: 'Equity Account 1',
-          category: 'Category 1',
-        },
-        initialValue: 500.0,
-        balance: 1000.0,
-      },
-      {
-        owner: 'Owner 2',
-        equityAccount: {
-          description: 'Equity Account 2',
-          category: 'Category 2',
-        },
-        initialValue: 1000.0,
-        balance: 2000.0,
-      },
-    ];
+    const balances = balancesDefault();
 
-    return new ModelCrudApiMock<Balance, string>(balancesEndpoint, idFn, balances);
+    return new ModelCrudApiMock<Balance, Balance, Balance, string>(
+      balancesEndpoint,
+      idFn,
+      balances,
+    );
   }
 
   mock() {

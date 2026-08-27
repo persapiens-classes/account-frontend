@@ -27,7 +27,7 @@ import { PATHS } from '../app.paths';
         value="{{ model.outAccount.description }} - {{ model.outAccount.category }}"
       />
       <app-detail-field strong="Value" value="{{ model.value | number: '1.2-2' }}" />
-      <app-detail-field strong="Note" value="{{ model.note }}" />
+      <app-detail-field strong="Note" value="{{ model.note }}" dataCy="detail-note" />
     </app-model-detail-panel>
   `,
 })
