@@ -30,6 +30,7 @@ import { PATHS } from '../app.paths';
   template: `
     <app-model-list-panel [routerName]="routerName">
       <p-table
+        data-cy="entries-table"
         [value]="modelsList()"
         [rows]="5"
         [paginator]="true"
@@ -60,6 +61,11 @@ import { PATHS } from '../app.paths';
                 field="inOwner"
                 placeholder="name"
                 ariaLabel="Filter InOwner Name"
+                [pt]="{
+                  pcFilterInputText: {
+                    root: { 'data-cy': 'filter-inOwner-input' },
+                  },
+                }"
               />
             </th>
             <th>
@@ -92,7 +98,7 @@ import { PATHS } from '../app.paths';
           </tr>
         </ng-template>
         <ng-template #body let-item>
-          <tr>
+          <tr data-cy="entries-table-row">
             <td data-label="InOwner">{{ item.inOwner }}</td>
             <td data-label="InAccount">{{ item.inAccount.description }}</td>
             <td data-label="OutOwner">{{ item.outOwner }}</td>

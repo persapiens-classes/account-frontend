@@ -87,3 +87,9 @@ export function clickListButtonAndVerifyListUrl(path: string): void {
   cy.getDataCy('list-button').should('be.visible').click();
   cy.url().should('include', listPath(path));
 }
+
+export function accessFirstTableDetail(table: string, path: string): void {
+  cy.getDataCy(table).should('exist');
+  cy.getDataCy('detail-button').first().should('be.visible').click();
+  cy.url().should('include', detailPath(path));
+}

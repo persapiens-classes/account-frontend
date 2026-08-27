@@ -17,8 +17,7 @@ declare global {
  * Navigate to entries list page
  */
 Cypress.Commands.add('navigateToEntriesList', (type) => {
-  cy.getDataCy(`menu-account`).should('be.visible').click();
-  cy.getDataCy(`menu-account-${type.toLowerCase()}`).should('be.visible').click();
+  cy.getDataCy(`menu-${type.toLowerCase()}-entry`).should('be.visible').click();
   cy.url().should('include', listPath(entryPath(type)));
 });
 

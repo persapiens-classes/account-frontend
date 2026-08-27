@@ -1,10 +1,8 @@
-import { detailPath, editPath, listPath, PATHS } from '../../../src/app/app.paths';
-import { maybeSetupApiMockAndLogin } from '../cy-helpers';
+import { editPath, listPath, PATHS } from '../../../src/app/app.paths';
+import { accessFirstTableDetail, maybeSetupApiMockAndLogin } from '../cy-helpers';
 
 function accessOwnerDetail(): void {
-  cy.getDataCy('owners-table').should('exist');
-  cy.getDataCy('detail-button').first().should('be.visible').click();
-  cy.url().should('include', detailPath(PATHS.OWNER_PATH));
+  accessFirstTableDetail('owners-table', PATHS.OWNER_PATH);
 }
 
 describe('Owner Detail Page', { testIsolation: false }, () => {

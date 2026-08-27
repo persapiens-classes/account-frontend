@@ -1,12 +1,14 @@
-import { detailPath, editPath } from '../../../src/app/app.paths';
+import { editPath } from '../../../src/app/app.paths';
 import { CategoryType } from '../../../src/app/category/category';
-import { clickListButtonAndVerifyListUrl, maybeSetupApiMockAndLogin } from '../cy-helpers';
+import {
+  accessFirstTableDetail,
+  clickListButtonAndVerifyListUrl,
+  maybeSetupApiMockAndLogin,
+} from '../cy-helpers';
 import { categoryPath, maybeSetupApiMockAndNatigateToCategoriesList } from './category-helpers';
 
 function accessCategoryDetail(type: CategoryType): void {
-  cy.getDataCy('categories-table').should('exist');
-  cy.getDataCy('detail-button').first().should('be.visible').click();
-  cy.url().should('include', detailPath(categoryPath(type)));
+  accessFirstTableDetail('categories-table', categoryPath(type));
 }
 
 // jscpd:ignore-start

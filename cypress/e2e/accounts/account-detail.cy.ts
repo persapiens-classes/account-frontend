@@ -1,12 +1,14 @@
-import { detailPath, editPath } from '../../../src/app/app.paths';
+import { editPath } from '../../../src/app/app.paths';
 import { AccountType } from '../../../src/app/account/account';
-import { clickListButtonAndVerifyListUrl, maybeSetupApiMockAndLogin } from '../cy-helpers';
+import {
+  accessFirstTableDetail,
+  clickListButtonAndVerifyListUrl,
+  maybeSetupApiMockAndLogin,
+} from '../cy-helpers';
 import { accountPath, maybeSetupApiMockAndNatigateToAccountsList } from './account-helpers';
 
 function accessAccountDetail(type: AccountType): void {
-  cy.getDataCy('accounts-table').should('exist');
-  cy.getDataCy('detail-button').first().should('be.visible').click();
-  cy.url().should('include', detailPath(accountPath(type)));
+  accessFirstTableDetail('accounts-table', accountPath(type));
 }
 
 // jscpd:ignore-start
