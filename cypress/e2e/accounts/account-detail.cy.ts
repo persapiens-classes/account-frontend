@@ -9,6 +9,7 @@ function accessAccountDetail(type: AccountType): void {
   cy.url().should('include', detailPath(accountPath(type)));
 }
 
+// jscpd:ignore-start
 describe('Account Detail Page', { testIsolation: false }, () => {
   before(() => {
     maybeSetupApiMockAndLogin();
@@ -19,6 +20,7 @@ describe('Account Detail Page', { testIsolation: false }, () => {
       beforeEach(() => {
         maybeSetupApiMockAndNatigateToAccountsList(type);
       });
+      //jscpd:ignore-end
 
       it('should access detail page when clicking magnifying glass', () => {
         accessAccountDetail(type);
