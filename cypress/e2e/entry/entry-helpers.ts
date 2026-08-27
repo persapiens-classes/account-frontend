@@ -1,6 +1,6 @@
 import { PATHS } from '../../../src/app/app.paths';
 import { API_PATHS } from '../../../src/app/app.api-paths';
-import { EntryType } from '../../../src/app/entry/entry';
+import { Entry, EntryType } from '../../../src/app/entry/entry';
 import {
   clickButtonInFirstTableRow,
   clickSelectEq,
@@ -22,29 +22,32 @@ export function maybeSetupApiMockAndNatigateToEntriesList(type: EntryType) {
   cy.navigateToEntryList(type);
 }
 
-export function typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
-  type: EntryType,
-  inputDescription: string,
-  selectCategory: number,
-  savedValue: string,
-  clearInputName = false,
-) {
-  typeInput('description', inputDescription, clearInputName);
-  clickSelectEq('category', selectCategory);
-  submitSaveButtonOk(entryPath(type), 'description', savedValue);
+export function fillEntryFields(entry: Entry, clearInputName = false) {
+  typeInput('date', entry.date, clearInputName);
+  clickSelectEq('in-owner', entry.inOwner);
+  clickSelectEq('in-account', entry.inAccount.description);
+  clickSelectEq('out-owner', entry.outOwner);
+  clickSelectEq('out-account', entry.outAccount.description);
+  typeInput('value', entry.value.toString(), clearInputName);
+  typeInput('note', entry.note, clearInputName);
 }
 
-export function typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
-  inputDescription: string,
-  selectCategory: number,
+export function fillEntryFieldsAndSubmitSaveButtonOk(
+  type: EntryType,
+  entry: Entry,
+  savedNote: string,
   clearInputName = false,
 ) {
-  typeInput('description', inputDescription, clearInputName);
-  clickSelectEq('category', selectCategory);
+  fillEntryFields(entry, clearInputName);
+  submitSaveButtonOk(entryPath(type), 'note', savedNote);
+}
+
+export function fillEntryFieldsAndSubmitSaveButtonFail(entry: Entry, clearInputName = false) {
+  fillEntryFields(entry, clearInputName);
   submitSaveButtonFail();
 }
 
-export function goToEntriesListAndFilterEntryDescriptionAndClickButton(
+export function goToEntryListAndFilterEntryDescriptionAndClickButton(
   type: EntryType,
   entryDescription: string,
   action: string,
