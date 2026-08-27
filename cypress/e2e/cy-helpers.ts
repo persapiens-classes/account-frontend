@@ -22,6 +22,50 @@ export function typeInput(inputName: string, inputValue: string, clearInputName 
   cy.getDataCy(`input-${inputName}`).type(inputValue);
 }
 
+export function typeInputNumber(inputName: string, inputValue: number) {
+  const valueToType = String(inputValue);
+
+  cy.getDataCy(`inputnumber-${inputName}`)
+    .should('be.visible')
+    .find('input')
+    .then(($input) => {
+      cy.wrap($input).focus();
+      // {selectall} in the same string replaces the current value without triggering the auto-reset of the mask
+      cy.wrap($input).type(`{selectall}${valueToType}`, { delay: 50 });
+      cy.wrap($input).trigger('input');
+      cy.wrap($input).trigger('change');
+      cy.wrap($input).blur();
+    });
+}
+
+export function typeDatePicker(
+  inputName: string,
+  inputValue: Date | string,
+  clearInputName = false,
+) {
+  let formattedValue: string;
+
+  if (inputValue instanceof Date) {
+    const month = String(inputValue.getMonth() + 1).padStart(2, '0');
+    const day = String(inputValue.getDate()).padStart(2, '0');
+    const year = inputValue.getFullYear();
+    formattedValue = `${month}/${day}/${year}`;
+  } else {
+    formattedValue = inputValue;
+  }
+
+  cy.getDataCy(`input-${inputName}`)
+    .should('be.visible')
+    .find('input')
+    .then(($input) => {
+      if (clearInputName) {
+        cy.wrap($input).clear();
+      }
+
+      cy.wrap($input).type(formattedValue);
+      cy.wrap($input).type('{enter}');
+    });
+}
 export function clickSelect(selectName: string) {
   cy.getDataCy(`select-${selectName}`).should('be.visible');
   cy.getDataCy(`select-${selectName}`).click();
@@ -29,7 +73,12 @@ export function clickSelect(selectName: string) {
 
 export function clickSelectEq(selectName: string, selectIndex: number) {
   clickSelect(selectName);
-  cy.get('[role="option"]').eq(selectIndex).click();
+  cy.get('[role="option"]:visible').eq(selectIndex).click();
+}
+
+export function clickSelectContains(selectName: string, selectText: string) {
+  clickSelect(selectName);
+  cy.get('[role="option"]:visible').contains(selectText).click();
 }
 
 export function typeInputDescription(inputValue: string, clearInputName = false) {

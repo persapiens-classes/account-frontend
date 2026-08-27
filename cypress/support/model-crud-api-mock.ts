@@ -2,21 +2,30 @@
 
 import { StatusCodes } from 'http-status-codes';
 
-export class ModelCrudApiMock<T, ID> {
+export class ModelCrudApiMock<I, U, F, ID> {
   private readonly endpoint: string;
-  private readonly idFn: (model: T) => ID;
-  private readonly models: T[];
-  private readonly validateFn: (model: T) => string | null;
+  private readonly idFn: (model: F) => ID;
+  private readonly models: F[];
+  private readonly postValidateFn: (model: I) => string | null;
+  private readonly putValidateFn: (model: U) => string | null;
+  private readonly insertToModelFn: (model: I) => F;
+  private readonly updateToModelFn: (model: U) => F;
   constructor(
     endpoint: string,
-    idFn: (model: T) => ID,
-    models?: T[],
-    validateFn?: (model: T) => string | null,
+    idFn: (model: F) => ID,
+    models?: F[],
+    postValidateFn?: (model: I) => string | null,
+    putValidateFn?: (model: U) => string | null,
+    insertToModelFn?: (model: I) => F,
+    updateToModelFn?: (model: U) => F,
   ) {
     this.endpoint = endpoint;
     this.idFn = idFn;
     this.models = models || [];
-    this.validateFn = validateFn || (() => null);
+    this.postValidateFn = postValidateFn || (() => null);
+    this.putValidateFn = putValidateFn || (() => null);
+    this.insertToModelFn = insertToModelFn || ((model: I) => model as unknown as F);
+    this.updateToModelFn = updateToModelFn || ((model: U) => model as unknown as F);
   }
 
   // Mock GET /endpoint - list all models
@@ -55,9 +64,9 @@ export class ModelCrudApiMock<T, ID> {
   // Mock POST /endpoint - create a new model with boundary value validation
   private mockPost() {
     cy.intercept('POST', `${this.endpoint}`, (req) => {
-      const model = req.body;
+      const modelPost: I = req.body;
 
-      const validationError = this.validateFn(model);
+      const validationError = this.postValidateFn(modelPost);
       if (validationError) {
         return req.reply({
           statusCode: StatusCodes.BAD_REQUEST,
@@ -68,8 +77,9 @@ export class ModelCrudApiMock<T, ID> {
         });
       }
 
+      const model = this.insertToModelFn(modelPost);
       // OW-05: Duplicate model
-      if (this.models.some((o: T) => this.idFn(o) === this.idFn(model))) {
+      if (this.models.some((o: F) => this.idFn(o) === this.idFn(model))) {
         return req.reply({
           statusCode: StatusCodes.CONFLICT,
           body: {
@@ -92,9 +102,9 @@ export class ModelCrudApiMock<T, ID> {
   // Mock PUT /endpoint/:id - update model
   private mockPut() {
     cy.intercept('PUT', `${this.endpoint}/*`, (req) => {
-      const modelToUpdate = req.body;
+      const modelPut: U = req.body;
 
-      const validationError = this.validateFn(modelToUpdate);
+      const validationError = this.putValidateFn(modelPut);
       if (validationError) {
         return req.reply({
           statusCode: StatusCodes.BAD_REQUEST,
@@ -112,7 +122,8 @@ export class ModelCrudApiMock<T, ID> {
       const index = this.models.findIndex((model) => this.idFn(model) === modelId);
       if (index > -1) {
         // OW-05: Duplicate model
-        if (this.models.some((model: T) => this.idFn(model) === this.idFn(modelToUpdate))) {
+        const modelToUpdate = this.updateToModelFn(modelPut);
+        if (this.models.some((model: F) => this.idFn(model) === this.idFn(modelToUpdate))) {
           return req.reply({
             statusCode: StatusCodes.CONFLICT,
             body: {
