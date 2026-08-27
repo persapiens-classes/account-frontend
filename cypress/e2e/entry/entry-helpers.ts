@@ -3,10 +3,12 @@ import { API_PATHS } from '../../../src/app/app.api-paths';
 import { Entry, EntryType } from '../../../src/app/entry/entry';
 import {
   clickButtonInFirstTableRow,
-  clickSelectEq,
+  clickSelectContains,
   submitSaveButtonFail,
   submitSaveButtonOk,
+  typeDatePicker,
   typeInput,
+  typeInputNumber,
 } from '../cy-helpers';
 
 export function entryPath(type: EntryType) {
@@ -23,12 +25,12 @@ export function maybeSetupApiMockAndNatigateToEntriesList(type: EntryType) {
 }
 
 export function fillEntryFields(entry: Entry, clearInputName = false) {
-  typeInput('date', entry.date, clearInputName);
-  clickSelectEq('in-owner', entry.inOwner);
-  clickSelectEq('in-account', entry.inAccount.description);
-  clickSelectEq('out-owner', entry.outOwner);
-  clickSelectEq('out-account', entry.outAccount.description);
-  typeInput('value', entry.value.toString(), clearInputName);
+  typeDatePicker('date', entry.date, clearInputName);
+  clickSelectContains('in-owner', entry.inOwner);
+  clickSelectContains('in-account', entry.inAccount.description);
+  clickSelectContains('out-owner', entry.outOwner);
+  clickSelectContains('out-account', entry.outAccount.description);
+  typeInputNumber('value', entry.value, clearInputName);
   typeInput('note', entry.note, clearInputName);
 }
 

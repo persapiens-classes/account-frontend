@@ -22,6 +22,40 @@ export function typeInput(inputName: string, inputValue: string, clearInputName 
   cy.getDataCy(`input-${inputName}`).type(inputValue);
 }
 
+export function typeInputNumber(inputName: string, inputValue: number, clearInputName = false) {
+  const valueToType = String(inputValue);
+  cy.getDataCy(`input-${inputName}`)
+    .should('be.visible')
+    .then(($input) => {
+      if (clearInputName) {
+        cy.wrap($input).type('{selectall}{backspace}');
+      }
+      cy.wrap($input).type(valueToType);
+    });
+}
+export function typeDatePicker(inputName: string, inputValue: Date, clearInputName = false) {
+  // Converte objeto Date em string no formato dd/mm/yyyy (pt-BR)
+  const formattedValue =
+    inputValue instanceof Date
+      ? inputValue.toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        })
+      : inputValue;
+
+  cy.getDataCy(`input-${inputName}`)
+    .should('be.visible')
+    .find('input')
+    .then(($input) => {
+      if (clearInputName) {
+        cy.wrap($input).type('{selectall}{backspace}');
+      }
+
+      // Digita a data formatada e envia {enter} para confirmar e fechar o overlay
+      cy.wrap($input).type(`${formattedValue}{enter}`);
+    });
+}
 export function clickSelect(selectName: string) {
   cy.getDataCy(`select-${selectName}`).should('be.visible');
   cy.getDataCy(`select-${selectName}`).click();
@@ -29,7 +63,12 @@ export function clickSelect(selectName: string) {
 
 export function clickSelectEq(selectName: string, selectIndex: number) {
   clickSelect(selectName);
-  cy.get('[role="option"]').eq(selectIndex).click();
+  cy.get('[role="option"]:visible').eq(selectIndex).click();
+}
+
+export function clickSelectContains(selectName: string, selectText: string) {
+  clickSelect(selectName);
+  cy.get('[role="option"]:visible').contains(selectText).click();
 }
 
 export function typeInputDescription(inputValue: string, clearInputName = false) {
