@@ -1,14 +1,16 @@
 /// <reference types="cypress" />
 
 import { listPath, newPath } from '../../../../src/app/app.paths';
-import { EntryType } from '../../../../src/app/entry/entry';
+import { Entry, EntryType } from '../../../../src/app/entry/entry';
 import { entryPath } from '../../../e2e/entry/entry-helpers';
+import { entriesDefault } from '../../fakers/models-default';
 
 declare global {
   namespace Cypress {
     interface Chainable {
       navigateToEntryList(type: EntryType): Chainable<void>;
       navigateToEntryNew(type: EntryType): Chainable<void>;
+      entriesDefault(type: EntryType): Chainable<Entry[]>;
     }
   }
 }
@@ -29,6 +31,10 @@ Cypress.Commands.add('navigateToEntryNew', (type) => {
   cy.navigateToEntryList(type);
   cy.getDataCy('create-button').should('be.visible').click();
   cy.url().should('include', newPath(entryPath(type)));
+});
+
+Cypress.Commands.add('entriesDefault', (type) => {
+  return cy.wrap(entriesDefault(type));
 });
 
 export {}; // NOSONAR - required for module scope with global augmentation typescript:S7787

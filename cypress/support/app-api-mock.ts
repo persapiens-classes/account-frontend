@@ -161,7 +161,6 @@ export class AppApiMock {
     const idFn = (model: Entry): string => model.id.toString();
 
     const validateFn = (entry: EntryInsertUpdate | undefined): string | null => {
-      console.log(`Validating entry: ${JSON.stringify(entry, null, 2)}`); // Debugging line
       let result = this.validate('In Account description', entry?.inAccount);
 
       if (!result) {

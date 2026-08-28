@@ -25,17 +25,12 @@ let balances: Balance[];
 
 function checkOwners() {
   if (!owners) {
-    console.log('checkOwners before buildList:', owners);
     owners = ownerFactory.buildList(3);
-    console.log('checkOwners after buildList:', owners);
-    // console.trace('checkOwners trace');
   }
 }
 
 export function ownersDefault(): Owner[] {
   checkOwners();
-  console.log('ownersDefault:', owners);
-  // console.trace('ownersDefault trace');
   return structuredClone(owners);
 }
 
@@ -129,9 +124,9 @@ function checkEntries() {
       }),
       entryFactory.build({
         inAccount: debitAccounts.at(1)!,
-        inOwner: owners.at(0)!.name,
+        inOwner: owners.at(1)!.name,
         outAccount: equityAccounts.at(1)!,
-        outOwner: owners.at(1)!.name,
+        outOwner: owners.at(0)!.name,
       }),
     ];
     transferEntries = [
