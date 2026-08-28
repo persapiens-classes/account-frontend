@@ -25,12 +25,17 @@ let balances: Balance[];
 
 function checkOwners() {
   if (!owners) {
+    console.log('checkOwners before buildList:', owners);
     owners = ownerFactory.buildList(3);
+    console.log('checkOwners after buildList:', owners);
+    // console.trace('checkOwners trace');
   }
 }
 
 export function ownersDefault(): Owner[] {
   checkOwners();
+  console.log('ownersDefault:', owners);
+  // console.trace('ownersDefault trace');
   return structuredClone(owners);
 }
 

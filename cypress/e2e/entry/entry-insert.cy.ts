@@ -10,14 +10,18 @@ import {
 
 describe('Entry Insert Page', { testIsolation: false }, () => {
   before(() => {
+    console.log('before maybeSetupApiMockAndLogin');
     maybeSetupApiMockAndLogin();
+    console.log('after maybeSetupApiMockAndLogin');
   });
 
   [EntryType.CREDIT, EntryType.DEBIT, EntryType.TRANSFER].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {
+        console.log('beforeEach maybeSetupApiMock');
         cy.maybeSetupApiMock();
         cy.navigateToEntryNew(type);
+        console.log('after maybeSetupApiMock');
       });
 
       it('should allow going back to the list', () => {
@@ -27,6 +31,7 @@ describe('Entry Insert Page', { testIsolation: false }, () => {
 
       it('should create a new Entry successfully', () => {
         const validEntry = entriesDefault(type).at(0)!;
+        console.log('validEntry:', validEntry);
 
         fillEntryFieldsAndSubmitSaveButtonOk(type, validEntry, false);
       });
