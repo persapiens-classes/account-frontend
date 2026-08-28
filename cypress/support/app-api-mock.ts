@@ -97,13 +97,13 @@ export class AppApiMock {
 
     const owners = ownersDefault();
 
-    return new ModelCrudApiMock<Owner, Owner, Owner, string>(
-      ownersEndpoint,
-      idFn,
-      owners,
-      validateFn,
-      validateFn,
-    );
+    return new ModelCrudApiMock<Owner, Owner, Owner, string>({
+      endpoint: ownersEndpoint,
+      idFn: idFn,
+      models: owners,
+      postValidateFn: validateFn,
+      putValidateFn: validateFn,
+    });
   }
 
   private categoryApiMock(
@@ -119,13 +119,13 @@ export class AppApiMock {
 
     const categories = categoriesDefault(type);
 
-    return new ModelCrudApiMock<Category, Category, Category, string>(
-      categoriesEndpoint,
-      idFn,
-      categories,
-      validateFn,
-      validateFn,
-    );
+    return new ModelCrudApiMock<Category, Category, Category, string>({
+      endpoint: categoriesEndpoint,
+      idFn: idFn,
+      models: categories,
+      postValidateFn: validateFn,
+      putValidateFn: validateFn,
+    });
   }
 
   private accountApiMock(type: AccountType): ModelCrudApiMock<Account, Account, Account, string> {
@@ -144,13 +144,13 @@ export class AppApiMock {
 
     const accounts = accountsDefault(type);
 
-    return new ModelCrudApiMock<Account, Account, Account, string>(
-      accountsEndpoint,
-      idFn,
-      accounts,
-      validateFn,
-      validateFn,
-    );
+    return new ModelCrudApiMock<Account, Account, Account, string>({
+      endpoint: accountsEndpoint,
+      idFn: idFn,
+      models: accounts,
+      postValidateFn: validateFn,
+      putValidateFn: validateFn,
+    });
   }
 
   private entryApiMock(
@@ -236,16 +236,16 @@ export class AppApiMock {
       );
     };
 
-    return new ModelCrudApiMock<EntryInsertUpdate, EntryInsertUpdate, Entry, string>(
-      entriesEndpoint,
-      idFn,
-      entries,
-      validateFn,
-      validateFn,
-      insertToModelFn,
-      updateToModelFn,
-      equalsFn,
-    );
+    return new ModelCrudApiMock<EntryInsertUpdate, EntryInsertUpdate, Entry, string>({
+      endpoint: entriesEndpoint,
+      idFn: idFn,
+      models: entries,
+      postValidateFn: validateFn,
+      putValidateFn: validateFn,
+      insertToModelFn: insertToModelFn,
+      updateToModelFn: updateToModelFn,
+      equalsFn: equalsFn,
+    });
   }
 
   private balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance, string> {
@@ -255,11 +255,11 @@ export class AppApiMock {
 
     const balances = balancesDefault();
 
-    return new ModelCrudApiMock<Balance, Balance, Balance, string>(
-      balancesEndpoint,
-      idFn,
-      balances,
-    );
+    return new ModelCrudApiMock<Balance, Balance, Balance, string>({
+      endpoint: balancesEndpoint,
+      idFn: idFn,
+      models: balances,
+    });
   }
 
   mock() {

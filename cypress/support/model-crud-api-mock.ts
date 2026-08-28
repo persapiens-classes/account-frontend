@@ -2,6 +2,17 @@
 
 import { StatusCodes } from 'http-status-codes';
 
+export interface ModelCrudApiMockConfig<I, U, F, ID> {
+  endpoint: string;
+  idFn: (model: F) => ID;
+  models?: F[];
+  postValidateFn?: (insertModel: I) => string | null;
+  putValidateFn?: (updateModel: U) => string | null;
+  insertToModelFn?: (insertModel: I) => F;
+  updateToModelFn?: (updateModel: U, id?: string) => F;
+  equalsFn?: (model1: F, model2: F) => boolean;
+}
+
 export class ModelCrudApiMock<I, U, F, ID> {
   private readonly endpoint: string;
   private readonly idFn: (model: F) => ID;
@@ -11,24 +22,16 @@ export class ModelCrudApiMock<I, U, F, ID> {
   private readonly insertToModelFn: (insertModel: I) => F;
   private readonly updateToModelFn: (updateModel: U, id?: string) => F;
   private readonly equalsFn: (model1: F, model2: F) => boolean;
-  constructor(
-    endpoint: string,
-    idFn: (model: F) => ID,
-    models?: F[],
-    postValidateFn?: (insertModel: I) => string | null,
-    putValidateFn?: (updateModel: U) => string | null,
-    insertToModelFn?: (insertModel: I) => F,
-    updateToModelFn?: (updateModel: U, id?: string) => F,
-    equalsFn?: (model1: F, model2: F) => boolean,
-  ) {
-    this.endpoint = endpoint;
-    this.idFn = idFn;
-    this.models = models || [];
-    this.postValidateFn = postValidateFn || (() => null);
-    this.putValidateFn = putValidateFn || (() => null);
-    this.insertToModelFn = insertToModelFn || ((model: I) => model as unknown as F);
-    this.updateToModelFn = updateToModelFn || ((model: U) => model as unknown as F);
-    this.equalsFn = equalsFn || ((model1: F, model2: F) => this.idFn(model1) === this.idFn(model2));
+  constructor(config: ModelCrudApiMockConfig<I, U, F, ID>) {
+    this.endpoint = config.endpoint;
+    this.idFn = config.idFn;
+    this.models = config.models || [];
+    this.postValidateFn = config.postValidateFn || (() => null);
+    this.putValidateFn = config.putValidateFn || (() => null);
+    this.insertToModelFn = config.insertToModelFn || ((model: I) => model as unknown as F);
+    this.updateToModelFn = config.updateToModelFn || ((model: U) => model as unknown as F);
+    this.equalsFn =
+      config.equalsFn || ((model1: F, model2: F) => this.idFn(model1) === this.idFn(model2));
   }
 
   // Mock GET /endpoint - list all models
