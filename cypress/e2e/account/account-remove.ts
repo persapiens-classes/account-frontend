@@ -1,5 +1,5 @@
 import { AccountType } from '../../../src/app/account/account';
-import { clickRemoveButtonAndConfirRemoval, maybeSetupApiMockAndLogin } from '../cy-helpers';
+import { clickRemoveButtonAndConfirRemoval } from '../cy-helpers';
 import {
   accountPath,
   goToAccountListAndFilterAccountDescriptionAndClickButton,
@@ -7,10 +7,6 @@ import {
 } from './account-helpers';
 
 describe('Account Remove Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [AccountType.CREDIT, AccountType.DEBIT, AccountType.EQUITY].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {

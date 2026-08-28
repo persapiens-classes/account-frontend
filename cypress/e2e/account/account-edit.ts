@@ -3,7 +3,6 @@ import { AccountType } from '../../../src/app/account/account';
 import {
   clickEditButtonInTableRowAndCheckEditRoute,
   clickListButtonAndVerifyListUrl,
-  maybeSetupApiMockAndLogin,
   stringBoundaryTestCases,
 } from '../cy-helpers';
 import {
@@ -36,10 +35,6 @@ function clickEditButtonInAccountsTableRowAndCheckEditRoute(type: AccountType) {
 }
 
 describe('Account Edit Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [AccountType.CREDIT, AccountType.DEBIT, AccountType.EQUITY].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {

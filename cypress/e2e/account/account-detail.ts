@@ -1,10 +1,6 @@
 import { editPath } from '../../../src/app/app.paths';
 import { AccountType } from '../../../src/app/account/account';
-import {
-  accessFirstTableDetail,
-  clickListButtonAndVerifyListUrl,
-  maybeSetupApiMockAndLogin,
-} from '../cy-helpers';
+import { accessFirstTableDetail, clickListButtonAndVerifyListUrl } from '../cy-helpers';
 import { accountPath, maybeSetupApiMockAndNatigateToAccountsList } from './account-helpers';
 
 function accessAccountDetail(type: AccountType): void {
@@ -13,10 +9,6 @@ function accessAccountDetail(type: AccountType): void {
 
 // jscpd:ignore-start
 describe('Account Detail Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [AccountType.CREDIT, AccountType.DEBIT, AccountType.EQUITY].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {

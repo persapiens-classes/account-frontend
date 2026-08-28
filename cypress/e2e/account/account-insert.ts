@@ -1,6 +1,6 @@
 import { listPath, newPath } from '../../../src/app/app.paths';
 import { AccountType } from '../../../src/app/account/account';
-import { maybeSetupApiMockAndLogin, stringBoundaryTestCases } from '../cy-helpers';
+import { stringBoundaryTestCases } from '../cy-helpers';
 import {
   accountPath,
   typeDescriptionSelectCategoryAndSubmitSaveButtonFail,
@@ -8,10 +8,6 @@ import {
 } from './account-helpers';
 
 describe('Account Insert Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [AccountType.CREDIT, AccountType.DEBIT, AccountType.EQUITY].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {
