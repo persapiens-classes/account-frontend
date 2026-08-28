@@ -1,7 +1,6 @@
 import { detailPath, editPath, listPath, PATHS } from '../../../src/app/app.paths';
 import {
   clickEditButtonInTableRowAndCheckEditRoute,
-  maybeSetupApiMockAndLogin,
   stringBoundaryTestCases,
 } from '../cy-helpers';
 import {
@@ -25,10 +24,6 @@ function goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName: stri
 }
 
 describe('Owner Edit Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   beforeEach(() => {
     cy.maybeSetupApiMock();
     cy.navigateToOwnerList();

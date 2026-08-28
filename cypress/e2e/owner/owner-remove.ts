@@ -6,10 +6,6 @@ import { PATHS } from '../../../src/app/app.paths';
 import { clickRemoveButtonAndConfirRemoval, maybeSetupApiMockAndLogin } from '../cy-helpers';
 
 describe('Owner Remove Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   beforeEach(() => {
     cy.maybeSetupApiMock();
   });
