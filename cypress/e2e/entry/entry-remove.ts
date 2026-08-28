@@ -1,18 +1,11 @@
 import { EntryType } from '../../../src/app/entry/entry';
-import {
-  clickRemoveButtonAndConfirRemoval as clickRemoveButtonAndConfirmRemoval,
-  maybeSetupApiMockAndLogin,
-} from '../cy-helpers';
+import { clickRemoveButtonAndConfirRemoval as clickRemoveButtonAndConfirmRemoval } from '../cy-helpers';
 import {
   entryPath,
   goToEntryListAndFilterEntryDescriptionAndClickButton as goToEntryListAndFilterEntryInOwnerAndClickButton,
 } from './entry-helpers';
 
 describe('Entry Remove Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [EntryType.CREDIT, EntryType.DEBIT, EntryType.TRANSFER].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {

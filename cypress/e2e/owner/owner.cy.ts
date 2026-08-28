@@ -1,6 +1,6 @@
 import { maybeSetupApiMockAndLogin } from '../cy-helpers';
 
-describe('Owner - Suite de Testes', { testIsolation: false }, () => {
+describe('Owner - Test Suite', { testIsolation: false }, () => {
   before(() => {
     maybeSetupApiMockAndLogin();
   });
