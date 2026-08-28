@@ -1,8 +1,5 @@
 import { detailPath, editPath, listPath, PATHS } from '../../../src/app/app.paths';
-import {
-  clickEditButtonInTableRowAndCheckEditRoute,
-  stringBoundaryTestCases,
-} from '../cy-helpers';
+import { clickEditButtonInTableRowAndCheckEditRoute, stringBoundaryTestCases } from '../cy-helpers';
 import {
   goToOwnerListAndFilterOwnerNameAndClickButton,
   typeInputNameAndSubmitSaveButtonFail,
