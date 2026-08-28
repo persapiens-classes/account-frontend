@@ -45,9 +45,13 @@ export function fillEntryFieldsAndSubmitSaveButtonOk(
   submitSaveButtonOk(entryPath(type), 'note', entry.note);
 }
 
-export function fillEntryFieldsAndSubmitSaveButtonFail(entry: Entry, clearInputName = false) {
+export function fillEntryFieldsAndSubmitSaveButtonFail(
+  entry: Entry,
+  path: string,
+  clearInputName = false,
+) {
   fillEntryFields(entry, clearInputName, true);
-  submitSaveButtonFail();
+  submitSaveButtonFail(path);
 }
 
 export function goToEntryListAndFilterEntryDescriptionAndClickButton(

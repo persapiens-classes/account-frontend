@@ -23,6 +23,8 @@ describe('LoginPage', () => {
     cy.getDataCy('login-password').type('123');
     cy.getDataCy('login-button').click();
 
+    cy.url().should('include', loginPath());
+
     cy.getDataCy('error-toast').should('be.visible');
   });
 });

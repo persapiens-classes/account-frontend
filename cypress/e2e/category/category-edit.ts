@@ -101,9 +101,11 @@ export function categoryEditTests(): void {
           it('OW-01: should fail when trying to edit category with description containing only whitespace', () => {
             const testCase = stringBoundaryTestCases['OW-01'];
 
-            typeInputDescriptionAndSubmitSaveButtonFail(testCase, true);
-
-            cy.url().should('include', editPath(categoryPath(type)));
+            typeInputDescriptionAndSubmitSaveButtonFail(
+              testCase,
+              editPath(categoryPath(type)),
+              true,
+            );
           });
 
           it('OW-02: should edit category successfully using 3 characters (lower limit)', () => {
@@ -141,9 +143,11 @@ export function categoryEditTests(): void {
               type,
               validCategoryDescription,
             );
-            typeInputDescriptionAndSubmitSaveButtonFail(duplicateDescription, true);
-
-            cy.url().should('include', editPath(categoryPath(type)));
+            typeInputDescriptionAndSubmitSaveButtonFail(
+              duplicateDescription,
+              editPath(categoryPath(type)),
+              true,
+            );
           });
         });
       });

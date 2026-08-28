@@ -15,9 +15,13 @@ export function typeInputNameAndSubmitSaveButtonOk(
   submitSaveButtonOk(PATHS.OWNER_PATH, 'name', savedValue);
 }
 
-export function typeInputNameAndSubmitSaveButtonFail(inputValue: string, clearInputName = false) {
+export function typeInputNameAndSubmitSaveButtonFail(
+  inputValue: string,
+  path: string,
+  clearInputName = false,
+) {
   typeInput('name', inputValue, clearInputName);
-  submitSaveButtonFail();
+  submitSaveButtonFail(path);
 }
 
 export function goToOwnerListAndFilterOwnerNameAndClickButton(

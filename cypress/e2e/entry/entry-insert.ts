@@ -32,9 +32,7 @@ export function entryInsertTests() {
           it('OW-01: should fail when not selecting an in-owner account', () => {
             cy.entriesDefault(type).then((entries) => {
               const validEntry = entries.at(0)!;
-              fillEntryFieldsAndSubmitSaveButtonFail(validEntry, false);
-
-              cy.url().should('include', newPath(entryPath(type)));
+              fillEntryFieldsAndSubmitSaveButtonFail(validEntry, newPath(entryPath(type)), false);
             });
           });
         });

@@ -104,9 +104,12 @@ export function accountEditTests() {
           it('OW-01: should fail when trying to edit account with description containing only whitespace', () => {
             const testCase = stringBoundaryTestCases['OW-01'];
 
-            typeDescriptionSelectCategoryAndSubmitSaveButtonFail(testCase, 0, true);
-
-            cy.url().should('include', editPath(accountPath(type)));
+            typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
+              testCase,
+              0,
+              editPath(accountPath(type)),
+              true,
+            );
           });
 
           it('OW-02: should edit account successfully using 3 characters (lower limit)', () => {
@@ -163,9 +166,12 @@ export function accountEditTests() {
               type,
               validAccountDescription,
             );
-            typeDescriptionSelectCategoryAndSubmitSaveButtonFail(duplicateDescription, 0, true);
-
-            cy.url().should('include', editPath(accountPath(type)));
+            typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
+              duplicateDescription,
+              0,
+              editPath(accountPath(type)),
+              true,
+            );
           });
         });
       });

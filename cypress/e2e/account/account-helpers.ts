@@ -37,11 +37,12 @@ export function typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
 export function typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
   inputDescription: string,
   selectCategory: number,
+  path: string,
   clearInputName = false,
 ) {
   typeInput('description', inputDescription, clearInputName);
   clickSelectEq('category', selectCategory);
-  submitSaveButtonFail();
+  submitSaveButtonFail(path);
 }
 
 export function goToAccountListAndFilterAccountDescriptionAndClickButton(

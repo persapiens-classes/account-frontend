@@ -25,9 +25,10 @@ export function ownerInsertTests() {
 
     describe('Validation Tests', () => {
       it('OW-01: should fail when trying to create owner with name containing only whitespace', () => {
-        typeInputNameAndSubmitSaveButtonFail(stringBoundaryTestCases['OW-01']);
-
-        cy.url().should('include', newPath(PATHS.OWNER_PATH));
+        typeInputNameAndSubmitSaveButtonFail(
+          stringBoundaryTestCases['OW-01'],
+          newPath(PATHS.OWNER_PATH),
+        );
       });
 
       it('OW-02: should create owner successfully using 3 characters (lower limit)', () => {
@@ -59,10 +60,7 @@ export function ownerInsertTests() {
         // Navigate back to create another with the same name
         cy.navigateToOwnerNew();
 
-        typeInputNameAndSubmitSaveButtonFail(uniqueDuplicateName);
-
-        // Validate that it stays on the creation page due to duplicate error
-        cy.url().should('include', newPath(PATHS.OWNER_PATH));
+        typeInputNameAndSubmitSaveButtonFail(uniqueDuplicateName, newPath(PATHS.OWNER_PATH));
       });
     });
   });

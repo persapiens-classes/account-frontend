@@ -136,7 +136,6 @@ export class ModelCrudApiMock<I, U, F, ID> {
           });
         } else {
           this.models.splice(index, 1, modelToUpdate);
-          console.log(`Updated model for ${this.endpoint} with ID: ${modelId}`);
           req.reply({
             statusCode: StatusCodes.OK,
             body: modelToUpdate,

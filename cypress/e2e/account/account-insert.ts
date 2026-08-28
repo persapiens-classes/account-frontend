@@ -38,10 +38,9 @@ export function accountInsertTests() {
             typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
               stringBoundaryTestCases['OW-01'],
               0,
+              newPath(accountPath(type)),
               false,
             );
-
-            cy.url().should('include', newPath(accountPath(type)));
           });
 
           it('OW-02: should create account successfully using 3 characters (lower limit)', () => {
@@ -94,11 +93,9 @@ export function accountInsertTests() {
             typeDescriptionSelectCategoryAndSubmitSaveButtonFail(
               uniqueDuplicateDescription,
               0,
+              newPath(accountPath(type)),
               false,
             );
-
-            // Validate that it stays on the creation page due to duplicate error
-            cy.url().should('include', newPath(accountPath(type)));
           });
         });
       });

@@ -34,9 +34,10 @@ export function categoryInsertTests(): void {
 
         describe('Validation Tests', () => {
           it('OW-01: should fail when trying to create category with description containing only whitespace', () => {
-            typeInputDescriptionAndSubmitSaveButtonFail(stringBoundaryTestCases['OW-01']);
-
-            cy.url().should('include', newPath(categoryPath(type)));
+            typeInputDescriptionAndSubmitSaveButtonFail(
+              stringBoundaryTestCases['OW-01'],
+              newPath(categoryPath(type)),
+            );
           });
 
           it('OW-02: should create category successfully using 3 characters (lower limit)', () => {
@@ -72,10 +73,10 @@ export function categoryInsertTests(): void {
             // Navigate back to create another with the same description
             cy.navigateToCategoryNew(type);
 
-            typeInputDescriptionAndSubmitSaveButtonFail(uniqueDuplicateDescription);
-
-            // Validate that it stays on the creation page due to duplicate error
-            cy.url().should('include', newPath(categoryPath(type)));
+            typeInputDescriptionAndSubmitSaveButtonFail(
+              uniqueDuplicateDescription,
+              newPath(categoryPath(type)),
+            );
           });
         });
       });

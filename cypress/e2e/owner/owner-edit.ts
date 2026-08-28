@@ -81,9 +81,7 @@ export function ownerEditTests() {
       it('OW-01: should fail when trying to edit owner with name containing only whitespace', () => {
         const testCase = stringBoundaryTestCases['OW-01'];
 
-        typeInputNameAndSubmitSaveButtonFail(testCase, true);
-
-        cy.url().should('include', editPath(PATHS.OWNER_PATH));
+        typeInputNameAndSubmitSaveButtonFail(testCase, editPath(PATHS.OWNER_PATH), true);
       });
 
       it('OW-02: should edit owner successfully using 3 characters (lower limit)', () => {
@@ -114,9 +112,7 @@ export function ownerEditTests() {
 
         // Go back to edit the original owner with duplicate name
         goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName);
-        typeInputNameAndSubmitSaveButtonFail(duplicateName, true);
-
-        cy.url().should('include', editPath(PATHS.OWNER_PATH));
+        typeInputNameAndSubmitSaveButtonFail(duplicateName, editPath(PATHS.OWNER_PATH), true);
       });
     });
   });

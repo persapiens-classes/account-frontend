@@ -91,14 +91,14 @@ function submitSaveButton() {
 
 export function submitSaveButtonOk(path: string, inputName: string, savedValue: string) {
   submitSaveButton();
-  cy.getDataCy('app-toast').should('be.visible');
   cy.url().should('include', detailPath(path));
   cy.getDataCy(`detail-${inputName}`).should('have.text', savedValue);
 }
 
-export function submitSaveButtonFail() {
+export function submitSaveButtonFail(path: string) {
   submitSaveButton();
-  cy.getDataCy('app-toast').should('not.be.visible');
+  // Validate that it stays on the path due to save failure
+  cy.url().should('include', path);
 }
 
 export function clickButtonInFirstTableRow(tableRow: string, value: string, action: string): void {

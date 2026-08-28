@@ -33,10 +33,11 @@ export function typeInputDescriptionAndSubmitSaveButtonOk(
 
 export function typeInputDescriptionAndSubmitSaveButtonFail(
   inputValue: string,
+  path: string,
   clearInputName = false,
 ) {
   typeInputDescription(inputValue, clearInputName);
-  submitSaveButtonFail();
+  submitSaveButtonFail(path);
 }
 
 export function goToCategoryListAndFilterCategoryDescriptionAndClickButton(
