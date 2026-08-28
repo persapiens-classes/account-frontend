@@ -2,6 +2,28 @@
 
 import { StatusCodes } from 'http-status-codes';
 
+export function validateNumber(name: string, value: number | undefined): string | null {
+  if (!value || value > 0) {
+    return `${name} should be a positive number greater than zero`;
+  }
+
+  return null;
+}
+
+export function validate(name: string, value: string | undefined): string | null {
+  // OW-01: Only whitespace (check first)
+  if (!value || value.trim() === '') {
+    return `${name} cannot contain only whitespace`;
+  }
+
+  // OW-04: Exceeds max length (256+ characters)
+  if (value.length > 255) {
+    return `${name} must not exceed 255 characters`;
+  }
+
+  return null;
+}
+
 export interface ModelCrudApiMockConfig<I, U, F, ID> {
   endpoint: string;
   idFn: (model: F) => ID;

@@ -45,6 +45,6 @@ import './commands/category';
 import './commands/account';
 import './commands/entry';
 import './commands/balance';
-import { AppApiMock } from './app-api-mock';
+import { AppApiMock } from './api-mock/app-api-mock';
 
 export {}; // NOSONAR - Required for TypeScript to treat file as module for global augmentation
