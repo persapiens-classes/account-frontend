@@ -17,7 +17,7 @@ import {
   entriesDefault,
   ownersDefault,
   balancesDefault,
-} from './fakers/models-fakers';
+} from './fakers/models-default';
 
 export class AppApiMock {
   private isAuthenticated = false;

@@ -1,6 +1,6 @@
 import { listPath, newPath } from '../../../src/app/app.paths';
 import { EntryType } from '../../../src/app/entry/entry';
-import { entriesDefault } from '../../support/fakers/models-fakers';
+import { entriesDefault } from '../../support/fakers/models-default';
 import { maybeSetupApiMockAndLogin } from '../cy-helpers';
 import {
   entryPath,
@@ -28,7 +28,7 @@ describe('Entry Insert Page', { testIsolation: false }, () => {
       it('should create a new Entry successfully', () => {
         const validEntry = entriesDefault(type).at(0)!;
 
-        fillEntryFieldsAndSubmitSaveButtonOk(type, validEntry, validEntry.note, false);
+        fillEntryFieldsAndSubmitSaveButtonOk(type, validEntry, false);
       });
 
       describe('Validation Tests', () => {

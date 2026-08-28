@@ -39,11 +39,10 @@ export function fillEntryFields(entry: Entry, clearInputName = false, skipInOwne
 export function fillEntryFieldsAndSubmitSaveButtonOk(
   type: EntryType,
   entry: Entry,
-  savedNote: string,
   clearInputName = false,
 ) {
   fillEntryFields(entry, clearInputName, false);
-  submitSaveButtonOk(entryPath(type), 'note', savedNote);
+  submitSaveButtonOk(entryPath(type), 'note', entry.note);
 }
 
 export function fillEntryFieldsAndSubmitSaveButtonFail(entry: Entry, clearInputName = false) {
@@ -53,14 +52,14 @@ export function fillEntryFieldsAndSubmitSaveButtonFail(entry: Entry, clearInputN
 
 export function goToEntryListAndFilterEntryDescriptionAndClickButton(
   type: EntryType,
-  entryDescription: string,
+  entryInOwner: string,
   action: string,
 ): void {
   // Go to entries list and open the edit page for the created entry
   cy.navigateToEntryList(type);
 
-  cy.getDataCy('filter-description-input').clear();
-  cy.getDataCy('filter-description-input').type(`${entryDescription}{enter}`);
+  cy.getDataCy('filter-inOwner-input').clear();
+  cy.getDataCy('filter-inOwner-input').type(`${entryInOwner}{enter}`);
 
-  clickButtonInFirstTableRow('entries-table-row', entryDescription, action);
+  clickButtonInFirstTableRow('entries-table-row', entryInOwner, action);
 }
