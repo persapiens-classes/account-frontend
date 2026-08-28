@@ -85,6 +85,17 @@ export default defineConfig([
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {},
   },
+  {
+    files: [
+      'cypress/owner/owner.cy.ts',
+      'cypress/category/category.cy.ts',
+      'cypress/account/account.cy.ts',
+      'cypress/entry/entry.cy.ts',
+    ],
+    rules: {
+      'sonarjs/no-empty-test-file': 'off',
+    },
+  },
 
   prettierDisableRules,
 ]);

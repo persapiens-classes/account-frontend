@@ -19,7 +19,7 @@ export function entryApiPath(type: EntryType) {
   return `${type.toLowerCase()}${API_PATHS.ENTRY_API_PATH}`;
 }
 
-export function maybeSetupApiMockAndNatigateToEntriesList(type: EntryType) {
+export function maybeSetupApiMockAndNatigateToEntryList(type: EntryType) {
   cy.maybeSetupApiMock();
   cy.navigateToEntryList(type);
 }

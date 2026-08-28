@@ -1,12 +1,16 @@
 import { maybeSetupApiMockAndLogin } from '../cy-helpers';
+import { categoryDetailTests } from './category-detail';
+import { categoryEditTests } from './category-edit';
+import { categoryInsertTests } from './category-insert';
+import { categoryRemoveTests } from './category-remove';
 
 describe('Category - Test Suite', { testIsolation: false }, () => {
   before(() => {
     maybeSetupApiMockAndLogin();
   });
 
-  require('./category-detail.ts');
-  require('./category-insert.ts');
-  require('./category-edit.ts');
-  require('./category-remove.ts');
+  categoryDetailTests();
+  categoryInsertTests();
+  categoryEditTests();
+  categoryRemoveTests();
 });

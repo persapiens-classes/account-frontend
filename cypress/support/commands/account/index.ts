@@ -1,14 +1,19 @@
 /// <reference types="cypress" />
 
 import { listPath, newPath } from '../../../../src/app/app.paths';
-import { AccountType } from '../../../../src/app/account/account';
+import { Account, AccountType } from '../../../../src/app/account/account';
 import { accountPath } from '../../../e2e/account/account-helpers';
+import { accountsDefault } from '../../fakers/models-default';
 
 declare global {
   namespace Cypress {
     interface Chainable {
       navigateToAccountList(type: AccountType): Chainable<void>;
       navigateToAccountNew(type: AccountType): Chainable<void>;
+      creditAccountsDefault(): Chainable<Account[]>;
+      debitAccountsDefault(): Chainable<Account[]>;
+      transferAccountsDefault(): Chainable<Account[]>;
+      equityAccountsDefault(): Chainable<Account[]>;
     }
   }
 }
@@ -30,6 +35,18 @@ Cypress.Commands.add('navigateToAccountNew', (type) => {
   cy.navigateToAccountList(type);
   cy.getDataCy('create-button').should('be.visible').click();
   cy.url().should('include', newPath(accountPath(type)));
+});
+
+Cypress.Commands.add('creditAccountsDefault', () => {
+  return cy.wrap(accountsDefault(AccountType.CREDIT));
+});
+
+Cypress.Commands.add('debitAccountsDefault', () => {
+  return cy.wrap(accountsDefault(AccountType.DEBIT));
+});
+
+Cypress.Commands.add('equityAccountsDefault', () => {
+  return cy.wrap(accountsDefault(AccountType.EQUITY));
 });
 
 export {}; // NOSONAR - required for module scope with global augmentation typescript:S7787

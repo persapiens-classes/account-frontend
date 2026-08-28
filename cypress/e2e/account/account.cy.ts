@@ -1,12 +1,16 @@
 import { maybeSetupApiMockAndLogin } from '../cy-helpers';
+import { accountDetailTests } from './account-detail';
+import { accountEditTests } from './account-edit';
+import { accountInsertTests } from './account-insert';
+import { accountRemoveTests } from './account-remove';
 
 describe('Account - Test Suite', { testIsolation: false }, () => {
   before(() => {
     maybeSetupApiMockAndLogin();
   });
 
-  require('./account-detail.ts');
-  require('./account-insert.ts');
-  require('./account-edit.ts');
-  require('./account-remove.ts');
+  accountDetailTests();
+  accountInsertTests();
+  accountEditTests();
+  accountRemoveTests();
 });
