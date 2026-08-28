@@ -2,7 +2,7 @@ import { Account, AccountType } from '../../../src/app/account/account';
 import { Owner } from '../../../src/app/owner/owner';
 import { Category, CategoryType } from '../../../src/app/category/category';
 import { Entry, EntryType } from '../../../src/app/entry/entry';
-import { Balance } from '../../../src/app/owner-equity-account-initial-value/balance';
+import { Balance } from '../../../src/app/balance/balance';
 import {
   accountFactory,
   balanceFactory,

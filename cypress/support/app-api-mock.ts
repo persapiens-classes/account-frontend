@@ -2,7 +2,7 @@
 
 import { StatusCodes } from 'http-status-codes';
 import { Owner } from '../../src/app/owner/owner';
-import { Balance } from '../../src/app/owner-equity-account-initial-value/balance';
+import { Balance } from '../../src/app/balance/balance';
 import { ModelCrudApiMock } from './model-crud-api-mock';
 import { Category, CategoryType } from '../../src/app/category/category';
 import { API_PATHS } from '../../src/app/app.api-paths';

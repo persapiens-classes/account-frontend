@@ -5,8 +5,8 @@ import { OwnerSchema } from '../owner/owner';
 import { CategorySchema } from '../category/category';
 import { AccountSchema } from '../account/account';
 import { EntrySchema } from '../entry/entry';
-import { BalanceSchema } from '../owner-equity-account-initial-value/balance';
-import { OwnerEquityAccountInitialValueSchema } from '../owner-equity-account-initial-value/owner-equity-account-initial-value';
+import { BalanceSchema } from '../balance/balance';
+import { OwnerEquityAccountInitialValueSchema } from '../balance/owner-equity-account-initial-value';
 import { safeModelWithZod } from './models';
 import { API_PATHS } from '../app.api-paths';
 
