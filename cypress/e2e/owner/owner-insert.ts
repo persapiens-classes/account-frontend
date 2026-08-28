@@ -1,15 +1,11 @@
 import { listPath, newPath, PATHS } from '../../../src/app/app.paths';
-import { maybeSetupApiMockAndLogin, stringBoundaryTestCases } from '../cy-helpers';
+import { stringBoundaryTestCases } from '../cy-helpers';
 import {
   typeInputNameAndSubmitSaveButtonFail,
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
 
 describe('Owner Insert Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   beforeEach(() => {
     cy.maybeSetupApiMock();
     cy.navigateToOwnerNew();

@@ -1,5 +1,5 @@
 import { CategoryType } from '../../../src/app/category/category';
-import { clickRemoveButtonAndConfirRemoval, maybeSetupApiMockAndLogin } from '../cy-helpers';
+import { clickRemoveButtonAndConfirRemoval } from '../cy-helpers';
 import {
   categoryPath,
   goToCategoryListAndFilterCategoryDescriptionAndClickButton,
@@ -7,10 +7,6 @@ import {
 } from './category-helpers';
 
 describe('Category Remove Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [CategoryType.CREDIT, CategoryType.DEBIT, CategoryType.EQUITY].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {

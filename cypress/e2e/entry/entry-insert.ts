@@ -1,6 +1,5 @@
 import { listPath, newPath } from '../../../src/app/app.paths';
 import { EntryType } from '../../../src/app/entry/entry';
-import { maybeSetupApiMockAndLogin } from '../cy-helpers';
 import {
   entryPath,
   fillEntryFieldsAndSubmitSaveButtonOk,
@@ -8,10 +7,6 @@ import {
 } from './entry-helpers';
 
 describe('Entry Insert Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [EntryType.CREDIT, EntryType.DEBIT, EntryType.TRANSFER].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {

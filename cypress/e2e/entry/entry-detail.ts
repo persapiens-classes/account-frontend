@@ -1,10 +1,6 @@
 import { editPath } from '../../../src/app/app.paths';
 import { EntryType } from '../../../src/app/entry/entry';
-import {
-  accessFirstTableDetail,
-  clickListButtonAndVerifyListUrl,
-  maybeSetupApiMockAndLogin,
-} from '../cy-helpers';
+import { accessFirstTableDetail, clickListButtonAndVerifyListUrl } from '../cy-helpers';
 import { entryPath, maybeSetupApiMockAndNatigateToEntriesList } from './entry-helpers';
 
 function accessEntryDetail(type: EntryType): void {
@@ -13,10 +9,6 @@ function accessEntryDetail(type: EntryType): void {
 
 // jscpd:ignore-start
 describe('Entry Detail Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [EntryType.CREDIT, EntryType.DEBIT, EntryType.TRANSFER].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {

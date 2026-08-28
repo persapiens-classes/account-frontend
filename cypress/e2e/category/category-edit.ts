@@ -3,7 +3,6 @@ import { CategoryType } from '../../../src/app/category/category';
 import {
   clickEditButtonInTableRowAndCheckEditRoute,
   clickListButtonAndVerifyListUrl,
-  maybeSetupApiMockAndLogin,
   stringBoundaryTestCases,
 } from '../cy-helpers';
 import {
@@ -40,10 +39,6 @@ function clickEditButtonInCategoriesTableRowAndCheckEditRoute(type: CategoryType
 }
 
 describe('Category Edit Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [CategoryType.CREDIT, CategoryType.DEBIT, CategoryType.EQUITY].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {

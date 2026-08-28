@@ -1,15 +1,11 @@
 import { editPath, listPath, PATHS } from '../../../src/app/app.paths';
-import { accessFirstTableDetail, maybeSetupApiMockAndLogin } from '../cy-helpers';
+import { accessFirstTableDetail } from '../cy-helpers';
 
 function accessOwnerDetail(): void {
   accessFirstTableDetail('owners-table', PATHS.OWNER_PATH);
 }
 
 describe('Owner Detail Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   beforeEach(() => {
     cy.maybeSetupApiMock();
     cy.navigateToOwnerList();

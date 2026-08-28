@@ -1,10 +1,6 @@
 import { editPath } from '../../../src/app/app.paths';
 import { CategoryType } from '../../../src/app/category/category';
-import {
-  accessFirstTableDetail,
-  clickListButtonAndVerifyListUrl,
-  maybeSetupApiMockAndLogin,
-} from '../cy-helpers';
+import { accessFirstTableDetail, clickListButtonAndVerifyListUrl } from '../cy-helpers';
 import { categoryPath, maybeSetupApiMockAndNatigateToCategoriesList } from './category-helpers';
 
 function accessCategoryDetail(type: CategoryType): void {
@@ -13,10 +9,6 @@ function accessCategoryDetail(type: CategoryType): void {
 
 // jscpd:ignore-start
 describe('Category Detail Page', { testIsolation: false }, () => {
-  before(() => {
-    maybeSetupApiMockAndLogin();
-  });
-
   [CategoryType.CREDIT, CategoryType.DEBIT, CategoryType.EQUITY].forEach((type) => {
     describe(`Type - ${type}`, () => {
       beforeEach(() => {
