@@ -5,6 +5,7 @@ import { Owner } from '../../../src/app/owner/owner';
 import { Category, CategoryType } from '../../../src/app/category/category';
 import { Entry } from '../../../src/app/entry/entry';
 import { Balance } from '../../../src/app/balance/balance';
+import { OwnerEquityAccountInitialValue } from '../../../src/app/balance/owner-equity-account-initial-value';
 
 export const ownerFactory = Factory.define<Owner>(() => ({
   name: faker.person.firstName(),
@@ -55,3 +56,17 @@ export const balanceFactory = Factory.define<Balance>(() => ({
   initialValue: faker.number.int({ min: 0, max: 10000 }),
   balance: faker.number.int({ min: 0, max: 10000 }),
 }));
+
+export const ownerEquityAccountInitialValueFactory = Factory.define<OwnerEquityAccountInitialValue>(
+  () => ({
+    owner: ownerFactory.build().name,
+    equityAccount: accountFactory
+      .withTypeAndCategory(
+        AccountType.EQUITY,
+        categoryFactory.withType(CategoryType.EQUITY).build(),
+      )
+      .build(),
+    initialValue: faker.number.int({ min: 0, max: 999 }),
+    balance: faker.number.int({ min: 0, max: 999 }),
+  }),
+);

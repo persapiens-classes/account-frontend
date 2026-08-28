@@ -8,8 +8,10 @@ import {
   balanceFactory,
   categoryFactory,
   entryFactory,
+  ownerEquityAccountInitialValueFactory,
   ownerFactory,
 } from './models-fake-factory';
+import { OwnerEquityAccountInitialValue } from '../../../src/app/balance/owner-equity-account-initial-value';
 
 let owners: Owner[];
 let creditCategories: Category[];
@@ -22,6 +24,7 @@ let creditEntries: Entry[];
 let debitEntries: Entry[];
 let transferEntries: Entry[];
 let balances: Balance[];
+let ownerEquityAccountInitialValues: OwnerEquityAccountInitialValue[];
 
 function checkOwners() {
   if (!owners) {
@@ -184,4 +187,28 @@ export function balancesDefault(): Balance[] {
   checkBalances();
 
   return structuredClone(balances);
+}
+
+export function checkOwnerEquityAccountInitialValues() {
+  checkOwners();
+  checkAccounts();
+
+  if (!ownerEquityAccountInitialValues) {
+    ownerEquityAccountInitialValues = [
+      ownerEquityAccountInitialValueFactory.build({
+        owner: owners.at(0)!.name,
+        equityAccount: equityAccounts.at(0)!,
+      }),
+      ownerEquityAccountInitialValueFactory.build({
+        owner: owners.at(1)!.name,
+        equityAccount: equityAccounts.at(1)!,
+      }),
+    ];
+  }
+}
+
+export function ownerEquityAccountInitialValuesDefault(): OwnerEquityAccountInitialValue[] {
+  checkOwnerEquityAccountInitialValues();
+
+  return structuredClone(ownerEquityAccountInitialValues);
 }
