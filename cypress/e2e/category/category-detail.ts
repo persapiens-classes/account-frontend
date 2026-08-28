@@ -8,14 +8,12 @@ function accessCategoryDetail(type: CategoryType): void {
 }
 
 export function categoryDetailTests(): void {
-  // jscpd:ignore-start
   describe('Category Detail Page', { testIsolation: false }, () => {
     [CategoryType.CREDIT, CategoryType.DEBIT, CategoryType.EQUITY].forEach((type) => {
       describe(`Type - ${type}`, () => {
         beforeEach(() => {
           maybeSetupApiMockAndNatigateToCategoriesList(type);
         });
-        //jscpd:ignore-end
 
         it('should access detail page when clicking magnifying glass', () => {
           accessCategoryDetail(type);

@@ -29,6 +29,7 @@ import { PATHS } from '../app.paths';
     <app-model-list-panel [routerName]="routerName">
       <div class="w-full">
         <p-table
+          data-cy="balances-table"
           [value]="modelsList()"
           [rows]="5"
           [paginator]="true"

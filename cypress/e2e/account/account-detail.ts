@@ -8,14 +8,12 @@ function accessAccountDetail(type: AccountType): void {
 }
 
 export function accountDetailTests() {
-  // jscpd:ignore-start
   describe('Account Detail Page', { testIsolation: false }, () => {
     [AccountType.CREDIT, AccountType.DEBIT, AccountType.EQUITY].forEach((type) => {
       describe(`Type - ${type}`, () => {
         beforeEach(() => {
           maybeSetupApiMockAndNatigateToAccountsList(type);
         });
-        //jscpd:ignore-end
 
         it('should access detail page when clicking magnifying glass', () => {
           accessAccountDetail(type);

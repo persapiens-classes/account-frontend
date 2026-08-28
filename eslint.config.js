@@ -91,6 +91,7 @@ export default defineConfig([
       'cypress/category/category.cy.ts',
       'cypress/account/account.cy.ts',
       'cypress/entry/entry.cy.ts',
+      'cypress/balance/balance.cy.ts',
     ],
     rules: {
       'sonarjs/no-empty-test-file': 'off',

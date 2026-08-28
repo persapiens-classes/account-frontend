@@ -8,14 +8,12 @@ function accessEntryDetail(type: EntryType): void {
 }
 
 export function entryDetailTests() {
-  // jscpd:ignore-start
   describe('Entry Detail Page', { testIsolation: false }, () => {
     [EntryType.CREDIT, EntryType.DEBIT, EntryType.TRANSFER].forEach((type) => {
       describe(`Type - ${type}`, () => {
         beforeEach(() => {
           maybeSetupApiMockAndNatigateToEntryList(type);
         });
-        //jscpd:ignore-end
 
         it('should access detail page when clicking magnifying glass', () => {
           accessEntryDetail(type);
