@@ -35,7 +35,12 @@
     "projectKey": "persapiens-classes_account-frontend"
   },
   "sonarlint.rules": {
-    "typescript:S2004": "off"
+    "typescript:S2004": {
+      "level": "off"
+    },
+    "typescript:S2187": {
+      "level": "off"
+    }
   },
   "sonarlint.testFilePattern": "**/*{test,spec}.{js,ts,jsx,tsx}",
   "sonarlint.disableTelemetry": true,

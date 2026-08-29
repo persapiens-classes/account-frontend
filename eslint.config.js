@@ -87,11 +87,11 @@ export default defineConfig([
   },
   {
     files: [
-      'cypress/owner/owner.cy.ts',
-      'cypress/category/category.cy.ts',
-      'cypress/account/account.cy.ts',
-      'cypress/entry/entry.cy.ts',
-      'cypress/balance/balance.cy.ts',
+      'cypress/e2e/owner/owner.cy.ts',
+      'cypress/e2e/category/category.cy.ts',
+      'cypress/e2e/account/account.cy.ts',
+      'cypress/e2e/entry/entry.cy.ts',
+      'cypress/e2e/balance/balance.cy.ts',
     ],
     rules: {
       'sonarjs/no-empty-test-file': 'off',
