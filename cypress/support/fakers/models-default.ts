@@ -165,30 +165,6 @@ export function entriesDefault(type: EntryType): Entry[] {
   return structuredClone(entries);
 }
 
-function checkBalances() {
-  checkOwners();
-  checkAccounts();
-
-  if (!balances) {
-    balances = [
-      balanceFactory.build({
-        owner: owners.at(0)!.name,
-        equityAccount: equityAccounts.at(0)!,
-      }),
-      balanceFactory.build({
-        owner: owners.at(1)!.name,
-        equityAccount: equityAccounts.at(1)!,
-      }),
-    ];
-  }
-}
-
-export function balancesDefault(): Balance[] {
-  checkBalances();
-
-  return structuredClone(balances);
-}
-
 export function checkOwnerEquityAccountInitialValues() {
   checkOwners();
   checkAccounts();
@@ -211,4 +187,57 @@ export function ownerEquityAccountInitialValuesDefault(): OwnerEquityAccountInit
   checkOwnerEquityAccountInitialValues();
 
   return structuredClone(ownerEquityAccountInitialValues);
+}
+
+function balance(ownerEquityAccountInitialValue: OwnerEquityAccountInitialValue): number {
+  let result = ownerEquityAccountInitialValue.initialValue;
+
+  const owner = ownerEquityAccountInitialValue.owner;
+  const equityAccount = ownerEquityAccountInitialValue.equityAccount;
+
+  const filterCredit = (entry: Entry) =>
+    entry.inOwner === owner && entry.inAccount.description === equityAccount.description;
+  const filterDebit = (entry: Entry) =>
+    entry.outOwner === owner && entry.outAccount.description === equityAccount.description;
+  result += creditEntries
+    .filter((entry) => filterCredit(entry))
+    .reduce((sum, entry) => sum + entry.value, 0);
+  result -= debitEntries
+    .filter((entry) => filterDebit(entry))
+    .reduce((sum, entry) => sum + entry.value, 0);
+  result += transferEntries
+    .filter((entry) => filterCredit(entry))
+    .reduce((sum, entry) => sum + entry.value, 0);
+  result -= transferEntries
+    .filter((entry) => filterDebit(entry))
+    .reduce((sum, entry) => sum + entry.value, 0);
+
+  return result;
+}
+
+function checkBalances() {
+  checkOwnerEquityAccountInitialValues();
+
+  if (!balances) {
+    balances = [
+      balanceFactory.build({
+        owner: ownerEquityAccountInitialValues.at(0)!.owner,
+        equityAccount: ownerEquityAccountInitialValues.at(0)!.equityAccount,
+        initialValue: ownerEquityAccountInitialValues.at(0)!.initialValue,
+        balance: balance(ownerEquityAccountInitialValues.at(0)!),
+      }),
+      balanceFactory.build({
+        owner: ownerEquityAccountInitialValues.at(1)!.owner,
+        equityAccount: ownerEquityAccountInitialValues.at(1)!.equityAccount,
+        initialValue: ownerEquityAccountInitialValues.at(1)!.initialValue,
+        balance: balance(ownerEquityAccountInitialValues.at(1)!),
+      }),
+    ];
+  }
+}
+
+export function balancesDefault(): Balance[] {
+  checkBalances();
+
+  return structuredClone(balances);
 }

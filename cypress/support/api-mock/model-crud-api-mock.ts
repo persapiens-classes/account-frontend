@@ -62,9 +62,10 @@ export class ModelCrudApiMock<I, U, F, ID> {
   // Mock GET /endpoint - list all models
   private mockGetAll() {
     cy.intercept('GET', `${this.endpoint}`, (req) => {
-      console.log(
-        `Mocking GET ${this.endpoint} - returning all models: ${JSON.stringify(this.models)}`,
-      );
+      if (Object.keys(req.query).length > 0) {
+        req.continue();
+        return;
+      }
       req.reply({
         statusCode: StatusCodes.OK,
         body: this.models,

@@ -7,22 +7,15 @@ import { Balance } from '../../../src/app/balance/balance';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 
 export function balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance, string> {
-  const balancesEndpoint = `/${API_PATHS.BALANCE_API_PATH}`;
-
-  const balancesFilterEndpoint = `/${API_PATHS.BALANCE_API_PATH}/filter`;
-
   const idFn = (model: Balance): string => `${model.owner}-${model.equityAccount.description}`;
 
   const balances = balancesDefault();
 
   const balanceFilter = () => {
+    const balancesFilterEndpoint = `/${API_PATHS.BALANCE_API_PATH}/filter*`;
     cy.intercept('GET', balancesFilterEndpoint, (req) => {
       const { owner, equityAccount } = req.query;
-      console.log(`Filtering balances by owner: ${owner}, equityAccount: ${equityAccount}`);
       if (owner && equityAccount) {
-        console.log(
-          `Returning filtered balances: ${JSON.stringify(balances.filter((balance) => balance.owner === owner && balance.equityAccount.description === equityAccount))}`,
-        );
         req.reply({
           statusCode: StatusCodes.OK,
           body: balances.filter((balance) => {
@@ -34,7 +27,7 @@ export function balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance, st
   };
 
   return new ModelCrudApiMock<Balance, Balance, Balance, string>({
-    endpoint: balancesEndpoint,
+    endpoint: `/${API_PATHS.BALANCE_API_PATH}`,
     idFn: idFn,
     models: balances,
     customMocks: [balanceFilter],
