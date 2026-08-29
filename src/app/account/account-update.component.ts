@@ -17,7 +17,7 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { CategoryListService } from '../category/category-list-service';
 import { AccountUpdateService } from './account-update-service';
-import { toModelFromHistory } from '../models/models';
+import { MAX_LENGTH, toModelFromHistory } from '../models/models';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { AppMessageService } from '../app-message-service';
 import { PATHS } from '../app.paths';
@@ -64,7 +64,7 @@ export class AccountUpdateComponent {
   form = form(signal(accountModelToForm(this.modelFromHistory)), (f) => {
     required(f.description);
     minLength(f.description, 3);
-    maxLength(f.description, 255);
+    maxLength(f.description, MAX_LENGTH);
     required(f.category);
     minLength(f.category.description, 3);
   });

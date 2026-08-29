@@ -1,4 +1,5 @@
 import { detailPath, editPath, listPath, PATHS } from '../../../src/app/app.paths';
+import { MAX_LENGTH } from '../../../src/app/models/models';
 import { clickEditButtonInTableRowAndCheckEditRoute, stringBoundaryTestCases } from '../cy-helpers';
 import {
   goToOwnerListAndFilterOwnerNameAndClickButton,
@@ -6,22 +7,12 @@ import {
   typeInputNameAndSubmitSaveButtonOk,
 } from './owner-helpers';
 
-function captureLastOwner(): void {
-  cy.getDataCy('owners-table-row')
-    .last()
-    .find('td')
-    .first()
-    .invoke('text')
-    .then((text) => text.trim())
-    .as('lastOwnerName');
-}
-
 function goToOwnersListAndFilterOwnerNameAndClickEditButton(validOwnerName: string): void {
   goToOwnerListAndFilterOwnerNameAndClickButton(validOwnerName, 'edit');
 }
 
-function clickEditButtonInOwnersTableRowAndCheckEditRoute() {
-  clickEditButtonInTableRowAndCheckEditRoute('owners-table-row', PATHS.OWNER_PATH);
+function clickEditButtonInOwnersTableRowAndCheckEditRoute(index: number) {
+  clickEditButtonInTableRowAndCheckEditRoute('owners-table-row', PATHS.OWNER_PATH, index);
 }
 
 export function ownerEditTests() {
@@ -31,12 +22,12 @@ export function ownerEditTests() {
       cy.navigateToOwnerList();
     });
 
-    it('clicking pencil on last owner opens edit', () => {
-      clickEditButtonInOwnersTableRowAndCheckEditRoute();
+    it('clicking pencil on first owner opens edit', () => {
+      clickEditButtonInOwnersTableRowAndCheckEditRoute(0);
     });
 
     it('go back to list using list icon', () => {
-      clickEditButtonInOwnersTableRowAndCheckEditRoute();
+      clickEditButtonInOwnersTableRowAndCheckEditRoute(0);
 
       cy.getDataCy('list-button').should('be.visible').click();
       cy.url().should('include', listPath(PATHS.OWNER_PATH));
@@ -52,13 +43,12 @@ export function ownerEditTests() {
       cy.url().should('include', detailPath(PATHS.OWNER_PATH));
     });
 
-    it('edit last owner by adding _edited to the name', () => {
-      captureLastOwner();
+    it('edit second owner by adding _edited to the name', () => {
+      cy.ownersDefault().then((owners) => {
+        const index = 1;
+        clickEditButtonInOwnersTableRowAndCheckEditRoute(index);
 
-      cy.get<string>('@lastOwnerName').then((originalName) => {
-        clickEditButtonInOwnersTableRowAndCheckEditRoute();
-
-        const newName = `${originalName}_edited`;
+        const newName = `${owners.at(index)!.name}_edited`;
 
         typeInputNameAndSubmitSaveButtonOk(newName, newName, true);
       });
@@ -89,17 +79,17 @@ export function ownerEditTests() {
         typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, true);
       });
 
-      it('OW-03: should edit owner successfully using 255 characters (upper limit)', () => {
+      it(`OW-03: should edit owner successfully using ${MAX_LENGTH} characters (upper limit)`, () => {
         const valueToSubmit = Cypress._.uniqueId(
-          stringBoundaryTestCases['OW-03'].substring(0, 245),
+          stringBoundaryTestCases['OW-03'].substring(0, MAX_LENGTH - 10),
         );
         typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, true);
       });
 
-      // Reason: maxLength does not allow more than 255 characters to be typed in the input
-      it('OW-04: should fail when trying to edit owner with 256 characters (exceeds upper limit)', () => {
+      // Reason: maxLength does not allow more than MAX_LENGTH characters to be typed in the input
+      it(`OW-04: should fail when trying to edit owner with ${MAX_LENGTH + 1} characters (exceeds upper limit)`, () => {
         const valueToSubmit = stringBoundaryTestCases['OW-04'];
-        const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
+        const savedValue = valueToSubmit.substring(0, MAX_LENGTH); // maxLength should fix it to MAX_LENGTH characters
         typeInputNameAndSubmitSaveButtonOk(valueToSubmit, savedValue, true);
       });
 

@@ -1,12 +1,13 @@
 import { detailPath, editPath, listPath } from '../../src/app/app.paths';
+import { MAX_LENGTH } from '../../src/app/models/models';
 
 export type StringBoundaryTestCase = Record<string, string>;
 
 export const stringBoundaryTestCases: StringBoundaryTestCase = {
   'OW-01': '   ', // Only whitespace
   'OW-02': 'abc', // 3 characters (lower limit)
-  'OW-03': 'a'.repeat(255), // 255 characters (upper limit)
-  'OW-04': 'a'.repeat(256), // 256 characters (exceeds upper limit)
+  'OW-03': 'a'.repeat(MAX_LENGTH), // (upper limit)
+  'OW-04': 'a'.repeat(MAX_LENGTH + 1), // (exceeds upper limit)
 };
 
 export function maybeSetupApiMockAndLogin() {
@@ -122,9 +123,13 @@ export function clickRemoveButtonAndConfirRemoval(tableRow: string, path: string
   cy.getDataCy(tableRow).should('not.exist');
 }
 
-export function clickEditButtonInTableRowAndCheckEditRoute(tableRow: string, path: string): void {
+export function clickEditButtonInTableRowAndCheckEditRoute(
+  tableRow: string,
+  path: string,
+  index: number,
+): void {
   cy.getDataCy(tableRow)
-    .last()
+    .eq(index)
     .within(() => {
       cy.getDataCy('edit-button').should('be.visible').click();
     });

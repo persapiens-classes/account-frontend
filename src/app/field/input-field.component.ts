@@ -5,6 +5,7 @@ import { AutoFocusModule } from '@openng/optimus-ui/autofocus';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { FormField, FieldTree } from '@angular/forms/signals';
+import { MAX_LENGTH } from '../models/models';
 
 @Component({
   selector: 'app-input-field',
@@ -39,7 +40,7 @@ import { FormField, FieldTree } from '@angular/forms/signals';
             <div>{{ label() }} must be at least 3 characters long.</div>
           }
           @if (error.kind === 'maxlength') {
-            <div>{{ label() }} must not exceed 255 characters.</div>
+            <div>{{ label() }} must not exceed {{ MAX_LENGTH }} characters.</div>
           }
         }
       </div>
@@ -53,6 +54,8 @@ export class InputFieldComponent {
   type = input<string>('text');
   formField = input.required<FieldTree<string>>();
   dataCy = input<string>('');
+
+  MAX_LENGTH = MAX_LENGTH;
 
   calculatedId = computed(() => this.id() || this.label().toLowerCase() || this.dataCy());
 

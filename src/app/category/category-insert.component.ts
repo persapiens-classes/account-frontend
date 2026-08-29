@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
 import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
+import { MAX_LENGTH } from '../models/models';
 
 @Component({
   selector: 'app-category-insert',
@@ -34,7 +35,7 @@ export class CategoryInsertComponent {
   form = form(signal(createCategory()), (f) => {
     required(f.description);
     minLength(f.description, 3);
-    maxLength(f.description, 255);
+    maxLength(f.description, MAX_LENGTH);
   });
   routerName: string;
   modelName: string;

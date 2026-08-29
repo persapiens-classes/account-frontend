@@ -6,6 +6,7 @@ import { ModelInsertPanelComponent } from '../models/model-insert-panel.componen
 import { OwnerInsertService } from './owner-insert-service';
 import { form, minLength, required, maxLength } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
+import { MAX_LENGTH } from '../models/models';
 
 @Component({
   selector: 'app-owner-insert',
@@ -34,7 +35,7 @@ export class OwnerInsertComponent {
   form = form(signal(createOwner()), (f) => {
     required(f.name);
     minLength(f.name, 3);
-    maxLength(f.name, 255);
+    maxLength(f.name, MAX_LENGTH);
   });
 
   modelInsertService = inject(OwnerInsertService);

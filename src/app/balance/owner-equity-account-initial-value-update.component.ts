@@ -44,7 +44,12 @@ import { PATHS } from '../app.paths';
         }}"
       />
 
-      <app-number-field label="Initial Value" [autoFocus]="true" [formField]="form.initialValue" />
+      <app-number-field
+        label="Initial Value"
+        [autoFocus]="true"
+        [formField]="form.initialValue"
+        dataCy="inputnumber-initial-value"
+      />
     </app-model-update-panel>
   `,
 })

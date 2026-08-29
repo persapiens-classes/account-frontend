@@ -58,7 +58,10 @@ export function ownerEquityAccountInitialValueApiMock(): ModelCrudApiMock<
 
   const updateToModelFn = (updateModel: number, id?: string): OwnerEquityAccountInitialValue => {
     const owners = ownersDefault();
-    const [owner, equityAccount] = id!.split('-');
+    const params = new URLSearchParams(id);
+    const owner = params.get('owner') ?? '';
+    const equityAccount = params.get('equityAccount') ?? '';
+
     return {
       owner: owners.find((a) => a.name === owner)!.name,
       equityAccount: equityAccounts.find((a) => a.description === equityAccount)!,

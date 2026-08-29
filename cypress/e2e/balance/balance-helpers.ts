@@ -13,19 +13,26 @@ export function maybeSetupApiMockAndNatigateToBalanceList() {
   cy.navigateToBalanceList();
 }
 
-export function fillEntryFields(entry: OwnerEquityAccountInitialValue, skipOwner = false) {
+export function fillEntryFields(
+  entry: OwnerEquityAccountInitialValue,
+  skipOwner = false,
+  skipEquityAccount = false,
+) {
   if (!skipOwner) {
     clickSelectContains('owner', entry.owner);
   }
-  clickSelectContains('equity-account', entry.equityAccount.description);
+  if (!skipEquityAccount) {
+    clickSelectContains('equity-account', entry.equityAccount.description);
+  }
   typeInputNumber('initial-value', entry.initialValue);
 }
 
 export function fillOwnerEquityAccountInitialValueFieldsAndSubmitSaveButtonOk(
   model: OwnerEquityAccountInitialValue,
-  clearInputName = false,
+  skipOwner = false,
+  skipEquityAccount = false,
 ) {
-  fillEntryFields(model, clearInputName);
+  fillEntryFields(model, skipOwner, skipEquityAccount);
   submitSaveButtonOk(PATHS.BALANCE_PATH, 'owner', model.owner);
 }
 
@@ -33,8 +40,9 @@ export function fillOwnerEquityAccountInitialValueFieldsAndSubmitSaveButtonFail(
   model: OwnerEquityAccountInitialValue,
   path: string,
   skipOwner = false,
+  skipEquityAccount = false,
 ) {
-  fillEntryFields(model, skipOwner);
+  fillEntryFields(model, skipOwner, skipEquityAccount);
   submitSaveButtonFail(path);
 }
 

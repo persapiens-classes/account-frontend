@@ -6,6 +6,9 @@ import { Category, CategoryType } from '../../../src/app/category/category';
 import { Entry } from '../../../src/app/entry/entry';
 import { Balance } from '../../../src/app/balance/balance';
 import { OwnerEquityAccountInitialValue } from '../../../src/app/balance/owner-equity-account-initial-value';
+import { MAX_LENGTH } from '../../../src/app/models/models';
+
+const MAX_FAKE_LENGTH = MAX_LENGTH / 3;
 
 export const ownerFactory = Factory.define<Owner>(() => ({
   name: faker.person.firstName(),
@@ -14,26 +17,26 @@ export const ownerFactory = Factory.define<Owner>(() => ({
 class CategoryFactory extends Factory<Category> {
   withType(type: CategoryType) {
     return this.params({
-      description: `${type} - ${faker.string.alpha({ length: { min: 3, max: 9 }, casing: 'upper' })}`,
+      description: `${type} - ${faker.string.alpha({ length: { min: 3, max: MAX_FAKE_LENGTH }, casing: 'upper' })}`,
     });
   }
 }
 
 export const categoryFactory = CategoryFactory.define(() => ({
-  description: faker.string.alpha({ length: { min: 3, max: 10 }, casing: 'upper' }),
+  description: faker.string.alpha({ length: { min: 3, max: MAX_FAKE_LENGTH }, casing: 'upper' }),
 }));
 
 class AccountFactory extends Factory<Account> {
   withTypeAndCategory(type: AccountType, category: Category) {
     return this.params({
-      description: `${type} - ${faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'upper' })}`,
+      description: `${type} - ${faker.string.alpha({ length: { min: 3, max: MAX_FAKE_LENGTH }, casing: 'upper' })}`,
       category: category.description,
     });
   }
 }
 
 export const accountFactory = AccountFactory.define(() => ({
-  description: faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'upper' }),
+  description: faker.string.alpha({ length: { min: 3, max: MAX_FAKE_LENGTH }, casing: 'upper' }),
   category: categoryFactory.build().description,
 }));
 

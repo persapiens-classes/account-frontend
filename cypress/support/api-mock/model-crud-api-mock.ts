@@ -1,10 +1,11 @@
 /// <reference types="cypress" />
 
 import { StatusCodes } from 'http-status-codes';
+import { MAX_LENGTH } from '../../../src/app/models/models';
 
 export function validateNumber(name: string, value: number | undefined): string | null {
-  if (!value || value > 0) {
-    return `${name} should be a positive number greater than zero`;
+  if (!value || value <= 0) {
+    return `${name} = ${value} should be a positive number greater than zero`;
   }
 
   return null;
@@ -16,9 +17,9 @@ export function validate(name: string, value: string | undefined): string | null
     return `${name} cannot contain only whitespace`;
   }
 
-  // OW-04: Exceeds max length (256+ characters)
-  if (value.length > 255) {
-    return `${name} must not exceed 255 characters`;
+  // OW-04: Exceeds max length (MAX_LENGTH+ characters)
+  if (value.length > MAX_LENGTH) {
+    return `${name} must not exceed ${MAX_LENGTH} characters`;
   }
 
   return null;
@@ -80,32 +81,6 @@ export class ModelCrudApiMock<I, U, F> {
     }).as(`${this.endpoint}-getAll`);
   }
 
-  // Mock DELETE /endpoint/:id - delete model
-  private mockDelete() {
-    cy.intercept('DELETE', `${this.endpoint}*`, (req) => {
-      const parsedUrl = new URL(req.url, 'http://localhost');
-      const hasQueryParams = parsedUrl.searchParams.size > 0;
-
-      const modelId = hasQueryParams
-        ? decodeURIComponent(parsedUrl.search.slice(1))
-        : decodeURIComponent(parsedUrl.pathname.split('/').findLast(Boolean) ?? '');
-
-      const index = this.models.findIndex((model) => this.idDeleteUpdateFn!(model) === modelId);
-      if (index > -1) {
-        this.models.splice(index, 1);
-        req.reply({
-          statusCode: StatusCodes.NO_CONTENT,
-          body: {},
-        });
-      } else {
-        req.reply({
-          statusCode: StatusCodes.NOT_FOUND,
-          body: {},
-        });
-      }
-    }).as(`${this.endpoint}-delete`);
-  }
-
   // Mock POST /endpoint - create a new model with boundary value validation
   private mockPost() {
     cy.intercept('POST', `${this.endpoint}`, (req) => {
@@ -144,9 +119,21 @@ export class ModelCrudApiMock<I, U, F> {
     }).as(`${this.endpoint}-post`);
   }
 
+  private getModelIdFromRequest(url: string): string {
+    const parsedUrl = new URL(url, 'http://localhost');
+    const hasQueryParams = parsedUrl.searchParams.size > 0;
+
+    return hasQueryParams
+      ? decodeURIComponent(parsedUrl.search.slice(1))
+      : decodeURIComponent(parsedUrl.pathname.split('/').findLast(Boolean) ?? '');
+  }
+
   // Mock PUT /endpoint/:id - update model
   private mockPut() {
-    cy.intercept('PUT', `${this.endpoint}/*`, (req) => {
+    cy.intercept('PUT', '**', (req) => {
+      if (!req.url.includes(this.endpoint)) {
+        return;
+      }
       const modelPut: U = req.body;
 
       const validationError = this.putValidateFn(modelPut);
@@ -160,11 +147,10 @@ export class ModelCrudApiMock<I, U, F> {
         });
       }
 
-      const urlParts = req.url.split('/');
-      const modelId = decodeURIComponent(urlParts.at(-1) ?? '');
+      const modelId = this.getModelIdFromRequest(req.url);
 
       // Verify that the model exists before updating
-      const index = this.models.findIndex((model) => this.idFn(model) === modelId);
+      const index = this.models.findIndex((model) => this.idDeleteUpdateFn!(model) === modelId);
       if (index > -1) {
         // OW-05: Duplicate model
         const modelToUpdate = this.updateToModelFn(modelPut, modelId);
@@ -190,6 +176,30 @@ export class ModelCrudApiMock<I, U, F> {
         });
       }
     }).as(`${this.endpoint}-put`);
+  }
+
+  // Mock DELETE /endpoint/:id - delete model
+  private mockDelete() {
+    cy.intercept('DELETE', '**', (req) => {
+      if (!req.url.includes(this.endpoint)) {
+        return;
+      }
+      const modelId = this.getModelIdFromRequest(req.url);
+
+      const index = this.models.findIndex((model) => this.idDeleteUpdateFn!(model) === modelId);
+      if (index > -1) {
+        this.models.splice(index, 1);
+        req.reply({
+          statusCode: StatusCodes.NO_CONTENT,
+          body: {},
+        });
+      } else {
+        req.reply({
+          statusCode: StatusCodes.NOT_FOUND,
+          body: {},
+        });
+      }
+    }).as(`${this.endpoint}-delete`);
   }
 
   mock() {

@@ -14,6 +14,7 @@ declare global {
       debitAccountsDefault(): Chainable<Account[]>;
       transferAccountsDefault(): Chainable<Account[]>;
       equityAccountsDefault(): Chainable<Account[]>;
+      accountsDefault(type: AccountType): Chainable<Account[]>;
     }
   }
 }
@@ -47,6 +48,10 @@ Cypress.Commands.add('debitAccountsDefault', () => {
 
 Cypress.Commands.add('equityAccountsDefault', () => {
   return cy.wrap(accountsDefault(AccountType.EQUITY));
+});
+
+Cypress.Commands.add('accountsDefault', (type: AccountType) => {
+  return cy.wrap(accountsDefault(type));
 });
 
 export {}; // NOSONAR - required for module scope with global augmentation typescript:S7787

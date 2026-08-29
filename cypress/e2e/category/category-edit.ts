@@ -1,5 +1,6 @@
 import { detailPath, editPath } from '../../../src/app/app.paths';
 import { CategoryType } from '../../../src/app/category/category';
+import { MAX_LENGTH } from '../../../src/app/models/models';
 import {
   clickEditButtonInTableRowAndCheckEditRoute,
   clickListButtonAndVerifyListUrl,
@@ -13,16 +14,6 @@ import {
   typeInputDescriptionAndSubmitSaveButtonOk,
 } from './category-helpers';
 
-function captureLastCategory(): void {
-  cy.getDataCy('categories-table-row')
-    .last()
-    .find('td')
-    .first()
-    .invoke('text')
-    .then((text) => text.trim())
-    .as('lastCategoryDescription');
-}
-
 function goToCategoriesListAndFilterCategoryDescriptionAndClickEditButton(
   type: CategoryType,
   validCategoryDescription: string,
@@ -34,8 +25,8 @@ function goToCategoriesListAndFilterCategoryDescriptionAndClickEditButton(
   );
 }
 
-function clickEditButtonInCategoriesTableRowAndCheckEditRoute(type: CategoryType) {
-  clickEditButtonInTableRowAndCheckEditRoute('categories-table-row', categoryPath(type));
+function clickEditButtonInCategoriesTableRowAndCheckEditRoute(type: CategoryType, index: number) {
+  clickEditButtonInTableRowAndCheckEditRoute('categories-table-row', categoryPath(type), index);
 }
 
 export function categoryEditTests(): void {
@@ -46,12 +37,12 @@ export function categoryEditTests(): void {
           maybeSetupApiMockAndNatigateToCategoriesList(type);
         });
 
-        it('clicking pencil on last category opens edit', () => {
-          clickEditButtonInCategoriesTableRowAndCheckEditRoute(type);
+        it('clicking pencil on first category opens edit', () => {
+          clickEditButtonInCategoriesTableRowAndCheckEditRoute(type, 0);
         });
 
         it('go back to list using list icon', () => {
-          clickEditButtonInCategoriesTableRowAndCheckEditRoute(type);
+          clickEditButtonInCategoriesTableRowAndCheckEditRoute(type, 0);
           clickListButtonAndVerifyListUrl(categoryPath(type));
         });
 
@@ -65,13 +56,12 @@ export function categoryEditTests(): void {
           cy.url().should('include', detailPath(categoryPath(type)));
         });
 
-        it('edit last category by adding _edited to the description', () => {
-          captureLastCategory();
+        it('edit second category by adding _edited to the description', () => {
+          cy.categoriesDefault(type).then((categories) => {
+            const index = 1;
+            clickEditButtonInCategoriesTableRowAndCheckEditRoute(type, index);
 
-          cy.get<string>('@lastCategoryDescription').then((originalDescription) => {
-            clickEditButtonInCategoriesTableRowAndCheckEditRoute(type);
-
-            const newDescription = `${originalDescription}_edited`;
+            const newDescription = `${categories.at(index)!.description}_edited`;
 
             typeInputDescriptionAndSubmitSaveButtonOk(type, newDescription, newDescription, true);
           });
@@ -113,17 +103,17 @@ export function categoryEditTests(): void {
             typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, valueToSubmit, true);
           });
 
-          it('OW-03: should edit category successfully using 255 characters (upper limit)', () => {
+          it(`OW-03: should edit category successfully using ${MAX_LENGTH} characters (upper limit)`, () => {
             const valueToSubmit = Cypress._.uniqueId(
-              stringBoundaryTestCases['OW-03'].substring(0, 245),
+              stringBoundaryTestCases['OW-03'].substring(0, MAX_LENGTH - 10),
             );
             typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, valueToSubmit, true);
           });
 
-          // Reason: maxLength does not allow more than 255 characters to be typed in the input
-          it('OW-04: should fail when trying to edit category with 256 characters (exceeds upper limit)', () => {
+          // Reason: maxLength does not allow more than MAX_LENGTH characters to be typed in the input
+          it(`OW-04: should fail when trying to edit category with ${MAX_LENGTH + 1} characters (exceeds upper limit)`, () => {
             const valueToSubmit = stringBoundaryTestCases['OW-04'];
-            const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
+            const savedValue = valueToSubmit.substring(0, MAX_LENGTH); // maxLength should fix it to MAX_LENGTH characters
             typeInputDescriptionAndSubmitSaveButtonOk(type, valueToSubmit, savedValue, true);
           });
 

@@ -1,4 +1,5 @@
 import { listPath, newPath, PATHS } from '../../../src/app/app.paths';
+import { MAX_LENGTH } from '../../../src/app/models/models';
 import { stringBoundaryTestCases } from '../cy-helpers';
 import {
   typeInputNameAndSubmitSaveButtonFail,
@@ -36,17 +37,17 @@ export function ownerInsertTests() {
         typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, false);
       });
 
-      it('OW-03: should create owner successfully using 255 characters (upper limit)', () => {
+      it(`OW-03: should create owner successfully using ${MAX_LENGTH} characters (upper limit)`, () => {
         const valueToSubmit = Cypress._.uniqueId(
-          stringBoundaryTestCases['OW-03'].substring(0, 245),
+          stringBoundaryTestCases['OW-03'].substring(0, MAX_LENGTH - 10),
         );
         typeInputNameAndSubmitSaveButtonOk(valueToSubmit, valueToSubmit, false);
       });
 
-      // Reason: maxLength does not allow more than 255 characters to be typed in the input
-      it('OW-04: maxLength should not fix when trying to create owner with 256 characters (exceeds upper limit)', () => {
+      // Reason: maxLength does not allow more than MAX_LENGTH characters to be typed in the input
+      it(`OW-04: maxLength should not fix when trying to create owner with ${MAX_LENGTH + 1} characters (exceeds upper limit)`, () => {
         const valueToSubmit = stringBoundaryTestCases['OW-04'];
-        const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
+        const savedValue = valueToSubmit.substring(0, MAX_LENGTH); // maxLength should fix it to MAX_LENGTH characters
         typeInputNameAndSubmitSaveButtonOk(valueToSubmit, savedValue);
       });
 

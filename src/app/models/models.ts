@@ -1,5 +1,7 @@
 import z from 'zod';
 
+export const MAX_LENGTH = 40;
+
 export function toModelFromHistory<T>(schema: z.ZodType<T>): T {
   return safeModelWithZod(history.state.model, schema);
 }

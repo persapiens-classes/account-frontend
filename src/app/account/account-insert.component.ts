@@ -52,7 +52,7 @@ export class AccountInsertComponent {
   form = form(signal(accountModelToForm(createAccount())), (f) => {
     required(f.description);
     minLength(f.description, 3);
-    maxLength(f.description, 255);
+    maxLength(f.description, 50);
     required(f.category);
     minLength(f.category.description, 3);
   });

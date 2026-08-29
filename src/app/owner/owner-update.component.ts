@@ -6,7 +6,7 @@ import { Owner, ownerId, OwnerSchema } from './owner';
 import { InputFieldComponent } from '../field/input-field.component';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { OwnerUpdateService } from './owner-update-service';
-import { toModelFromHistory } from '../models/models';
+import { MAX_LENGTH, toModelFromHistory } from '../models/models';
 import { form, minLength, required, maxLength } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
 
@@ -44,7 +44,7 @@ export class OwnerUpdateComponent {
   form = form(signal(toModelFromHistory<Owner>(OwnerSchema)), (f) => {
     required(f.name);
     minLength(f.name, 3);
-    maxLength(f.name, 255);
+    maxLength(f.name, MAX_LENGTH);
   });
 
   modelUpdateService = inject(OwnerUpdateService);

@@ -7,18 +7,8 @@ import {
   maybeSetupApiMockAndNatigateToEntryList,
 } from './entry-helpers';
 
-function captureLastEntry(): void {
-  cy.getDataCy('entries-table-row')
-    .last()
-    .find('td')
-    .first()
-    .invoke('text')
-    .then((text) => text.trim())
-    .as('lastEntryDescription');
-}
-
-function clickEditButtonInEntriesTableRowAndCheckEditRoute(type: EntryType) {
-  clickEditButtonInTableRowAndCheckEditRoute('entries-table-row', entryPath(type));
+function clickEditButtonInEntriesTableRowAndCheckEditRoute(type: EntryType, index: number) {
+  clickEditButtonInTableRowAndCheckEditRoute('entries-table-row', entryPath(type), index);
 }
 
 export function entryEditTests() {
@@ -29,27 +19,20 @@ export function entryEditTests() {
           maybeSetupApiMockAndNatigateToEntryList(type);
         });
 
-        it('clicking pencil on last entry opens edit', () => {
-          captureLastEntry();
-
-          cy.get<string>('@lastEntryDescription').then(() => {
-            clickEditButtonInEntriesTableRowAndCheckEditRoute(type);
-          });
+        it('clicking pencil on first entry opens edit', () => {
+          clickEditButtonInEntriesTableRowAndCheckEditRoute(type, 0);
           cy.url().should('include', editPath(entryPath(type)));
         });
 
-        it('edit last entry by adding _edited to the description', () => {
-          captureLastEntry();
+        it('edit first entry by adding _edited to the description', () => {
+          cy.entriesDefault(type).then((entries) => {
+            const index = 0;
+            clickEditButtonInEntriesTableRowAndCheckEditRoute(type, index);
+            const validEntry = entries.at(index)!;
 
-          cy.get<string>('@lastEntryDescription').then(() => {
-            clickEditButtonInEntriesTableRowAndCheckEditRoute(type);
-            cy.entriesDefault(type).then((entries) => {
-              const validEntry = entries.at(0)!;
+            validEntry.note = `${validEntry.note}_edited`;
 
-              validEntry.note = `${validEntry.note}_edited`;
-
-              fillEntryFieldsAndSubmitSaveButtonOk(type, validEntry, true);
-            });
+            fillEntryFieldsAndSubmitSaveButtonOk(type, validEntry, true);
           });
         });
       });

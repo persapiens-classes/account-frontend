@@ -12,16 +12,7 @@ import {
   typeDescriptionSelectCategoryAndSubmitSaveButtonFail,
   typeDescriptionSelectCategoryAndSubmitSaveButtonOk,
 } from './account-helpers';
-
-function captureLastAccount(): void {
-  cy.getDataCy('accounts-table-row')
-    .last()
-    .find('td')
-    .first()
-    .invoke('text')
-    .then((text) => text.trim())
-    .as('lastAccountDescription');
-}
+import { MAX_LENGTH } from '../../../src/app/models/models';
 
 function goToAccountsListAndFilterAccountDescriptionAndClickEditButton(
   type: AccountType,
@@ -30,8 +21,8 @@ function goToAccountsListAndFilterAccountDescriptionAndClickEditButton(
   goToAccountListAndFilterAccountDescriptionAndClickButton(type, validAccountDescription, 'edit');
 }
 
-function clickEditButtonInAccountsTableRowAndCheckEditRoute(type: AccountType) {
-  clickEditButtonInTableRowAndCheckEditRoute('accounts-table-row', accountPath(type));
+function clickEditButtonInAccountsTableRowAndCheckEditRoute(type: AccountType, index: number) {
+  clickEditButtonInTableRowAndCheckEditRoute('accounts-table-row', accountPath(type), index);
 }
 
 export function accountEditTests() {
@@ -42,12 +33,12 @@ export function accountEditTests() {
           maybeSetupApiMockAndNatigateToAccountsList(type);
         });
 
-        it('clicking pencil on last account opens edit', () => {
-          clickEditButtonInAccountsTableRowAndCheckEditRoute(type);
+        it('clicking pencil on first account opens edit', () => {
+          clickEditButtonInAccountsTableRowAndCheckEditRoute(type, 0);
         });
 
         it('go back to list using list icon', () => {
-          clickEditButtonInAccountsTableRowAndCheckEditRoute(type);
+          clickEditButtonInAccountsTableRowAndCheckEditRoute(type, 0);
           clickListButtonAndVerifyListUrl(accountPath(type));
         });
 
@@ -61,13 +52,12 @@ export function accountEditTests() {
           cy.url().should('include', detailPath(accountPath(type)));
         });
 
-        it('edit last account by adding _edited to the description', () => {
-          captureLastAccount();
+        it('edit second account by adding _edited to the description', () => {
+          cy.accountsDefault(type).then((accounts) => {
+            const index = 1;
+            clickEditButtonInAccountsTableRowAndCheckEditRoute(type, index);
 
-          cy.get<string>('@lastAccountDescription').then((originalDescription) => {
-            clickEditButtonInAccountsTableRowAndCheckEditRoute(type);
-
-            const newDescription = `${originalDescription}_edited`;
+            const newDescription = `${accounts.at(index)!.description}_edited`;
 
             typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
               type,
@@ -123,9 +113,9 @@ export function accountEditTests() {
             );
           });
 
-          it('OW-03: should edit account successfully using 255 characters (upper limit)', () => {
+          it(`OW-03: should edit account successfully using ${MAX_LENGTH} characters (upper limit)`, () => {
             const valueToSubmit = Cypress._.uniqueId(
-              stringBoundaryTestCases['OW-03'].substring(0, 245),
+              stringBoundaryTestCases['OW-03'].substring(0, MAX_LENGTH - 10),
             );
             typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
               type,
@@ -136,10 +126,10 @@ export function accountEditTests() {
             );
           });
 
-          // Reason: maxLength does not allow more than 255 characters to be typed in the input
-          it('OW-04: should fail when trying to edit account with 256 characters (exceeds upper limit)', () => {
+          // Reason: maxLength does not allow more than MAX_LENGTH characters to be typed in the input
+          it(`OW-04: should fail when trying to edit account with ${MAX_LENGTH + 1} characters (exceeds upper limit)`, () => {
             const valueToSubmit = stringBoundaryTestCases['OW-04'];
-            const savedValue = valueToSubmit.substring(0, 255); // maxLength should fix it to 255 characters
+            const savedValue = valueToSubmit.substring(0, MAX_LENGTH); // maxLength should fix it to MAX_LENGTH characters
             typeDescriptionSelectCategoryAndSubmitSaveButtonOk(
               type,
               valueToSubmit,
