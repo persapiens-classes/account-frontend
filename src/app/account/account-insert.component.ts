@@ -18,6 +18,7 @@ import { AccountInsertService } from './account-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
+import { MAX_LENGTH } from '../models/models';
 
 @Component({
   selector: 'app-account-insert',
@@ -52,7 +53,7 @@ export class AccountInsertComponent {
   form = form(signal(accountModelToForm(createAccount())), (f) => {
     required(f.description);
     minLength(f.description, 3);
-    maxLength(f.description, 50);
+    maxLength(f.description, MAX_LENGTH);
     required(f.category);
     minLength(f.category.description, 3);
   });
