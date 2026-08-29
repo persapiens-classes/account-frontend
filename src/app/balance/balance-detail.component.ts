@@ -2,19 +2,22 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { Balance, BalanceSchema } from './balance';
-import { PreviousRouteService } from './previous-route-service';
 import { BalanceFilterService } from './balance-filter-service';
 import { firstValueFrom } from 'rxjs';
 import { toModelFromHistory } from '../models/models';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 import { PATHS } from '../app.paths';
+import {
+  OwnerEquityAccountInitialValue,
+  OwnerEquityAccountInitialValueSchema,
+} from './owner-equity-account-initial-value';
 
 @Component({
   selector: 'app-balance-detail',
   imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
     <app-model-detail-panel [routerName]="routerName" [model]="model">
-      <app-detail-field strong="Owner" value="{{ model.owner }}" />
+      <app-detail-field strong="Owner" value="{{ model.owner }}" dataCy="detail-owner" />
       <app-detail-field
         strong="Equity Account"
         value="{{ model.equityAccount.description }} - {{ model.equityAccount.category }}"
@@ -27,21 +30,33 @@ import { PATHS } from '../app.paths';
 export class BalanceDetailComponent implements OnInit {
   model: Balance;
   routerName = PATHS.BALANCE_PATH;
-  private readonly previousRouteService = inject(PreviousRouteService);
   private readonly balanceFilterService = inject(BalanceFilterService);
   constructor() {
-    this.model = toModelFromHistory<Balance>(BalanceSchema);
+    if (this.hasBalanceInHistory()) {
+      this.model = toModelFromHistory<Balance>(BalanceSchema);
+    } else {
+      const modelFromHistory = toModelFromHistory<OwnerEquityAccountInitialValue>(
+        OwnerEquityAccountInitialValueSchema,
+      );
+      this.model = {
+        owner: modelFromHistory.owner,
+        equityAccount: modelFromHistory.equityAccount,
+        initialValue: modelFromHistory.initialValue,
+        balance: 0,
+      };
+    }
   }
 
   ngOnInit(): void {
     this.initAsync();
   }
 
+  hasBalanceInHistory() {
+    return history.state?.model?.balance !== undefined;
+  }
+
   private async initAsync(): Promise<void> {
-    if (
-      this.previousRouteService.getPreviousUrl()?.endsWith('/edit') ||
-      this.previousRouteService.getPreviousUrl()?.endsWith('/new')
-    ) {
+    if (this.hasBalanceInHistory()) {
       this.model = await firstValueFrom(
         this.balanceFilterService.find(this.model.owner, this.model.equityAccount.description),
       );

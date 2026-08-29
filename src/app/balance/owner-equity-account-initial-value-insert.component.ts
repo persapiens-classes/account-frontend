@@ -76,7 +76,7 @@ export function ownerEquityAccountInitialValueModelToForm(
       <app-number-field
         label="Initial Value"
         [formField]="form.initialValue"
-        dataCy="input-initial-value"
+        dataCy="inputnumber-initial-value"
       />
     </app-model-insert-panel>
   `,
