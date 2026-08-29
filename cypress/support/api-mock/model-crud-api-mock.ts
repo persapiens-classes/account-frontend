@@ -33,6 +33,7 @@ export interface ModelCrudApiMockConfig<I, U, F, ID> {
   insertToModelFn?: (insertModel: I) => F;
   updateToModelFn?: (updateModel: U, id?: string) => F;
   equalsFn?: (model1: F, model2: F) => boolean;
+  customMocks?: (() => void)[];
 }
 
 export class ModelCrudApiMock<I, U, F, ID> {
@@ -44,6 +45,7 @@ export class ModelCrudApiMock<I, U, F, ID> {
   private readonly insertToModelFn: (insertModel: I) => F;
   private readonly updateToModelFn: (updateModel: U, id?: string) => F;
   private readonly equalsFn: (model1: F, model2: F) => boolean;
+  private readonly customMocks: (() => void)[];
   constructor(config: ModelCrudApiMockConfig<I, U, F, ID>) {
     this.endpoint = config.endpoint;
     this.idFn = config.idFn;
@@ -54,11 +56,15 @@ export class ModelCrudApiMock<I, U, F, ID> {
     this.updateToModelFn = config.updateToModelFn || ((model: U) => model as unknown as F);
     this.equalsFn =
       config.equalsFn || ((model1: F, model2: F) => this.idFn(model1) === this.idFn(model2));
+    this.customMocks = config.customMocks || [];
   }
 
   // Mock GET /endpoint - list all models
   private mockGetAll() {
     cy.intercept('GET', `${this.endpoint}`, (req) => {
+      console.log(
+        `Mocking GET ${this.endpoint} - returning all models: ${JSON.stringify(this.models)}`,
+      );
       req.reply({
         statusCode: StatusCodes.OK,
         body: this.models,
@@ -180,5 +186,7 @@ export class ModelCrudApiMock<I, U, F, ID> {
     this.mockDelete();
     this.mockPost();
     this.mockPut();
+
+    this.customMocks.forEach((customMock) => customMock());
   }
 }
