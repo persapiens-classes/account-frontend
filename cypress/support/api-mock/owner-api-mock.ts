@@ -5,7 +5,7 @@ import { ModelCrudApiMock, validate } from './model-crud-api-mock';
 import { API_PATHS } from '../../../src/app/app.api-paths';
 import { ownersDefault } from '../fakers/models-default';
 
-export function ownerApiMock(): ModelCrudApiMock<Owner, Owner, Owner, string> {
+export function ownerApiMock(): ModelCrudApiMock<Owner, Owner, Owner> {
   const ownersEndpoint = `/${API_PATHS.OWNER_API_PATH}`;
 
   const idFn = (model: Owner): string => model.name;
@@ -16,7 +16,7 @@ export function ownerApiMock(): ModelCrudApiMock<Owner, Owner, Owner, string> {
 
   const owners = ownersDefault();
 
-  return new ModelCrudApiMock<Owner, Owner, Owner, string>({
+  return new ModelCrudApiMock<Owner, Owner, Owner>({
     endpoint: ownersEndpoint,
     idFn: idFn,
     models: owners,

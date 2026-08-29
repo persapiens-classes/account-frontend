@@ -17,8 +17,6 @@ export function entryRemoveTests() {
           cy.entriesDefault(type).then((entries) => {
             const validEntry = entries.at(0)!;
 
-            cy.navigateToEntryNew(type);
-
             // select validEntry and click delete button
             goToEntryListAndFilterEntryInOwnerAndClickButton(type, validEntry.inOwner, 'delete');
 

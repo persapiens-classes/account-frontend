@@ -58,6 +58,11 @@ import { PATHS } from '../app.paths';
                   field="owner"
                   placeholder="owner"
                   ariaLabel="Filter Owner"
+                  [pt]="{
+                    pcFilterInputText: {
+                      root: { 'data-cy': 'filter-owner-input' },
+                    },
+                  }"
                 />
               </th>
               <th>
@@ -71,7 +76,7 @@ import { PATHS } from '../app.paths';
             </tr>
           </ng-template>
           <ng-template #body let-item let-i="rowIndex">
-            <tr>
+            <tr data-cy="balances-table-row">
               <td data-label="Owner">{{ item.owner }}</td>
               <td data-label="Equity Account">{{ item.equityAccount.description }}</td>
               <td data-label="Balance">{{ item.balance | number: '1.2-2' }}</td>

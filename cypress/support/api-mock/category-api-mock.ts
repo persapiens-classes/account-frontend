@@ -7,7 +7,7 @@ import { categoryApiPath } from '../../e2e/category/category-helpers';
 
 export function categoryApiMock(
   type: CategoryType,
-): ModelCrudApiMock<Category, Category, Category, string> {
+): ModelCrudApiMock<Category, Category, Category> {
   const categoriesEndpoint = `/${categoryApiPath(type)}`;
 
   const idFn = (model: Category): string => model.description;
@@ -18,7 +18,7 @@ export function categoryApiMock(
 
   const categories = categoriesDefault(type);
 
-  return new ModelCrudApiMock<Category, Category, Category, string>({
+  return new ModelCrudApiMock<Category, Category, Category>({
     endpoint: categoriesEndpoint,
     idFn: idFn,
     models: categories,

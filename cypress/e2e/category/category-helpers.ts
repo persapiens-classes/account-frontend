@@ -45,7 +45,6 @@ export function goToCategoryListAndFilterCategoryDescriptionAndClickButton(
   categoryDescription: string,
   action: string,
 ): void {
-  // Go to categories list and open the edit page for the created category
   cy.navigateToCategoryList(type);
 
   cy.getDataCy('filter-description-input').clear();

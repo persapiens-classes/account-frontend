@@ -50,7 +50,6 @@ export function goToAccountListAndFilterAccountDescriptionAndClickButton(
   accountDescription: string,
   action: string,
 ): void {
-  // Go to account list and open the edit page for the created account
   cy.navigateToAccountList(type);
 
   cy.getDataCy('filter-description-input').clear();

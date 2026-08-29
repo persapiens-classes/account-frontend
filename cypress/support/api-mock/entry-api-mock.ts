@@ -8,7 +8,7 @@ import { entryApiPath } from '../../e2e/entry/entry-helpers';
 
 export function entryApiMock(
   type: EntryType,
-): ModelCrudApiMock<EntryInsertUpdate, EntryInsertUpdate, Entry, string> {
+): ModelCrudApiMock<EntryInsertUpdate, EntryInsertUpdate, Entry> {
   const entriesEndpoint = `/${entryApiPath(type)}`;
 
   const idFn = (model: Entry): string => model.id.toString();
@@ -89,7 +89,7 @@ export function entryApiMock(
     );
   };
 
-  return new ModelCrudApiMock<EntryInsertUpdate, EntryInsertUpdate, Entry, string>({
+  return new ModelCrudApiMock<EntryInsertUpdate, EntryInsertUpdate, Entry>({
     endpoint: entriesEndpoint,
     idFn: idFn,
     models: entries,

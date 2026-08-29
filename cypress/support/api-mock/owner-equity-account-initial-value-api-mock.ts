@@ -16,13 +16,15 @@ import { AccountType } from '../../../src/app/account/account';
 export function ownerEquityAccountInitialValueApiMock(): ModelCrudApiMock<
   OwnerEquityAccountInitialValueInsert,
   number,
-  OwnerEquityAccountInitialValue,
-  string
+  OwnerEquityAccountInitialValue
 > {
   const ownerEquityAccountInitialValuesEndpoint = `/${API_PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_API_PATH}`;
 
   const idFn = (model: OwnerEquityAccountInitialValue): string =>
     `${model.owner}-${model.equityAccount.description}`;
+
+  const idDeleteUpdateFn = (model: OwnerEquityAccountInitialValue): string =>
+    `owner=${model.owner}&equityAccount=${model.equityAccount.description}`;
 
   const ownerEquityAccountInitialValues = ownerEquityAccountInitialValuesDefault();
 
@@ -78,8 +80,7 @@ export function ownerEquityAccountInitialValueApiMock(): ModelCrudApiMock<
   return new ModelCrudApiMock<
     OwnerEquityAccountInitialValueInsert,
     number,
-    OwnerEquityAccountInitialValue,
-    string
+    OwnerEquityAccountInitialValue
   >({
     endpoint: ownerEquityAccountInitialValuesEndpoint,
     idFn: idFn,
@@ -89,5 +90,6 @@ export function ownerEquityAccountInitialValueApiMock(): ModelCrudApiMock<
     insertToModelFn: insertToModelFn,
     updateToModelFn: updateToModelFn,
     equalsFn: equalsFn,
+    idDeleteUpdateFn: idDeleteUpdateFn,
   });
 }

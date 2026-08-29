@@ -1,14 +1,19 @@
 /// <reference types="cypress" />
 
 import { listPath, newPath, PATHS } from '../../../../src/app/app.paths';
+import { Balance } from '../../../../src/app/balance/balance';
 import { OwnerEquityAccountInitialValue } from '../../../../src/app/balance/owner-equity-account-initial-value';
-import { ownerEquityAccountInitialValuesDefault } from '../../fakers/models-default';
+import {
+  balancesDefault,
+  ownerEquityAccountInitialValuesDefault,
+} from '../../fakers/models-default';
 
 declare global {
   namespace Cypress {
     interface Chainable {
       navigateToBalanceList(): Chainable<void>;
       navigateToBalanceNew(): Chainable<void>;
+      balancesDefault(): Chainable<Balance[]>;
       ownerEquityAccountInitialValuesDefault(): Chainable<OwnerEquityAccountInitialValue[]>;
     }
   }
@@ -34,6 +39,10 @@ Cypress.Commands.add('navigateToBalanceNew', () => {
 
 Cypress.Commands.add('ownerEquityAccountInitialValuesDefault', () => {
   return cy.wrap(ownerEquityAccountInitialValuesDefault());
+});
+
+Cypress.Commands.add('balancesDefault', () => {
+  return cy.wrap(balancesDefault());
 });
 
 export {}; // NOSONAR - required for module scope with global augmentation typescript:S7787

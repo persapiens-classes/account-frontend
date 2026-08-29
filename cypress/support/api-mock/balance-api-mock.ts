@@ -6,7 +6,7 @@ import { balancesDefault } from '../fakers/models-default';
 import { Balance } from '../../../src/app/balance/balance';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 
-export function balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance, string> {
+export function balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance> {
   const idFn = (model: Balance): string => `${model.owner}-${model.equityAccount.description}`;
 
   const balances = balancesDefault();
@@ -26,7 +26,7 @@ export function balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance, st
     }).as('balancesEndpoint-filter');
   };
 
-  return new ModelCrudApiMock<Balance, Balance, Balance, string>({
+  return new ModelCrudApiMock<Balance, Balance, Balance>({
     endpoint: `/${API_PATHS.BALANCE_API_PATH}`,
     idFn: idFn,
     models: balances,

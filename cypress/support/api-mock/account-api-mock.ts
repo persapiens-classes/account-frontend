@@ -5,9 +5,7 @@ import { Account, AccountType } from '../../../src/app/account/account';
 import { accountApiPath } from '../../e2e/account/account-helpers';
 import { accountsDefault } from '../fakers/models-default';
 
-export function accountApiMock(
-  type: AccountType,
-): ModelCrudApiMock<Account, Account, Account, string> {
+export function accountApiMock(type: AccountType): ModelCrudApiMock<Account, Account, Account> {
   const accountsEndpoint = `/${accountApiPath(type)}`;
 
   const idFn = (model: Account): string => model.description;
@@ -23,7 +21,7 @@ export function accountApiMock(
 
   const accounts = accountsDefault(type);
 
-  return new ModelCrudApiMock<Account, Account, Account, string>({
+  return new ModelCrudApiMock<Account, Account, Account>({
     endpoint: accountsEndpoint,
     idFn: idFn,
     models: accounts,

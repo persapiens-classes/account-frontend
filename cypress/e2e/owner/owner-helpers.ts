@@ -28,7 +28,6 @@ export function goToOwnerListAndFilterOwnerNameAndClickButton(
   ownerName: string,
   action: string,
 ): void {
-  // Go to owners list and open the edit page for the created owner
   cy.navigateToOwnerList();
 
   cy.getDataCy('filter-name-input').clear();

@@ -59,7 +59,6 @@ export function goToEntryListAndFilterEntryDescriptionAndClickButton(
   entryInOwner: string,
   action: string,
 ): void {
-  // Go to entries list and open the edit page for the created entry
   cy.navigateToEntryList(type);
 
   cy.getDataCy('filter-inOwner-input').clear();

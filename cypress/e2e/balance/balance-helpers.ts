@@ -1,6 +1,7 @@
 import { PATHS } from '../../../src/app/app.paths';
 import { OwnerEquityAccountInitialValue } from '../../../src/app/balance/owner-equity-account-initial-value';
 import {
+  clickButtonInFirstTableRow,
   clickSelectContains,
   submitSaveButtonFail,
   submitSaveButtonOk,
@@ -35,4 +36,16 @@ export function fillOwnerEquityAccountInitialValueFieldsAndSubmitSaveButtonFail(
 ) {
   fillEntryFields(model, skipOwner);
   submitSaveButtonFail(path);
+}
+
+export function goToBalanceListAndFilterBalanceInOwnerAndClickButton(
+  balanceOwner: string,
+  action: string,
+): void {
+  cy.navigateToBalanceList();
+
+  cy.getDataCy('filter-owner-input').clear();
+  cy.getDataCy('filter-owner-input').type(`${balanceOwner}{enter}`);
+
+  clickButtonInFirstTableRow('balances-table-row', balanceOwner, action);
 }

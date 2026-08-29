@@ -24,9 +24,9 @@ export function validate(name: string, value: string | undefined): string | null
   return null;
 }
 
-export interface ModelCrudApiMockConfig<I, U, F, ID> {
+export interface ModelCrudApiMockConfig<I, U, F> {
   endpoint: string;
-  idFn: (model: F) => ID;
+  idFn: (model: F) => string;
   models?: F[];
   postValidateFn?: (insertModel: I) => string | null;
   putValidateFn?: (updateModel: U) => string | null;
@@ -34,11 +34,12 @@ export interface ModelCrudApiMockConfig<I, U, F, ID> {
   updateToModelFn?: (updateModel: U, id?: string) => F;
   equalsFn?: (model1: F, model2: F) => boolean;
   customMocks?: (() => void)[];
+  idDeleteUpdateFn?: (model: F) => string;
 }
 
-export class ModelCrudApiMock<I, U, F, ID> {
+export class ModelCrudApiMock<I, U, F> {
   private readonly endpoint: string;
-  private readonly idFn: (model: F) => ID;
+  private readonly idFn: (model: F) => string;
   private readonly models: F[];
   private readonly postValidateFn: (insertModel: I) => string | null;
   private readonly putValidateFn: (updateModel: U) => string | null;
@@ -46,7 +47,8 @@ export class ModelCrudApiMock<I, U, F, ID> {
   private readonly updateToModelFn: (updateModel: U, id?: string) => F;
   private readonly equalsFn: (model1: F, model2: F) => boolean;
   private readonly customMocks: (() => void)[];
-  constructor(config: ModelCrudApiMockConfig<I, U, F, ID>) {
+  private readonly idDeleteUpdateFn?: (model: F) => string;
+  constructor(config: ModelCrudApiMockConfig<I, U, F>) {
     this.endpoint = config.endpoint;
     this.idFn = config.idFn;
     this.models = config.models || [];
@@ -57,6 +59,11 @@ export class ModelCrudApiMock<I, U, F, ID> {
     this.equalsFn =
       config.equalsFn || ((model1: F, model2: F) => this.idFn(model1) === this.idFn(model2));
     this.customMocks = config.customMocks || [];
+    if (config.idDeleteUpdateFn) {
+      this.idDeleteUpdateFn = config.idDeleteUpdateFn;
+    } else {
+      this.idDeleteUpdateFn = this.idFn;
+    }
   }
 
   // Mock GET /endpoint - list all models
@@ -75,12 +82,15 @@ export class ModelCrudApiMock<I, U, F, ID> {
 
   // Mock DELETE /endpoint/:id - delete model
   private mockDelete() {
-    cy.intercept('DELETE', `${this.endpoint}/*`, (req) => {
-      // Remove from created models list if it exists
-      const urlParts = req.url.split('/');
-      const modelId = decodeURIComponent(urlParts.at(-1) ?? '');
+    cy.intercept('DELETE', `${this.endpoint}*`, (req) => {
+      const parsedUrl = new URL(req.url, 'http://localhost');
+      const hasQueryParams = parsedUrl.searchParams.size > 0;
 
-      const index = this.models.findIndex((model) => this.idFn(model) === modelId);
+      const modelId = hasQueryParams
+        ? decodeURIComponent(parsedUrl.search.slice(1))
+        : decodeURIComponent(parsedUrl.pathname.split('/').findLast(Boolean) ?? '');
+
+      const index = this.models.findIndex((model) => this.idDeleteUpdateFn!(model) === modelId);
       if (index > -1) {
         this.models.splice(index, 1);
         req.reply({

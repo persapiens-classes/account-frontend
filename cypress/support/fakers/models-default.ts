@@ -28,7 +28,10 @@ let ownerEquityAccountInitialValues: OwnerEquityAccountInitialValue[];
 
 function checkOwners() {
   if (!owners) {
-    owners = ownerFactory.buildList(3);
+    owners = ownerFactory.buildList(3).map((owner, index) => ({
+      ...owner,
+      name: `${owner.name} ${index + 1}`,
+    }));
   }
 }
 
