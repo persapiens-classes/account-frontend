@@ -51,7 +51,7 @@ import { HttpErrorResponse } from '@angular/common/http';
       icon="pi pi-trash"
       (onClick)="remove($event)"
       pTooltip="Delete the account"
-      class="mr-3"
+      class="mr-4"
       data-cy="delete-button"
     />
   `,
