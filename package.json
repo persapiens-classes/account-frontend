@@ -72,7 +72,6 @@
     "@cypress/schematic": "5.0.0",
     "@eslint/js": "10.0.1",
     "@faker-js/faker": "10.6.0",
-    "@openng/optimus-ui-themes": "2.0.2",
     "@openng/optimus-ui-tailwindcss": "2.0.2",
     "@tailwindcss/postcss": "4.3.3",
     "@types/jsdom": "30.0.0",
