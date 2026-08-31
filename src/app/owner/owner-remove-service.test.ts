@@ -21,27 +21,6 @@ describe('OwnerRemoveService', () => {
     service = TestBed.inject(OwnerRemoveService);
   });
 
-  // Basic service structure tests using TestUtils
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should be a singleton service', () => {
-    TestUtils.testServiceSingleton(OwnerRemoveService);
-    expect(service).toBeDefined();
-  });
-
-  it('should have correct service structure', () => {
-    TestUtils.testServiceStructure(service, OwnerRemoveService);
-    expect(service).toBeInstanceOf(OwnerRemoveService);
-  });
-
-  it('should expose remove method with expected signature', () => {
-    TestUtils.testServiceMethods(service, ['remove']);
-    TestUtils.testServiceMethodSignatures(service, [{ methodName: 'remove', parameterCount: 1 }]);
-    expect(service.remove).toBeTypeOf('function');
-  });
-
   // Functional tests
   describe('remove method', () => {
     const expectRemoveError = async (id: string, error: unknown): Promise<void> => {

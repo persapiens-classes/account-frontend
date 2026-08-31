@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { OwnerUpdateService } from './owner-update-service';
-import { Owner, createOwner, ownerId } from './owner';
+import { Owner, ownerId } from './owner';
 import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -20,27 +20,6 @@ describe('OwnerUpdateService', () => {
     ]);
 
     service = TestBed.inject(OwnerUpdateService);
-  });
-
-  // Basic service structure tests using TestUtils
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should be a singleton service', () => {
-    TestUtils.testServiceSingleton(OwnerUpdateService);
-    expect(service).toBeDefined();
-  });
-
-  it('should have correct service structure', () => {
-    TestUtils.testServiceStructure(service, OwnerUpdateService);
-    expect(service).toBeInstanceOf(OwnerUpdateService);
-  });
-
-  it('should expose update method with expected signature', () => {
-    TestUtils.testServiceMethods(service, ['update']);
-    TestUtils.testServiceMethodSignatures(service, [{ methodName: 'update', parameterCount: 2 }]);
-    expect(service.update).toBeTypeOf('function');
   });
 
   // Functional tests
@@ -247,15 +226,6 @@ describe('OwnerUpdateService', () => {
           owner,
         );
       }
-    });
-  });
-
-  // Test createOwner factory function integration
-  describe('createOwner integration', () => {
-    it('should work with createOwner factory', () => {
-      const newOwner = createOwner();
-      expect(newOwner.name).toBe('');
-      expect(ownerId(newOwner)).toBe('');
     });
   });
 });

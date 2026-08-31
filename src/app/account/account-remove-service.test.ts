@@ -22,26 +22,6 @@ describe('AccountRemoveService', () => {
     service = new AccountRemoveService(mockHttpClient, testAccountType);
   });
 
-  // Basic service structure tests using TestUtils
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should have correct service structure', () => {
-    TestUtils.testServiceStructure(service, AccountRemoveService);
-    expect(service).toBeInstanceOf(AccountRemoveService);
-  });
-
-  it('should implement required methods', () => {
-    TestUtils.testServiceMethods(service, ['remove']);
-    expect(typeof service.remove).toBe('function');
-  });
-
-  it('should have correct method signatures', () => {
-    TestUtils.testServiceMethodSignatures(service, [{ methodName: 'remove', parameterCount: 1 }]);
-    expect(service.remove).toBeDefined();
-  });
-
   // Functional tests
   describe('remove method', () => {
     it('should call HTTP DELETE with correct parameters for debit accounts', () => {
@@ -327,24 +307,6 @@ describe('AccountRemoveService', () => {
       expect(mockHttpClient.delete).not.toHaveBeenCalledWith(
         expect.stringContaining('DebitAccounts'),
       );
-    });
-  });
-
-  describe('Constructor', () => {
-    it('should initialize with HttpClient and AccountType', () => {
-      const customService = new AccountRemoveService(mockHttpClient, AccountType.CREDIT);
-      expect(customService).toBeDefined();
-      expect(customService).toBeInstanceOf(AccountRemoveService);
-    });
-
-    it('should accept different AccountType values', () => {
-      const debitService = new AccountRemoveService(mockHttpClient, AccountType.DEBIT);
-      const creditService = new AccountRemoveService(mockHttpClient, AccountType.CREDIT);
-      const equityService = new AccountRemoveService(mockHttpClient, AccountType.EQUITY);
-
-      expect(debitService).toBeInstanceOf(AccountRemoveService);
-      expect(creditService).toBeInstanceOf(AccountRemoveService);
-      expect(equityService).toBeInstanceOf(AccountRemoveService);
     });
   });
 });

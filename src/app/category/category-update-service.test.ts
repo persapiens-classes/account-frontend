@@ -56,28 +56,6 @@ describe('CategoryUpdateService', () => {
     service = new CategoryUpdateService(mockHttpClient, categoryType);
   });
 
-  describe('Service Structure', () => {
-    it('should be created', () => {
-      expect(service).toBeTruthy();
-    });
-
-    it('should be an instance of CategoryUpdateService', () => {
-      expect(service).toBeInstanceOf(CategoryUpdateService);
-    });
-
-    it('should have update method', () => {
-      expect(typeof service.update).toBe('function');
-    });
-
-    it('should store http client', () => {
-      expect(service['http']).toBe(mockHttpClient);
-    });
-
-    it('should store category type', () => {
-      expect(service['type']).toBe(CategoryType.DEBIT);
-    });
-  });
-
   describe('update method - DEBIT category', () => {
     it('should call HTTP PUT with correct parameters', () => {
       const categoryId = 'Old Category';

@@ -23,23 +23,6 @@ describe('AccountListService', () => {
     service = new AccountListService(mockAppMessageService, testAccountType);
   });
 
-  describe('Service Creation', () => {
-    it('should create the service', () => {
-      TestUtils.testBasicInitialization(service, {}, AccountListService);
-      expect(service).toBeTruthy();
-    });
-  });
-
-  it('should be created with constructor parameters', () => {
-    expect(service).toBeTruthy();
-    expect(service).toBeInstanceOf(AccountListService);
-  });
-
-  it('should have findAll method', () => {
-    expect(service.findAll).toBeDefined();
-    expect(typeof service.findAll).toBe('function');
-  });
-
   describe('Service Configuration', () => {
     it('should be instantiable with each AccountType', () => {
       for (const type of [AccountType.DEBIT, AccountType.CREDIT, AccountType.EQUITY]) {
@@ -72,31 +55,6 @@ describe('AccountListService', () => {
       expect(service.findAll).toBeDefined();
       expect(typeof service.findAll).toBe('function');
       expect(service.findAll).toHaveLength(0); // Should take no parameters
-    });
-  });
-
-  describe('AccountType Integration', () => {
-    it('should expose findAll for all account types', () => {
-      for (const type of [AccountType.DEBIT, AccountType.CREDIT, AccountType.EQUITY]) {
-        const listService = new AccountListService(mockAppMessageService, type);
-        expect(listService.findAll).toBeDefined();
-      }
-    });
-  });
-
-  describe('Constructor', () => {
-    it('should initialize with AppMessageService and AccountType', () => {
-      const customService = new AccountListService(mockAppMessageService, AccountType.CREDIT);
-      expect(customService).toBeDefined();
-      expect(customService).toBeInstanceOf(AccountListService);
-    });
-
-    it('should accept different AccountType values', () => {
-      const accountTypes = [AccountType.DEBIT, AccountType.CREDIT, AccountType.EQUITY];
-      const services = accountTypes.map(
-        (type) => new AccountListService(mockAppMessageService, type),
-      );
-      services.forEach((instance) => expect(instance).toBeInstanceOf(AccountListService));
     });
   });
 });

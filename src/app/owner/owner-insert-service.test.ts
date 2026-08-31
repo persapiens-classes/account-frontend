@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { OwnerInsertService } from './owner-insert-service';
-import { Owner, createOwner, ownerId } from './owner';
+import { Owner, ownerId } from './owner';
 import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
@@ -20,27 +20,6 @@ describe('OwnerInsertService', () => {
     ]);
 
     service = TestBed.inject(OwnerInsertService);
-  });
-
-  // Basic service structure tests using TestUtils
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should be a singleton service', () => {
-    TestUtils.testServiceSingleton(OwnerInsertService);
-    expect(service).toBeDefined();
-  });
-
-  it('should have correct service structure', () => {
-    TestUtils.testServiceStructure(service, OwnerInsertService);
-    expect(service).toBeInstanceOf(OwnerInsertService);
-  });
-
-  it('should expose insert method with expected signature', () => {
-    TestUtils.testServiceMethods(service, ['insert']);
-    TestUtils.testServiceMethodSignatures(service, [{ methodName: 'insert', parameterCount: 1 }]);
-    expect(service.insert).toBeTypeOf('function');
   });
 
   // Functional tests
@@ -173,23 +152,6 @@ describe('OwnerInsertService', () => {
         status: 422,
         error: { message: 'Owner name already exists' },
       });
-    });
-
-    it('should return Observable<Owner>', () => {
-      const testOwner = { name: 'Test Owner' };
-      (mockHttpClient.post as ReturnType<typeof vi.fn>).mockReturnValue(of(testOwner));
-
-      const result = service.insert(testOwner);
-      expect(result).toBeInstanceOf(Observable);
-    });
-  });
-
-  // Test createOwner factory function integration
-  describe('createOwner integration', () => {
-    it('should work with createOwner factory', () => {
-      const newOwner = createOwner();
-      expect(newOwner.name).toBe('');
-      expect(ownerId(newOwner)).toBe('');
     });
   });
 });

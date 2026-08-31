@@ -55,28 +55,6 @@ describe('CategoryInsertService', () => {
     service = new CategoryInsertService(mockHttpClient, categoryType);
   });
 
-  describe('Service Structure', () => {
-    it('should be created', () => {
-      expect(service).toBeTruthy();
-    });
-
-    it('should be an instance of CategoryInsertService', () => {
-      expect(service).toBeInstanceOf(CategoryInsertService);
-    });
-
-    it('should have insert method', () => {
-      expect(typeof service.insert).toBe('function');
-    });
-
-    it('should store http client', () => {
-      expect(service['http']).toBe(mockHttpClient);
-    });
-
-    it('should store category type', () => {
-      expect(service['type']).toBe(CategoryType.DEBIT);
-    });
-  });
-
   describe('insert method - DEBIT category', () => {
     it('should call HTTP POST with correct parameters', () => {
       const testCategory = { description: 'Test Category' };

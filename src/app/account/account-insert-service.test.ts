@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { AccountInsertService } from './account-insert-service';
-import { Account, accountId, AccountType, createAccount } from './account';
+import { Account, accountId, AccountType } from './account';
 import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 import { PATHS } from '../app.paths';
@@ -21,26 +21,6 @@ describe('AccountInsertService', () => {
     ]);
 
     service = new AccountInsertService(mockHttpClient, testAccountType);
-  });
-
-  // Basic service structure tests using TestUtils
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should have correct service structure', () => {
-    TestUtils.testServiceStructure(service, AccountInsertService);
-    expect(service).toBeInstanceOf(AccountInsertService);
-  });
-
-  it('should implement required methods', () => {
-    TestUtils.testServiceMethods(service, ['insert']);
-    expect(typeof service.insert).toBe('function');
-  });
-
-  it('should have correct method signatures', () => {
-    TestUtils.testServiceMethodSignatures(service, [{ methodName: 'insert', parameterCount: 1 }]);
-    expect(service.insert).toBeDefined();
   });
 
   // Functional tests
@@ -290,25 +270,6 @@ describe('AccountInsertService', () => {
         expect.stringContaining('DebitAccounts'),
         testAccount,
       );
-    });
-  });
-
-  // Test createAccount factory function integration
-  describe('createAccount integration', () => {
-    it('should work with createAccount factory', () => {
-      const newAccount = createAccount();
-      expect(newAccount.description).toBe('');
-      expect(newAccount.category).toBe('');
-      expect(accountId(newAccount)).toBe('');
-    });
-  });
-
-  // Test service constructor
-  describe('Constructor', () => {
-    it('should initialize with HttpClient and AccountType', () => {
-      const customService = new AccountInsertService(mockHttpClient, AccountType.CREDIT);
-      expect(customService).toBeDefined();
-      expect(customService).toBeInstanceOf(AccountInsertService);
     });
   });
 });

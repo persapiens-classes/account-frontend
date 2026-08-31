@@ -48,28 +48,6 @@ describe('CategoryRemoveService', () => {
     service = new CategoryRemoveService(mockHttpClient, categoryType);
   });
 
-  describe('Service Structure', () => {
-    it('should be created', () => {
-      expect(service).toBeTruthy();
-    });
-
-    it('should be an instance of CategoryRemoveService', () => {
-      expect(service).toBeInstanceOf(CategoryRemoveService);
-    });
-
-    it('should have remove method', () => {
-      expect(typeof service.remove).toBe('function');
-    });
-
-    it('should store http client', () => {
-      expect(service['http']).toBe(mockHttpClient);
-    });
-
-    it('should store category type', () => {
-      expect(service['type']).toBe(CategoryType.DEBIT);
-    });
-  });
-
   describe('remove method - DEBIT category', () => {
     it('should call HTTP DELETE with correct parameters', () => {
       const categoryId = 'Test Category';

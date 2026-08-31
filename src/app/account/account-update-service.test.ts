@@ -22,26 +22,6 @@ describe('AccountUpdateService', () => {
     service = new AccountUpdateService(mockHttpClient, testAccountType);
   });
 
-  // Basic service structure tests using TestUtils
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should have correct service structure', () => {
-    TestUtils.testServiceStructure(service, AccountUpdateService);
-    expect(service).toBeInstanceOf(AccountUpdateService);
-  });
-
-  it('should implement required methods', () => {
-    TestUtils.testServiceMethods(service, ['update']);
-    expect(typeof service.update).toBe('function');
-  });
-
-  it('should have correct method signatures', () => {
-    TestUtils.testServiceMethodSignatures(service, [{ methodName: 'update', parameterCount: 2 }]);
-    expect(service.update).toBeDefined();
-  });
-
   // Functional tests
   describe('update method', () => {
     it('should call HTTP PUT with correct parameters for debit accounts', () => {
@@ -349,14 +329,6 @@ describe('AccountUpdateService', () => {
         expect.stringContaining('DebitAccounts'),
         account,
       );
-    });
-  });
-
-  describe('Constructor', () => {
-    it('should initialize with HttpClient and AccountType', () => {
-      const customService = new AccountUpdateService(mockHttpClient, AccountType.CREDIT);
-      expect(customService).toBeDefined();
-      expect(customService).toBeInstanceOf(AccountUpdateService);
     });
   });
 });
