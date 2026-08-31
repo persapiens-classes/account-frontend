@@ -12,16 +12,24 @@ ignoredBuiltDependencies:
   - msgpackr-extract
 
 minimumReleaseAgeExclude:
-  - '@fallow-cli/darwin-arm64@3.19.0'
-  - '@fallow-cli/darwin-x64@3.19.0'
-  - '@fallow-cli/linux-arm64-gnu@3.19.0'
-  - '@fallow-cli/linux-arm64-musl@3.19.0'
-  - '@fallow-cli/linux-x64-gnu@3.19.0'
-  - '@fallow-cli/linux-x64-musl@3.19.0'
-  - '@fallow-cli/win32-arm64-msvc@3.19.0'
-  - '@fallow-cli/win32-x64-msvc@3.19.0'
-  - fallow-type-aware@3.19.0
-  - fallow@3.19.0
+  - '@fallow-cli/darwin-arm64@3.19.0 || 3.21.0'
+  - '@fallow-cli/darwin-x64@3.19.0 || 3.21.0'
+  - '@fallow-cli/linux-arm64-gnu@3.19.0 || 3.21.0'
+  - '@fallow-cli/linux-arm64-musl@3.19.0 || 3.21.0'
+  - '@fallow-cli/linux-x64-gnu@3.19.0 || 3.21.0'
+  - '@fallow-cli/linux-x64-musl@3.19.0 || 3.21.0'
+  - '@fallow-cli/win32-arm64-msvc@3.19.0 || 3.21.0'
+  - '@fallow-cli/win32-x64-msvc@3.19.0 || 3.21.0'
+  - fallow-type-aware@3.19.0 || 3.21.0
+  - fallow@3.19.0 || 3.21.0
+  - jscpd-darwin-arm64@5.1.1
+  - jscpd-darwin-x64@5.1.1
+  - jscpd-linux-arm64-gnu@5.1.1
+  - jscpd-linux-x64-gnu@5.1.1
+  - jscpd-linux-x64-musl@5.1.1
+  - jscpd-windows-arm64-msvc@5.1.1
+  - jscpd-windows-x64-msvc@5.1.1
+  - jscpd@5.1.1
 
 onlyBuiltDependencies:
   - cypress
