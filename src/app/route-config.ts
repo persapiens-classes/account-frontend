@@ -6,14 +6,17 @@ import { CategoryType } from './category/category';
 import { AccountType } from './account/account';
 import { EntryType } from './entry/entry';
 
+export interface RouteTarget {
+  component: Type<unknown>;
+}
 export interface RouteConfig {
   path: string;
   title: string;
   titleColor: TitleColor;
-  listComponent: Type<unknown>;
-  insertComponent: Type<unknown>;
-  updateComponent: Type<unknown>;
-  detailComponent: Type<unknown>;
+  list: RouteTarget;
+  insert: RouteTarget;
+  update: RouteTarget;
+  detail: RouteTarget;
   type?: CategoryType | AccountType | EntryType;
   categoryType?: CategoryType;
   inAccountType?: AccountType;
@@ -42,22 +45,22 @@ export function createCrudRoutes(config: RouteConfig): Route {
     children: [
       {
         path: 'list',
-        component: config.listComponent,
+        component: config.list.component,
         data: baseData,
       },
       {
         path: 'new',
-        component: config.insertComponent,
+        component: config.insert.component,
         data: childData,
       },
       {
         path: 'edit',
-        component: config.updateComponent,
+        component: config.update.component,
         data: childData,
       },
       {
         path: 'detail',
-        component: config.detailComponent,
+        component: config.detail.component,
         data: baseData,
       },
       { path: '', redirectTo: 'list', pathMatch: 'full' },

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Type, provideZonelessChangeDetection, ChangeDetectorRef } from '@angular/core';
-import { NgControl } from '@angular/forms';
-import { expect, vi } from 'vitest';
+import { expect } from 'vitest';
 
 // Using production FieldComponent interface
 
@@ -21,32 +20,6 @@ interface MockNgControl {
  */
 export class TestUtils {
   /**
-   * Sets up TestBed configuration for field components
-   */
-  static async setupTestBed<T>(
-    componentType: Type<T>,
-    mockNgControl?: MockNgControl,
-  ): Promise<void> {
-    const ngControlMock = mockNgControl || {
-      invalid: false,
-      dirty: false,
-      touched: false,
-      errors: null,
-      control: {
-        markAsTouched: vi.fn(),
-      },
-    };
-
-    await TestBed.configureTestingModule({
-      imports: [componentType],
-      providers: [
-        provideZonelessChangeDetection(),
-        { provide: NgControl, useValue: ngControlMock },
-      ],
-    }).compileComponents();
-  }
-
-  /**
    * Sets up TestBed configuration for services
    */
   static async setupServiceTestBed<T>(serviceType: Type<T>, providers?: unknown[]): Promise<void> {
@@ -55,26 +28,6 @@ export class TestUtils {
     await TestBed.configureTestingModule({
       providers: testProviders,
     }).compileComponents();
-  }
-
-  /**
-   * Sets up TestBed configuration for components with custom providers
-   */
-  static async setupComponentTestBed<T>(
-    componentType: Type<T>,
-    providers?: unknown[],
-  ): Promise<void> {
-    await TestBed.configureTestingModule({
-      imports: [componentType],
-      providers: [provideZonelessChangeDetection(), ...(providers || [])],
-    }).compileComponents();
-  }
-
-  /**
-   * Creates component fixture with basic setup
-   */
-  static createFixture<T>(componentType: Type<T>): ComponentFixture<T> {
-    return TestBed.createComponent(componentType);
   }
 
   /**

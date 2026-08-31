@@ -29,7 +29,6 @@ export default defineConfig(() => {
               'src/main.ts',
               '**/app/shared/test-utils.ts',
               '**/app/shared/http-client-test-mock.ts',
-              '**/app/category/category-test-helpers.ts',
               '**/app/models/model-test-helpers.ts',
             ],
             extension: ['.js', '.ts', '.html'],
