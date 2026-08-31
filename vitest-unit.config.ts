@@ -26,7 +26,6 @@ export default defineConfig({
         'src/**/*.routes.ts',
         'src/app/app.config.ts',
         'src/app/shared/test-utils.ts',
-        'src/app/shared/http-client-test-mock.ts',
         'src/app/models/model-test-helpers.ts',
         'coverage/',
         'dist/',

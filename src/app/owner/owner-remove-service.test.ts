@@ -4,8 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { OwnerRemoveService } from './owner-remove-service';
-import { createHttpClientTestMock } from '../shared/http-client-test-mock';
-import { TestUtils } from '../shared/test-utils';
+import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
 describe('OwnerRemoveService', () => {

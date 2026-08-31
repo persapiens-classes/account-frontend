@@ -4,8 +4,7 @@ import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { AccountInsertService } from './account-insert-service';
 import { Account, accountId, AccountType, createAccount } from './account';
-import { createHttpClientTestMock } from '../shared/http-client-test-mock';
-import { TestUtils } from '../shared/test-utils';
+import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 import { PATHS } from '../app.paths';
 

@@ -1,17 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Type, provideZonelessChangeDetection, ChangeDetectorRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Type, provideZonelessChangeDetection } from '@angular/core';
 import { expect } from 'vitest';
+import { HttpClient } from '@angular/common/http';
 
-// Using production FieldComponent interface
+type HttpClientMethodName =
+  'post' | 'get' | 'put' | 'delete' | 'patch' | 'head' | 'options' | 'request';
 
-interface MockNgControl {
-  invalid: boolean;
-  dirty: boolean;
-  touched: boolean;
-  errors: Record<string, boolean> | null;
-  control: {
-    markAsTouched: () => void;
+export type HttpClientTestMock = Record<HttpClientMethodName, ReturnType<typeof vi.fn>>;
+
+export function createHttpClientTestMock(overrides: Partial<HttpClientTestMock> = {}): HttpClient {
+  const mock: HttpClientTestMock = {
+    post: vi.fn(),
+    get: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+    patch: vi.fn(),
+    head: vi.fn(),
+    options: vi.fn(),
+    request: vi.fn(),
+    ...overrides,
   };
+
+  return mock as unknown as HttpClient;
 }
 
 /**
@@ -47,76 +57,6 @@ export class TestUtils {
         expect(component[key as keyof T]).toBe(expectedDefaults[key as keyof T]);
       }
     }
-  }
-
-  private static assertRequiredError<T>(
-    fixture: ComponentFixture<T>,
-    mockNgControl: MockNgControl,
-    labelText: string,
-  ): void {
-    mockNgControl.invalid = true;
-    mockNgControl.touched = true;
-    mockNgControl.errors = { required: true };
-    fixture.detectChanges();
-    const alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeTruthy();
-    expect(alertDiv.textContent).toContain(`${labelText} is required.`);
-  }
-
-  private static async assertRequiredErrorAsync<T>(
-    fixture: ComponentFixture<T>,
-    mockNgControl: MockNgControl,
-    labelText: string,
-  ): Promise<void> {
-    mockNgControl.invalid = true;
-    mockNgControl.touched = true;
-    mockNgControl.errors = { required: true };
-    await TestUtils.stabilize(fixture);
-    const alertDiv = fixture.nativeElement.querySelector('.alert');
-    expect(alertDiv).toBeTruthy();
-    expect(alertDiv.textContent).toContain(`${labelText} is required.`);
-  }
-
-  private static assertMinlengthError<T>(
-    fixture: ComponentFixture<T>,
-    mockNgControl: MockNgControl,
-    labelText: string,
-  ): void {
-    mockNgControl.dirty = true;
-    mockNgControl.errors = { minlength: true };
-    fixture.detectChanges();
-    const alertDiv = fixture.nativeElement.querySelector('.alert');
-    if (alertDiv?.textContent?.includes('must be at least')) {
-      expect(alertDiv.textContent).toContain(`${labelText} must be at least 3 characters long.`);
-    }
-  }
-
-  private static async assertMinlengthErrorAsync<T>(
-    fixture: ComponentFixture<T>,
-    mockNgControl: MockNgControl,
-    labelText: string,
-  ): Promise<void> {
-    mockNgControl.dirty = true;
-    mockNgControl.errors = { minlength: true };
-    await TestUtils.stabilize(fixture);
-    const alertDiv = fixture.nativeElement.querySelector('.alert');
-    if (alertDiv?.textContent?.includes('must be at least')) {
-      expect(alertDiv.textContent).toContain(`${labelText} must be at least 3 characters long.`);
-    }
-  }
-
-  /**
-   * Stabilize change detection for zoneless tests: runs detectChanges + whenStable cycle
-   */
-  static async stabilize<T>(fixture: ComponentFixture<T>): Promise<void> {
-    try {
-      const changeDetector = fixture.debugElement.injector.get(ChangeDetectorRef);
-      changeDetector.markForCheck?.();
-    } catch {
-      // ignore if ChangeDetectorRef isn't available
-    }
-    fixture.detectChanges();
-    await fixture.whenStable();
   }
 
   /**

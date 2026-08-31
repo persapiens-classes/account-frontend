@@ -3,8 +3,7 @@ import { Observable, firstValueFrom, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelUpdateService, updateModel } from './model-update-service';
 import { MinimalModel, ValidModel } from './model-test-helpers';
-import { createHttpClientTestMock } from '../shared/http-client-test-mock';
-import { TestUtils } from '../shared/test-utils';
+import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
 // Mock implementation of Model for testing

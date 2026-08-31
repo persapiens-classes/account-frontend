@@ -4,7 +4,7 @@ import { of, throwError } from 'rxjs';
 
 import { CategoryUpdateService } from './category-update-service';
 import { Category, categoryId, CategoryType } from './category';
-import { createHttpClientTestMock } from '../shared/http-client-test-mock';
+import { createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 import { PATHS } from '../app.paths';
 

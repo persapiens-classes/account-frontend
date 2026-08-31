@@ -4,8 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelInsertService, insertModel } from './model-insert-service';
 import { expectObservableValue, MinimalModel, ValidModel } from './model-test-helpers';
-import { createHttpClientTestMock } from '../shared/http-client-test-mock';
-import { TestUtils } from '../shared/test-utils';
+import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 import { PATHS } from '../app.paths';
 

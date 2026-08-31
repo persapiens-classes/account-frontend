@@ -2,8 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError, firstValueFrom } from 'rxjs';
 import { expect, vi, describe, it, beforeEach } from 'vitest';
 import { ModelRemoveService, removeModel } from './model-remove-service';
-import { createHttpClientTestMock } from '../shared/http-client-test-mock';
-import { TestUtils } from '../shared/test-utils';
+import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 import { PATHS } from '../app.paths';
 

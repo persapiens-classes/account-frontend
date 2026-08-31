@@ -4,8 +4,7 @@ import { expect, vi, describe, it, beforeEach } from 'vitest';
 
 import { AccountUpdateService } from './account-update-service';
 import { Account, accountId, AccountType } from './account';
-import { createHttpClientTestMock } from '../shared/http-client-test-mock';
-import { TestUtils } from '../shared/test-utils';
+import { TestUtils, createHttpClientTestMock } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 
 describe('AccountUpdateService', () => {
