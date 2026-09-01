@@ -24,8 +24,6 @@
     "fmt:check": "oxfmt . --check",
     "fmt:fix": "oxfmt",
     "lint": "ng lint",
-    "lint:sonar": "echo '📊 SonarQube analysis: Check VS Code Problems panel for issues'",
-    "lint:all": "pnpm run lint && pnpm run lint:sonar",
     "fallow:dead-code": "pnpm fallow dead-code --fail-on-issues",
     "fallow:dupes": "pnpm fallow dupes --threshold 0.01",
     "check-duplication": "jscpd --config .jscpdrc.json ./",
