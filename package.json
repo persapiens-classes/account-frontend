@@ -27,7 +27,7 @@
     "fallow:dead-code": "pnpm fallow dead-code --fail-on-issues",
     "fallow:dupes": "pnpm fallow dupes --threshold 0.01",
     "check-duplication": "jscpd --config .jscpdrc.json ./",
-    "quality": "pnpm run format:check && pnpm run check-duplication && pnpm run fallow:dead-code && pnpm run fallow:dupes && pnpm run lint && pnpm run test:unit:coverage && pnpm run lint:sonar && pnpm run test:e2e:coverage",
+    "quality": "pnpm format:check && pnpm check-duplication && pnpm fallow:dead-code && pnpm fallow:dupes && pnpm lint && pnpm test:unit:coverage && pnpm lint:sonar && pnpm test:e2e:coverage",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:mock:open": "cross-env CYPRESS_USE_MOCK=true cypress open",
