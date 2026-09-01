@@ -73,11 +73,13 @@ export default defineConfig([
     files: ['cypress/**/*.ts'],
     plugins: {
       cypress: eslintPluginCypress,
+      sonarjs,
     },
     rules: {
       // Cypress requires namespace for custom command type definitions
       '@typescript-eslint/no-namespace': 'off',
       ...eslintPluginCypress.configs.recommended.rules,
+      ...sonarjs.rules,
     },
   },
   {
