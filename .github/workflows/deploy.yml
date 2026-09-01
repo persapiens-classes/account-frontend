@@ -69,14 +69,14 @@ jobs:
             report/jscpd/
 
       - name: Fallow gate (unused code)
-        uses: fallow-rs/fallow@v3.17.0
+        uses: fallow-rs/fallow@v3.20.0
         with:
           command: dead-code
           fail-on-issues: true
           format: github-annotations
 
       - name: Fallow gate (duplicates)
-        uses: fallow-rs/fallow@v3.17.0
+        uses: fallow-rs/fallow@v3.20.0
         with:
           command: dupes
           threshold: 0.01
@@ -85,7 +85,7 @@ jobs:
       - name: Fallow report (non-blocking)
         if: ${{ always() }}
         continue-on-error: true
-        uses: fallow-rs/fallow@v3.17.0
+        uses: fallow-rs/fallow@v3.20.0
         with:
           fail-on-issues: false
           format: github-summary
