@@ -31,7 +31,7 @@ export function loadModels<T>(
   return modelsResource.value;
 }
 
-export function handleHttpResourceError(
+function handleHttpResourceError(
   error: unknown,
   appMessageService: AppMessageService,
   modelName: string,

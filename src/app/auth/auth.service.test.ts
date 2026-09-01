@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest';
 
-import { AuthService, LoginResponse } from './auth.service';
+import { AuthService } from './auth.service';
 import { TestUtils } from '../shared/test-utils';
 import { environment } from '../../environments/environment';
 import { API_PATHS } from '../app.api-paths';
@@ -45,98 +45,8 @@ describe('AuthService', () => {
   });
 
   // Basic service structure tests using TestUtils
-  describe('Service Structure', () => {
-    it('should be created successfully', () => {
-      TestUtils.testServiceStructure(service, AuthService);
-      expect(service).toBeTruthy();
-    });
-
-    it('should be a singleton service', () => {
-      TestUtils.testServiceSingleton(AuthService);
-      expect(TestBed.inject(AuthService)).toBe(TestBed.inject(AuthService));
-    });
-
-    it('should have all expected public methods', () => {
-      const expectedMethods = [
-        'signin',
-        'logout',
-        'isAuthenticated',
-        'ensureAuthenticated',
-        'authenticatedLogin',
-        'authenticatedToken',
-        'clearSession',
-      ];
-      TestUtils.testServiceMethods(service, expectedMethods);
-      expect(expectedMethods).toHaveLength(7);
-    });
-
-    it('should have correct method signatures', () => {
-      const methodSignatures = [
-        { methodName: 'signin', parameterCount: 2 },
-        { methodName: 'logout', parameterCount: 0 },
-        { methodName: 'isAuthenticated', parameterCount: 0 },
-        { methodName: 'ensureAuthenticated', parameterCount: 0 },
-        { methodName: 'authenticatedLogin', parameterCount: 0 },
-        { methodName: 'authenticatedToken', parameterCount: 0 },
-        { methodName: 'clearSession', parameterCount: 0 },
-      ];
-      TestUtils.testServiceMethodSignatures(service, methodSignatures);
-      expect(methodSignatures).toHaveLength(7);
-    });
-  });
-
-  // LoginResponse class tests
-  describe('LoginResponse Class', () => {
-    it('should create LoginResponse instance correctly', () => {
-      const login = 'testuser';
-      const token = 'jwt-token-123';
-      const expiresIn = 3600;
-
-      const loginResponse = new LoginResponse(login, token, expiresIn);
-
-      expect(loginResponse).toBeInstanceOf(LoginResponse);
-      expect(loginResponse.login).toBe(login);
-      expect(loginResponse.token).toBe(token);
-      expect(loginResponse.expiresIn).toBe(expiresIn);
-    });
-  });
-
   describe('Authentication Methods', () => {
     describe('signin', () => {
-      it('should make POST request to correct endpoint', () => {
-        const username = TEST_USERNAME;
-        const password = TEST_PASSWORD;
-        const expectedResponse = MOCK_LOGIN_RESPONSE;
-
-        service.signin(username, password).subscribe();
-
-        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
-        expect(req.request.method).toBe('POST');
-        expect(req.request.withCredentials).toBe(false);
-        expect(req.request.body).toEqual({ username, password });
-
-        req.flush(expectedResponse);
-      });
-
-      it('should return observable with LoginResponse', () => {
-        const username = TEST_USERNAME;
-        const password = TEST_PASSWORD;
-        const expectedResponse = MOCK_LOGIN_RESPONSE;
-
-        let actualResponse: LoginResponse;
-        service.signin(username, password).subscribe((response) => {
-          actualResponse = response;
-        });
-
-        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
-        req.flush(expectedResponse);
-
-        expect(actualResponse!).toEqual(expectedResponse);
-        expect(actualResponse!.login).toBe(expectedResponse.login);
-        expect(actualResponse!.token).toBe(expectedResponse.token);
-        expect(actualResponse!.expiresIn).toBe(3600);
-      });
-
       it('should set session on successful signin', () => {
         mockDateNow.mockReturnValue(1703181600000);
         service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();

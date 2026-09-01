@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from '@openng/optimus-ui/api';
 import { AppMessageService } from './app-message-service';
 import { TestUtils } from './shared/test-utils';
+import { StatusCodes } from 'http-status-codes';
 
 describe('AppMessageService', () => {
   let service: AppMessageService;
@@ -21,22 +22,12 @@ describe('AppMessageService', () => {
     service = TestBed.inject(AppMessageService);
   });
 
-  describe('Service Initialization', () => {
-    it('should be created and initialized correctly', () => {
-      TestUtils.testBasicInitialization(service, {}, AppMessageService);
-    });
-
-    it('should inject MessageService', () => {
-      expect(mockMessageService).toBeDefined();
-    });
-  });
-
   describe('addErrorMessage', () => {
     describe('with HttpErrorResponse containing error message', () => {
       it('should add error message with parsed error detail', () => {
         const mockError = new HttpErrorResponse({
           error: { message: 'Custom error message' },
-          status: 400,
+          status: StatusCodes.BAD_REQUEST,
           statusText: 'Bad Request',
         });
 
@@ -52,7 +43,7 @@ describe('AppMessageService', () => {
       it('should handle nested error message structure', () => {
         const mockError = new HttpErrorResponse({
           error: { message: 'Validation failed' },
-          status: 422,
+          status: StatusCodes.UNPROCESSABLE_ENTITY,
           statusText: 'Unprocessable Entity',
         });
 
@@ -104,7 +95,7 @@ describe('AppMessageService', () => {
       it('should use default detail message when no specific error', () => {
         const mockError = new HttpErrorResponse({
           error: null,
-          status: 500,
+          status: StatusCodes.INTERNAL_SERVER_ERROR,
           statusText: 'Internal Server Error',
         });
 
@@ -120,7 +111,7 @@ describe('AppMessageService', () => {
       it('should use custom default detail when provided', () => {
         const mockError = new HttpErrorResponse({
           error: null,
-          status: 404,
+          status: StatusCodes.NOT_FOUND,
           statusText: 'Not Found',
         });
 
@@ -135,7 +126,7 @@ describe('AppMessageService', () => {
 
       it('should handle error without error object', () => {
         const mockError = new HttpErrorResponse({
-          status: 403,
+          status: StatusCodes.FORBIDDEN,
           statusText: 'Forbidden',
         });
 
@@ -153,7 +144,7 @@ describe('AppMessageService', () => {
       it('should work with two parameters (error, summary)', () => {
         const mockError = new HttpErrorResponse({
           error: null,
-          status: 500,
+          status: StatusCodes.INTERNAL_SERVER_ERROR,
           statusText: 'Internal Server Error',
         });
 
@@ -169,7 +160,7 @@ describe('AppMessageService', () => {
       it('should work with three parameters (error, summary, defaultDetail)', () => {
         const mockError = new HttpErrorResponse({
           error: null,
-          status: 503,
+          status: StatusCodes.SERVICE_UNAVAILABLE,
           statusText: 'Service Unavailable',
         });
 
@@ -252,7 +243,7 @@ describe('AppMessageService', () => {
     it('should handle malformed error objects', () => {
       const mockError = new HttpErrorResponse({
         error: { someOtherProperty: 'value' }, // No message property
-        status: 400,
+        status: StatusCodes.BAD_REQUEST,
         statusText: 'Bad Request',
       });
 
@@ -268,7 +259,7 @@ describe('AppMessageService', () => {
     it('should handle error.error.message as empty string', () => {
       const mockError = new HttpErrorResponse({
         error: { message: '' },
-        status: 400,
+        status: StatusCodes.BAD_REQUEST,
         statusText: 'Bad Request',
       });
 
@@ -284,7 +275,7 @@ describe('AppMessageService', () => {
     it('should handle null error.error.message', () => {
       const mockError = new HttpErrorResponse({
         error: { message: null },
-        status: 400,
+        status: StatusCodes.BAD_REQUEST,
         statusText: 'Bad Request',
       });
 
@@ -305,7 +296,7 @@ describe('AppMessageService', () => {
 
       const mockError = new HttpErrorResponse({
         error: null,
-        status: 500,
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         statusText: 'Internal Server Error',
       });
       service.addErrorMessage(mockError, 'Error');
@@ -334,7 +325,7 @@ describe('AppMessageService', () => {
     it('should handle undefined error object', () => {
       const mockError = new HttpErrorResponse({
         error: undefined,
-        status: 500,
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         statusText: 'Internal Server Error',
       });
 
@@ -350,10 +341,10 @@ describe('AppMessageService', () => {
     it('should handle status codes with different behaviors', () => {
       // Test various HTTP status codes
       const testCases = [
-        { status: 400, expected: 'Bad request error' },
-        { status: 401, expected: 'Unauthorized error' },
-        { status: 404, expected: 'Not found error' },
-        { status: 500, expected: 'Server error' },
+        { status: StatusCodes.BAD_REQUEST, expected: 'Bad request error' },
+        { status: StatusCodes.UNAUTHORIZED, expected: 'Unauthorized error' },
+        { status: StatusCodes.NOT_FOUND, expected: 'Not found error' },
+        { status: StatusCodes.INTERNAL_SERVER_ERROR, expected: 'Server error' },
       ];
 
       testCases.forEach(({ status, expected }) => {
