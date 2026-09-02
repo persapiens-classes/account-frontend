@@ -3,9 +3,7 @@ import eslint from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import angular from 'angular-eslint';
-import prettierPlugin from 'eslint-plugin-prettier';
 import securityPlugin from 'eslint-plugin-security';
-import prettierDisableRules from 'eslint-config-prettier';
 import sonarjs from 'eslint-plugin-sonarjs';
 import eslintPluginCypress from 'eslint-plugin-cypress';
 
@@ -34,12 +32,10 @@ export default defineConfig([
       },
     },
     plugins: {
-      prettier: prettierPlugin,
       sonarjs,
     },
     rules: {
       ...sonarjsRecommendedRules,
-      'prettier/prettier': 'error',
       '@typescript-eslint/no-deprecated': 'error',
       // General configuration: maximum 4 nesting levels
       'max-depth': ['error', 4],
@@ -73,11 +69,13 @@ export default defineConfig([
     files: ['cypress/**/*.ts'],
     plugins: {
       cypress: eslintPluginCypress,
+      sonarjs,
     },
     rules: {
       // Cypress requires namespace for custom command type definitions
       '@typescript-eslint/no-namespace': 'off',
       ...eslintPluginCypress.configs.recommended.rules,
+      ...sonarjs.rules,
     },
   },
   {
@@ -97,6 +95,4 @@ export default defineConfig([
       'sonarjs/no-empty-test-file': 'off',
     },
   },
-
-  prettierDisableRules,
 ]);
