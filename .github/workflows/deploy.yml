@@ -102,7 +102,7 @@ jobs:
           path: |
             fallow-viz.html
 
-      - name: ESLint run
+      - name: Lint run
         run: pnpm lint
 
       - name: Tests (Unit and Integration with Angular CLI) run
