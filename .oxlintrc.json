@@ -439,11 +439,10 @@
         "sonarjs/no-mixed-completion-style": "error",
         "sonarjs/no-interpolation-in-inline-snapshots": "error",
         "sonarjs/explicit-test-skip": "error",
-        "prettier/prettier": "error",
         "max-depth": ["error", 4],
         "typescript/no-deprecated": "error"
       },
-      "jsPlugins": ["eslint-plugin-sonarjs", "eslint-plugin-prettier"]
+      "jsPlugins": ["eslint-plugin-sonarjs"]
     },
     {
       "files": ["src/**/*.component.ts"],

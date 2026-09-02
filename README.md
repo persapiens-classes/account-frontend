@@ -35,7 +35,7 @@ This frontend application is built with Angular and leverages the following tech
 - **[Tailwind CSS](https://tailwindcss.com/)** (Utility-first CSS framework)
 - **[RxJS](https://rxjs.dev/)** (Reactive programming)
 - **[pnpm](https://pnpm.io/)** (Package manager)
-- **[Prettier](https://prettier.io/)** (Code formatting)
+- **[Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html)** (Code formatting)
 - **[JSCPD](https://github.com/kucherenko/jscpd)** (Copy-paste detection)
 - **[ESLint](https://eslint.org/)** (Code linting)
 - **[Fallow](https://docs.fallow.tools/)** (Code linting)

@@ -15,11 +15,11 @@
     "vscode": {
       "extensions": [
         "Angular.ng-template",
-        "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "SonarSource.sonarlint-vscode",
         "bradlc.vscode-tailwindcss",
-        "Fallow-rs.fallow-vscode"
+        "Fallow-rs.fallow-vscode",
+        "oxc.oxc-vscode"
       ]
     }
   },
