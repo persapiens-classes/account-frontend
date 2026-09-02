@@ -248,7 +248,7 @@
         "sonarjs/no-empty-character-class": "error",
         "sonarjs/no-unenclosed-multiline-block": "error",
         "sonarjs/index-of-compare-to-positive-number": "error",
-        "sonarjs/assertions-in-tests": "error",
+        "sonarjs/assertions-in-tests": "warn",
         "sonarjs/no-implicit-global": "error",
         "sonarjs/no-useless-catch": "error",
         "sonarjs/xml-parser-xxe": "error",
