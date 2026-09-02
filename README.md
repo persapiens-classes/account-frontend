@@ -38,6 +38,7 @@ This frontend application is built with Angular and leverages the following tech
 - **[Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html)** (Code formatting)
 - **[JSCPD](https://github.com/kucherenko/jscpd)** (Copy-paste detection)
 - **[ESLint](https://eslint.org/)** (Code linting)
+- **[Oxlint](https://oxc.rs/docs/guide/usage/linter)** (Code linting)
 - **[Fallow](https://docs.fallow.tools/)** (Code linting)
 - **[Vitest](https://vitest.dev/)** (Unit testing framework)
 - **[Cypress](https://www.cypress.io/)** (End-to-end testing framework)
