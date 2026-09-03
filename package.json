@@ -119,5 +119,5 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "packageManager": "pnpm@12.2.1"
+  "packageManager": "pnpm@12.3.1"
 }

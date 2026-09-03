@@ -32,7 +32,7 @@
   "postCreateCommand": [
     "npm install -g corepack",
     "corepack enable",
-    "corepack prepare pnpm@12.2.1 --activate",
+    "corepack prepare pnpm@12.3.1 --activate",
     "pnpm install"
   ]
   // Configure tool-specific properties.
