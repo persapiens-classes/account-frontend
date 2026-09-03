@@ -30,6 +30,19 @@ minimumReleaseAgeExclude:
   - jscpd-windows-arm64-msvc@5.1.1
   - jscpd-windows-x64-msvc@5.1.1
   - jscpd@5.1.1
+  - '@angular-devkit/architect@0.2201.7'
+  - '@angular-devkit/core@22.1.7'
+  - '@angular-devkit/schematics@22.1.7'
+  - '@angular/build@22.1.7'
+  - '@angular/cli@22.1.7'
+  - '@angular/common@22.1.5'
+  - '@angular/compiler-cli@22.1.5'
+  - '@angular/compiler@22.1.5'
+  - '@angular/core@22.1.5'
+  - '@angular/forms@22.1.5'
+  - '@angular/platform-browser@22.1.5'
+  - '@angular/router@22.1.5'
+  - '@schematics/angular@22.1.7'
 
 onlyBuiltDependencies:
   - cypress
