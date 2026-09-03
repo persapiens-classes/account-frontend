@@ -15,7 +15,6 @@
     "vscode": {
       "extensions": [
         "Angular.ng-template",
-        "dbaeumer.vscode-eslint",
         "SonarSource.sonarlint-vscode",
         "bradlc.vscode-tailwindcss",
         "Fallow-rs.fallow-vscode",
