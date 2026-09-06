@@ -19,7 +19,7 @@ This is the pedagogical example app of the discipline [Aplicação com Interface
 - Multiple entry types: Credit, Debit, and Transfer
 - Balance tracking and initial value management
 - Automated tests with Vitest
-- Code quality checks with ESLint, Prettier, Jscpd, and SonarCloud
+- Code quality checks with Oxfmt, Jscpd, Fallow, Oxlint, and SonarCloud
 - Containerized development with DevContainer support
 
 ## Technologies
@@ -140,10 +140,11 @@ pnpm quality
 
 This includes:
 
-- Format checking with Prettier
-- Linting with ESLint
-- Test coverage verification
+- Format checking with Oxfmt
 - Copy-paste detection with JSCPD
+- Linting with Fallow
+- Linting with Oxlint
+- Test coverage verification with Vitest and Cypress
 - SonarQube analysis
 
 ### Run Cypress Tests
