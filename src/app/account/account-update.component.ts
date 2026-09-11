@@ -53,7 +53,7 @@ import { AccountStateTransferService } from '../models/models-state-transfer-ser
   `,
 })
 export class AccountUpdateComponent {
-  model = inject(AccountStateTransferService).getState()!;
+  model = inject(AccountStateTransferService).getState();
   modelIdFn = accountId;
   form = accountForm(this.model);
 

@@ -49,7 +49,7 @@ import { OwnerEquityAccountInitialValueStateTransferService } from '../models/mo
 })
 export class OwnerEquityAccountInitialValueUpdateComponent {
   routerName = PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH;
-  model = inject(OwnerEquityAccountInitialValueStateTransferService).getState()!;
+  model = inject(OwnerEquityAccountInitialValueStateTransferService).getState();
   form = form(signal(this.model), (f) => {
     required(f.initialValue);
   });

@@ -9,6 +9,7 @@ describe('StateTransferService', () => {
   });
 
   it('deve inicializar com o estado nulo', () => {
+    expect(service.hasState()).toBeFalsy();
     expect(service.getState()).toBeNull();
   });
 

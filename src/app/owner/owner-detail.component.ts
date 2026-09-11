@@ -20,6 +20,6 @@ export class OwnerDetailComponent {
   model: Owner;
 
   constructor() {
-    this.model = inject(OwnerStateTransferService).getState()!;
+    this.model = inject(OwnerStateTransferService).getState();
   }
 }

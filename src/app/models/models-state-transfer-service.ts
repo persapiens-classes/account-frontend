@@ -13,8 +13,16 @@ export class StateTransferService<T> {
     this.state = state;
   }
 
-  getState(): T | null {
-    return this.state;
+  getState(): T {
+    return this.state!;
+  }
+
+  clearState(): void {
+    this.state = null;
+  }
+
+  hasState(): boolean {
+    return this.state !== null;
   }
 }
 

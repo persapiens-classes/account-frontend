@@ -27,6 +27,6 @@ export class AccountDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
-    this.model = inject(AccountStateTransferService).getState()!;
+    this.model = inject(AccountStateTransferService).getState();
   }
 }

@@ -26,6 +26,6 @@ export class CategoryDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
-    this.model = inject(CategoryStateTransferService).getState()!;
+    this.model = inject(CategoryStateTransferService).getState();
   }
 }

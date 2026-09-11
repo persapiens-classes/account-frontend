@@ -12,7 +12,10 @@ import { ModelListPanelComponent } from '../models/model-list-panel.component';
 
 import { BalanceListService } from './balance-list-service';
 import { PATHS } from '../app.paths';
-import { BalanceStateTransferService } from '../models/models-state-transfer-service';
+import {
+  BalanceStateTransferService,
+  OwnerEquityAccountInitialValueStateTransferService,
+} from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-balance-list',
@@ -86,14 +89,14 @@ import { BalanceStateTransferService } from '../models/models-state-transfer-ser
                 <app-start-detail-button
                   [item]="item"
                   [routerName]="routerName"
-                  [stateTransferService]="stateTransferService"
+                  [stateTransferService]="balanceStateTransferService"
                 />
               </td>
               <td data-label="Edit">
                 <app-start-update-button
                   [item]="item"
                   [routerName]="routerName"
-                  [stateTransferService]="stateTransferService"
+                  [stateTransferService]="ownerEquityAccountInitialValueStateTransferService"
                 />
               </td>
               <td data-label="Remove">
@@ -140,10 +143,18 @@ export class BalanceListComponent {
   modelName = 'Balance';
   routerName = PATHS.BALANCE_PATH;
   modelRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
-  stateTransferService = inject(BalanceStateTransferService);
+  balanceStateTransferService = inject(BalanceStateTransferService);
+  ownerEquityAccountInitialValueStateTransferService = inject(
+    OwnerEquityAccountInitialValueStateTransferService,
+  );
   modelIdFn = balanceId;
 
   modelsList = inject(BalanceListService).findAll();
+
+  constructor() {
+    this.balanceStateTransferService.clearState();
+    this.ownerEquityAccountInitialValueStateTransferService.clearState();
+  }
 
   total = computed(() =>
     this.modelsList().reduce((sum: number, b: Balance) => sum + (b.balance ?? 0), 0),

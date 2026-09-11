@@ -37,6 +37,6 @@ export class EntryDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}${PATHS.ENTRY_PATH}`;
-    this.model = inject(EntryStateTransferService).getState()!;
+    this.model = inject(EntryStateTransferService).getState();
   }
 }

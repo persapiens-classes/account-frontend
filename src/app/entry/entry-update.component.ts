@@ -81,7 +81,7 @@ import { EntryStateTransferService } from '../models/models-state-transfer-servi
   `,
 })
 export class EntryUpdateComponent {
-  model = inject(EntryStateTransferService).getState()!;
+  model = inject(EntryStateTransferService).getState();
   form = form(signal(entryModelToForm(this.model)), (f) => {
     required(f.date);
     required(f.inAccount);

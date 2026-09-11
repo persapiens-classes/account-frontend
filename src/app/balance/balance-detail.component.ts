@@ -32,12 +32,12 @@ export class BalanceDetailComponent implements OnInit {
   private readonly balanceFilterService = inject(BalanceFilterService);
   private readonly balanceStateTransferService = inject(BalanceStateTransferService);
   constructor() {
-    if (this.hasBalanceInStateTransferService()) {
-      this.model = this.balanceStateTransferService.getState()!;
+    if (this.balanceStateTransferService.hasState()) {
+      this.model = this.balanceStateTransferService.getState();
     } else {
       const ownerEquityAccountInitialValue = inject(
         OwnerEquityAccountInitialValueStateTransferService,
-      ).getState()!;
+      ).getState();
       this.model = {
         owner: ownerEquityAccountInitialValue.owner,
         equityAccount: ownerEquityAccountInitialValue.equityAccount,
@@ -51,12 +51,8 @@ export class BalanceDetailComponent implements OnInit {
     this.initAsync();
   }
 
-  hasBalanceInStateTransferService() {
-    return this.balanceStateTransferService.getState();
-  }
-
   private async initAsync(): Promise<void> {
-    if (this.hasBalanceInStateTransferService()) {
+    if (this.balanceStateTransferService.hasState()) {
       this.model = await firstValueFrom(
         this.balanceFilterService.find(this.model.owner, this.model.equityAccount.description),
       );

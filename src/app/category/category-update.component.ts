@@ -42,7 +42,7 @@ import { CategoryStateTransferService } from '../models/models-state-transfer-se
   `,
 })
 export class CategoryUpdateComponent {
-  model = inject(CategoryStateTransferService).getState()!;
+  model = inject(CategoryStateTransferService).getState();
   form = form(signal(this.model), (f) => {
     required(f.description);
     minLength(f.description, 3);
