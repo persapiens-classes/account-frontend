@@ -2,14 +2,20 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { ownerEquityAccountInitialValueId } from './owner-equity-account-initial-value';
+import {
+  OwnerEquityAccountInitialValue,
+  ownerEquityAccountInitialValueId,
+} from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { OwnerEquityAccountInitialValueUpdateService } from './owner-equity-account-initial-value-update-service';
 import { form, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
-import { OwnerEquityAccountInitialValueStateTransferService } from '../models/models-state-transfer-service';
+import {
+  BalanceStateTransferService,
+  OwnerEquityAccountInitialValueStateTransferService,
+} from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-update',
@@ -30,6 +36,7 @@ import { OwnerEquityAccountInitialValueStateTransferService } from '../models/mo
       [modelUpdateService]="modelUpdateService"
       [modelName]="'Balances'"
       [routerName]="routerName"
+      [stateTransferService]="ownerEquityAccountInitialValueStateTransferService"
     >
       <app-detail-field strong="Owner" value="{{ model.owner }}" />
 
@@ -49,7 +56,13 @@ import { OwnerEquityAccountInitialValueStateTransferService } from '../models/mo
 })
 export class OwnerEquityAccountInitialValueUpdateComponent {
   routerName = PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH;
-  model = inject(OwnerEquityAccountInitialValueStateTransferService).getState();
+  balanceStateTransferService = inject(BalanceStateTransferService);
+  ownerEquityAccountInitialValueStateTransferService = inject(
+    OwnerEquityAccountInitialValueStateTransferService,
+  );
+  model: OwnerEquityAccountInitialValue = this.balanceStateTransferService.hasState()
+    ? this.balanceStateTransferService.getState()
+    : this.ownerEquityAccountInitialValueStateTransferService.getState();
   form = form(signal(this.model), (f) => {
     required(f.initialValue);
   });

@@ -11,7 +11,11 @@ import { CategoryStateTransferService } from '../models/models-state-transfer-se
   selector: 'app-category-detail',
   imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
-    <app-model-detail-panel [routerName]="routerName" [model]="model">
+    <app-model-detail-panel
+      [routerName]="routerName"
+      [model]="model"
+      [stateTransferService]="stateTransferService"
+    >
       <app-detail-field
         strong="Description"
         value="{{ model.description }}"
@@ -23,9 +27,10 @@ import { CategoryStateTransferService } from '../models/models-state-transfer-se
 export class CategoryDetailComponent {
   model: Category;
   routerName: string;
+  stateTransferService = inject(CategoryStateTransferService);
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
-    this.model = inject(CategoryStateTransferService).getState();
+    this.model = this.stateTransferService.getState();
   }
 }

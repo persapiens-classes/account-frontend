@@ -12,6 +12,7 @@ import { AccountInsertService } from './account-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { PATHS } from '../app.paths';
 import { accountForm } from './account-form';
+import { AccountStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-account-insert',
@@ -24,6 +25,7 @@ import { accountForm } from './account-form';
       [modelInsertService]="modelInsertService"
       [modelName]="modelName"
       [routerName]="routerName"
+      [stateTransferService]="stateTransferService"
     >
       <app-input-field
         label="Description"
@@ -48,6 +50,7 @@ export class AccountInsertComponent {
   modelName: string;
   modelInsertService: AccountInsertService;
   modelIdFn = accountId;
+  stateTransferService = inject(AccountStateTransferService);
 
   categories: WritableSignal<Category[]>;
 

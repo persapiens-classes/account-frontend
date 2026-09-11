@@ -31,6 +31,7 @@ import { CategoryStateTransferService } from '../models/models-state-transfer-se
       [modelName]="modelName"
       [routerName]="routerName"
       [modelIdFn]="modelIdFn"
+      [stateTransferService]="stateTransferService"
     >
       <app-input-field
         label="Description"
@@ -42,7 +43,8 @@ import { CategoryStateTransferService } from '../models/models-state-transfer-se
   `,
 })
 export class CategoryUpdateComponent {
-  model = inject(CategoryStateTransferService).getState();
+  stateTransferService = inject(CategoryStateTransferService);
+  model = this.stateTransferService.getState();
   form = form(signal(this.model), (f) => {
     required(f.description);
     minLength(f.description, 3);

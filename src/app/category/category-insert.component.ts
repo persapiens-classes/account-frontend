@@ -9,6 +9,7 @@ import { ModelInsertPanelComponent } from '../models/model-insert-panel.componen
 import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
 import { MAX_LENGTH } from '../models/models';
+import { CategoryStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-category-insert',
@@ -21,6 +22,7 @@ import { MAX_LENGTH } from '../models/models';
       [modelName]="modelName"
       [routerName]="routerName"
       [modelIdFn]="modelIdFn"
+      [stateTransferService]="stateTransferService"
     >
       <app-input-field
         label="Description"
@@ -32,6 +34,7 @@ import { MAX_LENGTH } from '../models/models';
   `,
 })
 export class CategoryInsertComponent {
+  stateTransferService = inject(CategoryStateTransferService);
   form = form(signal(createCategory()), (f) => {
     required(f.description);
     minLength(f.description, 3);

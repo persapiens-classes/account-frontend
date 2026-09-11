@@ -4,6 +4,7 @@ import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { Component, inject, input } from '@angular/core';
 import { editPath } from '../app.paths';
+import { StateTransferService } from './models-state-transfer-service';
 
 @Component({
   selector: 'app-model-detail-panel',
@@ -32,6 +33,7 @@ export class ModelDetailPanelComponent<T> {
   routerName = input.required<string>();
 
   model = input.required<T>();
+  stateTransferService = input.required<StateTransferService<T>>();
 
   private readonly router = inject(Router);
 
@@ -40,8 +42,7 @@ export class ModelDetailPanelComponent<T> {
   }
 
   startUpdate() {
-    this.router.navigate([`${editPath(this.routerName())}`], {
-      state: { model: this.model() },
-    });
+    this.stateTransferService().setState(this.model());
+    this.router.navigate([`${editPath(this.routerName())}`]);
   }
 }

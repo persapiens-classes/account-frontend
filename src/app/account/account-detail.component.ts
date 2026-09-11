@@ -11,7 +11,11 @@ import { AccountStateTransferService } from '../models/models-state-transfer-ser
   selector: 'app-account-detail',
   imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
-    <app-model-detail-panel [routerName]="routerName" [model]="model">
+    <app-model-detail-panel
+      [routerName]="routerName"
+      [model]="model"
+      [stateTransferService]="stateTransferService"
+    >
       <app-detail-field
         strong="Description"
         value="{{ model.description }}"
@@ -24,9 +28,10 @@ import { AccountStateTransferService } from '../models/models-state-transfer-ser
 export class AccountDetailComponent {
   model: Account;
   routerName: string;
+  stateTransferService = inject(AccountStateTransferService);
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
-    this.model = inject(AccountStateTransferService).getState();
+    this.model = this.stateTransferService.getState();
   }
 }

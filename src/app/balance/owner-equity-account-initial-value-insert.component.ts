@@ -17,6 +17,7 @@ import { OwnerEquityAccountInitialValueInsertService } from './owner-equity-acco
 import { AppMessageService } from '../app-message-service';
 import { form, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
+import { OwnerEquityAccountInitialValueStateTransferService } from '../models/models-state-transfer-service';
 
 export interface OwnerEquityAccountInitialValueForm {
   owner: Owner;
@@ -55,6 +56,7 @@ export function ownerEquityAccountInitialValueModelToForm(
       [modelInsertService]="modelInsertService"
       [modelName]="'Balances'"
       [routerName]="routerName"
+      [stateTransferService]="stateTransferService"
     >
       <app-select-field
         label="Owner"
@@ -83,6 +85,7 @@ export function ownerEquityAccountInitialValueModelToForm(
 })
 export class OwnerEquityAccountInitialValueInsertComponent {
   routerName = PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH;
+  stateTransferService = inject(OwnerEquityAccountInitialValueStateTransferService);
   form = form(
     signal(ownerEquityAccountInitialValueModelToForm(createOwnerEquityAccountInitialValue())),
     (f) => {

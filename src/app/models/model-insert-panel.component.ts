@@ -8,6 +8,7 @@ import { Component, inject, input } from '@angular/core';
 import { ModelInsertService } from './model-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { detailPath } from '../app.paths';
+import { StateTransferService } from './models-state-transfer-service';
 
 @Component({
   selector: 'app-model-insert-panel',
@@ -48,6 +49,8 @@ export class ModelInsertPanelComponent<F, T, I> {
 
   routerName = input.required<string>();
 
+  stateTransferService = input.required<StateTransferService<T>>();
+
   private readonly router = inject(Router);
   private readonly appMessageService = inject(AppMessageService);
 
@@ -65,9 +68,8 @@ export class ModelInsertPanelComponent<F, T, I> {
               `${this.modelName()} inserted`,
               `${this.modelName()} ${this.modelIdFn()(model)} inserted ok.`,
             );
-            this.router.navigate([`${detailPath(this.routerName())}`], {
-              state: { model: model },
-            });
+            this.stateTransferService().setState(model);
+            this.router.navigate([`${detailPath(this.routerName())}`]);
           }),
         )
         .subscribe();

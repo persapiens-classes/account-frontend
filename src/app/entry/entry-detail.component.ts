@@ -11,7 +11,11 @@ import { EntryStateTransferService } from '../models/models-state-transfer-servi
   selector: 'app-entry-detail',
   imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
-    <app-model-detail-panel [routerName]="routerName" [model]="model">
+    <app-model-detail-panel
+      [routerName]="routerName"
+      [model]="model"
+      [stateTransferService]="stateTransferService"
+    >
       <app-detail-field
         strong="Date"
         value="{{ model.date.toLocaleDateString() }} {{ model.date.toLocaleTimeString() }}"
@@ -34,9 +38,10 @@ import { EntryStateTransferService } from '../models/models-state-transfer-servi
 export class EntryDetailComponent {
   model: Entry;
   routerName: string;
+  stateTransferService = inject(EntryStateTransferService);
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}${PATHS.ENTRY_PATH}`;
-    this.model = inject(EntryStateTransferService).getState();
+    this.model = this.stateTransferService.getState();
   }
 }

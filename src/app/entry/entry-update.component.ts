@@ -41,6 +41,7 @@ import { EntryStateTransferService } from '../models/models-state-transfer-servi
       [modelName]="modelName"
       [routerName]="routerName"
       [modelIdFn]="modelIdFn"
+      [stateTransferService]="stateTransferService"
     >
       <app-date-field label="Date" [autoFocus]="true" [formField]="form.date" dataCy="input-date" />
       <app-select-field
@@ -81,7 +82,8 @@ import { EntryStateTransferService } from '../models/models-state-transfer-servi
   `,
 })
 export class EntryUpdateComponent {
-  model = inject(EntryStateTransferService).getState();
+  stateTransferService = inject(EntryStateTransferService);
+  model = this.stateTransferService.getState();
   form = form(signal(entryModelToForm(this.model)), (f) => {
     required(f.date);
     required(f.inAccount);

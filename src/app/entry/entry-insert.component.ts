@@ -22,6 +22,7 @@ import { ModelInsertPanelComponent } from '../models/model-insert-panel.componen
 import { AppMessageService } from '../app-message-service';
 import { form, FormField, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
+import { EntryStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-entry-insert',
@@ -42,6 +43,7 @@ import { PATHS } from '../app.paths';
       [modelName]="modelName"
       [routerName]="routerName"
       [modelIdFn]="modelIdFn"
+      [stateTransferService]="stateTransferService"
     >
       <app-date-field label="Date" [autoFocus]="true" [formField]="form.date" dataCy="input-date" />
       <app-select-field
@@ -82,6 +84,7 @@ import { PATHS } from '../app.paths';
   `,
 })
 export class EntryInsertComponent {
+  stateTransferService = inject(EntryStateTransferService);
   form = form(signal(entryModelToForm(createEntry())), (f) => {
     required(f.date);
     required(f.inOwner);

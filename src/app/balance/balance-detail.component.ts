@@ -15,7 +15,11 @@ import {
   selector: 'app-balance-detail',
   imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
-    <app-model-detail-panel [routerName]="routerName" [model]="model">
+    <app-model-detail-panel
+      [routerName]="routerName"
+      [model]="model"
+      [stateTransferService]="balanceStateTransferService"
+    >
       <app-detail-field strong="Owner" value="{{ model.owner }}" dataCy="detail-owner" />
       <app-detail-field
         strong="Equity Account"
@@ -30,7 +34,7 @@ export class BalanceDetailComponent implements OnInit {
   model: Balance;
   routerName = PATHS.BALANCE_PATH;
   private readonly balanceFilterService = inject(BalanceFilterService);
-  private readonly balanceStateTransferService = inject(BalanceStateTransferService);
+  balanceStateTransferService = inject(BalanceStateTransferService);
   constructor() {
     if (this.balanceStateTransferService.hasState()) {
       this.model = this.balanceStateTransferService.getState();

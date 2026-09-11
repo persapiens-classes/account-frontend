@@ -35,6 +35,7 @@ import { AccountStateTransferService } from '../models/models-state-transfer-ser
       [modelName]="modelName"
       [routerName]="routerName"
       [modelIdFn]="modelIdFn"
+      [stateTransferService]="stateTransferService"
     >
       <app-input-field
         label="Description"
@@ -53,7 +54,8 @@ import { AccountStateTransferService } from '../models/models-state-transfer-ser
   `,
 })
 export class AccountUpdateComponent {
-  model = inject(AccountStateTransferService).getState();
+  stateTransferService = inject(AccountStateTransferService);
+  model = this.stateTransferService.getState();
   modelIdFn = accountId;
   form = accountForm(this.model);
 

@@ -7,6 +7,7 @@ import { OwnerInsertService } from './owner-insert-service';
 import { form, minLength, required, maxLength } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
 import { MAX_LENGTH } from '../models/models';
+import { OwnerStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-owner-insert',
@@ -19,6 +20,7 @@ import { MAX_LENGTH } from '../models/models';
       [modelIdFn]="modelIdFn"
       [modelName]="'Owner'"
       [routerName]="routerName"
+      [stateTransferService]="stateTransferService"
     >
       <app-input-field
         label="Name"
@@ -40,6 +42,7 @@ export class OwnerInsertComponent {
 
   modelInsertService = inject(OwnerInsertService);
   modelIdFn = ownerId;
+  stateTransferService = inject(OwnerStateTransferService);
 
   createModel(): Owner {
     return { name: this.form().value().name };

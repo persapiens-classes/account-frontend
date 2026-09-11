@@ -10,7 +10,11 @@ import { OwnerStateTransferService } from '../models/models-state-transfer-servi
   selector: 'app-owner-detail',
   imports: [CommonModule, DetailFieldComponent, ModelDetailPanelComponent],
   template: `
-    <app-model-detail-panel [routerName]="routerName" [model]="model">
+    <app-model-detail-panel
+      [routerName]="routerName"
+      [model]="model"
+      [stateTransferService]="stateTransferService"
+    >
       <app-detail-field strong="Name" [value]="model.name" dataCy="detail-name" />
     </app-model-detail-panel>
   `,
@@ -18,8 +22,9 @@ import { OwnerStateTransferService } from '../models/models-state-transfer-servi
 export class OwnerDetailComponent {
   routerName = PATHS.OWNER_PATH;
   model: Owner;
+  stateTransferService = inject(OwnerStateTransferService);
 
   constructor() {
-    this.model = inject(OwnerStateTransferService).getState();
+    this.model = this.stateTransferService.getState();
   }
 }

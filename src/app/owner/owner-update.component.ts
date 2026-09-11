@@ -29,6 +29,7 @@ import { OwnerStateTransferService } from '../models/models-state-transfer-servi
       [modelName]="'Owner'"
       [routerName]="routerName"
       [modelIdFn]="modelIdFn"
+      [stateTransferService]="stateTransferService"
     >
       <app-input-field
         label="Name"
@@ -42,7 +43,8 @@ import { OwnerStateTransferService } from '../models/models-state-transfer-servi
 export class OwnerUpdateComponent {
   routerName = PATHS.OWNER_PATH;
 
-  model = inject(OwnerStateTransferService).getState();
+  stateTransferService = inject(OwnerStateTransferService);
+  model = this.stateTransferService.getState();
 
   form = form(signal(this.model), (f) => {
     required(f.name);

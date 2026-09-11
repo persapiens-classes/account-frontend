@@ -8,6 +8,7 @@ import { ModelUpdateService } from './model-update-service';
 import { AppMessageService } from '../app-message-service';
 import { FieldTree } from '@angular/forms/signals';
 import { detailPath } from '../app.paths';
+import { StateTransferService } from './models-state-transfer-service';
 
 @Component({
   selector: 'app-model-update-panel',
@@ -57,6 +58,8 @@ export class ModelUpdatePanelComponent<F, T, U> {
 
   routerName = input.required<string>();
 
+  stateTransferService = input.required<StateTransferService<T>>();
+
   private readonly router = inject(Router);
   private readonly appMessageService = inject(AppMessageService);
 
@@ -70,9 +73,8 @@ export class ModelUpdatePanelComponent<F, T, U> {
               `${this.modelName()} edited`,
               `${this.modelName()} ${this.modelIdFn()(this.model())} edited ok.`,
             );
-            this.router.navigate([`${detailPath(this.routerName())}`], {
-              state: { model: model },
-            });
+            this.stateTransferService().setState(model);
+            this.router.navigate([`${detailPath(this.routerName())}`]);
           }),
           catchError((error) => {
             this.appMessageService.addErrorMessage(error, `${this.modelName()} not edited`);
@@ -88,9 +90,8 @@ export class ModelUpdatePanelComponent<F, T, U> {
   }
 
   cancelToDetail() {
-    this.router.navigate([`${detailPath(this.routerName())}`], {
-      state: { model: this.model() },
-    });
+    this.stateTransferService().setState(this.model());
+    this.router.navigate([`${detailPath(this.routerName())}`]);
   }
 
   onSubmit(event: Event) {
