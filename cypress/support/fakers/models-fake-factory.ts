@@ -51,11 +51,14 @@ export const entryFactory = Factory.define<Entry>(() => ({
   note: faker.string.alpha({ length: { min: 3, max: 15 }, casing: 'upper' }),
 }));
 
+const buildEquityAccount = () =>
+  accountFactory
+    .withTypeAndCategory(AccountType.EQUITY, categoryFactory.withType(CategoryType.EQUITY).build())
+    .build();
+
 export const balanceFactory = Factory.define<Balance>(() => ({
   owner: ownerFactory.build().name,
-  equityAccount: accountFactory
-    .withTypeAndCategory(AccountType.EQUITY, categoryFactory.withType(CategoryType.EQUITY).build())
-    .build(),
+  equityAccount: buildEquityAccount(),
   initialValue: faker.number.int({ min: 0, max: 10000 }),
   balance: faker.number.int({ min: 0, max: 10000 }),
 }));
@@ -63,12 +66,7 @@ export const balanceFactory = Factory.define<Balance>(() => ({
 export const ownerEquityAccountInitialValueFactory = Factory.define<OwnerEquityAccountInitialValue>(
   () => ({
     owner: ownerFactory.build().name,
-    equityAccount: accountFactory
-      .withTypeAndCategory(
-        AccountType.EQUITY,
-        categoryFactory.withType(CategoryType.EQUITY).build(),
-      )
-      .build(),
+    equityAccount: buildEquityAccount(),
     initialValue: faker.number.int({ min: 0, max: 999 }),
     balance: faker.number.int({ min: 0, max: 999 }),
   }),

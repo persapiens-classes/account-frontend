@@ -1,13 +1,7 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {
-  Account,
-  accountFormToModel,
-  accountId,
-  accountModelToForm,
-  createAccount,
-} from './account';
+import { Account, accountForm, accountFormToModel, accountId, createAccount } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryListService } from '../category/category-list-service';
@@ -16,9 +10,7 @@ import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { AccountInsertService } from './account-insert-service';
 import { AppMessageService } from '../app-message-service';
-import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
-import { MAX_LENGTH } from '../models/models';
 
 @Component({
   selector: 'app-account-insert',
@@ -50,13 +42,7 @@ import { MAX_LENGTH } from '../models/models';
   `,
 })
 export class AccountInsertComponent {
-  form = form(signal(accountModelToForm(createAccount())), (f) => {
-    required(f.description);
-    minLength(f.description, 3);
-    maxLength(f.description, MAX_LENGTH);
-    required(f.category);
-    minLength(f.category.description, 3);
-  });
+  form = accountForm(createAccount());
   routerName: string;
   modelName: string;
   modelInsertService: AccountInsertService;

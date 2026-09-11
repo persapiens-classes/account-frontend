@@ -12,16 +12,16 @@ ignoredBuiltDependencies:
   - msgpackr-extract
 
 minimumReleaseAgeExclude:
-  - '@fallow-cli/darwin-arm64@3.19.0 || 3.21.0'
-  - '@fallow-cli/darwin-x64@3.19.0 || 3.21.0'
-  - '@fallow-cli/linux-arm64-gnu@3.19.0 || 3.21.0'
-  - '@fallow-cli/linux-arm64-musl@3.19.0 || 3.21.0'
-  - '@fallow-cli/linux-x64-gnu@3.19.0 || 3.21.0'
-  - '@fallow-cli/linux-x64-musl@3.19.0 || 3.21.0'
-  - '@fallow-cli/win32-arm64-msvc@3.19.0 || 3.21.0'
-  - '@fallow-cli/win32-x64-msvc@3.19.0 || 3.21.0'
-  - fallow-type-aware@3.19.0 || 3.21.0
-  - fallow@3.19.0 || 3.21.0
+  - '@fallow-cli/darwin-arm64@3.19.0 || 3.21.0 || 3.25.0'
+  - '@fallow-cli/darwin-x64@3.19.0 || 3.21.0 || 3.25.0'
+  - '@fallow-cli/linux-arm64-gnu@3.19.0 || 3.21.0 || 3.25.0'
+  - '@fallow-cli/linux-arm64-musl@3.19.0 || 3.21.0 || 3.25.0'
+  - '@fallow-cli/linux-x64-gnu@3.19.0 || 3.21.0 || 3.25.0'
+  - '@fallow-cli/linux-x64-musl@3.19.0 || 3.21.0 || 3.25.0'
+  - '@fallow-cli/win32-arm64-msvc@3.19.0 || 3.21.0 || 3.25.0'
+  - '@fallow-cli/win32-x64-msvc@3.19.0 || 3.21.0 || 3.25.0'
+  - fallow-type-aware@3.19.0 || 3.21.0 || 3.25.0
+  - fallow@3.19.0 || 3.21.0 || 3.25.0
   - jscpd-darwin-arm64@5.1.1
   - jscpd-darwin-x64@5.1.1
   - jscpd-linux-arm64-gnu@5.1.1
@@ -30,11 +30,11 @@ minimumReleaseAgeExclude:
   - jscpd-windows-arm64-msvc@5.1.1
   - jscpd-windows-x64-msvc@5.1.1
   - jscpd@5.1.1
-  - '@angular-devkit/architect@0.2201.7'
-  - '@angular-devkit/core@22.1.7'
-  - '@angular-devkit/schematics@22.1.7'
-  - '@angular/build@22.1.7'
-  - '@angular/cli@22.1.7'
+  - '@angular-devkit/architect@0.2201.7 || 0.2201.8'
+  - '@angular-devkit/core@22.1.7 || 22.1.8'
+  - '@angular-devkit/schematics@22.1.7 || 22.1.8'
+  - '@angular/build@22.1.7 || 22.1.8'
+  - '@angular/cli@22.1.7 || 22.1.8'
   - '@angular/common@22.1.5'
   - '@angular/compiler-cli@22.1.5'
   - '@angular/compiler@22.1.5'
@@ -42,7 +42,10 @@ minimumReleaseAgeExclude:
   - '@angular/forms@22.1.5'
   - '@angular/platform-browser@22.1.5'
   - '@angular/router@22.1.5'
-  - '@schematics/angular@22.1.7'
+  - '@schematics/angular@22.1.7 || 22.1.8'
+  - baseline-browser-mapping@2.11.22
+  - vite@8.3.0
+  - zod@4.6.2
 
 onlyBuiltDependencies:
   - cypress

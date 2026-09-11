@@ -1,23 +1,16 @@
-import { form, maxLength, minLength, required } from '@angular/forms/signals';
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import {
-  Account,
-  accountFormToModel,
-  accountId,
-  accountModelToForm,
-  AccountSchema,
-} from './account';
+import { Account, accountForm, accountFormToModel, accountId, AccountSchema } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { CategoryListService } from '../category/category-list-service';
 import { AccountUpdateService } from './account-update-service';
-import { MAX_LENGTH, toModelFromHistory } from '../models/models';
+import { toModelFromHistory } from '../models/models';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { AppMessageService } from '../app-message-service';
 import { PATHS } from '../app.paths';
@@ -61,13 +54,7 @@ import { PATHS } from '../app.paths';
 export class AccountUpdateComponent {
   modelFromHistory = toModelFromHistory<Account>(AccountSchema);
   modelIdFn = accountId;
-  form = form(signal(accountModelToForm(this.modelFromHistory)), (f) => {
-    required(f.description);
-    minLength(f.description, 3);
-    maxLength(f.description, MAX_LENGTH);
-    required(f.category);
-    minLength(f.category.description, 3);
-  });
+  form = accountForm(this.modelFromHistory);
 
   routerName: string;
   modelName: string;
