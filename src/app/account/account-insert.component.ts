@@ -1,7 +1,7 @@
 import { Component, inject, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Account, accountForm, accountFormToModel, accountId, createAccount } from './account';
+import { Account, accountFormToModel, accountId, createAccount } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryListService } from '../category/category-list-service';
@@ -11,6 +11,7 @@ import { SelectFieldComponent } from '../field/select-field.component';
 import { AccountInsertService } from './account-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { PATHS } from '../app.paths';
+import { accountForm } from './account-form';
 
 @Component({
   selector: 'app-account-insert',

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { Account, accountForm, accountFormToModel, accountId, AccountSchema } from './account';
+import { Account, accountFormToModel, accountId, AccountSchema } from './account';
 import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
@@ -14,6 +14,7 @@ import { toModelFromHistory } from '../models/models';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { AppMessageService } from '../app-message-service';
 import { PATHS } from '../app.paths';
+import { accountForm } from './account-form';
 
 @Component({
   selector: 'app-account-update',
