@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { Balance } from './balance';
@@ -17,37 +17,48 @@ import {
   template: `
     <app-model-detail-panel
       [routerName]="routerName"
-      [model]="model"
+      [model]="model()"
       [stateTransferService]="balanceStateTransferService"
     >
-      <app-detail-field strong="Owner" value="{{ model.owner }}" dataCy="detail-owner" />
+      <app-detail-field strong="Owner" value="{{ model().owner }}" dataCy="detail-owner" />
       <app-detail-field
         strong="Equity Account"
-        value="{{ model.equityAccount.description }} - {{ model.equityAccount.category }}"
+        value="{{ model().equityAccount.description }} - {{ model().equityAccount.category }}"
       />
-      <app-detail-field strong="Balance" value="{{ model.balance | number: '1.2-2' }}" />
-      <app-detail-field strong="Initial Value" value="{{ model.initialValue | number: '1.2-2' }}" />
+      <app-detail-field strong="Balance" value="{{ model().balance | number: '1.2-2' }}" />
+      <app-detail-field
+        strong="Initial Value"
+        value="{{ model().initialValue | number: '1.2-2' }}"
+      />
     </app-model-detail-panel>
   `,
 })
 export class BalanceDetailComponent implements OnInit {
-  model: Balance;
+  model = signal<Balance>({
+    owner: '',
+    equityAccount: {
+      description: '',
+      category: '',
+    },
+    initialValue: 0,
+    balance: 0,
+  });
   routerName = PATHS.BALANCE_PATH;
   private readonly balanceFilterService = inject(BalanceFilterService);
   balanceStateTransferService = inject(BalanceStateTransferService);
   constructor() {
     if (this.balanceStateTransferService.hasState()) {
-      this.model = this.balanceStateTransferService.getState();
+      this.model.set(this.balanceStateTransferService.getState());
     } else {
       const ownerEquityAccountInitialValue = inject(
         OwnerEquityAccountInitialValueStateTransferService,
       ).getState();
-      this.model = {
+      this.model.set({
         owner: ownerEquityAccountInitialValue.owner,
         equityAccount: ownerEquityAccountInitialValue.equityAccount,
         initialValue: ownerEquityAccountInitialValue.initialValue,
         balance: 0,
-      };
+      });
     }
   }
 
@@ -56,9 +67,14 @@ export class BalanceDetailComponent implements OnInit {
   }
 
   private async initAsync(): Promise<void> {
-    if (this.balanceStateTransferService.hasState()) {
-      this.model = await firstValueFrom(
-        this.balanceFilterService.find(this.model.owner, this.model.equityAccount.description),
+    if (!this.balanceStateTransferService.hasState()) {
+      this.model.set(
+        await firstValueFrom(
+          this.balanceFilterService.find(
+            this.model().owner,
+            this.model().equityAccount.description,
+          ),
+        ),
       );
     }
   }
