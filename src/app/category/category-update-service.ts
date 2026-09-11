@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ModelUpdateService, updateModel } from '../models/model-update-service';
-import { Category, CategoryType } from './category';
+import { Category, CategorySchema, CategoryType } from './category';
 import { Observable } from 'rxjs';
 import { API_PATHS } from '../app.api-paths';
 
@@ -17,6 +17,7 @@ export class CategoryUpdateService implements ModelUpdateService<Category, Categ
       `${this.type.toLowerCase()}${API_PATHS.CATEGORY_API_PATH}`,
       id,
       '/',
+      CategorySchema,
     );
   }
 }

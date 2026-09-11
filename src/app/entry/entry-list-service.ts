@@ -1,4 +1,4 @@
-import { Entry, EntryType } from './entry';
+import { Entry, EntrySchema, EntryType } from './entry';
 import { ModelListService, loadModels } from '../models/model-list-service';
 import { WritableSignal } from '@angular/core';
 import { AppMessageService } from '../app-message-service';
@@ -15,6 +15,7 @@ export class EntryListService implements ModelListService<Entry> {
       this.appMessageService,
       `${this.type} Entry`,
       `${this.type.toLowerCase()}${API_PATHS.ENTRY_API_PATH}`,
+      EntrySchema,
     );
   }
 }

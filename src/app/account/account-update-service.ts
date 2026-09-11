@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Account, AccountType } from './account';
+import { Account, AccountSchema, AccountType } from './account';
 import { ModelUpdateService, updateModel } from '../models/model-update-service';
 import { Observable } from 'rxjs';
 import { API_PATHS } from '../app.api-paths';
@@ -17,6 +17,7 @@ export class AccountUpdateService implements ModelUpdateService<Account, Account
       `${this.type.toLowerCase()}${API_PATHS.ACCOUNT_API_PATH}`,
       id,
       '/',
+      AccountSchema,
     );
   }
 }

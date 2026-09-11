@@ -18,7 +18,7 @@ export function balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance> {
       if (owner && equityAccount) {
         req.reply({
           statusCode: StatusCodes.OK,
-          body: balances.filter((balance) => {
+          body: balances.find((balance) => {
             return balance.owner === owner && balance.equityAccount.description === equityAccount;
           }),
         });
