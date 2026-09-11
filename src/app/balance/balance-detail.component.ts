@@ -30,9 +30,10 @@ export class BalanceDetailComponent implements OnInit {
   model: Balance;
   routerName = PATHS.BALANCE_PATH;
   private readonly balanceFilterService = inject(BalanceFilterService);
+  private readonly balanceStateTransferService = inject(BalanceStateTransferService);
   constructor() {
     if (this.hasBalanceInStateTransferService()) {
-      this.model = inject(BalanceStateTransferService).getState()!;
+      this.model = this.balanceStateTransferService.getState()!;
     } else {
       const ownerEquityAccountInitialValue = inject(
         OwnerEquityAccountInitialValueStateTransferService,
@@ -51,7 +52,7 @@ export class BalanceDetailComponent implements OnInit {
   }
 
   hasBalanceInStateTransferService() {
-    return inject(BalanceStateTransferService).getState();
+    return this.balanceStateTransferService.getState();
   }
 
   private async initAsync(): Promise<void> {
