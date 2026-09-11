@@ -11,6 +11,7 @@ import { ModelListPanelComponent } from '../models/model-list-panel.component';
 import { OwnerListService } from './owner-list-service';
 import { ownerId } from './owner';
 import { PATHS } from '../app.paths';
+import { OwnerStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-owner-list',
@@ -62,10 +63,18 @@ import { PATHS } from '../app.paths';
           <tr data-cy="owners-table-row">
             <td data-label="Name">{{ item.name }}</td>
             <td data-label="Detail">
-              <app-start-detail-button [item]="item" [routerName]="routerName" />
+              <app-start-detail-button
+                [item]="item"
+                [routerName]="routerName"
+                [stateTransferService]="stateTransferService"
+              />
             </td>
             <td data-label="Edit">
-              <app-start-update-button [item]="item" [routerName]="routerName" />
+              <app-start-update-button
+                [item]="item"
+                [routerName]="routerName"
+                [stateTransferService]="stateTransferService"
+              />
             </td>
             <td data-label="Remove">
               <app-remove-button
@@ -86,6 +95,7 @@ export class OwnerListComponent {
   modelName = 'Owner';
   routerName = PATHS.OWNER_PATH;
   modelRemoveService = inject(OwnerRemoveService);
+  stateTransferService = inject(OwnerStateTransferService);
 
   modelsList = inject(OwnerListService).findAll();
   modelIdFn = ownerId;

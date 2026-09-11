@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Category, CategorySchema } from './category';
+import { Category } from './category';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { toModelFromHistory } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 import { PATHS } from '../app.paths';
+import { CategoryStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-category-detail',
@@ -26,6 +26,6 @@ export class CategoryDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
-    this.model = toModelFromHistory<Category>(CategorySchema);
+    this.model = inject(CategoryStateTransferService).getState()!;
   }
 }

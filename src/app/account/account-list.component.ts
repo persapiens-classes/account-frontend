@@ -13,6 +13,7 @@ import { AccountListService } from './account-list-service';
 import { AccountRemoveService } from './account-remove-service';
 import { ModelListPanelComponent } from '../models/model-list-panel.component';
 import { PATHS } from '../app.paths';
+import { AccountStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-account-list',
@@ -74,10 +75,18 @@ import { PATHS } from '../app.paths';
             <td data-label="Description">{{ item.description }}</td>
             <td data-label="Category">{{ item.category }}</td>
             <td data-label="Detail">
-              <app-start-detail-button [item]="item" [routerName]="routerName" />
+              <app-start-detail-button
+                [item]="item"
+                [routerName]="routerName"
+                [stateTransferService]="stateTransferService"
+              />
             </td>
             <td data-label="Edit">
-              <app-start-update-button [item]="item" [routerName]="routerName" />
+              <app-start-update-button
+                [item]="item"
+                [routerName]="routerName"
+                [stateTransferService]="stateTransferService"
+              />
             </td>
             <td data-label="Remove">
               <app-remove-button
@@ -98,6 +107,7 @@ export class AccountListComponent {
   modelName: string;
   routerName: string;
   modelRemoveService: AccountRemoveService;
+  stateTransferService = inject(AccountStateTransferService);
 
   modelsList: WritableSignal<Account[]>;
   modelIdFn = accountId;

@@ -2,18 +2,14 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import {
-  OwnerEquityAccountInitialValue,
-  ownerEquityAccountInitialValueId,
-  OwnerEquityAccountInitialValueSchema,
-} from './owner-equity-account-initial-value';
+import { ownerEquityAccountInitialValueId } from './owner-equity-account-initial-value';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { OwnerEquityAccountInitialValueUpdateService } from './owner-equity-account-initial-value-update-service';
-import { toModelFromHistory } from '../models/models';
 import { form, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
+import { OwnerEquityAccountInitialValueStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-owner-equity-account-initial-value-update',
@@ -28,20 +24,18 @@ import { PATHS } from '../app.paths';
   template: `
     <app-model-update-panel
       [form]="form"
-      [modelFromHistory]="modelFromHistory"
+      [model]="model"
       [modelIdFn]="modelIdFn"
       [createModel]="createModel.bind(this)"
       [modelUpdateService]="modelUpdateService"
       [modelName]="'Balances'"
       [routerName]="routerName"
     >
-      <app-detail-field strong="Owner" value="{{ modelFromHistory.owner }}" />
+      <app-detail-field strong="Owner" value="{{ model.owner }}" />
 
       <app-detail-field
         strong="Equity Account"
-        value="{{ modelFromHistory.equityAccount.description }} - {{
-          modelFromHistory.equityAccount.category
-        }}"
+        value="{{ model.equityAccount.description }} - {{ model.equityAccount.category }}"
       />
 
       <app-number-field
@@ -55,10 +49,8 @@ import { PATHS } from '../app.paths';
 })
 export class OwnerEquityAccountInitialValueUpdateComponent {
   routerName = PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_PATH;
-  modelFromHistory = toModelFromHistory<OwnerEquityAccountInitialValue>(
-    OwnerEquityAccountInitialValueSchema,
-  );
-  form = form(signal(this.modelFromHistory), (f) => {
+  model = inject(OwnerEquityAccountInitialValueStateTransferService).getState()!;
+  form = form(signal(this.model), (f) => {
     required(f.initialValue);
   });
 

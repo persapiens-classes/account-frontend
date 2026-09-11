@@ -13,6 +13,7 @@ import { AppMessageService } from '../app-message-service';
 import { CategoryRemoveService } from './category-remove-service';
 import { ModelListPanelComponent } from '../models/model-list-panel.component';
 import { PATHS } from '../app.paths';
+import { CategoryStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-category-list',
@@ -64,10 +65,18 @@ import { PATHS } from '../app.paths';
           <tr data-cy="categories-table-row">
             <td data-label="Description">{{ item.description }}</td>
             <td data-label="Detail">
-              <app-start-detail-button [item]="item" [routerName]="routerName" />
+              <app-start-detail-button
+                [item]="item"
+                [routerName]="routerName"
+                [stateTransferService]="stateTransferService"
+              />
             </td>
             <td data-label="Edit">
-              <app-start-update-button [item]="item" [routerName]="routerName" />
+              <app-start-update-button
+                [item]="item"
+                [routerName]="routerName"
+                [stateTransferService]="stateTransferService"
+              />
             </td>
             <td data-label="Remove">
               <app-remove-button
@@ -91,6 +100,7 @@ export class CategoryListComponent {
 
   modelsList: WritableSignal<Category[]>;
   modelIdFn = categoryId;
+  stateTransferService = inject(CategoryStateTransferService);
 
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];

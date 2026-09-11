@@ -3,13 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import {
-  entryModelToForm,
-  EntryInsertUpdate,
-  entryFormToModel,
-  entryId,
-  EntrySchema,
-} from './entry';
+import { entryModelToForm, EntryInsertUpdate, entryFormToModel, entryId } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../account/account';
 import { Owner } from '../owner/owner';
@@ -21,10 +15,10 @@ import { AccountListService } from '../account/account-list-service';
 import { OwnerListService } from '../owner/owner-list-service';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { EntryUpdateService } from './entry-update-service';
-import { toModelFromHistory } from '../models/models';
 import { AppMessageService } from '../app-message-service';
 import { form, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
+import { EntryStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-entry-update',
@@ -41,7 +35,7 @@ import { PATHS } from '../app.paths';
   template: `
     <app-model-update-panel
       [form]="form"
-      [modelFromHistory]="modelFromHistory"
+      [model]="model"
       [createModel]="createModel.bind(this)"
       [modelUpdateService]="modelUpdateService"
       [modelName]="modelName"
@@ -87,8 +81,8 @@ import { PATHS } from '../app.paths';
   `,
 })
 export class EntryUpdateComponent {
-  modelFromHistory = toModelFromHistory(EntrySchema);
-  form = form(signal(entryModelToForm(this.modelFromHistory)), (f) => {
+  model = inject(EntryStateTransferService).getState()!;
+  form = form(signal(entryModelToForm(this.model)), (f) => {
     required(f.date);
     required(f.inAccount);
     required(f.inOwner);

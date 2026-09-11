@@ -45,7 +45,7 @@ import { detailPath } from '../app.paths';
 export class ModelUpdatePanelComponent<F, T, U> {
   form = input.required<FieldTree<F>>();
 
-  modelFromHistory = input.required<T>();
+  model = input.required<T>();
 
   createModel = input.required<() => U>();
 
@@ -63,12 +63,12 @@ export class ModelUpdatePanelComponent<F, T, U> {
   update() {
     if (this.form()().valid()) {
       this.modelUpdateService()
-        .update(this.modelIdFn()(this.modelFromHistory()), this.createModel()())
+        .update(this.modelIdFn()(this.model()), this.createModel()())
         .pipe(
           tap((model) => {
             this.appMessageService.addSuccessMessage(
               `${this.modelName()} edited`,
-              `${this.modelName()} ${this.modelIdFn()(this.modelFromHistory())} edited ok.`,
+              `${this.modelName()} ${this.modelIdFn()(this.model())} edited ok.`,
             );
             this.router.navigate([`${detailPath(this.routerName())}`], {
               state: { model: model },
@@ -89,7 +89,7 @@ export class ModelUpdatePanelComponent<F, T, U> {
 
   cancelToDetail() {
     this.router.navigate([`${detailPath(this.routerName())}`], {
-      state: { model: this.modelFromHistory() },
+      state: { model: this.model() },
     });
   }
 

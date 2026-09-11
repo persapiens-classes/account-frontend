@@ -14,6 +14,7 @@ import { EntryListService } from './entry-list-service';
 import { EntryRemoveService } from './entry-remove-service';
 import { ModelListPanelComponent } from '../models/model-list-panel.component';
 import { PATHS } from '../app.paths';
+import { EntryStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-entry-list',
@@ -106,10 +107,18 @@ import { PATHS } from '../app.paths';
             <td data-label="Date">{{ item.date.toLocaleDateString() }}</td>
             <td data-label="Value">{{ item.value | number: '1.2-2' }}</td>
             <td data-label="Detail">
-              <app-start-detail-button [item]="item" [routerName]="routerName" />
+              <app-start-detail-button
+                [item]="item"
+                [routerName]="routerName"
+                [stateTransferService]="stateTransferService"
+              />
             </td>
             <td data-label="Edit">
-              <app-start-update-button [item]="item" [routerName]="routerName" />
+              <app-start-update-button
+                [item]="item"
+                [routerName]="routerName"
+                [stateTransferService]="stateTransferService"
+              />
             </td>
             <td data-label="Remove">
               <app-remove-button
@@ -130,6 +139,7 @@ export class EntryListComponent {
   modelName: string;
   routerName: string;
   modelRemoveService: EntryRemoveService;
+  stateTransferService = inject(EntryStateTransferService);
 
   modelsList: WritableSignal<Entry[]>;
   modelIdFn = entryId;

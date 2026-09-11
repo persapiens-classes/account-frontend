@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Account, AccountSchema } from './account';
+import { Account } from './account';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { toModelFromHistory } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 import { PATHS } from '../app.paths';
+import { AccountStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-account-detail',
@@ -27,6 +27,6 @@ export class AccountDetailComponent {
   constructor() {
     const type = inject(ActivatedRoute).snapshot.data['type'];
     this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
-    this.model = toModelFromHistory(AccountSchema);
+    this.model = inject(AccountStateTransferService).getState()!;
   }
 }

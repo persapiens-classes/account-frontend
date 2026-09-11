@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Owner, OwnerSchema } from './owner';
+import { Owner } from './owner';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { toModelFromHistory } from '../models/models';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 import { PATHS } from '../app.paths';
+import { OwnerStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-owner-detail',
@@ -20,6 +20,6 @@ export class OwnerDetailComponent {
   model: Owner;
 
   constructor() {
-    this.model = toModelFromHistory(OwnerSchema);
+    this.model = inject(OwnerStateTransferService).getState()!;
   }
 }

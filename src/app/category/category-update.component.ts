@@ -2,15 +2,16 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
-import { Category, categoryId, CategorySchema } from './category';
+import { Category, categoryId } from './category';
 import { InputFieldComponent } from '../field/input-field.component';
-import { MAX_LENGTH, toModelFromHistory } from '../models/models';
+import { MAX_LENGTH } from '../models/models';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CategoryUpdateService } from './category-update-service';
 import { ModelUpdatePanelComponent } from '../models/model-update-panel.component';
 import { form, maxLength, minLength, required } from '@angular/forms/signals';
 import { PATHS } from '../app.paths';
+import { CategoryStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-category-update',
@@ -24,7 +25,7 @@ import { PATHS } from '../app.paths';
   template: `
     <app-model-update-panel
       [form]="form"
-      [modelFromHistory]="modelFromHistory"
+      [model]="model"
       [createModel]="createModel.bind(this)"
       [modelUpdateService]="modelUpdateService"
       [modelName]="modelName"
@@ -41,12 +42,12 @@ import { PATHS } from '../app.paths';
   `,
 })
 export class CategoryUpdateComponent {
-  form = form(signal(toModelFromHistory<Category>(CategorySchema)), (f) => {
+  model = inject(CategoryStateTransferService).getState()!;
+  form = form(signal(this.model), (f) => {
     required(f.description);
     minLength(f.description, 3);
     maxLength(f.description, MAX_LENGTH);
   });
-  modelFromHistory = toModelFromHistory<Category>(CategorySchema);
   routerName: string;
   modelName: string;
   modelUpdateService: CategoryUpdateService;

@@ -12,6 +12,7 @@ import { ModelListPanelComponent } from '../models/model-list-panel.component';
 
 import { BalanceListService } from './balance-list-service';
 import { PATHS } from '../app.paths';
+import { BalanceStateTransferService } from '../models/models-state-transfer-service';
 
 @Component({
   selector: 'app-balance-list',
@@ -82,10 +83,18 @@ import { PATHS } from '../app.paths';
               <td data-label="Balance">{{ item.balance | number: '1.2-2' }}</td>
               <td data-label="Initial Value">{{ item.initialValue | number: '1.2-2' }}</td>
               <td data-label="Detail">
-                <app-start-detail-button [item]="item" [routerName]="routerName" />
+                <app-start-detail-button
+                  [item]="item"
+                  [routerName]="routerName"
+                  [stateTransferService]="stateTransferService"
+                />
               </td>
               <td data-label="Edit">
-                <app-start-update-button [item]="item" [routerName]="routerName" />
+                <app-start-update-button
+                  [item]="item"
+                  [routerName]="routerName"
+                  [stateTransferService]="stateTransferService"
+                />
               </td>
               <td data-label="Remove">
                 <app-remove-button
@@ -131,6 +140,7 @@ export class BalanceListComponent {
   modelName = 'Balance';
   routerName = PATHS.BALANCE_PATH;
   modelRemoveService = inject(OwnerEquityAccountInitialValueRemoveService);
+  stateTransferService = inject(BalanceStateTransferService);
   modelIdFn = balanceId;
 
   modelsList = inject(BalanceListService).findAll();

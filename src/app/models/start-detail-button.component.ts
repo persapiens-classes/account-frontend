@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { Router } from '@angular/router';
 import { detailPath } from '../app.paths';
+import { StateTransferService } from './models-state-transfer-service';
 
 @Component({
   selector: 'app-start-detail-button',
@@ -10,7 +11,7 @@ import { detailPath } from '../app.paths';
   template: `
     <p-button
       icon="pi pi-search"
-      (onClick)="startDetail(item())"
+      (onClick)="startDetail()"
       pTooltip="Detail the account"
       class="mr-4"
       data-cy="detail-button"
@@ -20,10 +21,12 @@ import { detailPath } from '../app.paths';
 export class StartDetailButtonComponent<T> {
   item = input.required<T>();
   routerName = input.required<string>();
+  stateTransferService = input.required<StateTransferService<T>>();
 
   private readonly router = inject(Router);
 
-  startDetail(item: T): void {
-    this.router.navigate([`${detailPath(this.routerName())}`], { state: { model: item } });
+  startDetail(): void {
+    this.stateTransferService().setState(this.item());
+    this.router.navigate([`${detailPath(this.routerName())}`]);
   }
 }
