@@ -1,9 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailFieldComponent } from '../field/detail-field.component';
-import { Balance } from './balance';
 import { BalanceFilterService } from './balance-filter-service';
-import { firstValueFrom } from 'rxjs';
+import { Balance } from './balance';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 import { PATHS } from '../app.paths';
 import {
@@ -33,49 +32,41 @@ import {
     </app-model-detail-panel>
   `,
 })
-export class BalanceDetailComponent implements OnInit {
-  model = signal<Balance>({
-    owner: '',
-    equityAccount: {
-      description: '',
-      category: '',
-    },
-    initialValue: 0,
-    balance: 0,
-  });
+export class BalanceDetailComponent {
   routerName = PATHS.BALANCE_PATH;
   private readonly balanceFilterService = inject(BalanceFilterService);
   balanceStateTransferService = inject(BalanceStateTransferService);
-  constructor() {
-    if (this.balanceStateTransferService.hasState()) {
-      this.model.set(this.balanceStateTransferService.getState());
-    } else {
-      const ownerEquityAccountInitialValue = inject(
-        OwnerEquityAccountInitialValueStateTransferService,
-      ).getState();
-      this.model.set({
-        owner: ownerEquityAccountInitialValue.owner,
-        equityAccount: ownerEquityAccountInitialValue.equityAccount,
-        initialValue: ownerEquityAccountInitialValue.initialValue,
-        balance: 0,
-      });
-    }
-  }
+  private readonly ownerEquityAccountInitialValueStateTransferService = inject(
+    OwnerEquityAccountInitialValueStateTransferService,
+  );
 
-  ngOnInit(): void {
-    this.initAsync();
-  }
+  private readonly balanceFromStateTransferService = this.balanceStateTransferService.hasState()
+    ? this.balanceStateTransferService.getState()
+    : undefined;
 
-  private async initAsync(): Promise<void> {
-    if (!this.balanceStateTransferService.hasState()) {
-      this.model.set(
-        await firstValueFrom(
-          this.balanceFilterService.find(
-            this.model().owner,
-            this.model().equityAccount.description,
-          ),
-        ),
-      );
+  private readonly ownerEquityAccountInitialValue =
+    this.ownerEquityAccountInitialValueStateTransferService.getState();
+
+  private readonly balanceFromServiceSignal =
+    this.ownerEquityAccountInitialValueStateTransferService.hasState()
+      ? this.balanceFilterService.find(
+          this.ownerEquityAccountInitialValue.owner,
+          this.ownerEquityAccountInitialValue.equityAccount.description,
+        )
+      : undefined;
+
+  private readonly defaultBalance: Balance = {
+    owner: '',
+    equityAccount: { description: '', category: '' },
+    initialValue: 0,
+    balance: 0,
+  };
+
+  model = computed(() => {
+    if (this.balanceFromStateTransferService) {
+      return this.balanceFromStateTransferService;
     }
-  }
+
+    return this.balanceFromServiceSignal?.() ?? this.defaultBalance;
+  });
 }

@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { httpResource } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Balance, BalanceSchema } from './balance';
-import { inject, Service } from '@angular/core';
+import { Service, WritableSignal } from '@angular/core';
 import { API_PATHS } from '../app.api-paths';
 import { safeModelWithZod } from '../models/models';
 
@@ -10,11 +9,18 @@ import { safeModelWithZod } from '../models/models';
 export class BalanceFilterService {
   private readonly apiUrl = `${environment.apiUrl}/${API_PATHS.BALANCE_API_PATH}/filter`;
 
-  private readonly http = inject(HttpClient);
-
-  find(owner: string, equityAccount: string): Observable<Balance> {
-    return this.http
-      .get<Balance>(`${this.apiUrl}?owner=${owner}&equityAccount=${equityAccount}`)
-      .pipe(map((response) => safeModelWithZod(response, BalanceSchema)));
+  find(owner: string, equityAccount: string): WritableSignal<Balance | undefined> {
+    return httpResource<Balance>(
+      (_ctx: unknown) => `${this.apiUrl}?owner=${owner}&equityAccount=${equityAccount}`,
+      {
+        defaultValue: {
+          balance: 0,
+          initialValue: 0,
+          owner,
+          equityAccount: { description: equityAccount, category: '' },
+        },
+        parse: (response: unknown) => safeModelWithZod(response, BalanceSchema),
+      },
+    ).value;
   }
 }
