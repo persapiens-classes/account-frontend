@@ -20,7 +20,7 @@ export function balanceApiMock(): {
       owner: model.owner,
       equityAccount: model.equityAccount,
       initialValue: model.initialValue,
-      balance: 0,
+      balance: model.initialValue,
     });
   };
 
