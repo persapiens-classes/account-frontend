@@ -30,7 +30,9 @@ export class AppApiMock {
     entryApiMock(EntryType.CREDIT).mock();
     entryApiMock(EntryType.DEBIT).mock();
     entryApiMock(EntryType.TRANSFER).mock();
-    balanceApiMock().mock();
-    ownerEquityAccountInitialValueApiMock().mock();
+    // balance mock should insert a balance when a owner equity account initial value is created
+    const balanceApiMockInstance = balanceApiMock();
+    balanceApiMockInstance.modelCrudApiMock.mock();
+    ownerEquityAccountInitialValueApiMock(balanceApiMockInstance.insertNotifyFn).mock();
   }
 }

@@ -13,11 +13,9 @@ import {
 } from '../../../src/app/balance/owner-equity-account-initial-value';
 import { AccountType } from '../../../src/app/account/account';
 
-export function ownerEquityAccountInitialValueApiMock(): ModelCrudApiMock<
-  OwnerEquityAccountInitialValueInsert,
-  number,
-  OwnerEquityAccountInitialValue
-> {
+export function ownerEquityAccountInitialValueApiMock(
+  insertNotifyFn: (model: OwnerEquityAccountInitialValue) => void,
+): ModelCrudApiMock<OwnerEquityAccountInitialValueInsert, number, OwnerEquityAccountInitialValue> {
   const ownerEquityAccountInitialValuesEndpoint = `/${API_PATHS.OWNER_EQUITY_ACCOUNT_INITIAL_VALUE_API_PATH}`;
 
   const idFn = (model: OwnerEquityAccountInitialValue): string =>
@@ -94,5 +92,6 @@ export function ownerEquityAccountInitialValueApiMock(): ModelCrudApiMock<
     updateToModelFn: updateToModelFn,
     equalsFn: equalsFn,
     idDeleteUpdateFn: idDeleteUpdateFn,
+    insertNotifyFn: insertNotifyFn,
   });
 }

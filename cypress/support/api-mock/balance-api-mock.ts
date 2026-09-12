@@ -5,11 +5,24 @@ import { API_PATHS } from '../../../src/app/app.api-paths';
 import { balancesDefault } from '../fakers/models-default';
 import { Balance } from '../../../src/app/balance/balance';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
+import { OwnerEquityAccountInitialValue } from '../../../src/app/balance/owner-equity-account-initial-value';
 
-export function balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance> {
+export function balanceApiMock(): {
+  insertNotifyFn: (model: OwnerEquityAccountInitialValue) => void;
+  modelCrudApiMock: ModelCrudApiMock<Balance, Balance, Balance>;
+} {
   const idFn = (model: Balance): string => `${model.owner}-${model.equityAccount.description}`;
 
   const balances = balancesDefault();
+
+  const insertNotifyFn = (model: OwnerEquityAccountInitialValue): void => {
+    balances.push({
+      owner: model.owner,
+      equityAccount: model.equityAccount,
+      initialValue: model.initialValue,
+      balance: 0,
+    });
+  };
 
   const balanceFilter = () => {
     const balancesFilterEndpoint = `/${API_PATHS.BALANCE_API_PATH}/filter*`;
@@ -26,10 +39,13 @@ export function balanceApiMock(): ModelCrudApiMock<Balance, Balance, Balance> {
     }).as('balancesEndpoint-filter');
   };
 
-  return new ModelCrudApiMock<Balance, Balance, Balance>({
-    endpoint: `/${API_PATHS.BALANCE_API_PATH}`,
-    idFn: idFn,
-    models: balances,
-    customMocks: [balanceFilter],
-  });
+  return {
+    insertNotifyFn: insertNotifyFn,
+    modelCrudApiMock: new ModelCrudApiMock<Balance, Balance, Balance>({
+      endpoint: `/${API_PATHS.BALANCE_API_PATH}`,
+      idFn: idFn,
+      models: balances,
+      customMocks: [balanceFilter],
+    }),
+  };
 }

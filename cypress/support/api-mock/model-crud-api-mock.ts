@@ -36,6 +36,7 @@ export interface ModelCrudApiMockConfig<I, U, F> {
   equalsFn?: (model1: F, model2: F) => boolean;
   customMocks?: (() => void)[];
   idDeleteUpdateFn?: (model: F) => string;
+  insertNotifyFn?: (model: F) => void;
 }
 
 export class ModelCrudApiMock<I, U, F> {
@@ -49,6 +50,7 @@ export class ModelCrudApiMock<I, U, F> {
   private readonly equalsFn: (model1: F, model2: F) => boolean;
   private readonly customMocks: (() => void)[];
   private readonly idDeleteUpdateFn?: (model: F) => string;
+  private readonly insertNotifyFn: (model: F) => void;
   constructor(config: ModelCrudApiMockConfig<I, U, F>) {
     this.endpoint = config.endpoint;
     this.idFn = config.idFn;
@@ -65,6 +67,7 @@ export class ModelCrudApiMock<I, U, F> {
     } else {
       this.idDeleteUpdateFn = this.idFn;
     }
+    this.insertNotifyFn = config.insertNotifyFn || (() => undefined);
   }
 
   // Mock GET /endpoint - list all models
@@ -112,6 +115,7 @@ export class ModelCrudApiMock<I, U, F> {
       // OW-03: Valid model
       // Track the created model
       this.models.push(modelToInsert);
+      this.insertNotifyFn(modelToInsert);
       req.reply({
         statusCode: StatusCodes.CREATED,
         body: modelToInsert,
