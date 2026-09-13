@@ -1,4 +1,4 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -9,8 +9,6 @@ import {
   entryModelToForm,
 } from './entry';
 import { HttpClient } from '@angular/common/http';
-import { Account } from '../account/account';
-import { Owner } from '../owner/owner';
 import { DateFieldComponent } from '../field/date-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
 import { NumberFieldComponent } from '../field/number-field.component';
@@ -94,32 +92,23 @@ export class EntryInsertComponent {
     required(f.value);
   });
 
-  modelInsertService: EntryInsertService;
-  routerName: string;
-  modelName: string;
   modelIdFn = entryId;
 
-  inAccounts: WritableSignal<Account[]>;
-  outAccounts: WritableSignal<Account[]>;
-  owners: WritableSignal<Owner[]>;
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly type = this.activatedRoute.snapshot.data['type'];
+  routerName = `${this.type.toLowerCase()}${PATHS.ENTRY_PATH}`;
+  modelName = `${this.type} Entry`;
+  modelInsertService = new EntryInsertService(inject(HttpClient), this.type);
 
-  constructor() {
-    const activatedRoute = inject(ActivatedRoute);
-    const type = activatedRoute.snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}${PATHS.ENTRY_PATH}`;
-    this.modelName = `${type} Entry`;
-    this.modelInsertService = new EntryInsertService(inject(HttpClient), type);
-
-    this.inAccounts = new AccountListService(
-      inject(AppMessageService),
-      activatedRoute.snapshot.data['inAccountType'],
-    ).findAll();
-    this.outAccounts = new AccountListService(
-      inject(AppMessageService),
-      activatedRoute.snapshot.data['outAccountType'],
-    ).findAll();
-    this.owners = inject(OwnerListService).findAll();
-  }
+  inAccounts = new AccountListService(
+    inject(AppMessageService),
+    this.activatedRoute.snapshot.data['inAccountType'],
+  ).findAll();
+  outAccounts = new AccountListService(
+    inject(AppMessageService),
+    this.activatedRoute.snapshot.data['outAccountType'],
+  ).findAll();
+  owners = inject(OwnerListService).findAll();
 
   createModel(): EntryInsertUpdate {
     return entryFormToModel(this.form().value());

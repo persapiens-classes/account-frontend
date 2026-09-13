@@ -34,8 +34,9 @@ import {
 })
 export class BalanceDetailComponent {
   routerName = PATHS.BALANCE_PATH;
-  private readonly balanceFilterService = inject(BalanceFilterService);
   balanceStateTransferService = inject(BalanceStateTransferService);
+
+  private readonly balanceFilterService = inject(BalanceFilterService);
   private readonly ownerEquityAccountInitialValueStateTransferService = inject(
     OwnerEquityAccountInitialValueStateTransferService,
   );

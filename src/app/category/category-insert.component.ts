@@ -40,19 +40,11 @@ export class CategoryInsertComponent {
     minLength(f.description, 3);
     maxLength(f.description, MAX_LENGTH);
   });
-  routerName: string;
-  modelName: string;
-  modelInsertService: CategoryInsertService;
-
-  constructor() {
-    const activatedRoute = inject(ActivatedRoute);
-    const http = inject(HttpClient);
-    const type = activatedRoute.snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
-    this.modelName = `${type} Category`;
-    this.modelInsertService = new CategoryInsertService(http, type);
-  }
   modelIdFn = categoryId;
+  private readonly type = inject(ActivatedRoute).snapshot.data['type'];
+  routerName = `${this.type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
+  modelName = `${this.type} Category`;
+  modelInsertService = new CategoryInsertService(inject(HttpClient), this.type);
 
   createModel(): Category {
     return { description: this.form().value().description };

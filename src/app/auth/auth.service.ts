@@ -4,15 +4,10 @@ import { Observable, catchError, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { API_PATHS } from '../app.api-paths';
 
-export class LoginResponse {
+export interface LoginResponse {
   login: string;
   token: string;
   expiresIn: number;
-  constructor(login: string, token: string, expiresIn: number) {
-    this.login = login;
-    this.token = token;
-    this.expiresIn = expiresIn;
-  }
 }
 
 @Service()

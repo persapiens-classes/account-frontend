@@ -1,9 +1,9 @@
-import { Component, inject, WritableSignal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { TableModule } from '@openng/optimus-ui/table';
 import { TooltipModule } from '@openng/optimus-ui/tooltip';
-import { Account, accountId } from './account';
+import { accountId } from './account';
 import { HttpClient } from '@angular/common/http';
 import { StartDetailButtonComponent } from '../models/start-detail-button.component';
 import { RemoveButtonComponent } from '../models/remove-button.component';
@@ -104,20 +104,12 @@ import { AccountStateTransferService } from '../models/models-state-transfer-ser
   `,
 })
 export class AccountListComponent {
-  modelName: string;
-  routerName: string;
-  modelRemoveService: AccountRemoveService;
+  private readonly type = inject(ActivatedRoute).snapshot.data['type'];
+  modelName = `${this.type} Account`;
+  routerName = `${this.type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
+  modelRemoveService = new AccountRemoveService(inject(HttpClient), this.type);
   stateTransferService = inject(AccountStateTransferService);
 
-  modelsList: WritableSignal<Account[]>;
+  modelsList = new AccountListService(inject(AppMessageService), this.type).findAll();
   modelIdFn = accountId;
-
-  constructor() {
-    const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.modelName = `${type} Account`;
-    this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
-    this.modelRemoveService = new AccountRemoveService(inject(HttpClient), type);
-
-    this.modelsList = new AccountListService(inject(AppMessageService), type).findAll();
-  }
 }

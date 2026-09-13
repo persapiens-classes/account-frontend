@@ -1,4 +1,4 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   createOwnerEquityAccountInitialValue,
@@ -98,16 +98,8 @@ export class OwnerEquityAccountInitialValueInsertComponent {
   modelInsertService = inject(OwnerEquityAccountInitialValueInsertService);
   modelIdFn = ownerEquityAccountInitialValueId;
 
-  equityAccounts: WritableSignal<Account[]>;
-  owners: WritableSignal<Owner[]>;
-
-  constructor() {
-    this.equityAccounts = new AccountListService(
-      inject(AppMessageService),
-      AccountType.EQUITY,
-    ).findAll();
-    this.owners = inject(OwnerListService).findAll();
-  }
+  equityAccounts = new AccountListService(inject(AppMessageService), AccountType.EQUITY).findAll();
+  owners = inject(OwnerListService).findAll();
 
   createModel(): OwnerEquityAccountInitialValueInsert {
     return ownerEquityAccountInitialValueFormToModel(this.form().value());

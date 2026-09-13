@@ -1,10 +1,9 @@
-import { Component, inject, WritableSignal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { Account, accountFormToModel, accountId } from './account';
-import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { InputFieldComponent } from '../field/input-field.component';
 import { SelectFieldComponent } from '../field/select-field.component';
@@ -59,25 +58,16 @@ export class AccountUpdateComponent {
   modelIdFn = accountId;
   form = accountForm(this.model);
 
-  routerName: string;
-  modelName: string;
-  modelUpdateService: AccountUpdateService;
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly type = this.activatedRoute.snapshot.data['type'];
+  modelName = `${this.type} Account`;
+  routerName = `${this.type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
+  modelUpdateService = new AccountUpdateService(inject(HttpClient), this.type);
 
-  categories: WritableSignal<Category[]>;
-
-  constructor() {
-    const activatedRoute = inject(ActivatedRoute);
-    const type = activatedRoute.snapshot.data['type'];
-    this.modelName = `${type} Account`;
-    this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
-    const http = inject(HttpClient);
-    this.modelUpdateService = new AccountUpdateService(http, type);
-
-    this.categories = new CategoryListService(
-      inject(AppMessageService),
-      activatedRoute.snapshot.data['categoryType'],
-    ).findAll();
-  }
+  categories = new CategoryListService(
+    inject(AppMessageService),
+    this.activatedRoute.snapshot.data['categoryType'],
+  ).findAll();
 
   createModel(): Account {
     return accountFormToModel(this.form().value());

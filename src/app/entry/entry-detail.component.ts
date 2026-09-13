@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Entry } from './entry';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 import { ActivatedRoute } from '@angular/router';
@@ -36,12 +35,8 @@ import { EntryStateTransferService } from '../models/models-state-transfer-servi
   `,
 })
 export class EntryDetailComponent {
-  model: Entry;
-  routerName: string;
   stateTransferService = inject(EntryStateTransferService);
-  constructor() {
-    const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}${PATHS.ENTRY_PATH}`;
-    this.model = this.stateTransferService.getState();
-  }
+  private readonly type = inject(ActivatedRoute).snapshot.data['type'];
+  routerName = `${this.type.toLowerCase()}${PATHS.ENTRY_PATH}`;
+  model = this.stateTransferService.getState();
 }

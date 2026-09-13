@@ -27,18 +27,13 @@ export enum TitleColor {
   `,
 })
 export class LayoutComponent {
-  title: string;
-  titleColor: string;
+  private readonly activatedRoute = inject(ActivatedRoute);
+  title = this.activatedRoute.snapshot.data['title'];
 
-  constructor() {
-    const activatedRoute = inject(ActivatedRoute);
-    this.title = activatedRoute.snapshot.data['title'];
-
-    this.titleColor =
-      {
-        blue: 'text-sky-400',
-        green: 'text-green-300',
-        red: 'text-red-600',
-      }[activatedRoute.snapshot.data['titleColor'] as TitleColor] ?? '';
-  }
+  titleColor =
+    {
+      blue: 'text-sky-400',
+      green: 'text-green-300',
+      red: 'text-red-600',
+    }[this.activatedRoute.snapshot.data['titleColor'] as TitleColor] ?? '';
 }

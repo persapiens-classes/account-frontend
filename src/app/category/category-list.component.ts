@@ -1,9 +1,9 @@
-import { Component, inject, WritableSignal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { TableModule } from '@openng/optimus-ui/table';
 import { TooltipModule } from '@openng/optimus-ui/tooltip';
-import { Category, categoryId } from './category';
+import { categoryId } from './category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryListService } from './category-list-service';
 import { StartDetailButtonComponent } from '../models/start-detail-button.component';
@@ -94,20 +94,12 @@ import { CategoryStateTransferService } from '../models/models-state-transfer-se
   `,
 })
 export class CategoryListComponent {
-  modelName: string;
-  routerName: string;
-  modelRemoveService: CategoryRemoveService;
+  private readonly type = inject(ActivatedRoute).snapshot.data['type'];
+  modelName = `${this.type} Category`;
+  routerName = `${this.type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
+  modelRemoveService = new CategoryRemoveService(inject(HttpClient), this.type);
 
-  modelsList: WritableSignal<Category[]>;
+  modelsList = new CategoryListService(inject(AppMessageService), this.type).findAll();
   modelIdFn = categoryId;
   stateTransferService = inject(CategoryStateTransferService);
-
-  constructor() {
-    const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.modelName = `${type} Category`;
-    this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
-    this.modelRemoveService = new CategoryRemoveService(inject(HttpClient), type);
-
-    this.modelsList = new CategoryListService(inject(AppMessageService), type).findAll();
-  }
 }

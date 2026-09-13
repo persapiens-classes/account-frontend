@@ -1,8 +1,7 @@
-import { Component, inject, WritableSignal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Account, accountFormToModel, accountId, createAccount } from './account';
-import { Category } from '../category/category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryListService } from '../category/category-list-service';
 import { ModelInsertPanelComponent } from '../models/model-insert-panel.component';
@@ -46,28 +45,18 @@ import { AccountStateTransferService } from '../models/models-state-transfer-ser
 })
 export class AccountInsertComponent {
   form = accountForm(createAccount());
-  routerName: string;
-  modelName: string;
-  modelInsertService: AccountInsertService;
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly type = this.activatedRoute.snapshot.data['type'];
+  routerName = `${this.type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
+  modelName = `${this.type} Account`;
+  modelInsertService = new AccountInsertService(inject(HttpClient), this.type);
   modelIdFn = accountId;
   stateTransferService = inject(AccountStateTransferService);
 
-  categories: WritableSignal<Category[]>;
-
-  constructor() {
-    const activatedRoute = inject(ActivatedRoute);
-    const http = inject(HttpClient);
-
-    this.categories = new CategoryListService(
-      inject(AppMessageService),
-      activatedRoute.snapshot.data['categoryType'],
-    ).findAll();
-
-    const type = activatedRoute.snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}${PATHS.ACCOUNT_PATH}`;
-    this.modelName = `${type} Account`;
-    this.modelInsertService = new AccountInsertService(http, type);
-  }
+  categories = new CategoryListService(
+    inject(AppMessageService),
+    this.activatedRoute.snapshot.data['categoryType'],
+  ).findAll();
 
   createModel(): Account {
     return accountFormToModel(this.form().value());

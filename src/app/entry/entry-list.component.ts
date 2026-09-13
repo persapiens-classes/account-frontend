@@ -1,9 +1,9 @@
-import { Component, inject, WritableSignal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TableModule } from '@openng/optimus-ui/table';
 import { TooltipModule } from '@openng/optimus-ui/tooltip';
-import { Entry, entryId } from './entry';
+import { entryId } from './entry';
 import { HttpClient } from '@angular/common/http';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { StartDetailButtonComponent } from '../models/start-detail-button.component';
@@ -136,21 +136,13 @@ import { EntryStateTransferService } from '../models/models-state-transfer-servi
   `,
 })
 export class EntryListComponent {
-  modelName: string;
-  routerName: string;
-  modelRemoveService: EntryRemoveService;
+  private readonly type = inject(ActivatedRoute).snapshot.data['type'];
+  modelName = `${this.type} Entry`;
+  routerName = `${this.type.toLowerCase()}${PATHS.ENTRY_PATH}`;
+
+  modelRemoveService = new EntryRemoveService(inject(HttpClient), this.type);
   stateTransferService = inject(EntryStateTransferService);
 
-  modelsList: WritableSignal<Entry[]>;
+  modelsList = new EntryListService(inject(AppMessageService), this.type).findAll();
   modelIdFn = entryId;
-
-  constructor() {
-    const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.modelName = `${type} Entry`;
-    this.routerName = `${type.toLowerCase()}${PATHS.ENTRY_PATH}`;
-
-    this.modelRemoveService = new EntryRemoveService(inject(HttpClient), type);
-
-    this.modelsList = new EntryListService(inject(AppMessageService), type).findAll();
-  }
 }

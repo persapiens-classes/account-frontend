@@ -12,6 +12,6 @@ export function removeModel(
   id: string,
   idSeparator: string,
 ): Observable<void> {
-  const apiUrl = environment.apiUrl + '/' + routerName;
+  const apiUrl = `${environment.apiUrl}/${routerName}`;
   return http.delete<void>(`${apiUrl}${idSeparator}${id}`);
 }

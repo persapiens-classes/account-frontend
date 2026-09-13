@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Category } from './category';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { ActivatedRoute } from '@angular/router';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
@@ -25,12 +24,8 @@ import { CategoryStateTransferService } from '../models/models-state-transfer-se
   `,
 })
 export class CategoryDetailComponent {
-  model: Category;
-  routerName: string;
+  private readonly type = inject(ActivatedRoute).snapshot.data['type'];
+  routerName = `${this.type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
   stateTransferService = inject(CategoryStateTransferService);
-  constructor() {
-    const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
-    this.model = this.stateTransferService.getState();
-  }
+  model = this.stateTransferService.getState();
 }

@@ -14,7 +14,7 @@ export function insertModel<T, I>(
   routerName: string,
   modelSchema: ZodType,
 ): Observable<T> {
-  const apiUrl = environment.apiUrl + '/' + routerName;
+  const apiUrl = `${environment.apiUrl}/${routerName}`;
   return http
     .post<T>(apiUrl, model)
     .pipe(map((response) => safeModelWithZod(response, modelSchema) as T));

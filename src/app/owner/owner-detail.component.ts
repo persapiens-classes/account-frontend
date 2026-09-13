@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Owner } from './owner';
 import { DetailFieldComponent } from '../field/detail-field.component';
 import { ModelDetailPanelComponent } from '../models/model-detail-panel.component';
 import { PATHS } from '../app.paths';
@@ -21,10 +20,6 @@ import { OwnerStateTransferService } from '../models/models-state-transfer-servi
 })
 export class OwnerDetailComponent {
   routerName = PATHS.OWNER_PATH;
-  model: Owner;
   stateTransferService = inject(OwnerStateTransferService);
-
-  constructor() {
-    this.model = this.stateTransferService.getState();
-  }
+  model = this.stateTransferService.getState();
 }

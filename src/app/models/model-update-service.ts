@@ -16,7 +16,7 @@ export function updateModel<T, U>(
   idSeparator: string,
   modelSchema: ZodType,
 ): Observable<T> {
-  const apiUrl = environment.apiUrl + '/' + routerName;
+  const apiUrl = `${environment.apiUrl}/${routerName}`;
   return http
     .put<T>(`${apiUrl}${idSeparator}${id}`, model)
     .pipe(map((response) => safeModelWithZod(response, modelSchema) as T));

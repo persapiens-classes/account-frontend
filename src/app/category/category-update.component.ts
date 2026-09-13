@@ -50,17 +50,13 @@ export class CategoryUpdateComponent {
     minLength(f.description, 3);
     maxLength(f.description, MAX_LENGTH);
   });
-  routerName: string;
-  modelName: string;
-  modelUpdateService: CategoryUpdateService;
-  modelIdFn = categoryId;
 
-  constructor() {
-    const type = inject(ActivatedRoute).snapshot.data['type'];
-    this.routerName = `${type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
-    this.modelName = `${type} Category`;
-    this.modelUpdateService = new CategoryUpdateService(inject(HttpClient), type);
-  }
+  private readonly type = inject(ActivatedRoute).snapshot.data['type'];
+  routerName = `${this.type.toLowerCase()}${PATHS.CATEGORY_PATH}`;
+  modelName = `${this.type} Category`;
+  modelUpdateService = new CategoryUpdateService(inject(HttpClient), this.type);
+
+  modelIdFn = categoryId;
 
   createModel(): Category {
     return { description: this.form().value().description };
