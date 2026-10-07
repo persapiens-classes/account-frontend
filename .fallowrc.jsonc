@@ -7,6 +7,8 @@
     "istanbul-lib-coverage",
     "@openng/optimus-ui-tailwindcss",
     "tailwindcss",
+    "ajv",
+    "ajv-formats",
   ],
   "duplicates": {
     // Keep reviewed clone groups ignored for test readability in parameterized E2E suites.
