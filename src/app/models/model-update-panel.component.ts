@@ -9,6 +9,7 @@ import { AppMessageService } from '../app-message-service';
 import { FieldTree } from '@angular/forms/signals';
 import { detailPath } from '../app.paths';
 import { StateTransferService } from './models-state-transfer-service';
+import { navigateTo } from '../shared/navigate';
 
 @Component({
   selector: 'app-model-update-panel',
@@ -74,7 +75,7 @@ export class ModelUpdatePanelComponent<F, T, U> {
               `${this.modelName()} ${this.modelIdFn()(this.model())} edited ok.`,
             );
             this.stateTransferService().setState(model);
-            this.router.navigate([`${detailPath(this.routerName())}`]);
+            navigateTo(this.router, this.appMessageService, `${detailPath(this.routerName())}`);
           }),
           catchError((error) => {
             this.appMessageService.addErrorMessage(error, `${this.modelName()} not edited`);
@@ -86,12 +87,12 @@ export class ModelUpdatePanelComponent<F, T, U> {
   }
 
   cancelToList() {
-    this.router.navigate([`${this.routerName()}`]);
+    navigateTo(this.router, this.appMessageService, `${this.routerName()}`);
   }
 
   cancelToDetail() {
     this.stateTransferService().setState(this.model());
-    this.router.navigate([`${detailPath(this.routerName())}`]);
+    navigateTo(this.router, this.appMessageService, `${detailPath(this.routerName())}`);
   }
 
   onSubmit(event: Event) {

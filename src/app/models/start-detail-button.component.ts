@@ -4,6 +4,8 @@ import { ButtonModule } from '@openng/optimus-ui/button';
 import { Router } from '@angular/router';
 import { detailPath } from '../app.paths';
 import { StateTransferService } from './models-state-transfer-service';
+import { navigateTo } from '../shared/navigate';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-start-detail-button',
@@ -24,9 +26,10 @@ export class StartDetailButtonComponent<T> {
   stateTransferService = input.required<StateTransferService<T>>();
 
   private readonly router = inject(Router);
+  private readonly appMessageService = inject(AppMessageService);
 
   startDetail(): void {
     this.stateTransferService().setState(this.item());
-    this.router.navigate([`${detailPath(this.routerName())}`]);
+    navigateTo(this.router, this.appMessageService, `${detailPath(this.routerName())}`);
   }
 }

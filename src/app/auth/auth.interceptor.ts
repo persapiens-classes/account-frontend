@@ -5,6 +5,8 @@ import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { abs, loginPath } from '../app.paths';
+import { navigateTo } from '../shared/navigate';
+import { AppMessageService } from '../app-message-service';
 
 export function authIntercept(
   req: HttpRequest<unknown>,
@@ -16,6 +18,7 @@ export function authIntercept(
 
   const authService = inject(AuthService);
   const router = inject(Router);
+  const appMessageService = inject(AppMessageService);
 
   const shouldAttachAuth = req.url.startsWith(environment.apiUrl);
   const token = authService.authenticatedToken();
@@ -32,7 +35,7 @@ export function authIntercept(
     catchError((error) => {
       if (error?.status === 401) {
         authService.clearSession();
-        router.navigate([abs(loginPath())]);
+        navigateTo(router, appMessageService, abs(loginPath()));
       }
       return throwError(() => error);
     }),

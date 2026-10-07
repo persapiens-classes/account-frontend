@@ -5,6 +5,8 @@ import { PanelModule } from '@openng/optimus-ui/panel';
 import { Component, inject, input } from '@angular/core';
 import { editPath } from '../app.paths';
 import { StateTransferService } from './models-state-transfer-service';
+import { navigateTo } from '../shared/navigate';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-model-detail-panel',
@@ -36,13 +38,14 @@ export class ModelDetailPanelComponent<T> {
   stateTransferService = input.required<StateTransferService<T>>();
 
   private readonly router = inject(Router);
+  private readonly appMessageService = inject(AppMessageService);
 
   list() {
-    this.router.navigate([`${this.routerName()}`]);
+    navigateTo(this.router, this.appMessageService, `${this.routerName()}`);
   }
 
   startUpdate() {
     this.stateTransferService().setState(this.model());
-    this.router.navigate([`${editPath(this.routerName())}`]);
+    navigateTo(this.router, this.appMessageService, `${editPath(this.routerName())}`);
   }
 }

@@ -3,6 +3,8 @@ import { Component, inject, input } from '@angular/core';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { newPath } from '../app.paths';
+import { navigateTo } from '../shared/navigate';
+import { AppMessageService } from '../app-message-service';
 
 @Component({
   selector: 'app-model-list-panel',
@@ -29,8 +31,9 @@ export class ModelListPanelComponent {
   routerName = input.required<string>();
 
   private readonly router = inject(Router);
+  private readonly appMessageService = inject(AppMessageService);
 
   startInsert(): void {
-    this.router.navigate([`${newPath(this.routerName())}`]);
+    navigateTo(this.router, this.appMessageService, `${newPath(this.routerName())}`);
   }
 }

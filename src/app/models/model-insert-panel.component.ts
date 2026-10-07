@@ -9,6 +9,7 @@ import { ModelInsertService } from './model-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { detailPath } from '../app.paths';
 import { StateTransferService } from './models-state-transfer-service';
+import { navigateTo } from '../shared/navigate';
 
 @Component({
   selector: 'app-model-insert-panel',
@@ -69,7 +70,7 @@ export class ModelInsertPanelComponent<F, T, I> {
               `${this.modelName()} ${this.modelIdFn()(model)} inserted ok.`,
             );
             this.stateTransferService().setState(model);
-            this.router.navigate([`${detailPath(this.routerName())}`]);
+            navigateTo(this.router, this.appMessageService, `${detailPath(this.routerName())}`);
           }),
         )
         .subscribe();
@@ -77,7 +78,7 @@ export class ModelInsertPanelComponent<F, T, I> {
   }
 
   cancelInsert() {
-    this.router.navigate([`${this.routerName()}`]);
+    navigateTo(this.router, this.appMessageService, `${this.routerName()}`);
   }
 
   onSubmit(event: Event) {
