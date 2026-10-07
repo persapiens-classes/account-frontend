@@ -97,7 +97,8 @@
         "cypress-run": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "account:serve"
+            "devServerTarget": "account:serve",
+            "browser": "chrome"
           },
           "configurations": {
             "production": {
@@ -109,7 +110,8 @@
           "builder": "@cypress/schematic:cypress",
           "options": {
             "watch": true,
-            "headless": false
+            "headless": false,
+            "browser": "chrome"
           }
         },
         "e2e": {
@@ -117,7 +119,8 @@
           "options": {
             "devServerTarget": "account:serve",
             "watch": true,
-            "headless": false
+            "headless": false,
+            "browser": "chrome"
           },
           "configurations": {
             "production": {
