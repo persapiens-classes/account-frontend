@@ -16,7 +16,6 @@ export default defineConfig({
     baseUrl: 'http://localhost:5173', // frontend
     video: false,
     screenshotOnFailure: false,
-    experimentalMemoryManagement: true,
     numTestsKeptInMemory: 0,
     memoryLimit: 2048,
     viewportWidth: 1280,
