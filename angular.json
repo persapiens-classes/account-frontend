@@ -98,7 +98,7 @@
           "builder": "@cypress/schematic:cypress",
           "options": {
             "devServerTarget": "account:serve",
-            "browser": "chrome"
+            "browser": "chromium"
           },
           "configurations": {
             "production": {
@@ -111,7 +111,7 @@
           "options": {
             "watch": true,
             "headless": false,
-            "browser": "chrome"
+            "browser": "chromium"
           }
         },
         "e2e": {
@@ -120,7 +120,7 @@
             "devServerTarget": "account:serve",
             "watch": true,
             "headless": false,
-            "browser": "chrome"
+            "browser": "chromium"
           },
           "configurations": {
             "production": {

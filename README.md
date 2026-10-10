@@ -163,7 +163,7 @@ pnpm test:cypress:run
 Ideal for fast testing and CI/CD pipelines without backend dependency:
 
 ```bash
-pnpm test:cypress:mock:run
+pnpm cypress:mock:run
 ```
 
 #### Run a Specific Test File
@@ -171,25 +171,25 @@ pnpm test:cypress:mock:run
 With real backend data:
 
 ```bash
-pnpm exec cypress run --browser chrome --spec "cypress/e2e/path/to/file.cy.ts"
+pnpm exec cypress run --browser chromium --spec "cypress/e2e/path/to/file.cy.ts"
 ```
 
 With mocked data:
 
 ```bash
-CYPRESS_USE_MOCK=true pnpm exec cypress run --browser chrome --spec "cypress/e2e/path/to/file.cy.ts"
+CYPRESS_USE_MOCK=true pnpm exec cypress run --browser chromium --spec "cypress/e2e/path/to/file.cy.ts"
 ```
 
 Example:
 
 ```bash
-CYPRESS_USE_MOCK=true pnpm exec cypress run --browser chrome --spec "cypress/e2e/auth/login.cy.ts"
+CYPRESS_USE_MOCK=true pnpm exec cypress run --browser chromium --spec "cypress/e2e/auth/login.cy.ts"
 ```
 
 #### Run an Entire Folder of Tests
 
 ```bash
-pnpm exec cypress run --browser chrome --spec "cypress/e2e/category/**/*.cy.ts"
+pnpm exec cypress run --browser chromium --spec "cypress/e2e/category/**/*.cy.ts"
 ```
 
 Video Recording Configuration
