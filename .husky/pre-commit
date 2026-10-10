@@ -1,3 +1,6 @@
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PNPM_HOME/bin:$PATH"
+
 pnpm format:fix
 pnpm check-duplication
 pnpm fallow:dead-code
