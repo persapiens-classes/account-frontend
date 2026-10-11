@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { form, FormField, required, minLength } from '@angular/forms/signals';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
@@ -12,7 +12,7 @@ import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
 import { AppMessageService } from '../app-message-service';
 import { InputFieldComponent } from '../field/input-field.component';
 import { listPath, PATHS } from '../app.paths';
-import { navigateTo } from '../shared/navigate';
+import { NavigateService } from '../shared/navigate-service';
 
 @Component({
   selector: 'app-login',
@@ -73,9 +73,9 @@ export class LoginPageComponent {
     minLength(f.password, 3);
   });
 
-  private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly appMessageService = inject(AppMessageService);
+  private readonly navigateService = inject(NavigateService);
 
   signin() {
     if (this.form().valid()) {
@@ -83,7 +83,7 @@ export class LoginPageComponent {
         .signin(this.form().value().username, this.form().value().password)
         .pipe(
           tap(() => {
-            navigateTo(this.router, this.appMessageService, `/${listPath(PATHS.BALANCE_PATH)}`);
+            this.navigateService.navigate(`/${listPath(PATHS.BALANCE_PATH)}`);
           }),
           catchError((error) => {
             this.appMessageService.addErrorMessage(

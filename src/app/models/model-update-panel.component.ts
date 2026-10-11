@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
@@ -9,7 +8,7 @@ import { AppMessageService } from '../app-message-service';
 import { FieldTree } from '@angular/forms/signals';
 import { detailPath } from '../app.paths';
 import { StateTransferService } from './models-state-transfer-service';
-import { navigateTo } from '../shared/navigate';
+import { NavigateService } from '../shared/navigate-service';
 
 @Component({
   selector: 'app-model-update-panel',
@@ -60,9 +59,8 @@ export class ModelUpdatePanelComponent<F, T, U> {
   routerName = input.required<string>();
 
   stateTransferService = input.required<StateTransferService<T>>();
-
-  private readonly router = inject(Router);
-  private readonly appMessageService = inject(AppMessageService);
+  navigateService = inject(NavigateService);
+  appMessageService = inject(AppMessageService);
 
   update() {
     if (this.form()().valid()) {
@@ -75,7 +73,7 @@ export class ModelUpdatePanelComponent<F, T, U> {
               `${this.modelName()} ${this.modelIdFn()(this.model())} edited ok.`,
             );
             this.stateTransferService().setState(model);
-            navigateTo(this.router, this.appMessageService, `${detailPath(this.routerName())}`);
+            this.navigateService.navigate(`${detailPath(this.routerName())}`);
           }),
           catchError((error) => {
             this.appMessageService.addErrorMessage(error, `${this.modelName()} not edited`);
@@ -87,12 +85,12 @@ export class ModelUpdatePanelComponent<F, T, U> {
   }
 
   cancelToList() {
-    navigateTo(this.router, this.appMessageService, `${this.routerName()}`);
+    this.navigateService.navigate(`${this.routerName()}`);
   }
 
   cancelToDetail() {
     this.stateTransferService().setState(this.model());
-    navigateTo(this.router, this.appMessageService, `${detailPath(this.routerName())}`);
+    this.navigateService.navigate(`${detailPath(this.routerName())}`);
   }
 
   onSubmit(event: Event) {

@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { FieldTree } from '@angular/forms/signals';
 import { ButtonModule } from '@openng/optimus-ui/button';
@@ -9,7 +8,7 @@ import { ModelInsertService } from './model-insert-service';
 import { AppMessageService } from '../app-message-service';
 import { detailPath } from '../app.paths';
 import { StateTransferService } from './models-state-transfer-service';
-import { navigateTo } from '../shared/navigate';
+import { NavigateService } from '../shared/navigate-service';
 
 @Component({
   selector: 'app-model-insert-panel',
@@ -52,8 +51,8 @@ export class ModelInsertPanelComponent<F, T, I> {
 
   stateTransferService = input.required<StateTransferService<T>>();
 
-  private readonly router = inject(Router);
   private readonly appMessageService = inject(AppMessageService);
+  private readonly navigateService = inject(NavigateService);
 
   insert() {
     if (this.form()().valid()) {
@@ -70,7 +69,7 @@ export class ModelInsertPanelComponent<F, T, I> {
               `${this.modelName()} ${this.modelIdFn()(model)} inserted ok.`,
             );
             this.stateTransferService().setState(model);
-            navigateTo(this.router, this.appMessageService, `${detailPath(this.routerName())}`);
+            this.navigateService.navigate(`${detailPath(this.routerName())}`);
           }),
         )
         .subscribe();
@@ -78,7 +77,7 @@ export class ModelInsertPanelComponent<F, T, I> {
   }
 
   cancelInsert() {
-    navigateTo(this.router, this.appMessageService, `${this.routerName()}`);
+    this.navigateService.navigate(`${this.routerName()}`);
   }
 
   onSubmit(event: Event) {

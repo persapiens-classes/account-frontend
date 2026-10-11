@@ -1,11 +1,9 @@
 import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { Router } from '@angular/router';
 import { detailPath } from '../app.paths';
 import { StateTransferService } from './models-state-transfer-service';
-import { navigateTo } from '../shared/navigate';
-import { AppMessageService } from '../app-message-service';
+import { NavigateService } from '../shared/navigate-service';
 
 @Component({
   selector: 'app-start-detail-button',
@@ -25,11 +23,10 @@ export class StartDetailButtonComponent<T> {
   routerName = input.required<string>();
   stateTransferService = input.required<StateTransferService<T>>();
 
-  private readonly router = inject(Router);
-  private readonly appMessageService = inject(AppMessageService);
+  private readonly navigateService = inject(NavigateService);
 
   startDetail(): void {
     this.stateTransferService().setState(this.item());
-    navigateTo(this.router, this.appMessageService, `${detailPath(this.routerName())}`);
+    this.navigateService.navigate(`${detailPath(this.routerName())}`);
   }
 }

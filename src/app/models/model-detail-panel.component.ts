@@ -1,11 +1,10 @@
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { PanelModule } from '@openng/optimus-ui/panel';
 import { Component, inject, input } from '@angular/core';
 import { editPath } from '../app.paths';
 import { StateTransferService } from './models-state-transfer-service';
-import { navigateTo } from '../shared/navigate';
+import { NavigateService } from '../shared/navigate-service';
 import { AppMessageService } from '../app-message-service';
 
 @Component({
@@ -36,16 +35,15 @@ export class ModelDetailPanelComponent<T> {
 
   model = input.required<T>();
   stateTransferService = input.required<StateTransferService<T>>();
-
-  private readonly router = inject(Router);
-  private readonly appMessageService = inject(AppMessageService);
+  navigateService = inject(NavigateService);
+  appMessageService = inject(AppMessageService);
 
   list() {
-    navigateTo(this.router, this.appMessageService, `${this.routerName()}`);
+    this.navigateService.navigate(`${this.routerName()}`);
   }
 
   startUpdate() {
     this.stateTransferService().setState(this.model());
-    navigateTo(this.router, this.appMessageService, `${editPath(this.routerName())}`);
+    this.navigateService.navigate(`${editPath(this.routerName())}`);
   }
 }
