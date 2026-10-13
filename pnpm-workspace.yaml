@@ -39,7 +39,7 @@ minimumReleaseAgeExclude:
   - '@schematics/angular@22.1.7 || 22.1.8'
   - baseline-browser-mapping@2.11.22
   - vite@8.3.0 || 8.3.3
-  - zod@4.6.2
+  - zod@4.6.2 || 4.6.7
   - '@pnpm/exe.android-arm64@12.11.2'
   - '@pnpm/exe.android-x64@12.11.2'
   - '@pnpm/exe.darwin-arm64@12.11.2'
