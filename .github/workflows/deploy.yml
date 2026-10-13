@@ -52,10 +52,10 @@ jobs:
             report/jscpd/
 
       - name: Fallow gate (unused code)
-        run: pnpm fallow:dead-code -- --format github-annotations
+        run: pnpm fallow:dead-code --format github-annotations
 
       - name: Fallow gate (duplicates)
-        run: pnpm fallow:dupes -- --format github-annotations
+        run: pnpm fallow:dupes --format github-annotations
 
       - name: Fallow HTML report generate
         if: ${{ always() }}
