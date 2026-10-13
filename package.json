@@ -30,7 +30,7 @@
     "fallow:dupes": "pnpm fallow dupes --threshold 0.01",
     "check-duplication": "jscpd --config .jscpdrc.json ./",
     "quality:static": "pnpm format:check && pnpm check-duplication && pnpm fallow:dead-code && pnpm fallow:dupes && pnpm lint",
-    "quality:tests": "pnpm test:unit:ng:coverage && pnpm test:e2e:coverage",
+    "quality:tests": "pnpm test:unit:ng:coverage && pnpm test:unit:coverage && pnpm test:e2e:coverage",
     "quality": "pnpm quality:static && pnpm quality:tests",
     "cypress:open": "cypress open --browser chromium",
     "cypress:run": "cypress run --browser chromium",
