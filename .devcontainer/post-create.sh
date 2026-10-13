@@ -27,7 +27,7 @@ fi
 # 3. install pnpm
 wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
 
-export PNPM_HOME='/home/vscode/.local/share/pnpm'
+export PNPM_HOME="${HOME}/.local/share/pnpm"
 export PATH="$PNPM_HOME/bin:$PATH"
 
 # 4. install dependencies
