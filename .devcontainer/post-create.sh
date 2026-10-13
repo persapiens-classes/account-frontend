@@ -2,20 +2,40 @@
 
 set -e
 
-# install chromium
-sudo apt-get update
-sudo apt-get install -y chromium
+# Verify if it's necessary to use sudo (if the user is not root)
+SUDO=""
+if [ "$(id -u)" -ne 0 ]; then
+  SUDO="sudo"
+fi
 
-# install pnpm
+# 1. install chromium
+$SUDO apt-get update
+$SUDO apt-get install -y chromium
+
+# 2. configure pnpm store and cypress cache directories
+# Usa o valor vindo do devcontainer.json / deploy.yml, com fallback caso rode isolado
+$SUDO mkdir -p \
+  "${PNPM_CONFIG_STORE_DIR:-/pnpm_data/pnpm_store}" \
+  "${PNPM_CONFIG_CACHE_DIR:-/pnpm_data/pnpm_cache}" \
+  "${PNPM_CONFIG_STATE_DIR:-/pnpm_data/pnpm_state}" \
+  "${CYPRESS_CACHE_FOLDER:-/pnpm_data/cypress_cache}"
+# set permissions for default user
+if [ "$(id -u)" -ne 0 ]; then
+  $SUDO chown -R ${USER}:${USER} /pnpm_data
+fi
+
+# 3. install pnpm
 wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
-# configure pnpm store and cypress cache directories
-sudo mkdir -p /pnpm_data/pnpm_store /pnpm_data/pnpm_cache /pnpm_data/pnpm_state /pnpm_data/cypress_cache
-# set permissions for vscode user
-sudo chown -R ${USER}:${USER} /pnpm_data
 
 export PNPM_HOME='/home/vscode/.local/share/pnpm'
 export PATH="$PNPM_HOME/bin:$PATH"
-# install dependencies
-pnpm install
-# install cypress
+
+# 4. install dependencies
+if [ "$CI" = "true" ]; then
+  pnpm install --frozen-lockfile
+else
+  pnpm install
+fi
+
+# 5. install cypress
 pnpm cypress install

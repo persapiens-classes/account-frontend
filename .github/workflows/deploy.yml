@@ -10,33 +10,33 @@ jobs:
 
     container: mcr.microsoft.com/devcontainers/base:2.2.3-trixie
 
+    env:
+      PNPM_CONFIG_STORE_DIR: '/pnpm_data/pnpm_store'
+      PNPM_CONFIG_CACHE_DIR: '/pnpm_data/pnpm_cache'
+      PNPM_CONFIG_STATE_DIR: '/pnpm_data/pnpm_state'
+      CYPRESS_CACHE_FOLDER: '/pnpm_data/cypress_cache'
+
     steps:
       - name: Source code checkout
         uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Cypress cache
+      - name: Cache
         uses: actions/cache@v6.1.0
         with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-cache-${{ hashFiles('pnpm-lock.yaml') }}
+          path: /pnpm_data
+          key: ${{ runner.os }}-unified-cache-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-cypress-cache-
+            ${{ runner.os }}-unified-cache-
 
-      - name: Chromium install
-        uses: browser-actions/setup-chrome@v2.2.0
+      - name: Install chromium, pnpm, dependencies and cypress
+        run: bash .devcontainer/post-create.sh
 
-      - name: Pnpm install
-        uses: pnpm/action-setup@v6.1.0
-        with:
-          cache: true
-
-      - name: Dependencies install
-        run: pnpm install --frozen-lockfile
-
-      - name: Cypress install
-        run: pnpm cypress install
+      # post-create changes PATH to include pnpm,
+      # we need to ensure that the next steps in the GitHub Actions workflow know about this new PATH.
+      - name: Export PNPM PATH for next steps
+        run: echo "$HOME/.local/share/pnpm/bin" >> $GITHUB_PATH
 
       - name: Oxfmt run
         run: pnpm format:check

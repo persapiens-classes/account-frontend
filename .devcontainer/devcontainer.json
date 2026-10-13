@@ -4,20 +4,6 @@
   // base image with trixie
   "image": "mcr.microsoft.com/devcontainers/base:2.2.3-trixie",
 
-  // install chromium, pnpm and cypress
-  "postCreateCommand": "bash .devcontainer/post-create.sh",
-
-  // 4200 for Angular, 5173 for Vite
-  "forwardPorts": [4200, 5173],
-
-  // set the default workspace folder
-  "workspaceFolder": "/workspaces/account-frontend",
-
-  "mounts": [
-    // pnpm store persistence to speed up rebuilds
-    "source=pnpm-store,target=/pnpm_data,type=volume"
-  ],
-
   // set environment variables for pnpm config and cypress cache directories
   "containerEnv": {
     "PNPM_CONFIG_STORE_DIR": "/pnpm_data/pnpm_store",
@@ -26,8 +12,22 @@
     "CYPRESS_CACHE_FOLDER": "/pnpm_data/cypress_cache"
   },
 
+  "mounts": [
+    // pnpm store persistence to speed up rebuilds
+    "source=pnpm-store,target=/pnpm_data,type=volume"
+  ],
+
+  // 4200 for Angular, 5173 for Vite
+  "forwardPorts": [4200, 5173],
+
+  // set the default workspace folder
+  "workspaceFolder": "/workspaces/account-frontend",
+
   // recommended for devcontainers
   "init": true,
+
+  // install chromium, pnpm and cypress
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
 
   // run args to allow GUI apps to run in the container
   "runArgs": [
