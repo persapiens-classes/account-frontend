@@ -32,11 +32,11 @@
   // run args to allow GUI apps to run in the container
   "runArgs": [
     "-e",
-    "DISPLAY=${localEnv:DISPLAY:-:0}",
+    "DISPLAY=${localEnv:DISPLAY:}",
     "-e",
     "XAUTHORITY=${localEnv:XAUTHORITY:-/tmp/.X11-unix}",
     "-v",
-    "${localEnv:XAUTHORITY:-/dev/null}:${localEnv:XAUTHORITY:-/dev/null}",
+    "${localEnv:XAUTHORITY:/dev/null}:${localEnv:XAUTHORITY:/dev/null}",
     "-v",
     "/tmp/.X11-unix:/tmp/.X11-unix",
     "--ipc=host",
