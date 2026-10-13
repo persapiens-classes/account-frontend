@@ -8,39 +8,15 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    container: mcr.microsoft.com/devcontainers/base:2.2.3-trixie
+
     steps:
       - name: Source code checkout
         uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Node install
-        uses: actions/setup-node@v7.0.0
-        with:
-          node-version: '26'
-
-      - name: Pnpm install
-        uses: pnpm/action-setup@v6.1.0
-        with:
-          run_install: false
-
-      - name: Pnpm determine store path
-        id: pnpm-store
-        shell: bash
-        run: |
-          STORE_PATH=$(pnpm store path)
-          echo "PNPM store path: $STORE_PATH"
-          echo "STORE_PATH=$STORE_PATH" >> $GITHUB_ENV
-
-      - name: Cache pnpm store
-        uses: actions/cache@v6.1.0
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Cache Cypress binary
+      - name: Cypress cache
         uses: actions/cache@v6.1.0
         with:
           path: ~/.cache/Cypress
@@ -48,8 +24,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-cache-
 
+      - name: Chromium install
+        uses: browser-actions/setup-chrome@v2.2.0
+
+      - name: Pnpm install
+        uses: pnpm/action-setup@v6.1.0
+        with:
+          cache: true
+
       - name: Dependencies install
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Cypress install
         run: pnpm cypress install

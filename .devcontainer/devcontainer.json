@@ -1,19 +1,54 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
-  "name": "Node.js & TypeScript",
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:5.0.2-26-trixie",
+  "name": "Pnpm with Node & Angular & Cypress & Chromium",
 
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
+  // base image with trixie
+  "image": "mcr.microsoft.com/devcontainers/base:2.2.3-trixie",
 
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [4200],
-  "runArgs": ["-p", "4200:4200"],
+  // install chromium, pnpm and cypress
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // 4200 for Angular, 5173 for Vite
+  "forwardPorts": [4200, 5173],
+
+  // set the default workspace folder
+  "workspaceFolder": "/workspaces/account-frontend",
+
+  "mounts": [
+    // pnpm store persistence to speed up rebuilds
+    "source=pnpm-store,target=/pnpm_data,type=volume"
+  ],
+
+  // set environment variables for pnpm config and cypress cache directories
+  "containerEnv": {
+    "PNPM_CONFIG_STORE_DIR": "/pnpm_data/pnpm_store",
+    "PNPM_CONFIG_CACHE_DIR": "/pnpm_data/pnpm_cache",
+    "PNPM_CONFIG_STATE_DIR": "/pnpm_data/pnpm_state",
+    "CYPRESS_CACHE_FOLDER": "/pnpm_data/cypress_cache"
+  },
+
+  // recommended for devcontainers
+  "init": true,
+
+  // run args to allow GUI apps to run in the container
+  "runArgs": [
+    "-e",
+    "DISPLAY=${localEnv:DISPLAY:-:0}",
+    "-e",
+    "XAUTHORITY=${localEnv:XAUTHORITY:-/tmp/.X11-unix}",
+    "-v",
+    "${localEnv:XAUTHORITY:-/dev/null}:${localEnv:XAUTHORITY:-/dev/null}",
+    "-v",
+    "/tmp/.X11-unix:/tmp/.X11-unix",
+    "--ipc=host",
+    "--shm-size=2g",
+    "--security-opt",
+    "seccomp=unconfined"
+  ],
+
   "customizations": {
     "vscode": {
       "extensions": [
+        // extensions for Angular development
         "Angular.ng-template",
         "SonarSource.sonarlint-vscode",
         "bradlc.vscode-tailwindcss",
@@ -21,23 +56,5 @@
         "oxc.oxc-vscode"
       ]
     }
-  },
-
-  "mounts": [
-    // pnpm store persistence to speed up rebuilds
-    "source=pnpm-store,target=/workspaces/.pnpm-store,type=volume"
-  ],
-
-  // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": [
-    "npm install -g corepack",
-    "corepack enable",
-    "corepack prepare pnpm@12.10.1 --activate",
-    "pnpm install"
-  ]
-  // Configure tool-specific properties.
-  // "customizations": {},
-
-  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  // "remoteUser": "root"
+  }
 }
