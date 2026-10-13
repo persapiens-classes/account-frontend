@@ -8,9 +8,9 @@ if [ "$(id -u)" -ne 0 ]; then
   SUDO="sudo"
 fi
 
-# 1. install chromium
+# 1. install chromium and xvfb for cypress
 $SUDO apt-get update
-$SUDO apt-get install -y chromium
+$SUDO apt-get install -y chromium xvfb
 
 # 2. configure pnpm store and cypress cache directories
 # Usa o valor vindo do devcontainer.json / deploy.yml, com fallback caso rode isolado
