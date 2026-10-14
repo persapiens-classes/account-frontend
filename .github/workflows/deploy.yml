@@ -45,7 +45,7 @@ jobs:
         run: pnpm check-duplication
 
       - name: Jscpd upload artifacts
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: jscpd-reports
           path: |
@@ -63,7 +63,7 @@ jobs:
 
       - name: Fallow HTML report upload artifacts
         if: ${{ always() }}
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: fallow-html-report
           path: |
@@ -85,7 +85,7 @@ jobs:
         run: pnpm merge:coverage
 
       - name: Coverage upload artifacts
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: coverage
           path: |
