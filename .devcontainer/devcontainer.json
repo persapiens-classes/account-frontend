@@ -29,14 +29,17 @@
   // install chromium, pnpm and cypress
   "postCreateCommand": "bash .devcontainer/post-create.sh",
 
-  // run args to allow GUI apps to run in the container
+  // Prepare static Xauthority before container creation/startup (runs on host)
+  "initializeCommand": "cp $XAUTHORITY ${localEnv:HOME}/.xauth_devcontainer",
+
+  // run args to allow GUI apps (Cypress/Chromium) to run inside the container
   "runArgs": [
     "-e",
     "DISPLAY=${localEnv:DISPLAY:}",
     "-e",
-    "XAUTHORITY=${localEnv:XAUTHORITY:-/tmp/.X11-unix}",
+    "XAUTHORITY=/tmp/.Xauthority",
     "-v",
-    "${localEnv:XAUTHORITY:/dev/null}:${localEnv:XAUTHORITY:/dev/null}",
+    "${localEnv:HOME}/.xauth_devcontainer:/tmp/.Xauthority",
     "-v",
     "/tmp/.X11-unix:/tmp/.X11-unix",
     "--ipc=host",
