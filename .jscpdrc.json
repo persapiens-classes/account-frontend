@@ -11,5 +11,5 @@
   ],
   "output": "./report/jscpd",
   "min-lines": 5,
-  "min-tokens": 70
+  "min-tokens": 60
 }

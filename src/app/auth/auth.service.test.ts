@@ -44,18 +44,22 @@ describe('AuthService', () => {
     vi.clearAllMocks();
   });
 
+  function signinTestUserAndCheckIsAuthenticated() {
+    mockDateNow.mockReturnValue(1703181600000);
+    service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
+
+    const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
+    req.flush(MOCK_LOGIN_RESPONSE);
+
+    expect(service.isAuthenticated()).toBe(true);
+    expect(service.authenticatedLogin()).toBe('testuser');
+  }
+
   // Basic service structure tests using TestUtils
   describe('Authentication Methods', () => {
     describe('signin', () => {
       it('should set session on successful signin', () => {
-        mockDateNow.mockReturnValue(1703181600000);
-        service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
-
-        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
-        req.flush(MOCK_LOGIN_RESPONSE);
-
-        expect(service.isAuthenticated()).toBe(true);
-        expect(service.authenticatedLogin()).toBe('testuser');
+        signinTestUserAndCheckIsAuthenticated();
       });
     });
 
@@ -89,12 +93,7 @@ describe('AuthService', () => {
   describe('Session Management', () => {
     describe('isAuthenticated', () => {
       it('should return true when session is valid', () => {
-        mockDateNow.mockReturnValue(1703181600000);
-        service.signin(TEST_USERNAME, TEST_PASSWORD).subscribe();
-        const req = httpMock.expectOne(`${environment.apiUrl}/${API_PATHS.AUTH_LOGIN_PATH}`);
-        req.flush(MOCK_LOGIN_RESPONSE);
-
-        expect(service.isAuthenticated()).toBe(true);
+        signinTestUserAndCheckIsAuthenticated();
       });
 
       it('should return false when session is expired', () => {
