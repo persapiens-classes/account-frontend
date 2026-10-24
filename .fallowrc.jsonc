@@ -7,6 +7,7 @@
     "istanbul-lib-coverage",
     "@openng/optimus-ui-tailwindcss",
     "tailwindcss",
+    "@tailwindcss/postcss",
   ],
   "duplicates": {
     "minLines": 5,
