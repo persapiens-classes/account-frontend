@@ -64,7 +64,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@analogjs/platform": "2.8.0",
+    "@analogjs/platform": "2.9.2",
     "@angular/build": "22.2.2",
     "@angular/cli": "22.2.2",
     "@angular/compiler-cli": "22.2.2",
