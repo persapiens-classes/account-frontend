@@ -119,7 +119,7 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "packageManager": "pnpm@12.15.0",
+  "packageManager": "pnpm@12.16.1",
   "devEngines": {
     "runtime": {
       "name": "node",
