@@ -2,12 +2,11 @@
   "$schema": "./node_modules/fallow/schema.json",
   "ignoreDependencies": [
     "@cypress/schematic",
+    "@openng/optimus-ui-tailwindcss",
+    "@tailwindcss/postcss",
     "angular-cli-ghpages",
     "baseline-browser-mapping",
     "istanbul-lib-coverage",
-    "@openng/optimus-ui-tailwindcss",
-    "tailwindcss",
-    "@tailwindcss/postcss",
   ],
   "duplicates": {
     "minLines": 5,
