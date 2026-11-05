@@ -1,7 +1,7 @@
 import { HttpErrorResponse, httpResource, HttpResourceRef } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { AppMessageService } from '../app-message-service';
-import { effect, WritableSignal } from '@angular/core';
+import { effect, linkedSignal, WritableSignal } from '@angular/core';
 import z, { ZodType } from 'zod';
 import { safeModelWithZod } from './models';
 
@@ -9,11 +9,13 @@ export interface ModelListService<T> {
   findAll(): WritableSignal<T[]>;
 }
 
-function findAllModels<T>(routerName: string, modelSchema: ZodType): HttpResourceRef<T[]> {
+function findAllModels<T>(
+  routerName: string,
+  modelSchema: ZodType,
+): HttpResourceRef<T[] | undefined> {
   const apiUrl = (_ctx: unknown) => `${environment.apiUrl}/${routerName}`;
 
   return httpResource<T[]>(apiUrl, {
-    defaultValue: [],
     parse: (response: unknown) => {
       return safeModelWithZod(response, z.array(modelSchema)) as T[];
     },
@@ -34,7 +36,7 @@ export function loadModels<T>(
     }
   });
 
-  return modelsResource.value;
+  return linkedSignal(() => (modelsResource.hasValue() ? modelsResource.value() : []));
 }
 
 function handleHttpResourceError(
