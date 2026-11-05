@@ -9,7 +9,7 @@ export interface ModelListService<T> {
   findAll(): WritableSignal<T[]>;
 }
 
-function findAllModels<T>(
+function createHttpResource<T>(
   routerName: string,
   modelSchema: ZodType,
 ): HttpResourceRef<T[] | undefined> {
@@ -22,13 +22,13 @@ function findAllModels<T>(
   });
 }
 
-export function loadModels<T>(
+export function findAllModels<T>(
   appMessageService: AppMessageService,
   modelName: string,
   routerName: string,
   modelSchema: ZodType,
 ): WritableSignal<T[]> {
-  const modelsResource = findAllModels<T>(routerName, modelSchema);
+  const modelsResource = createHttpResource<T>(routerName, modelSchema);
 
   effect(() => {
     if (modelsResource.error()) {

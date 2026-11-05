@@ -1,5 +1,5 @@
 import { Account, AccountSchema, AccountType } from './account';
-import { ModelListService, loadModels } from '../models/model-list-service';
+import { ModelListService, findAllModels } from '../models/model-list-service';
 import { WritableSignal } from '@angular/core';
 import { AppMessageService } from '../app-message-service';
 import { API_PATHS } from '../app.api-paths';
@@ -11,7 +11,7 @@ export class AccountListService implements ModelListService<Account> {
   ) {}
 
   findAll(): WritableSignal<Account[]> {
-    return loadModels(
+    return findAllModels(
       this.appMessageService,
       `${this.type} Account`,
       `${this.type.toLowerCase()}${API_PATHS.ACCOUNT_API_PATH}`,
