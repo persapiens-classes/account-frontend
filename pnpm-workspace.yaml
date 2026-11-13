@@ -67,12 +67,12 @@ minimumReleaseAgeExclude:
   - '@analogjs/platform@2.9.6'
   - '@analogjs/vite-plugin-angular@2.9.6'
   - '@analogjs/vite-plugin-nitro@2.9.6'
-  - '@oxlint-tsgolint/darwin-arm64@7.0.2006'
-  - '@oxlint-tsgolint/darwin-x64@7.0.2006'
-  - '@oxlint-tsgolint/linux-arm64@7.0.2006'
-  - '@oxlint-tsgolint/linux-x64@7.0.2006'
-  - '@oxlint-tsgolint/win32-arm64@7.0.2006'
-  - '@oxlint-tsgolint/win32-x64@7.0.2006'
+  - '@oxlint-tsgolint/darwin-arm64@7.0.2006 || 7.0.2007'
+  - '@oxlint-tsgolint/darwin-x64@7.0.2006 || 7.0.2007'
+  - '@oxlint-tsgolint/linux-arm64@7.0.2006 || 7.0.2007'
+  - '@oxlint-tsgolint/linux-x64@7.0.2006 || 7.0.2007'
+  - '@oxlint-tsgolint/win32-arm64@7.0.2006 || 7.0.2007'
+  - '@oxlint-tsgolint/win32-x64@7.0.2006 || 7.0.2007'
   - eslint-plugin-cypress@7.0.3
   - jsdom@31.0.0
-  - oxlint-tsgolint@7.0.2006
+  - oxlint-tsgolint@7.0.2006 || 7.0.2007

@@ -64,7 +64,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@analogjs/platform": "2.9.6",
+    "@analogjs/platform": "2.9.7",
     "@angular/build": "22.2.4",
     "@angular/cli": "22.2.4",
     "@angular/compiler-cli": "22.2.4",
@@ -86,10 +86,10 @@
     "baseline-browser-mapping": "2.11.35",
     "commitizen": "4.3.2",
     "cross-env": "10.1.0",
-    "cypress": "16.2.1",
+    "cypress": "16.3.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "10.14.0",
-    "eslint-plugin-cypress": "7.0.3",
+    "eslint-plugin-cypress": "7.0.4",
     "eslint-plugin-security": "4.2.1",
     "eslint-plugin-sonarjs": "4.2.2",
     "fallow": "3.42.0",
@@ -97,12 +97,12 @@
     "http-status-codes": "2.3.0",
     "husky": "9.1.7",
     "istanbul-lib-coverage": "3.2.2",
-    "jscpd": "5.4.2",
+    "jscpd": "5.4.3",
     "jsdom": "31.0.0",
     "nyc": "18.0.0",
-    "oxfmt": "0.76.0",
-    "oxlint": "1.91.0",
-    "oxlint-tsgolint": "7.0.2006",
+    "oxfmt": "0.78.0",
+    "oxlint": "1.93.0",
+    "oxlint-tsgolint": "7.0.2007",
     "postcss": "8.5.32",
     "rimraf": "6.1.4",
     "shx": "0.4.0",
@@ -110,7 +110,7 @@
     "tailwindcss": "4.3.4",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.1",
-    "vite": "8.3.6",
+    "vite": "8.3.8",
     "vite-plugin-istanbul": "9.0.1",
     "vitest": "5.1.0"
   },
@@ -123,7 +123,7 @@
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "26.13.0",
+      "version": "26.13.1",
       "onFail": "download"
     }
   }
